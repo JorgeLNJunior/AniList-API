@@ -12,7 +12,8 @@
     "baseUrl": "./",
     "paths": {
       "@modules/*": ["src/modules/*"],
-      "@config/*": ["src/config/*"]
+      "@config/*": ["src/config/*"],
+      "@shared/*": ["src/shared/*"],
     },
     "incremental": true,
     "resolveJsonModule": true
