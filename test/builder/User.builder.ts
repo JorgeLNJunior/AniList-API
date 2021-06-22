@@ -1,5 +1,6 @@
-import { PrismaService } from '@shared/services/prisma.service';
+import { User } from '@modules/user/entities/user.entity';
 import * as faker from 'faker';
+import { getRepository } from 'typeorm';
 
 export class UserBuilder {
   private user: FakeUser = {
@@ -8,7 +9,6 @@ export class UserBuilder {
     password: faker.internet.password(6),
     avatar: faker.internet.avatar(),
   };
-  private prisma = new PrismaService();
 
   static aUser() {
     return new UserBuilder();
@@ -45,9 +45,9 @@ export class UserBuilder {
   }
 
   async persist() {
-    const user = await this.prisma.user.create({ data: this.user });
-    this.prisma.$disconnect();
-    return user;
+    const userRespository = getRepository(User);
+    const user = userRespository.create(this.user);
+    return userRespository.save(user);
   }
 
   build() {

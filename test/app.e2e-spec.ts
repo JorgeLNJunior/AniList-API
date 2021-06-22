@@ -1,6 +1,5 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaService } from '@shared/services/prisma.service';
 import { AppModule } from '@src/app.module';
 import * as request from 'supertest';
 
@@ -24,10 +23,8 @@ describe('AppController (e2e)', () => {
     );
     await app.init();
   });
-
   afterEach(() => app.close());
-  beforeAll(async () => await new DatabaseHelper().truncate());
-  afterAll(async () => await new DatabaseHelper().truncate());
+  afterAll(async () => await DatabaseHelper.dropDatabase());
 
   it('/register (POST) Should register a new user', async () => {
     const user = UserBuilder.aUser().withoutAvatar().build();
