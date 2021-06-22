@@ -1,27 +1,25 @@
-import { PrismaService } from '@shared/services/prisma.service';
+import { User } from '@modules/user/entities/user.entity';
 import {
   registerDecorator,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
+import { getRepository } from 'typeorm';
 
 @ValidatorConstraint({ async: true })
 export class IsUserAlreadyExistConstraint
   implements ValidatorConstraintInterface
 {
   validate(value: any): boolean | Promise<boolean> {
-    const prisma = new PrismaService();
-    return prisma.user
-      .findFirst({
+    const userRepository = getRepository(User);
+    return userRepository
+      .findOne({
         where: { email: value },
       })
       .then((isUserAlreadyExist) => {
         if (isUserAlreadyExist) return false;
         return true;
-      })
-      .finally(() => {
-        prisma.$disconnect();
       });
   }
   defaultMessage?(): string {

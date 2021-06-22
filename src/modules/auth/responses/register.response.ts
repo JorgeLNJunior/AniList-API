@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { User } from '@modules/user/entities/user.entity';
 
 export class RegisterResponse {
   constructor(user: User, status?: number) {

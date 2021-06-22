@@ -1,19 +1,13 @@
+import { CreateUserDto } from '@modules/user/dto/create-user.dto';
+import { User } from '@modules/user/entities/user.entity';
+import { UserService } from '@modules/user/user.service';
 import { Injectable } from '@nestjs/common';
-import { BcryptService } from '@shared/services/bcrypt.service';
-import { PrismaService } from '@shared/services/prisma.service';
-
-import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private bcrypt: BcryptService) {}
+  constructor(private userService: UserService) {}
 
-  async register(registerDto: RegisterDto) {
-    const passwordHash = await this.bcrypt.hash(registerDto.password);
-    registerDto.password = passwordHash;
-
-    return this.prisma.user.create({
-      data: registerDto,
-    });
+  async register(createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 }
