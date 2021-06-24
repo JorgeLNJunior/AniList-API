@@ -1,4 +1,5 @@
 import { User } from '@modules/user/entities/user.entity';
+import { BcryptService } from '@shared/services/bcrypt.service';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
 
@@ -45,7 +46,11 @@ export class UserBuilder {
   }
 
   async persist() {
+    const bcrypt = new BcryptService();
     const userRespository = getRepository(User);
+
+    this.user.password = await bcrypt.hash(this.user.password);
+
     const user = userRespository.create(this.user);
     return userRespository.save(user);
   }

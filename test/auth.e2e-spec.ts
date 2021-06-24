@@ -1,6 +1,7 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
+import * as faker from 'faker';
 import * as request from 'supertest';
 
 import { UserBuilder } from './builder/User.builder';
@@ -109,5 +110,58 @@ describe('AppController (e2e)', () => {
 
     expect(status).toBe(400);
     expect(body).toHaveProperty('error');
+  });
+
+  it('/login (POST) Should return a user token', async () => {
+    const email = faker.internet.email().toLocaleLowerCase();
+    const password = faker.internet.password(6);
+
+    await UserBuilder.aUser()
+      .withEmail(email)
+      .withPassword(password)
+      .withoutAvatar()
+      .persist();
+
+    const { status, body } = await request(app.getHttpServer())
+      .post('/login')
+      .send({
+        email: email,
+        password: password,
+      });
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('token');
+  });
+
+  it('/login (POST) Should not return a user token if the email is not registered', async () => {
+    const email = faker.internet.email().toLocaleLowerCase();
+    const password = faker.internet.password(6);
+
+    const { status, body } = await request(app.getHttpServer())
+      .post('/login')
+      .send({
+        email: email,
+        password: password,
+      });
+
+    expect(status).toBe(401);
+    expect(body).toHaveProperty('message');
+  });
+
+  it('/login (POST) Should not return a user token if the password is wrong', async () => {
+    const email = faker.internet.email().toLocaleLowerCase();
+    const password = faker.internet.password(6);
+
+    await UserBuilder.aUser().withEmail(email).withoutAvatar().persist();
+
+    const { status, body } = await request(app.getHttpServer())
+      .post('/login')
+      .send({
+        email: email,
+        password: password,
+      });
+
+    expect(status).toBe(401);
+    expect(body).toHaveProperty('message');
   });
 });
