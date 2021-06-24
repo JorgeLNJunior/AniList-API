@@ -1,4 +1,5 @@
 import { ConfigService } from '@nestjs/config';
+import { JwtModuleOptions } from '@nestjs/jwt';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { createUserTable1624386610633 } from '@src/database/migrations/1624386610633-create_user_table';
 
@@ -23,5 +24,14 @@ export class Constants {
       migrationsRun: this.configService.get<boolean>('DB_MIGRATE') || false,
     };
     return config;
+  }
+
+  jwtOptions(): JwtModuleOptions {
+    return {
+      secret: this.configService.get<string>('APP_SECRET') || 'peDf4broGS',
+      signOptions: {
+        expiresIn: this.configService.get<string>('TOKEN_EXP') || '1d',
+      },
+    };
   }
 }
