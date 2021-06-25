@@ -19,7 +19,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       ttl: 60,
       limit: 30,
     }),
-    TypeOrmModule.forRoot(new Constants().databaseConfig()),
+    TypeOrmModule.forRoot(Constants.databaseConfig()),
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })

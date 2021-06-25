@@ -1,36 +1,34 @@
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModuleOptions } from '@nestjs/jwt';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { createUserTable1624386610633 } from '@src/database/migrations/1624386610633-create_user_table';
 
+@Injectable()
 export class Constants {
-  private configService: ConfigService;
-
-  constructor() {
-    this.configService = new ConfigService();
-  }
-
-  databaseConfig(): TypeOrmModuleOptions {
+  static databaseConfig(): TypeOrmModuleOptions {
+    const configService = new ConfigService();
     const config: TypeOrmModuleOptions = {
-      type: this.configService.get<any>('DB_TYPE') || 'mysql',
-      host: this.configService.get<string>('DB_HOST') || 'localhost',
-      port: this.configService.get<number>('DB_PORT') || 3306,
-      username: this.configService.get<string>('DB_USER') || 'root',
-      password: this.configService.get<string>('DB_PASSWORD') || 'root',
-      database: this.configService.get<string>('DB_NAME') || 'an_review',
-      synchronize: this.configService.get<boolean>('DB_SYNCHRONIZE') || false,
+      type: configService.get<any>('DB_TYPE') || 'mysql',
+      host: configService.get<string>('DB_HOST') || 'localhost',
+      port: configService.get<number>('DB_PORT') || 3306,
+      username: configService.get<string>('DB_USER') || 'root',
+      password: configService.get<string>('DB_PASSWORD') || 'root',
+      database: configService.get<string>('DB_NAME') || 'an_review',
+      synchronize: configService.get<boolean>('DB_SYNCHRONIZE') || false,
       autoLoadEntities: true,
       migrations: [createUserTable1624386610633],
-      migrationsRun: this.configService.get<boolean>('DB_MIGRATE') || false,
+      migrationsRun: configService.get<boolean>('DB_MIGRATE') || false,
     };
     return config;
   }
 
-  jwtOptions(): JwtModuleOptions {
+  static jwtOptions(): JwtModuleOptions {
+    const configService = new ConfigService();
     return {
-      secret: this.configService.get<string>('APP_SECRET') || 'peDf4broGS',
+      secret: configService.get<string>('APP_SECRET') || 'peDf4broGS',
       signOptions: {
-        expiresIn: this.configService.get<string>('TOKEN_EXP') || '1d',
+        expiresIn: configService.get<string>('TOKEN_EXP') || '1d',
       },
     };
   }
