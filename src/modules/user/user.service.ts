@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
+import { UserQueryBuilder } from './query/user.query.builder';
+import { UserQuery } from './query/user.query.interface';
 
 @Injectable()
 export class UserService {
@@ -22,8 +24,9 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async find() {
-    return this.userRepository.find();
+  async find(query?: UserQuery) {
+    const findOptions = new UserQueryBuilder(query).build();
+    return this.userRepository.find(findOptions);
   }
 
   async findByEmail(email: string): Promise<User> {
