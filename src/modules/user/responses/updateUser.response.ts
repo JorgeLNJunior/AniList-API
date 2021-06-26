@@ -27,7 +27,7 @@ export class UpdateUserResponse {
   build() {
     return {
       statusCode: this.statusCode,
-      users: this.user,
+      user: this.user,
     };
   }
 }
