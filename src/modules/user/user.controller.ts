@@ -26,6 +26,7 @@ import { TooManyRequestsResponse } from '@shared/responses/tooManyRequests.respo
 import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ModifyPermissionGuard } from './guards/modifyPermission.guard';
 import { UserQuery } from './query/user.query.interface';
 import { FindUsersResponse } from './responses/findUsers.response';
 import { UpdateUserResponse } from './responses/updateUser.response';
@@ -72,14 +73,12 @@ export class UserController {
     type: TooManyRequestsResponse,
   })
   @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), new ModifyPermissionGuard())
   @Patch('/:uuid')
   async update(
     @Body() updateuserDto: UpdateUserDto,
     @Param('uuid') uuid: string,
-    @Req() req,
   ) {
-    if (req.user.uuid !== uuid) throw new ForbiddenException();
     const user = await this.userService.update(uuid, updateuserDto);
     return new UpdateUserResponse(user).build();
   }
