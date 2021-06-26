@@ -1,7 +1,6 @@
 import { Constants } from '@config/constants';
 import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { BcryptService } from '@shared/services/bcrypt.service';
@@ -15,7 +14,9 @@ import { LocalStrategy } from './strategy/local.strategy';
   imports: [
     UserModule,
     PassportModule,
-    JwtModule.register(Constants.jwtOptions()),
+    JwtModule.registerAsync({
+      useFactory: () => Constants.jwtOptions(),
+    }),
   ],
   controllers: [AuthController],
   providers: [
