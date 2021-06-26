@@ -2,6 +2,7 @@ import { User } from '@modules/user/entities/user.entity';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
+import * as faker from 'faker';
 import * as request from 'supertest';
 
 import { UserBuilder } from './builder/User.builder';
@@ -37,5 +38,33 @@ describe('UsersController (e2e)', () => {
 
     expect(status).toBe(200);
     expect(body).toHaveProperty('users');
+  });
+
+  it('/users (PATCH) Should update the user name', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+    const name = faker.name.firstName();
+
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/users/${user.uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: name });
+
+    expect(status).toBe(200);
+    expect(body.user.name).toBe(name);
+  });
+
+  it('/users (PATCH) Should not update a user without permissions', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const userWithoutPermissions = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(userWithoutPermissions).sign();
+    const name = faker.name.firstName();
+
+    const { status } = await request(app.getHttpServer())
+      .patch(`/users/${user.uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: name });
+
+    expect(status).toBe(403);
   });
 });
