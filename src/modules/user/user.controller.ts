@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -26,6 +27,7 @@ import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ModifyPermissionGuard } from './guards/modifyPermission.guard';
 import { UserQuery } from './query/user.query.interface';
+import { DeleteUserResponse } from './responses/deleteUser.response';
 import { FindUsersResponse } from './responses/findUsers.response';
 import { UpdateUserResponse } from './responses/updateUser.response';
 import { UserService } from './user.service';
@@ -72,12 +74,33 @@ export class UserController {
   })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), new ModifyPermissionGuard())
-  @Patch('/:uuid')
+  @Patch(':uuid')
   async update(
     @Body() updateuserDto: UpdateUserDto,
     @Param('uuid') uuid: string,
   ) {
     const user = await this.userService.update(uuid, updateuserDto);
     return new UpdateUserResponse(user).build();
+  }
+
+  @ApiOkResponse({ description: 'OK', type: DeleteUserResponse })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid credentials',
+    type: UnauthorizedResponse,
+  })
+  @ApiForbiddenResponse({
+    description: 'Forbidden',
+    type: ForbiddenResponse,
+  })
+  @ApiTooManyRequestsResponse({
+    description: 'Too Many Requests',
+    type: TooManyRequestsResponse,
+  })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), new ModifyPermissionGuard())
+  @Delete(':uuid')
+  async delete(@Param('uuid') uuid: string) {
+    await this.userService.delete(uuid);
+    return new DeleteUserResponse().build();
   }
 }

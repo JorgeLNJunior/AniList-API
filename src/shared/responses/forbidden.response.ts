@@ -7,7 +7,7 @@ export class ForbiddenResponse {
   statusCode: number;
 
   @ApiProperty({
-    example: 'invalid credentials',
+    example: 'forbidden',
   })
   message: string;
 
