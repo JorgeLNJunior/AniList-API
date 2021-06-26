@@ -67,4 +67,28 @@ describe('UsersController (e2e)', () => {
 
     expect(status).toBe(403);
   });
+
+  it('/users (DELETE) Should delete a user', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const { status, body } = await request(app.getHttpServer())
+      .delete(`/users/${user.uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('message');
+  });
+
+  it('/users (DELETE) Should not delete a user without permissions', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const userWithoutPermissions = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(userWithoutPermissions).sign();
+
+    const { status } = await request(app.getHttpServer())
+      .delete(`/users/${user.uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(403);
+  });
 });
