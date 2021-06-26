@@ -10,6 +10,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBadRequestResponse,
+  ApiCreatedResponse,
   ApiOkResponse,
   ApiTags,
   ApiTooManyRequestsResponse,
@@ -29,7 +30,7 @@ import { RegisterResponse } from './responses/register.response';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOkResponse({ description: 'OK', type: RegisterResponse })
+  @ApiCreatedResponse({ description: 'OK', type: RegisterResponse })
   @ApiBadRequestResponse({
     description: 'Validation error',
     type: BadRequestResponse,
