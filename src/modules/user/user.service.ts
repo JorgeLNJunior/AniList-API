@@ -4,6 +4,7 @@ import { BcryptService } from '@shared/services/bcrypt.service';
 import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserQueryBuilder } from './query/user.query.builder';
 import { UserQuery } from './query/user.query.interface';
@@ -34,5 +35,10 @@ export class UserService {
       where: { email: email },
     });
     return user[0];
+  }
+
+  async update(uuid: string, updateUserDto: UpdateUserDto) {
+    await this.userRepository.update(uuid, updateUserDto);
+    return await this.userRepository.findOne(uuid);
   }
 }

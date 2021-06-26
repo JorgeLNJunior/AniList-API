@@ -4,6 +4,11 @@ import { User } from '../entities/user.entity';
 
 export class FindUsersResponse {
   @ApiProperty({
+    default: 200,
+  })
+  private statusCode: number;
+
+  @ApiProperty({
     example: [
       {
         uuid: '1c12dd97-839e-4058-91f0-e75934b02d52',
@@ -16,11 +21,6 @@ export class FindUsersResponse {
     ],
   })
   private users: User[];
-
-  @ApiProperty({
-    default: 200,
-  })
-  private statusCode: number;
 
   constructor(users: User[], status?: number) {
     this.users = users;
