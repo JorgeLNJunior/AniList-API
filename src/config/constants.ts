@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModuleOptions } from '@nestjs/jwt';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { createUserTable1624386610633 } from '@src/database/migrations/1624386610633-create_user_table';
+import { ConfigOptions } from 'cloudinary';
 
 @Injectable()
 export class Constants {
@@ -30,6 +31,16 @@ export class Constants {
       signOptions: {
         expiresIn: configService.get<string>('TOKEN_EXP') || '1d',
       },
+    };
+  }
+
+  static cloudinaryConfig(): ConfigOptions {
+    const configService = new ConfigService();
+    return {
+      cloud_name: configService.get<string>('CLOUDINARY_NAME'),
+      api_key: configService.get<string>('CLOUDINARY_KEY'),
+      api_secret: configService.get<string>('CLOUDINARY_SECRET'),
+      secure: true,
     };
   }
 }

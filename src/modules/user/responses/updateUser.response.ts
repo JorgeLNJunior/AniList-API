@@ -19,8 +19,8 @@ export class UpdateUserResponse {
   })
   private user: User;
 
-  constructor(users: User, status?: number) {
-    this.user = users;
+  constructor(user: User, status?: number) {
+    this.user = user;
     this.statusCode = status || 200;
   }
 

@@ -5,13 +5,20 @@ import {
   Get,
   Param,
   Patch,
+  Post,
   Query,
+  Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiQuery,
@@ -25,6 +32,7 @@ import { TooManyRequestsResponse } from '@shared/responses/tooManyRequests.respo
 import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UploadUserDto } from './dto/upload-user.dto';
 import { ModifyPermissionGuard } from './guards/modifyPermission.guard';
 import { UserQuery } from './query/user.query.interface';
 import { DeleteUserResponse } from './responses/deleteUser.response';
@@ -102,5 +110,32 @@ export class UserController {
   async delete(@Param('uuid') uuid: string) {
     await this.userService.delete(uuid);
     return new DeleteUserResponse().build();
+  }
+
+  @ApiOkResponse({ description: 'OK', type: UpdateUserResponse })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid credentials',
+    type: UnauthorizedResponse,
+  })
+  @ApiForbiddenResponse({
+    description: 'Forbidden',
+    type: ForbiddenResponse,
+  })
+  @ApiTooManyRequestsResponse({
+    description: 'Too Many Requests',
+    type: TooManyRequestsResponse,
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: UploadUserDto,
+  })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('avatar', { limits: { fileSize: 1000000 } }))
+  async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    const { uuid } = req.user;
+    const user = await this.userService.upload(uuid, file);
+    return new UpdateUserResponse(user).build();
   }
 }
