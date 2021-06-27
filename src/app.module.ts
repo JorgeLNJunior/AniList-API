@@ -7,6 +7,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AnimeModule } from './modules/anime/anime.module';
+
 @Module({
   imports: [
     AuthModule,
@@ -20,6 +22,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       limit: 30,
     }),
     TypeOrmModule.forRoot(Constants.databaseConfig()),
+    AnimeModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })

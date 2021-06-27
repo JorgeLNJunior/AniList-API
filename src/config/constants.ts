@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModuleOptions } from '@nestjs/jwt';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { createUserTable1624386610633 } from '@src/database/migrations/1624386610633-create_user_table';
+import { createAnimeTable1624810395846 } from '@src/database/migrations/1624810395846-create_anime_table';
 import { ConfigOptions } from 'cloudinary';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class Constants {
       database: configService.get<string>('DB_NAME') || 'an_review',
       synchronize: configService.get<boolean>('DB_SYNCHRONIZE') || false,
       autoLoadEntities: true,
-      migrations: [createUserTable1624386610633],
+      migrations: [createUserTable1624386610633, createAnimeTable1624810395846],
       migrationsRun: configService.get<boolean>('DB_MIGRATE') || false,
     };
     return config;
