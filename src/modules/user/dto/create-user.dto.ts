@@ -1,5 +1,5 @@
+import { IsUserAlreadyExist } from '@modules/user/decorators/isUserAlreadyExist.decorator';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUserAlreadyExist } from '@src/decorators/isUserAlreadyExist.decorator';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateUserDto {
