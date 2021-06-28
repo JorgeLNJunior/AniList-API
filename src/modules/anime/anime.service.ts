@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { CreateAnimeDto } from './dto/create-anime.dto';
 import { UpdateAnimeDto } from './dto/update-anime.dto';
 import { Anime } from './entities/anime.entity';
+import { AnimeQueryBuilder } from './query/anime.query.builder';
+import { AnimeQuery } from './query/anime.query.interface';
 
 @Injectable()
 export class AnimeService {
@@ -16,8 +18,9 @@ export class AnimeService {
     return this.animeRepository.save(anime);
   }
 
-  findAll() {
-    return `This action returns all anime`;
+  find(query: AnimeQuery) {
+    const findOptions = new AnimeQueryBuilder(query).build();
+    return this.animeRepository.find(findOptions);
   }
 
   findOne(id: number) {

@@ -4,6 +4,11 @@ import { Anime } from '../entities/anime.entity';
 
 export class CreateAnimeResponse {
   @ApiProperty({
+    default: 201,
+  })
+  private statusCode: number;
+
+  @ApiProperty({
     example: {
       uuid: '4f3ab4ae-7854-4720-9122-db5cad01f610',
       title: 'Attack on titan',
@@ -15,11 +20,6 @@ export class CreateAnimeResponse {
     },
   })
   private anime: Anime;
-
-  @ApiProperty({
-    default: 201,
-  })
-  private statusCode: number;
 
   constructor(anime: Anime, status?: number) {
     this.anime = anime;
