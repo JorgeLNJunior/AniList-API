@@ -26,12 +26,12 @@ describe('AnimeController (e2e)', () => {
   afterEach(() => app.close());
   afterAll(async () => await DatabaseHelper.dropDatabase());
 
-  // it('/animes (GET) Should return a list of animes', async () => {
-  //   const { status, body } = await request(app.getHttpServer()).get('/animes');
+  it('/animes (GET) Should return a list of animes', async () => {
+    const { status, body } = await request(app.getHttpServer()).get('/animes');
 
-  //   expect(status).toBe(200);
-  //   expect(body).toHaveProperty('animes');
-  // });
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('animes');
+  });
 
   it('/animes (POST) Should create a anime', async () => {
     const anime = AnimeBuilder.aAnime().withoutCover().build();
