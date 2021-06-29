@@ -7,12 +7,17 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
@@ -29,6 +34,7 @@ import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 import { AnimeService } from './anime.service';
 import { CreateAnimeDto } from './dto/create-anime.dto';
 import { UpdateAnimeDto } from './dto/update-anime.dto';
+import { UploadAnimeDto } from './dto/upload-anime.dto';
 import { AnimeQuery } from './query/anime.query.interface';
 import { CreateAnimeResponse } from './responses/createAnime.response';
 import { DeleteAnimeResponse } from './responses/deleteAnime.response';
@@ -96,5 +102,24 @@ export class AnimeController {
   async delete(@Param('uuid') uuid: string) {
     await this.animeService.delete(uuid);
     return new DeleteAnimeResponse().build();
+  }
+
+  @ApiOkResponse({ description: 'OK', type: UpdateAnimeResponse })
+  @ApiForbiddenResponse({
+    description: 'Forbidden',
+    type: ForbiddenResponse,
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: UploadAnimeDto,
+  })
+  @UseInterceptors(FileInterceptor('cover', { limits: { fileSize: 1000000 } }))
+  @Post(':uuid/upload')
+  async upload(
+    @Param('uuid') uuid: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const anime = await this.animeService.upload(uuid, file);
+    return new UpdateAnimeResponse(anime).build();
   }
 }

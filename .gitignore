@@ -3,9 +3,9 @@
 /node_modules
 
 # public folder
-*.jpg
-*.jpeg
-*.png
+/public/**/*.jpg
+/public/**/*.jpeg
+/public/**/*.png
 
 # Logs
 logs

@@ -1,15 +1,15 @@
 import { Constants } from '@config/constants';
 import { v2 as cloudinary } from 'cloudinary';
 
-import { IUserStorage } from './user.storage.interface';
+import { IAnimeStorage } from './anime.storage.interface';
 
-export class UserCloudinaryStorage implements IUserStorage {
-  uploadAvatar(file: Express.Multer.File): Promise<string> {
+export class AnimeCloudinaryStorage implements IAnimeStorage {
+  uploadCover(file: Express.Multer.File): Promise<string> {
     const config = Constants.cloudinaryConfig();
     cloudinary.config(config);
     return new Promise((resolve, reject) => {
       cloudinary.uploader
-        .upload_stream({ folder: 'an_review/user/avatar' }, (error, result) => {
+        .upload_stream({ folder: 'an_review/anime/cover' }, (error, result) => {
           if (error) {
             reject(error);
           } else {
