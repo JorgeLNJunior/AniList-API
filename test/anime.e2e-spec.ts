@@ -4,6 +4,8 @@ import { AppModule } from '@src/app.module';
 import * as request from 'supertest';
 
 import { AnimeBuilder } from './builder/Anime.builder';
+import { UserBuilder } from './builder/User.builder';
+import { AuthHelper } from './helpers/auth.helper';
 import { DatabaseHelper } from './helpers/database.helper';
 
 describe('AnimeController (e2e)', () => {
@@ -27,16 +29,25 @@ describe('AnimeController (e2e)', () => {
   afterAll(async () => await DatabaseHelper.dropDatabase());
 
   it('/animes (GET) Should return a list of animes', async () => {
-    const { status, body } = await request(app.getHttpServer()).get('/animes');
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const { status, body } = await request(app.getHttpServer())
+      .get('/animes')
+      .set('Authorization', `Bearer ${token}`);
 
     expect(status).toBe(200);
     expect(body).toHaveProperty('animes');
   });
 
   it('/animes (POST) Should create a anime', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
     const anime = AnimeBuilder.aAnime().withoutCover().build();
     const { status, body } = await request(app.getHttpServer())
       .post('/animes')
+      .set('Authorization', `Bearer ${token}`)
       .send(anime);
 
     expect(status).toBe(201);
@@ -44,9 +55,13 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should not create a anime without title', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
     const anime = AnimeBuilder.aAnime().withoutCover().withoutTitle().build();
     const { status, body } = await request(app.getHttpServer())
       .post('/animes')
+      .set('Authorization', `Bearer ${token}`)
       .send(anime);
 
     expect(status).toBe(400);
@@ -54,12 +69,16 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should not create a anime without synopsis', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
     const anime = AnimeBuilder.aAnime()
       .withoutCover()
       .withoutSynopsis()
       .build();
     const { status, body } = await request(app.getHttpServer())
       .post('/animes')
+      .set('Authorization', `Bearer ${token}`)
       .send(anime);
 
     expect(status).toBe(400);
@@ -67,9 +86,13 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should not create a anime without trailer', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
     const anime = AnimeBuilder.aAnime().withoutCover().withoutTrailer().build();
     const { status, body } = await request(app.getHttpServer())
       .post('/animes')
+      .set('Authorization', `Bearer ${token}`)
       .send(anime);
 
     expect(status).toBe(400);
@@ -77,12 +100,16 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should not create a anime without episodes', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
     const anime = AnimeBuilder.aAnime()
       .withoutCover()
       .withoutEpisodes()
       .build();
     const { status, body } = await request(app.getHttpServer())
       .post('/animes')
+      .set('Authorization', `Bearer ${token}`)
       .send(anime);
 
     expect(status).toBe(400);
@@ -90,10 +117,14 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should update the anime title', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
     const { uuid } = await AnimeBuilder.aAnime().persist();
     const { title } = AnimeBuilder.aAnime().build();
     const { status, body } = await request(app.getHttpServer())
       .patch(`/animes/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({ title: title });
 
     expect(status).toBe(200);
@@ -102,10 +133,14 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should update the anime synopsis', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
     const { uuid } = await AnimeBuilder.aAnime().persist();
     const { synopsis } = AnimeBuilder.aAnime().build();
     const { status, body } = await request(app.getHttpServer())
       .patch(`/animes/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({ synopsis: synopsis });
 
     expect(status).toBe(200);
@@ -114,10 +149,14 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should update the anime trailer', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
     const { uuid } = await AnimeBuilder.aAnime().persist();
     const { trailer } = AnimeBuilder.aAnime().build();
     const { status, body } = await request(app.getHttpServer())
       .patch(`/animes/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({ trailer: trailer });
 
     expect(status).toBe(200);
@@ -126,10 +165,14 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should update the anime episodes', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
     const { uuid } = await AnimeBuilder.aAnime().persist();
     const { episodes } = AnimeBuilder.aAnime().build();
     const { status, body } = await request(app.getHttpServer())
       .patch(`/animes/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({ episodes: episodes });
 
     expect(status).toBe(200);
