@@ -88,4 +88,52 @@ describe('AnimeController (e2e)', () => {
     expect(status).toBe(400);
     expect(body).toHaveProperty('error');
   });
+
+  it('/animes (POST) Should update the anime title', async () => {
+    const { uuid } = await AnimeBuilder.aAnime().persist();
+    const { title } = AnimeBuilder.aAnime().build();
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/animes/${uuid}`)
+      .send({ title: title });
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('anime');
+    expect(body.anime.title).toBe(title);
+  });
+
+  it('/animes (POST) Should update the anime synopsis', async () => {
+    const { uuid } = await AnimeBuilder.aAnime().persist();
+    const { synopsis } = AnimeBuilder.aAnime().build();
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/animes/${uuid}`)
+      .send({ synopsis: synopsis });
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('anime');
+    expect(body.anime.synopsis).toBe(synopsis);
+  });
+
+  it('/animes (POST) Should update the anime trailer', async () => {
+    const { uuid } = await AnimeBuilder.aAnime().persist();
+    const { trailer } = AnimeBuilder.aAnime().build();
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/animes/${uuid}`)
+      .send({ trailer: trailer });
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('anime');
+    expect(body.anime.trailer).toBe(trailer);
+  });
+
+  it('/animes (POST) Should update the anime episodes', async () => {
+    const { uuid } = await AnimeBuilder.aAnime().persist();
+    const { episodes } = AnimeBuilder.aAnime().build();
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/animes/${uuid}`)
+      .send({ episodes: episodes });
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('anime');
+    expect(body.anime.episodes).toBe(episodes);
+  });
 });
