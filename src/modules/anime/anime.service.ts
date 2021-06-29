@@ -35,7 +35,7 @@ export class AnimeService {
     return this.animeRepository.findOne(uuid);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} anime`;
+  async delete(uuid: string) {
+    await this.animeRepository.delete(uuid);
   }
 }

@@ -7,9 +7,12 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
@@ -28,10 +31,25 @@ import { CreateAnimeDto } from './dto/create-anime.dto';
 import { UpdateAnimeDto } from './dto/update-anime.dto';
 import { AnimeQuery } from './query/anime.query.interface';
 import { CreateAnimeResponse } from './responses/createAnime.response';
+import { DeleteAnimeResponse } from './responses/deleteAnime.response';
 import { FindAnimeResponse } from './responses/findAnimes.response';
 import { UpdateAnimeResponse } from './responses/updateAnime.response';
 
+@ApiBearerAuth()
 @ApiTags('Animes')
+@ApiUnauthorizedResponse({
+  description: 'Invalid credentials',
+  type: UnauthorizedResponse,
+})
+@ApiForbiddenResponse({
+  description: 'Forbidden',
+  type: ForbiddenResponse,
+})
+@ApiTooManyRequestsResponse({
+  description: 'Too Many Requests',
+  type: TooManyRequestsResponse,
+})
+@UseGuards(AuthGuard('jwt'))
 @Controller('animes')
 export class AnimeController {
   constructor(private readonly animeService: AnimeService) {}
@@ -41,18 +59,6 @@ export class AnimeController {
     description: 'Validation error',
     type: BadRequestResponse,
   })
-  @ApiUnauthorizedResponse({
-    description: 'Invalid credentials',
-    type: UnauthorizedResponse,
-  })
-  @ApiForbiddenResponse({
-    description: 'Forbidden',
-    type: ForbiddenResponse,
-  })
-  @ApiTooManyRequestsResponse({
-    description: 'Too Many Requests',
-    type: TooManyRequestsResponse,
-  })
   @Post()
   async create(@Body() createAnimeDto: CreateAnimeDto) {
     const anime = await this.animeService.create(createAnimeDto);
@@ -60,14 +66,6 @@ export class AnimeController {
   }
 
   @ApiOkResponse({ description: 'OK', type: FindAnimeResponse })
-  @ApiUnauthorizedResponse({
-    description: 'Invalid credentials',
-    type: UnauthorizedResponse,
-  })
-  @ApiTooManyRequestsResponse({
-    description: 'Too Many Requests',
-    type: TooManyRequestsResponse,
-  })
   @ApiQuery({ type: AnimeQuery })
   @Get()
   async find(@Query() query: AnimeQuery) {
@@ -80,18 +78,6 @@ export class AnimeController {
     description: 'Validation error',
     type: BadRequestResponse,
   })
-  @ApiUnauthorizedResponse({
-    description: 'Invalid credentials',
-    type: UnauthorizedResponse,
-  })
-  @ApiForbiddenResponse({
-    description: 'Forbidden',
-    type: ForbiddenResponse,
-  })
-  @ApiTooManyRequestsResponse({
-    description: 'Too Many Requests',
-    type: TooManyRequestsResponse,
-  })
   @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
@@ -101,8 +87,14 @@ export class AnimeController {
     return new UpdateAnimeResponse(anime).build();
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.animeService.remove(+id);
+  @ApiOkResponse({ description: 'OK', type: DeleteAnimeResponse })
+  @ApiBadRequestResponse({
+    description: 'Validation error',
+    type: BadRequestResponse,
+  })
+  @Delete(':uuid')
+  async delete(@Param('uuid') uuid: string) {
+    await this.animeService.delete(uuid);
+    return new DeleteAnimeResponse().build();
   }
 }
