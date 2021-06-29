@@ -29,6 +29,7 @@ import { UpdateAnimeDto } from './dto/update-anime.dto';
 import { AnimeQuery } from './query/anime.query.interface';
 import { CreateAnimeResponse } from './responses/createAnime.response';
 import { FindAnimeResponse } from './responses/findAnimes.response';
+import { UpdateAnimeResponse } from './responses/updateAnime.response';
 
 @ApiTags('Animes')
 @Controller('animes')
@@ -74,9 +75,30 @@ export class AnimeController {
     return new FindAnimeResponse(animes).build();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAnimeDto: UpdateAnimeDto) {
-    return this.animeService.update(+id, updateAnimeDto);
+  @ApiOkResponse({ description: 'OK', type: UpdateAnimeResponse })
+  @ApiBadRequestResponse({
+    description: 'Validation error',
+    type: BadRequestResponse,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid credentials',
+    type: UnauthorizedResponse,
+  })
+  @ApiForbiddenResponse({
+    description: 'Forbidden',
+    type: ForbiddenResponse,
+  })
+  @ApiTooManyRequestsResponse({
+    description: 'Too Many Requests',
+    type: TooManyRequestsResponse,
+  })
+  @Patch(':uuid')
+  async update(
+    @Param('uuid') uuid: string,
+    @Body() updateAnimeDto: UpdateAnimeDto,
+  ) {
+    const anime = await this.animeService.update(uuid, updateAnimeDto);
+    return new UpdateAnimeResponse(anime).build();
   }
 
   @Delete(':id')

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -27,8 +27,12 @@ export class AnimeService {
     return `This action returns a #${id} anime`;
   }
 
-  update(id: number, updateAnimeDto: UpdateAnimeDto) {
-    return `This action updates a #${id} anime`;
+  async update(uuid: string, updateAnimeDto: UpdateAnimeDto) {
+    const anime = await this.animeRepository.findOne(uuid);
+    if (!anime) throw new BadRequestException(['anime not found']);
+
+    await this.animeRepository.update(uuid, updateAnimeDto);
+    return this.animeRepository.findOne(uuid);
   }
 
   remove(id: number) {
