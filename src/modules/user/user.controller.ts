@@ -40,23 +40,23 @@ import { FindUsersResponse } from './responses/findUsers.response';
 import { UpdateUserResponse } from './responses/updateUser.response';
 import { UserService } from './user.service';
 
+@ApiUnauthorizedResponse({
+  description: 'Invalid credentials',
+  type: UnauthorizedResponse,
+})
+@ApiTooManyRequestsResponse({
+  description: 'Too Many Requests',
+  type: TooManyRequestsResponse,
+})
+@ApiBearerAuth()
 @ApiTags('Users')
+@UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOkResponse({ description: 'OK', type: FindUsersResponse })
-  @ApiUnauthorizedResponse({
-    description: 'Invalid credentials',
-    type: UnauthorizedResponse,
-  })
-  @ApiTooManyRequestsResponse({
-    description: 'Too Many Requests',
-    type: TooManyRequestsResponse,
-  })
   @ApiQuery({ type: UserQuery })
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
   @Get()
   async find(@Query() query: UserQuery) {
     const users = await this.userService.find(query);
@@ -68,20 +68,11 @@ export class UserController {
     description: 'Validation error',
     type: BadRequestResponse,
   })
-  @ApiUnauthorizedResponse({
-    description: 'Invalid credentials',
-    type: UnauthorizedResponse,
-  })
   @ApiForbiddenResponse({
     description: 'Forbidden',
     type: ForbiddenResponse,
   })
-  @ApiTooManyRequestsResponse({
-    description: 'Too Many Requests',
-    type: TooManyRequestsResponse,
-  })
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'), new ModifyPermissionGuard())
+  @UseGuards(new ModifyPermissionGuard())
   @Patch(':uuid')
   async update(
     @Body() updateuserDto: UpdateUserDto,
@@ -92,20 +83,11 @@ export class UserController {
   }
 
   @ApiOkResponse({ description: 'OK', type: DeleteUserResponse })
-  @ApiUnauthorizedResponse({
-    description: 'Invalid credentials',
-    type: UnauthorizedResponse,
-  })
   @ApiForbiddenResponse({
     description: 'Forbidden',
     type: ForbiddenResponse,
   })
-  @ApiTooManyRequestsResponse({
-    description: 'Too Many Requests',
-    type: TooManyRequestsResponse,
-  })
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'), new ModifyPermissionGuard())
+  @UseGuards(new ModifyPermissionGuard())
   @Delete(':uuid')
   async delete(@Param('uuid') uuid: string) {
     await this.userService.delete(uuid);
@@ -113,24 +95,14 @@ export class UserController {
   }
 
   @ApiOkResponse({ description: 'OK', type: UpdateUserResponse })
-  @ApiUnauthorizedResponse({
-    description: 'Invalid credentials',
-    type: UnauthorizedResponse,
-  })
   @ApiForbiddenResponse({
     description: 'Forbidden',
     type: ForbiddenResponse,
-  })
-  @ApiTooManyRequestsResponse({
-    description: 'Too Many Requests',
-    type: TooManyRequestsResponse,
   })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     type: UploadUserDto,
   })
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
   @Post('upload')
   @UseInterceptors(FileInterceptor('avatar', { limits: { fileSize: 1000000 } }))
   async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {
