@@ -5,7 +5,7 @@ import { AnimeLocalStorage } from './animeLocal.storage';
 export class AnimeStorage {
   static getInstance(): IAnimeStorage {
     const env = process.env.STORAGE;
-    if (env.toLowerCase() === 'cloudinary') {
+    if (env === 'cloudinary') {
       return new AnimeCloudinaryStorage();
     } else {
       return new AnimeLocalStorage();
