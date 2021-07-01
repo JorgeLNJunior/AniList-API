@@ -7,6 +7,8 @@ import {
   MaxLength,
 } from 'class-validator';
 
+import { IsYoutubeUrl } from '../decorators/isYoutubeUrl.decorator';
+
 export class UpdateAnimeDto {
   @ApiProperty({
     example: 'Attack on titan',
@@ -32,6 +34,7 @@ export class UpdateAnimeDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
+  @IsYoutubeUrl()
   trailer: string;
 
   @ApiProperty({

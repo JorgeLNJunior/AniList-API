@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 
+import { IsYoutubeUrl } from '../decorators/isYoutubeUrl.decorator';
+
 export class CreateAnimeDto {
   @ApiProperty({
     example: 'Attack on titan',
@@ -23,6 +25,7 @@ export class CreateAnimeDto {
   })
   @IsNotEmpty()
   @IsString()
+  @IsYoutubeUrl()
   trailer: string;
 
   @ApiProperty({
