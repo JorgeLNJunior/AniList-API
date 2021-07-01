@@ -42,6 +42,11 @@ export class AnimeBuilder {
     return this;
   }
 
+  withTrailer(trailer: string) {
+    this.anime.trailer = trailer;
+    return this;
+  }
+
   async persist() {
     const animeRespository = getRepository(Anime);
 

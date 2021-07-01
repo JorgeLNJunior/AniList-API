@@ -99,6 +99,23 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('error');
   });
 
+  it('/animes (POST) Should not create a anime without a valid trailer url', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const anime = AnimeBuilder.aAnime()
+      .withoutCover()
+      .withTrailer('invalid trailer')
+      .build();
+    const { status, body } = await request(app.getHttpServer())
+      .post('/animes')
+      .set('Authorization', `Bearer ${token}`)
+      .send(anime);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('error');
+  });
+
   it('/animes (POST) Should not create a anime without episodes', async () => {
     const user = await UserBuilder.aUser().persist();
     const token = new AuthHelper(user).sign();
