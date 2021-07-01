@@ -31,6 +31,8 @@ export class createUserTable1624386610633 implements MigrationInterface {
             name: 'avatar',
             type: 'varchar',
             isNullable: true,
+            default:
+              'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
           },
         ],
       }),
