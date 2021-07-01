@@ -35,7 +35,6 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "cloudinary": "^1.26.1",
-    "dotenv": "^10.0.0",
     "helmet": "^4.6.0",
     "mysql2": "^2.2.5",
     "passport": "^0.4.1",
