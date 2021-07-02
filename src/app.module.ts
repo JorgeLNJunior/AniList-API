@@ -8,6 +8,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AnimeModule } from './modules/anime/anime.module';
+import { ReviewModule } from './modules/review/review.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AnimeModule } from './modules/anime/anime.module';
     }),
     TypeOrmModule.forRoot(Constants.databaseConfig()),
     AnimeModule,
+    ReviewModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
