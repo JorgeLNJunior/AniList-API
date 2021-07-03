@@ -36,7 +36,7 @@ export class CreateReviewResponse {
 
   constructor(review: Review, status?: number) {
     this.review = review;
-    this.statusCode = status || status;
+    this.statusCode = status || 201;
   }
 
   build() {

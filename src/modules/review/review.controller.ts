@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -14,6 +15,8 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiOkResponse,
+  ApiQuery,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
@@ -24,7 +27,9 @@ import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
+import { ReviewQuery } from './query/review.query.interface';
 import { CreateReviewResponse } from './responses/createReview.response';
+import { FindReviewResponse } from './responses/findReview.response';
 import { ReviewService } from './review.service';
 
 @ApiTags('Reviews')
@@ -56,14 +61,12 @@ export class ReviewController {
     return new CreateReviewResponse(review);
   }
 
+  @ApiOkResponse({ description: 'ok', type: FindReviewResponse })
+  @ApiQuery({ type: ReviewQuery })
   @Get()
-  findAll() {
-    return this.reviewService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reviewService.findOne(+id);
+  async find(@Query() query: ReviewQuery) {
+    const reviews = await this.reviewService.find(query);
+    return new FindReviewResponse(reviews).build();
   }
 
   @Patch(':id')

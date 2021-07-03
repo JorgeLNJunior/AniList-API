@@ -9,6 +9,8 @@ import { Repository } from 'typeorm';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { Review } from './entities/review.entity';
+import { ReviewQueryBuilder } from './query/review.query.builer';
+import { ReviewQuery } from './query/review.query.interface';
 
 @Injectable()
 export class ReviewService {
@@ -37,12 +39,12 @@ export class ReviewService {
     return this.reviewRepository.save(review);
   }
 
-  findAll() {
-    return `This action returns all review`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} review`;
+  find(query: ReviewQuery) {
+    const findOptions = new ReviewQueryBuilder(query).build();
+    return this.reviewRepository.find({
+      ...findOptions,
+      relations: ['user', 'anime'],
+    });
   }
 
   update(id: number, updateReviewDto: UpdateReviewDto) {
