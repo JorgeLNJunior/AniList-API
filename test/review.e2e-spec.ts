@@ -29,17 +29,17 @@ describe('ReviewController (e2e)', () => {
   afterEach(() => app.close());
   afterAll(async () => await DatabaseHelper.dropDatabase());
 
-  // it('/reviews (GET) Should return a list of reviews', async () => {
-  //   const user = await UserBuilder.aUser().persist();
-  //   const token = new AuthHelper(user).sign();
+  it('/reviews (GET) Should return a list of reviews', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
 
-  //   const { status, body } = await request(app.getHttpServer())
-  //     .get('/reviews')
-  //     .set('Authorization', `Bearer ${token}`);
+    const { status, body } = await request(app.getHttpServer())
+      .get('/reviews')
+      .set('Authorization', `Bearer ${token}`);
 
-  //   expect(status).toBe(200);
-  //   expect(body).toHaveProperty('reviews');
-  // });
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('reviews');
+  });
 
   it('/reviews (POST) Should create a review', async () => {
     const user = await UserBuilder.aUser().persist();
