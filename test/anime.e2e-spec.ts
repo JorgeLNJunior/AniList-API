@@ -196,4 +196,17 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('anime');
     expect(body.anime.episodes).toBe(episodes);
   });
+
+  it('/animes (DELETE) Should delete an anime', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const { uuid } = await AnimeBuilder.aAnime().persist();
+    const { status, body } = await request(app.getHttpServer())
+      .delete(`/animes/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('message');
+  });
 });

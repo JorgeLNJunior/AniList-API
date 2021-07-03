@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { createUserTable1624386610633 } from '@src/database/migrations/1624386610633-create_user_table';
 import { createAnimeTable1624810395846 } from '@src/database/migrations/1624810395846-create_anime_table';
+import { createReviewTable1625254721286 } from '@src/database/migrations/1625254721286-create_review_table';
 import { Connection } from 'typeorm';
 
 export class DatabaseHelper {
@@ -16,7 +17,11 @@ export class DatabaseHelper {
       password: configService.get<string>('DB_PASSWORD') || 'root',
       database: configService.get<string>('DB_NAME') || 'an_review_test',
       synchronize: configService.get<boolean>('DB_SYNCHRONIZE') || false,
-      migrations: [createUserTable1624386610633, createAnimeTable1624810395846],
+      migrations: [
+        createUserTable1624386610633,
+        createAnimeTable1624810395846,
+        createReviewTable1625254721286,
+      ],
       migrationsRun: configService.get<boolean>('DB_MIGRATE') || false,
     }).connect();
     await connection.dropDatabase();
