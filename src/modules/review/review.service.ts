@@ -47,11 +47,15 @@ export class ReviewService {
     });
   }
 
-  update(id: number, updateReviewDto: UpdateReviewDto) {
-    return `This action updates a #${id} review`;
+  async update(uuid: string, updateReviewDto: UpdateReviewDto) {
+    const review = await this.reviewRepository.findOne(uuid);
+    if (!review) throw new BadRequestException(['review not found']);
+
+    await this.reviewRepository.update(uuid, updateReviewDto);
+    return this.reviewRepository.findOne(uuid);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} review`;
+  remove(uuid: string) {
+    return `This action removes a #${uuid} review`;
   }
 }

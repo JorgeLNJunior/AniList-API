@@ -1,5 +1,33 @@
-import { PartialType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+} from 'class-validator';
 
-import { CreateReviewDto } from './create-review.dto';
+export class UpdateReviewDto {
+  @ApiProperty({ example: 'naruto' })
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  title: string;
 
-export class UpdateReviewDto extends PartialType(CreateReviewDto) {}
+  @ApiProperty({ example: 'Proin at pulvinar enim, eget vulputate sem...' })
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(1000)
+  description: string;
+
+  @ApiProperty({ example: 4, maxLength: 5, minLength: 1 })
+  @IsOptional()
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(1)
+  @Max(5)
+  rating: number;
+}

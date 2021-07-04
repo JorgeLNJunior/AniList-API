@@ -30,6 +30,7 @@ import { UpdateReviewDto } from './dto/update-review.dto';
 import { ReviewQuery } from './query/review.query.interface';
 import { CreateReviewResponse } from './responses/createReview.response';
 import { FindReviewResponse } from './responses/findReview.response';
+import { UpdateReviewResponse } from './responses/updateReview.response';
 import { ReviewService } from './review.service';
 
 @ApiTags('Reviews')
@@ -69,13 +70,22 @@ export class ReviewController {
     return new FindReviewResponse(reviews).build();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReviewDto: UpdateReviewDto) {
-    return this.reviewService.update(+id, updateReviewDto);
+  @ApiOkResponse({ description: 'ok', type: FindReviewResponse })
+  @ApiBadRequestResponse({
+    description: 'Validation Error',
+    type: BadRequestResponse,
+  })
+  @Patch(':uuid')
+  async update(
+    @Param('uuid') uuid: string,
+    @Body() updateReviewDto: UpdateReviewDto,
+  ) {
+    const review = await this.reviewService.update(uuid, updateReviewDto);
+    return new UpdateReviewResponse(review).build();
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reviewService.remove(+id);
+  @Delete(':uuid')
+  remove(@Param('uuid') uuid: string) {
+    return this.reviewService.remove(uuid);
   }
 }

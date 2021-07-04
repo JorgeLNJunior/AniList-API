@@ -15,7 +15,7 @@ export class CreateReviewDto {
   @IsString()
   title: string;
 
-  @ApiProperty({ example: 'naruto' })
+  @ApiProperty({ example: 'Proin at pulvinar enim, eget vulputate sem...' })
   @IsNotEmpty()
   @IsString()
   @MaxLength(1000)
