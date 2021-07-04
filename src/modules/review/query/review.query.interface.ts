@@ -7,19 +7,19 @@ export class ReviewQuery {
     required: false,
   })
   @IsOptional()
-  uuid: string;
+  uuid?: string;
 
   @ApiProperty({
     example: 20,
     required: false,
   })
   @IsOptional()
-  take: number;
+  take?: number;
 
   @ApiProperty({
     example: 5,
     required: false,
   })
   @IsOptional()
-  skip: number;
+  skip?: number;
 }
