@@ -27,6 +27,7 @@ import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
+import { ReviewModifyPermissionGuard } from './guards/reviewModifyPermission.guard';
 import { ReviewQuery } from './query/review.query.interface';
 import { CreateReviewResponse } from './responses/createReview.response';
 import { DeleteReviewResponse } from './responses/deleteReview.response';
@@ -76,6 +77,7 @@ export class ReviewController {
     description: 'Validation Error',
     type: BadRequestResponse,
   })
+  @UseGuards(new ReviewModifyPermissionGuard())
   @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
@@ -90,6 +92,7 @@ export class ReviewController {
     description: 'Validation Error',
     type: BadRequestResponse,
   })
+  @UseGuards(new ReviewModifyPermissionGuard())
   @Delete(':uuid')
   async delete(@Param('uuid') uuid: string) {
     await this.reviewService.delete(uuid);

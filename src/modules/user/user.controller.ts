@@ -33,7 +33,7 @@ import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UploadUserDto } from './dto/upload-user.dto';
-import { ModifyPermissionGuard } from './guards/modifyPermission.guard';
+import { UserModifyPermissionGuard } from './guards/userModifyPermission.guard';
 import { UserQuery } from './query/user.query.interface';
 import { DeleteUserResponse } from './responses/deleteUser.response';
 import { FindUsersResponse } from './responses/findUsers.response';
@@ -72,7 +72,7 @@ export class UserController {
     description: 'Forbidden',
     type: ForbiddenResponse,
   })
-  @UseGuards(new ModifyPermissionGuard())
+  @UseGuards(new UserModifyPermissionGuard())
   @Patch(':uuid')
   async update(
     @Body() updateuserDto: UpdateUserDto,
@@ -87,7 +87,7 @@ export class UserController {
     description: 'Forbidden',
     type: ForbiddenResponse,
   })
-  @UseGuards(new ModifyPermissionGuard())
+  @UseGuards(new UserModifyPermissionGuard())
   @Delete(':uuid')
   async delete(@Param('uuid') uuid: string) {
     await this.userService.delete(uuid);
