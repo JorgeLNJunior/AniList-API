@@ -29,6 +29,7 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { ReviewQuery } from './query/review.query.interface';
 import { CreateReviewResponse } from './responses/createReview.response';
+import { DeleteReviewResponse } from './responses/deleteReview.response';
 import { FindReviewResponse } from './responses/findReview.response';
 import { UpdateReviewResponse } from './responses/updateReview.response';
 import { ReviewService } from './review.service';
@@ -84,8 +85,14 @@ export class ReviewController {
     return new UpdateReviewResponse(review).build();
   }
 
+  @ApiOkResponse({ description: 'ok', type: DeleteReviewResponse })
+  @ApiBadRequestResponse({
+    description: 'Validation Error',
+    type: BadRequestResponse,
+  })
   @Delete(':uuid')
-  remove(@Param('uuid') uuid: string) {
-    return this.reviewService.remove(uuid);
+  async delete(@Param('uuid') uuid: string) {
+    await this.reviewService.delete(uuid);
+    return new DeleteReviewResponse().build();
   }
 }

@@ -1,6 +1,4 @@
 import { AnimeService } from '@modules/anime/anime.service';
-import { Anime } from '@modules/anime/entities/anime.entity';
-import { User } from '@modules/user/entities/user.entity';
 import { UserService } from '@modules/user/user.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -55,7 +53,10 @@ export class ReviewService {
     return this.reviewRepository.findOne(uuid);
   }
 
-  remove(uuid: string) {
-    return `This action removes a #${uuid} review`;
+  async delete(uuid: string) {
+    const review = await this.reviewRepository.findOne(uuid);
+    if (!review) throw new BadRequestException(['review not found']);
+
+    await this.reviewRepository.delete(uuid);
   }
 }
