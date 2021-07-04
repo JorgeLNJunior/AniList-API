@@ -1,5 +1,7 @@
 import { Anime } from '@modules/anime/entities/anime.entity';
+import { Review } from '@modules/review/entities/review.entity';
 import * as faker from 'faker';
+import { getRepository } from 'typeorm';
 
 export class ReviewBuilder {
   private review: FakeReview = {
@@ -41,6 +43,21 @@ export class ReviewBuilder {
   withoutAnime() {
     delete this.review.anime;
     return this;
+  }
+
+  async persist() {
+    const reviewRespository = getRepository(Review);
+    const animeRespository = getRepository(Anime);
+
+    const anime = await animeRespository.findOne(this.review.anime);
+
+    const review = reviewRespository.create({
+      title: this.review.title,
+      description: this.review.description,
+      rating: this.review.rating,
+      anime: anime,
+    });
+    return reviewRespository.save(review);
   }
 
   build() {

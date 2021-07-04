@@ -158,4 +158,58 @@ describe('ReviewController (e2e)', () => {
     expect(status).toBe(400);
     expect(body).toHaveProperty('error');
   });
+
+  it('/reviews (PATCH) Should update the review title', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const anime = await AnimeBuilder.aAnime().persist();
+    const { uuid } = await ReviewBuilder.aReview().withAnime(anime).persist();
+    const { title } = ReviewBuilder.aReview().build();
+
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/reviews/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: title });
+
+    expect(status).toBe(200);
+    expect(body.review.title).toBe(title);
+    expect(body).toHaveProperty('review');
+  });
+
+  it('/reviews (PATCH) Should update the review description', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const anime = await AnimeBuilder.aAnime().persist();
+    const { uuid } = await ReviewBuilder.aReview().withAnime(anime).persist();
+    const { description } = ReviewBuilder.aReview().build();
+
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/reviews/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ description: description });
+
+    expect(status).toBe(200);
+    expect(body.review.description).toBe(description);
+    expect(body).toHaveProperty('review');
+  });
+
+  it('/reviews (PATCH) Should update the review rating', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const anime = await AnimeBuilder.aAnime().persist();
+    const { uuid } = await ReviewBuilder.aReview().withAnime(anime).persist();
+    const { rating } = ReviewBuilder.aReview().build();
+
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/reviews/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ rating: rating });
+
+    expect(status).toBe(200);
+    expect(body.review.rating).toBe(rating);
+    expect(body).toHaveProperty('review');
+  });
 });
