@@ -7,7 +7,7 @@ export class ReviewBuilder {
   private review: FakeReview = {
     title: faker.lorem.word(),
     description: faker.lorem.words(10),
-    rating: faker.datatype.number(5),
+    rating: faker.datatype.number({ min: 1, max: 5 }),
     anime: faker.datatype.uuid(),
   };
 

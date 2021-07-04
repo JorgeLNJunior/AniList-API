@@ -212,4 +212,33 @@ describe('ReviewController (e2e)', () => {
     expect(body.review.rating).toBe(rating);
     expect(body).toHaveProperty('review');
   });
+
+  it('/reviews (DELETE) Should delete a review', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const anime = await AnimeBuilder.aAnime().persist();
+    const { uuid } = await ReviewBuilder.aReview().withAnime(anime).persist();
+
+    const { status, body } = await request(app.getHttpServer())
+      .delete(`/reviews/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('message');
+  });
+
+  it('/reviews (DELETE) Should return an error if the review was not found', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const uuid = '22a9849b-4c8f-4489-8797-fea8073d4db6';
+
+    const { status, body } = await request(app.getHttpServer())
+      .delete(`/reviews/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('error');
+  });
 });
