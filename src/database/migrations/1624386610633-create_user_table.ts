@@ -34,6 +34,11 @@ export class createUserTable1624386610633 implements MigrationInterface {
             default:
               'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
           },
+          {
+            name: 'isAdmin',
+            type: 'boolean',
+            default: false,
+          },
         ],
       }),
       true,

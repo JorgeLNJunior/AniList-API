@@ -20,4 +20,7 @@ export class User {
       'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
   })
   avatar: string;
+
+  @Column({ nullable: true, default: false })
+  isAdmin: boolean;
 }

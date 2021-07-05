@@ -11,9 +11,10 @@ import { Review } from '../entities/review.entity';
 @Injectable()
 export class ReviewModifyPermissionGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const reviewRepository = getRepository(Review);
     const request = context.switchToHttp().getRequest();
+    if (request.user.isAdmin) return true;
 
+    const reviewRepository = getRepository(Review);
     const reviewUuid = request.params.uuid;
     const userUuid = request.user.uuid;
 

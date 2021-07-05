@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BcryptService } from '@shared/services/bcrypt.service';
 import { Repository } from 'typeorm';
@@ -12,13 +13,33 @@ import { UserStorage } from './storage/user.storage';
 import { IUserStorage } from './storage/user.storage.interface';
 
 @Injectable()
-export class UserService {
+export class UserService implements OnModuleInit {
   private storage: IUserStorage;
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private bcrypt: BcryptService,
+    private configService: ConfigService,
   ) {
     this.storage = UserStorage.getInstance();
+  }
+
+  async onModuleInit() {
+    const isAdminUserCreated = await this.userRepository.find({
+      name: 'admin',
+    });
+    if (isAdminUserCreated[0]) return;
+
+    const email = this.configService.get<string>('ADMIN_EMAIL');
+    const password = this.configService.get<string>('ADMIN_PASSWORD');
+    const hash = await this.bcrypt.hash(password);
+
+    const admin = this.userRepository.create({
+      name: 'admin',
+      email: email,
+      password: hash,
+      isAdmin: true,
+    });
+    await this.userRepository.save(admin);
   }
 
   async create(createUserDto: CreateUserDto) {

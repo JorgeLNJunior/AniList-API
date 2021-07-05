@@ -26,6 +26,7 @@ import {
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { IsAdminGuard } from '@shared/guards/isAdmin.guard';
 import { BadRequestResponse } from '@shared/responses/badRequest.response';
 import { ForbiddenResponse } from '@shared/responses/forbidden.response';
 import { TooManyRequestsResponse } from '@shared/responses/tooManyRequests.response';
@@ -65,6 +66,7 @@ export class AnimeController {
     description: 'Validation error',
     type: BadRequestResponse,
   })
+  @UseGuards(new IsAdminGuard())
   @Post()
   async create(@Body() createAnimeDto: CreateAnimeDto) {
     const anime = await this.animeService.create(createAnimeDto);
@@ -84,6 +86,7 @@ export class AnimeController {
     description: 'Validation error',
     type: BadRequestResponse,
   })
+  @UseGuards(new IsAdminGuard())
   @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
@@ -98,6 +101,7 @@ export class AnimeController {
     description: 'Validation error',
     type: BadRequestResponse,
   })
+  @UseGuards(new IsAdminGuard())
   @Delete(':uuid')
   async delete(@Param('uuid') uuid: string) {
     await this.animeService.delete(uuid);
@@ -113,6 +117,7 @@ export class AnimeController {
   @ApiBody({
     type: UploadAnimeDto,
   })
+  @UseGuards(new IsAdminGuard())
   @UseInterceptors(FileInterceptor('cover', { limits: { fileSize: 1000000 } }))
   @Post(':uuid/upload')
   async upload(

@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   async login(user: User) {
-    const payload = { uuid: user.uuid };
+    const payload = { uuid: user.uuid, isAdmin: user.isAdmin };
     return this.jwt.sign(payload);
   }
 }
