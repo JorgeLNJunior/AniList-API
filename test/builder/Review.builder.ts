@@ -1,5 +1,6 @@
 import { Anime } from '@modules/anime/entities/anime.entity';
 import { Review } from '@modules/review/entities/review.entity';
+import { User } from '@modules/user/entities/user.entity';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
 
@@ -11,12 +12,19 @@ export class ReviewBuilder {
     anime: faker.datatype.uuid(),
   };
 
+  private user: User;
+
   static aReview() {
     return new ReviewBuilder();
   }
 
   withAnime(anime: Anime) {
     this.review.anime = anime.uuid;
+    return this;
+  }
+
+  withUser(user: User) {
+    this.user = user;
     return this;
   }
 
@@ -56,6 +64,7 @@ export class ReviewBuilder {
       description: this.review.description,
       rating: this.review.rating,
       anime: anime,
+      user: this.user,
     });
     return reviewRespository.save(review);
   }

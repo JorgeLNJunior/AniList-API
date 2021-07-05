@@ -164,7 +164,10 @@ describe('ReviewController (e2e)', () => {
     const token = new AuthHelper(user).sign();
 
     const anime = await AnimeBuilder.aAnime().persist();
-    const { uuid } = await ReviewBuilder.aReview().withAnime(anime).persist();
+    const { uuid } = await ReviewBuilder.aReview()
+      .withAnime(anime)
+      .withUser(user)
+      .persist();
     const { title } = ReviewBuilder.aReview().build();
 
     const { status, body } = await request(app.getHttpServer())
@@ -182,7 +185,10 @@ describe('ReviewController (e2e)', () => {
     const token = new AuthHelper(user).sign();
 
     const anime = await AnimeBuilder.aAnime().persist();
-    const { uuid } = await ReviewBuilder.aReview().withAnime(anime).persist();
+    const { uuid } = await ReviewBuilder.aReview()
+      .withAnime(anime)
+      .withUser(user)
+      .persist();
     const { description } = ReviewBuilder.aReview().build();
 
     const { status, body } = await request(app.getHttpServer())
@@ -200,7 +206,10 @@ describe('ReviewController (e2e)', () => {
     const token = new AuthHelper(user).sign();
 
     const anime = await AnimeBuilder.aAnime().persist();
-    const { uuid } = await ReviewBuilder.aReview().withAnime(anime).persist();
+    const { uuid } = await ReviewBuilder.aReview()
+      .withAnime(anime)
+      .withUser(user)
+      .persist();
     const { rating } = ReviewBuilder.aReview().build();
 
     const { status, body } = await request(app.getHttpServer())
@@ -213,12 +222,36 @@ describe('ReviewController (e2e)', () => {
     expect(body).toHaveProperty('review');
   });
 
+  it('/reviews (PATCH) Should not delete a review if the user has no permission', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const unauthorizedUser = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(unauthorizedUser).sign();
+
+    const anime = await AnimeBuilder.aAnime().persist();
+    const { uuid } = await ReviewBuilder.aReview()
+      .withAnime(anime)
+      .withUser(user)
+      .persist();
+    const { title } = ReviewBuilder.aReview().build();
+
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/reviews/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: title });
+
+    expect(status).toBe(403);
+    expect(body).toHaveProperty('error');
+  });
+
   it('/reviews (DELETE) Should delete a review', async () => {
     const user = await UserBuilder.aUser().persist();
     const token = new AuthHelper(user).sign();
 
     const anime = await AnimeBuilder.aAnime().persist();
-    const { uuid } = await ReviewBuilder.aReview().withAnime(anime).persist();
+    const { uuid } = await ReviewBuilder.aReview()
+      .withAnime(anime)
+      .withUser(user)
+      .persist();
 
     const { status, body } = await request(app.getHttpServer())
       .delete(`/reviews/${uuid}`)
@@ -240,5 +273,24 @@ describe('ReviewController (e2e)', () => {
 
     expect(status).toBe(400);
     expect(body).toHaveProperty('error');
+  });
+
+  it('/reviews (DELETE) Should delete a review', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const unauthorizedUser = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(unauthorizedUser).sign();
+
+    const anime = await AnimeBuilder.aAnime().persist();
+    const { uuid } = await ReviewBuilder.aReview()
+      .withAnime(anime)
+      .withUser(user)
+      .persist();
+
+    const { status, body } = await request(app.getHttpServer())
+      .delete(`/reviews/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(403);
+    expect(body).toHaveProperty('message');
   });
 });
