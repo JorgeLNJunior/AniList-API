@@ -1,73 +1,67 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+<div align="center" id="short-description">
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<h1>Animes Review</h1>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Plataforma para avaliação de animês
 
-## Description
+</div>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<div align="center" id="badges">
 
-## Installation
+[![Actions Build](https://img.shields.io/github/workflow/status/JorgeLNJunior/animes-review-api/Node.js%20CI/master)](https://github.com/JorgeLNJunior/animes-review-api/actions?query=workflow%3A%22Node.js+CI%22)
+[![Coverage Status](https://coveralls.io/repos/github/JorgeLNJunior/animes-review-api/badge.svg?branch=master)](https://coveralls.io/github/JorgeLNJunior/animes-review-api?branch=master)
+[![License](https://img.shields.io/github/license/JorgeLNJunior/animes-review-api)](https://github.com/JorgeLNJunior/animes-review-api/blob/master/LICENSE.md)
+[![Release](https://img.shields.io/github/v/release/JorgeLNJunior/animes-review-api?color=lgreen)](https://github.com/JorgeLNJunior/animes-review-api/releases)
 
-```bash
-$ npm install
-```
+</div>
 
-## Running the app
+<div align="center">
 
-```bash
-# development
-$ npm run start
+[**Trello »**](https://trello.com/b/o7iD52J4/animes-review)
 
-# watch mode
-$ npm run start:dev
+</div>
 
-# production mode
-$ npm run start:prod
-```
+## Tabela de Conteúdos
+* [Rotas](https://github.com/JorgeLNJunior/animes-review-api#rotas)
+* [Tecnologias](https://github.com/JorgeLNJunior/animes-review-api#tecnologias)
+* [Instalação e configuração](https://github.com/JorgeLNJunior/animes-review-api#instala%C3%A7%C3%A3o-e-configura%C3%A7%C3%A3o)
+  * [Requisitos](https://github.com/JorgeLNJunior/animes-review-api#requisitos)
+  * [Opcional](https://github.com/JorgeLNJunior/animes-review-api#requisitos)
+  * [Instalação](https://github.com/JorgeLNJunior/animes-review-api#instala%C3%A7%C3%A3o)
+* [Licença](https://github.com/JorgeLNJunior/animes-review-api#licen%C3%A7a)
 
-## Test
+## Rotas
 
-```bash
-# unit tests
-$ npm run test
+Informações básicas sobre as rotas da aplicação.
+| HTTP   | Rota                | Descrição                           | Autenticação |
+|--------|---------------------|-------------------------------------|--------------|
+| GET    | /register           | registra um usuário                 | não          |
+| GET    | /login              | autentica um usuário                | não          |
+| GET    | /users              | retorna todos os usuários           | sim          |
+| GET    | /docs               | documentação da API                 | não          |
+**A fazer**
 
-# e2e tests
-$ npm run test:e2e
+## Tecnologias
+Este projeto foi construído com as seguintes tecnologias:
+- [Node.js »](https://nodejs.org)
+- [Nest.js »](https://nestjs.com)
+- [Typescript »](https://www.typescriptlang.org)
+- [Jest »](https://jestjs.io)
+- [GitHub Actions »](https://github.com/features/actions)
+- [Swagger »](https://swagger.io)
+- [TypeORM »](https://typeorm.io)
 
-# test coverage
-$ npm run test:cov
-```
+## Instalação e configuração
+### Requisitos
+  - [Node.js »](https://nodejs.org/en/download) na sua versão lts
+  - Um Banco de dados suportado pelo [TypeORM »](https://typeorm.io)
 
-## Support
+### Instalação
+  1. Clone o projeto: `git clone https://github.com/JorgeLNJunior/animes-review-api.git`
+  2. Instale as dependências: `npm i`
+  3. Renomeie o arquivo `.env.example` para `.env`
+  4. Para iniciar a aplicação execute `npm start:dev`
+  5. Para os testes execute `npm test:e2e`
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+## Licença
+Projeto sob a licença [MIT »](https://github.com/JorgeLNJunior/animes-review-api/blob/master/LICENSE.md)
