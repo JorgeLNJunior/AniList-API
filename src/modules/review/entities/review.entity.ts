@@ -22,11 +22,11 @@ export class Review {
   @Column()
   rating: number;
 
-  @ManyToOne(() => Anime)
+  @ManyToOne(() => Anime, { cascade: ['update', 'remove'] })
   @JoinColumn()
   anime: Anime;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { cascade: ['update', 'remove'] })
   @JoinColumn()
   user: User;
 }
