@@ -35,6 +35,11 @@ export class UserBuilder {
     return this;
   }
 
+  withName(name: string) {
+    this.user.name = name;
+    return this;
+  }
+
   withEmail(email: string) {
     this.user.email = email;
     return this;

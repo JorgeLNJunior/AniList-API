@@ -29,10 +29,6 @@ export class AnimeService {
     return this.animeRepository.find(findOptions);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} anime`;
-  }
-
   async update(uuid: string, updateAnimeDto: UpdateAnimeDto) {
     const anime = await this.animeRepository.findOne(uuid);
     if (!anime) throw new BadRequestException(['anime not found']);

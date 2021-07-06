@@ -38,6 +38,17 @@ describe('AppController (e2e)', () => {
     expect(body).toHaveProperty('user');
   });
 
+  it('/register (POST) Should not register a new user with name "admin"', async () => {
+    const user = UserBuilder.aUser().withoutAvatar().withName('admin').build();
+
+    const { status, body } = await request(app.getHttpServer())
+      .post('/register')
+      .send(user);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('error');
+  });
+
   it('/register (POST) Should not register a user without name', async () => {
     const user = UserBuilder.aUser().withoutAvatar().withoutName().build();
 

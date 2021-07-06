@@ -45,7 +45,22 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('animes');
   });
 
-  it('/animes (POST) Should create a anime', async () => {
+  it('/animes (GET) Should return a list of animes with query params', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const query =
+      'uuid=19525718-d3b9-4562-b492-37662bc76c34&title=one+piece&episodes=50&take=1&skip=0';
+
+    const { status, body } = await request(app.getHttpServer())
+      .get(`/animes?${query}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('animes');
+  });
+
+  it('/animes (POST) Should create an anime', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -59,7 +74,21 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('anime');
   });
 
-  it('/animes (POST) Should not create a anime without title', async () => {
+  it('/animes (POST) Should not create an anime if the user was not the admin', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const anime = AnimeBuilder.aAnime().withoutCover().build();
+    const { status, body } = await request(app.getHttpServer())
+      .post('/animes')
+      .set('Authorization', `Bearer ${token}`)
+      .send(anime);
+
+    expect(status).toBe(403);
+    expect(body).toHaveProperty('error');
+  });
+
+  it('/animes (POST) Should not create an anime without title', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -73,7 +102,7 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('error');
   });
 
-  it('/animes (POST) Should not create a anime without synopsis', async () => {
+  it('/animes (POST) Should not create an anime without synopsis', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -90,7 +119,7 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('error');
   });
 
-  it('/animes (POST) Should not create a anime without trailer', async () => {
+  it('/animes (POST) Should not create an anime without trailer', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -104,7 +133,7 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('error');
   });
 
-  it('/animes (POST) Should not create a anime without a valid trailer url', async () => {
+  it('/animes (POST) Should not create an anime without a valid trailer url', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -121,7 +150,7 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('error');
   });
 
-  it('/animes (POST) Should not create a anime without episodes', async () => {
+  it('/animes (POST) Should not create an anime without episodes', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -138,7 +167,7 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('error');
   });
 
-  it('/animes (POST) Should update the anime title', async () => {
+  it('/animes (PATCH) Should update the anime title', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -154,7 +183,7 @@ describe('AnimeController (e2e)', () => {
     expect(body.anime.title).toBe(title);
   });
 
-  it('/animes (POST) Should update the anime synopsis', async () => {
+  it('/animes (PATCH) Should update the anime synopsis', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -170,7 +199,7 @@ describe('AnimeController (e2e)', () => {
     expect(body.anime.synopsis).toBe(synopsis);
   });
 
-  it('/animes (POST) Should update the anime trailer', async () => {
+  it('/animes (PATCH) Should update the anime trailer', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -186,7 +215,7 @@ describe('AnimeController (e2e)', () => {
     expect(body.anime.trailer).toBe(trailer);
   });
 
-  it('/animes (POST) Should update the anime episodes', async () => {
+  it('/animes (PATCH) Should update the anime episodes', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
 
@@ -200,6 +229,21 @@ describe('AnimeController (e2e)', () => {
     expect(status).toBe(200);
     expect(body).toHaveProperty('anime');
     expect(body.anime.episodes).toBe(episodes);
+  });
+
+  it('/animes (PATCH) Should return an error if the anime was not found', async () => {
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
+
+    const uuid = '19525718-d3b9-4562-b492-37662bc76c34';
+    const { episodes } = AnimeBuilder.aAnime().build();
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/animes/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ episodes: episodes });
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('error');
   });
 
   it('/animes (DELETE) Should delete an anime', async () => {

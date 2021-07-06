@@ -1,8 +1,10 @@
+import { User } from '@modules/user/entities/user.entity';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
 import * as faker from 'faker';
 import * as request from 'supertest';
+import { getRepository } from 'typeorm';
 
 import { UserBuilder } from './builder/User.builder';
 import { AuthHelper } from './helpers/auth.helper';
@@ -39,6 +41,21 @@ describe('UsersController (e2e)', () => {
     expect(body).toHaveProperty('users');
   });
 
+  it('/users (GET) Should return a list of users with query params', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const query =
+      'uuid=19525718-d3b9-4562-b492-37662bc76c34&name=user&email=user@mail.com&take=1&skip=0';
+
+    const { status, body } = await request(app.getHttpServer())
+      .get(`/users?${query}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('users');
+  });
+
   it('/users (PATCH) Should update the user name', async () => {
     const user = await UserBuilder.aUser().persist();
     const token = new AuthHelper(user).sign();
@@ -51,6 +68,38 @@ describe('UsersController (e2e)', () => {
 
     expect(status).toBe(200);
     expect(body.user.name).toBe(name);
+  });
+
+  it('/users (PATCH) Should update any user with admin permission', async () => {
+    const user = await UserBuilder.aUser().persist();
+
+    const admin = await getRepository(User).find({ where: { name: 'admin' } });
+    const token = new AuthHelper(admin[0]).sign();
+
+    const name = faker.name.firstName();
+
+    const { status, body } = await request(app.getHttpServer())
+      .patch(`/users/${user.uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: name });
+
+    expect(status).toBe(200);
+    expect(body.user.name).toBe(name);
+  });
+
+  it('/users (PATCH) Should update return an error if the user was not found', async () => {
+    const admin = await getRepository(User).find({ where: { name: 'admin' } });
+    const token = new AuthHelper(admin[0]).sign();
+
+    const name = faker.name.firstName();
+
+    const { status, body } = await request(app.getHttpServer())
+      .patch('/users/ba00a97f-5fba-42ca-8122-f9fb6e4d52f4')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: name });
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('error');
   });
 
   it('/users (PATCH) Should not update a user without permissions', async () => {

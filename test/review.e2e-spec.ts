@@ -41,6 +41,20 @@ describe('ReviewController (e2e)', () => {
     expect(body).toHaveProperty('reviews');
   });
 
+  it('/reviews (GET) Should return a list of reviews with query', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const query = 'uuid=19525718-d3b9-4562-b492-37662bc76c34&take=1&skip=0';
+
+    const { status, body } = await request(app.getHttpServer())
+      .get(`/reviews?${query}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('reviews');
+  });
+
   it('/reviews (POST) Should create a review', async () => {
     const user = await UserBuilder.aUser().persist();
     const token = new AuthHelper(user).sign();
