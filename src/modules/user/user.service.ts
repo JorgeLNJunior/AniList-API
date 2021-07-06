@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BcryptService } from '@shared/services/bcrypt.service';
@@ -64,6 +64,9 @@ export class UserService implements OnModuleInit {
   }
 
   async update(uuid: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.findOne(uuid);
+    if (!user) throw new BadRequestException(['user not found']);
+
     await this.userRepository.update(uuid, updateUserDto);
     return await this.userRepository.findOne(uuid);
   }

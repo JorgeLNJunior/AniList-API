@@ -28,9 +28,11 @@ export class FindUsersResponse {
   }
 
   build() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const serializedUsers = this.users.map(({ isAdmin, ...item }) => item);
     return {
       statusCode: this.statusCode,
-      users: this.users,
+      users: serializedUsers,
     };
   }
 }

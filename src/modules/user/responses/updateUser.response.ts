@@ -25,6 +25,7 @@ export class UpdateUserResponse {
   }
 
   build() {
+    delete this.user.isAdmin;
     return {
       statusCode: this.statusCode,
       user: this.user,

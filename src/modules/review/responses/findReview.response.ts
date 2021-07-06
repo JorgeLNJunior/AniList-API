@@ -43,6 +43,10 @@ export class FindReviewResponse {
   }
 
   build() {
+    this.reviews.map((item) => {
+      delete item.user.isAdmin;
+    });
+
     return {
       statusCode: this.statusCode,
       reviews: this.reviews,
