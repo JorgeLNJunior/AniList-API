@@ -50,7 +50,9 @@ export class ReviewService {
     if (!review) throw new BadRequestException(['review not found']);
 
     await this.reviewRepository.update(uuid, updateReviewDto);
-    return this.reviewRepository.findOne(uuid);
+    return this.reviewRepository.findOne(uuid, {
+      relations: ['user', 'anime'],
+    });
   }
 
   async delete(uuid: string) {

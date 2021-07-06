@@ -12,7 +12,7 @@ export class AuthHelper {
   }
 
   sign() {
-    const payload = { uuid: this.user.uuid };
+    const payload = { uuid: this.user.uuid, isAdmin: this.user.isAdmin };
     return this.jwt.sign(payload);
   }
 }

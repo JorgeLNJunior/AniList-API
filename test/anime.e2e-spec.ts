@@ -1,7 +1,9 @@
+import { User } from '@modules/user/entities/user.entity';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
 import * as request from 'supertest';
+import { getRepository, Repository } from 'typeorm';
 
 import { AnimeBuilder } from './builder/Anime.builder';
 import { UserBuilder } from './builder/User.builder';
@@ -10,6 +12,7 @@ import { DatabaseHelper } from './helpers/database.helper';
 
 describe('AnimeController (e2e)', () => {
   let app: INestApplication;
+  let userRepository: Repository<User>;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -24,6 +27,8 @@ describe('AnimeController (e2e)', () => {
       }),
     );
     await app.init();
+
+    userRepository = getRepository(User);
   });
   afterEach(() => app.close());
   afterAll(async () => await DatabaseHelper.dropDatabase());
@@ -41,8 +46,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should create a anime', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const anime = AnimeBuilder.aAnime().withoutCover().build();
     const { status, body } = await request(app.getHttpServer())
@@ -55,8 +60,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should not create a anime without title', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const anime = AnimeBuilder.aAnime().withoutCover().withoutTitle().build();
     const { status, body } = await request(app.getHttpServer())
@@ -69,8 +74,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should not create a anime without synopsis', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const anime = AnimeBuilder.aAnime()
       .withoutCover()
@@ -86,8 +91,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should not create a anime without trailer', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const anime = AnimeBuilder.aAnime().withoutCover().withoutTrailer().build();
     const { status, body } = await request(app.getHttpServer())
@@ -100,8 +105,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should not create a anime without a valid trailer url', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const anime = AnimeBuilder.aAnime()
       .withoutCover()
@@ -117,8 +122,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should not create a anime without episodes', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const anime = AnimeBuilder.aAnime()
       .withoutCover()
@@ -134,8 +139,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should update the anime title', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const { uuid } = await AnimeBuilder.aAnime().persist();
     const { title } = AnimeBuilder.aAnime().build();
@@ -150,8 +155,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should update the anime synopsis', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const { uuid } = await AnimeBuilder.aAnime().persist();
     const { synopsis } = AnimeBuilder.aAnime().build();
@@ -166,8 +171,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should update the anime trailer', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const { uuid } = await AnimeBuilder.aAnime().persist();
     const { trailer } = AnimeBuilder.aAnime().build();
@@ -182,8 +187,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (POST) Should update the anime episodes', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const { uuid } = await AnimeBuilder.aAnime().persist();
     const { episodes } = AnimeBuilder.aAnime().build();
@@ -198,8 +203,8 @@ describe('AnimeController (e2e)', () => {
   });
 
   it('/animes (DELETE) Should delete an anime', async () => {
-    const user = await UserBuilder.aUser().persist();
-    const token = new AuthHelper(user).sign();
+    const adminUser = await userRepository.find({ where: { name: 'admin' } });
+    const token = new AuthHelper(adminUser[0]).sign();
 
     const { uuid } = await AnimeBuilder.aAnime().persist();
     const { status, body } = await request(app.getHttpServer())
