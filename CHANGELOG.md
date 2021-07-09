@@ -1,3 +1,16 @@
+#### 0.1.1 (2021-07-09)
+
+##### Build System / Dependencies
+
+* **dev:**
+  *  corrigir o comando start do docker (27c0eda1)
+  *  containerizar a aplicação (55097aa8)
+*  instalar o cors (e209b151)
+
+##### Documentation Changes
+
+*  corrigir a badge dos testes e2e (beaf80ca)
+
 ### 0.1.0 (2021-07-06)
 
 ##### Build System / Dependencies
