@@ -26,6 +26,7 @@ services:
       "--timeout=300",
       "--",
       "npm",
+      "run",
       "start:prod"
     ]
     volumes:
