@@ -35,11 +35,11 @@ export class HealthController {
       () =>
         this.memory.checkHeap(
           'memory_heap',
-          isTestEnv ? 500 * 1024 * 1024 : 200 * 1024 * 1024,
+          isTestEnv ? 900 * 1024 * 1024 : 200 * 1024 * 1024,
         ),
       () =>
         this.disk.checkStorage('storage_usage', {
-          thresholdPercent: 0.9,
+          thresholdPercent: isTestEnv ? 1.0 : 0.9,
           path: '/',
         }),
     ]);
