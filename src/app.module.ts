@@ -1,5 +1,6 @@
 import { Constants } from '@config/constants';
 import { AuthModule } from '@modules/auth/auth.module';
+import { HealthModule } from '@modules/health/health.module';
 import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -14,6 +15,9 @@ import { ReviewModule } from './modules/review/review.module';
   imports: [
     AuthModule,
     UserModule,
+    AnimeModule,
+    ReviewModule,
+    HealthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
@@ -23,8 +27,6 @@ import { ReviewModule } from './modules/review/review.module';
       limit: 30,
     }),
     TypeOrmModule.forRoot(Constants.databaseConfig()),
-    AnimeModule,
-    ReviewModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
