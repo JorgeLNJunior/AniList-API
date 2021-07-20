@@ -1,3 +1,22 @@
+#### 0.1.2 (2021-07-20)
+
+##### Continuous Integration
+
+* **actions:**  testar o build da aplicação (4ea309ab)
+
+##### Documentation Changes
+
+*  alterar a mensagem de nova release (34024481)
+
+##### New Features
+
+*  implementar alguns health checks (a9ba57a7)
+
+##### Tests
+
+*  alterar os valores dos health checks (9d275138)
+*  implementar os testes dos health checks (8ab658ee)
+
 #### 0.1.1 (2021-07-09)
 
 ##### Build System / Dependencies
