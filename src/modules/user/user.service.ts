@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  OnApplicationBootstrap,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BcryptService } from '@shared/services/bcrypt.service';
@@ -13,7 +17,7 @@ import { UserStorage } from './storage/user.storage';
 import { IUserStorage } from './storage/user.storage.interface';
 
 @Injectable()
-export class UserService implements OnModuleInit {
+export class UserService implements OnApplicationBootstrap {
   private storage: IUserStorage;
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
@@ -23,16 +27,14 @@ export class UserService implements OnModuleInit {
     this.storage = UserStorage.getInstance();
   }
 
-  async onModuleInit() {
+  async onApplicationBootstrap() {
     const isAdminUserCreated = await this.userRepository.find({
       name: 'admin',
     });
     if (isAdminUserCreated[0]) return;
-
     const email = this.configService.get<string>('ADMIN_EMAIL');
     const password = this.configService.get<string>('ADMIN_PASSWORD');
     const hash = await this.bcrypt.hash(password);
-
     const admin = this.userRepository.create({
       name: 'admin',
       email: email,
