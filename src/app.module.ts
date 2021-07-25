@@ -26,7 +26,9 @@ import { ReviewModule } from './modules/review/review.module';
       ttl: 60,
       limit: 30,
     }),
-    TypeOrmModule.forRoot(Constants.databaseConfig()),
+    TypeOrmModule.forRootAsync({
+      useFactory: () => Constants.databaseConfig(),
+    }),
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
