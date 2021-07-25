@@ -12,30 +12,31 @@ export class Constants {
   static databaseConfig(): TypeOrmModuleOptions {
     const configService = new ConfigService();
     const config: TypeOrmModuleOptions = {
-      type: configService.get<any>('DB_TYPE') || 'mysql',
-      host: configService.get<string>('DB_HOST') || 'localhost',
-      port: configService.get<number>('DB_PORT') || 3306,
-      username: configService.get<string>('DB_USER') || 'root',
-      password: configService.get<string>('DB_PASSWORD') || 'root',
-      database: configService.get<string>('DB_NAME') || 'an_review',
-      synchronize: configService.get<boolean>('DB_SYNCHRONIZE') || false,
+      type: configService.get<any>('DB_TYPE'),
+      host: configService.get<string>('DB_HOST'),
+      port: configService.get<number>('DB_PORT'),
+      username: configService.get<string>('DB_USER'),
+      password: configService.get<string>('DB_PASSWORD'),
+      database: configService.get<string>('DB_NAME'),
+      synchronize: configService.get<boolean>('DB_SYNCHRONIZE'),
       autoLoadEntities: true,
       migrations: [
         createUserTable1624386610633,
         createAnimeTable1624810395846,
         createReviewTable1625254721286,
       ],
-      migrationsRun: configService.get<boolean>('DB_MIGRATE') || false,
+      migrationsRun: configService.get<boolean>('DB_MIGRATE'),
     };
+
     return config;
   }
 
   static jwtOptions(): JwtModuleOptions {
     const configService = new ConfigService();
     return {
-      secret: configService.get<string>('APP_SECRET') || 'peDf4broGS',
+      secret: configService.get<string>('APP_SECRET'),
       signOptions: {
-        expiresIn: configService.get<string>('TOKEN_EXP') || '1d',
+        expiresIn: configService.get<string>('TOKEN_EXP'),
       },
     };
   }
