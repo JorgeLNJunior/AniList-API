@@ -1,3 +1,25 @@
+#### 0.1.3 (2021-07-26)
+
+##### Build System / Dependencies
+
+*  remover valores padrão da classe Constants (dd444c07)
+*  alterar o método onModuleInit para onApplicationBootstrap (b1e59bec)
+* **deps:**
+  *  atualizar várias dependências (c2aa6b61)
+  *  atualizar várias dependências (8e4ecc81)
+
+##### Chores
+
+*  não gerar arquivos de teste automaticamente (5f7892aa)
+
+##### Bug Fixes
+
+*  corrigir inicialização do typeorm (81e15061)
+
+##### Tests
+
+*  ignorar alguns diretórios (31f44601)
+
 #### 0.1.2 (2021-07-20)
 
 ##### Continuous Integration
