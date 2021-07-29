@@ -10,7 +10,14 @@ export class AnimeBuilder {
     trailer: `https://youtube.com/watch?v=${faker.random.alpha({
       upcase: true,
     })}`,
-    episodes: faker.datatype.number(100),
+    episodes: faker.datatype.number({ min: 1, max: 100 }),
+    releaseDate: `${faker.datatype.number({
+      min: 2000,
+      max: 2021,
+    })}-${faker.datatype.number({ min: 10, max: 12 })}-${faker.datatype.number({
+      min: 10,
+      max: 31,
+    })}`,
   };
 
   static aAnime() {
@@ -65,4 +72,5 @@ export interface FakeAnime {
   cover?: string;
   trailer: string;
   episodes: number;
+  releaseDate: string;
 }
