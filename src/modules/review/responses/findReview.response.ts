@@ -21,6 +21,7 @@ export class FindReviewResponse {
             'https://betteranime.net/storage/cover/746cd6f190bdff4bcd01bfea06d500971ac4921f32b31a47274c345d20df4afb.jpg',
           trailer: 'youtube.com/watch?v=j2hiC9BmJlQ',
           episodes: 200,
+          releaseDate: '2020-10-15',
         },
         user: {
           uuid: 'd83c3162-923a-4cb2-8ec5-d3bc5f3c38a6',

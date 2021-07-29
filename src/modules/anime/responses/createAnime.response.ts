@@ -17,6 +17,7 @@ export class CreateAnimeResponse {
       cover: null,
       trailer: 'https://www.youtube.com/watch?v=MGRm4IzK1SQ',
       episodes: 75,
+      releaseDate: '2020-10-15',
     },
   })
   private anime: Anime;

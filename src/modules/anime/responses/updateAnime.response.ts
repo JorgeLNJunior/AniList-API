@@ -18,6 +18,7 @@ export class UpdateAnimeResponse {
         'https://static.wikia.nocookie.net/shingekinokyojin/images/d/d8/Attack_on_Titan_Season_1.jpg/revision/latest?cb=20180601153334',
       trailer: 'https://www.youtube.com/watch?v=MGRm4IzK1SQ',
       episodes: 75,
+      releaseDate: '2020-10-15',
     },
   })
   private anime: Anime;

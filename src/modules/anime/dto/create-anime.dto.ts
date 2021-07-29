@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Matches,
+  MaxLength,
+} from 'class-validator';
 
 import { IsYoutubeUrl } from '../decorators/isYoutubeUrl.decorator';
 
@@ -34,4 +41,14 @@ export class CreateAnimeDto {
   @IsNotEmpty()
   @IsNumber()
   episodes: number;
+
+  @ApiProperty({
+    example: '2020-10-15',
+  })
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/i, {
+    message: '$property must be formatted as yyyy-mm-dd',
+  })
+  releaseDate: string;
 }

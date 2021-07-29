@@ -19,4 +19,7 @@ export class Anime {
 
   @Column()
   episodes: number;
+
+  @Column()
+  releaseDate: string;
 }

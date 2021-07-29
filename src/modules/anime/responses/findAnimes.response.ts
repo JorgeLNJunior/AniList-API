@@ -20,6 +20,7 @@ export class FindAnimeResponse {
         episodes: 75,
         rating: 4,
         reviews: 2,
+        releaseDate: '2020-10-15',
       },
     ],
   })
