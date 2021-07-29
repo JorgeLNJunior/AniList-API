@@ -8,6 +8,7 @@ export class CreateReviewResponse {
 
   @ApiProperty({
     example: {
+      uuid: 'b852dcea-f442-4141-97f5-0567d9f25b1d',
       title: 'naruto',
       description: 'Proin at pulvinar enim, eget vulputate sem...',
       rating: 4,
@@ -29,7 +30,6 @@ export class CreateReviewResponse {
         avatar:
           'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
       },
-      uuid: 'b852dcea-f442-4141-97f5-0567d9f25b1d',
     },
   })
   private review: Review;

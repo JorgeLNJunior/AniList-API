@@ -24,9 +24,22 @@ export class AnimeService {
     return this.animeRepository.save(anime);
   }
 
-  find(query: AnimeQuery) {
+  async find(query: AnimeQuery) {
     const findOptions = new AnimeQueryBuilder(query).build();
-    return this.animeRepository.find(findOptions);
+
+    return this.animeRepository
+      .createQueryBuilder('anime')
+      .select(
+        'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover, anime.episodes',
+      )
+      .addSelect('IFNULL(AVG(Cast(review.rating as Float)), 0)', 'rating')
+      .leftJoin('review', 'review', 'anime.uuid = review.animeUuid')
+      .where(findOptions.where)
+      .take(findOptions.take)
+      .skip(findOptions.skip)
+      .groupBy('anime.uuid')
+      .orderBy('anime.title', 'ASC')
+      .getRawMany();
   }
 
   async update(uuid: string, updateAnimeDto: UpdateAnimeDto) {
