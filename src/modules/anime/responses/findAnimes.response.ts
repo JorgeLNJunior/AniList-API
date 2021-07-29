@@ -19,6 +19,7 @@ export class FindAnimeResponse {
         trailer: 'https://www.youtube.com/watch?v=MGRm4IzK1SQ',
         episodes: 75,
         rating: 4,
+        reviews: 2,
       },
     ],
   })

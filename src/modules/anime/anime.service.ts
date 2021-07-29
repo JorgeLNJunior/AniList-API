@@ -33,6 +33,7 @@ export class AnimeService {
         'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover, anime.episodes',
       )
       .addSelect('IFNULL(AVG(Cast(review.rating as Float)), 0)', 'rating')
+      .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
       .leftJoin('review', 'review', 'anime.uuid = review.animeUuid')
       .where(findOptions.where)
       .take(findOptions.take)
