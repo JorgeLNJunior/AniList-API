@@ -24,7 +24,7 @@ export class ReviewService {
     const user = await this.userService.find({ uuid: userUuid });
 
     const anime = await this.animeService.find({ uuid: animeUuid });
-    if (!anime) throw new BadRequestException(['anime not found']);
+    if (!anime[0]) throw new BadRequestException(['anime not found']);
 
     const review = this.reviewRepository.create({
       title: title,
