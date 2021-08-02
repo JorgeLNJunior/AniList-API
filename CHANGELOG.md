@@ -1,3 +1,21 @@
+### 0.2.0 (2021-08-02)
+
+##### New Features
+
+*  impedir mais de uma review por anime (30562faf)
+*  retornar quantidade de reviews do anime (b14734b8)
+*  retornar a média das notas do anime (edba7057)
+* **BREAKING:**  adicionar a propriedade releaseDate aos animes (a4b93bb2)
+
+##### Bug Fixes
+
+*  retornar erro se o anime não existe ao criar uma review (4b11730e)
+
+##### Tests
+
+*  impedir mais de uma review por anime (eb1a338c)
+*  adicionar a propriedade releaseDate ao anime builder (cd9b0afe)
+
 #### 0.1.3 (2021-07-26)
 
 ##### Build System / Dependencies
