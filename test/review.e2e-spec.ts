@@ -71,6 +71,24 @@ describe('ReviewController (e2e)', () => {
     expect(body).toHaveProperty('review');
   });
 
+  it('/reviews (POST) Should not create a duplicated review review', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const anime = await AnimeBuilder.aAnime().persist();
+    const review = ReviewBuilder.aReview().withAnime(anime).build();
+
+    await ReviewBuilder.aReview().withAnime(anime).withUser(user).persist();
+
+    const { status, body } = await request(app.getHttpServer())
+      .post('/reviews')
+      .set('Authorization', `Bearer ${token}`)
+      .send(review);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('message');
+  });
+
   it('/reviews (POST) Should not create a review without a title', async () => {
     const user = await UserBuilder.aUser().persist();
     const token = new AuthHelper(user).sign();
