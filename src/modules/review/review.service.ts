@@ -21,6 +21,16 @@ export class ReviewService {
   async create(userUuid: string, createReviewDto: CreateReviewDto) {
     const { anime: animeUuid, title, description, rating } = createReviewDto;
 
+    const userReviews = await this.reviewRepository.find({
+      where: { user: { uuid: userUuid } },
+      relations: ['anime'],
+    });
+    userReviews.forEach((review) => {
+      if (review.anime.uuid === animeUuid) {
+        throw new BadRequestException(['you already reviewed this anime']);
+      }
+    });
+
     const user = await this.userService.find({ uuid: userUuid });
 
     const anime = await this.animeService.find({ uuid: animeUuid });
