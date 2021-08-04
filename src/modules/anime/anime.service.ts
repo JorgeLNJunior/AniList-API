@@ -30,7 +30,7 @@ export class AnimeService {
     return this.animeRepository
       .createQueryBuilder('anime')
       .select(
-        'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover, anime.episodes',
+        'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover, anime.episodes, anime.releaseDate',
       )
       .addSelect('IFNULL(AVG(Cast(review.rating as Float)), 0)', 'rating')
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
