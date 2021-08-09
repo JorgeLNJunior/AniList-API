@@ -1,3 +1,23 @@
+### 0.3.0 (2021-08-09)
+
+##### Build System / Dependencies
+
+* **deps:**
+  *  atualizar várias dependências (3415d10a)
+  *  atualizar dependencias vulneráveis (c7a4a92b)
+
+##### New Features
+
+*  adicionar a propriedade animeUuid a review query (5b3babb2)
+
+##### Bug Fixes
+
+*  retornar a propriedade releaseDate dos animes (e7bd4e5e)
+
+##### Tests
+
+*  adicionar teste da query animeUuid (ef527bae)
+
 ### 0.2.0 (2021-08-02)
 
 ##### New Features
