@@ -16,6 +16,7 @@ export class ReviewQueryBuilder {
 
     if (this.query.uuid) conditions.uuid = this.query.uuid;
     if (this.query.animeUuid) conditions.anime = { uuid: this.query.animeUuid };
+    if (this.query.userUuid) conditions.user = { uuid: this.query.userUuid };
     if (this.query.take) {
       findOptions.take = this.query.take;
     } else findOptions.take = 20;
