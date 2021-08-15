@@ -46,7 +46,7 @@ describe('ReviewController (e2e)', () => {
     const token = new AuthHelper(user).sign();
 
     const query =
-      'uuid=19525718-d3b9-4562-b492-37662bc76c34&animeUuid=19525718-d3b9-4562-b492-37662bc76c34&take=1&skip=0';
+      'uuid=19525718-d3b9-4562-b492-37662bc76c34&animeUuid=19525718-d3b9-4562-b492-37662bc76c34userUuid=19525718-d3b9-4562-b492-37662bc76c34&&take=1&skip=0';
 
     const { status, body } = await request(app.getHttpServer())
       .get(`/reviews?${query}`)
