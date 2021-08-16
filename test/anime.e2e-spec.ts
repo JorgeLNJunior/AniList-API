@@ -60,6 +60,18 @@ describe('AnimeController (e2e)', () => {
     expect(body).toHaveProperty('animes');
   });
 
+  it('/animes (GET) Should return top 10 animes', async () => {
+    const user = await UserBuilder.aUser().persist();
+    const token = new AuthHelper(user).sign();
+
+    const { status, body } = await request(app.getHttpServer())
+      .get('/animes/top')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('animes');
+  });
+
   it('/animes (POST) Should create an anime', async () => {
     const adminUser = await userRepository.find({ where: { name: 'admin' } });
     const token = new AuthHelper(adminUser[0]).sign();
