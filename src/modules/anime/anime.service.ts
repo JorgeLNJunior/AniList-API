@@ -32,7 +32,10 @@ export class AnimeService {
       .select(
         'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover, anime.episodes, anime.releaseDate',
       )
-      .addSelect('IFNULL(AVG(Cast(review.rating as Float)), 0)', 'rating')
+      .addSelect(
+        'IFNULL(ROUND(AVG(Cast(review.rating as Float)) ,2), 0)',
+        'rating',
+      )
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
       .leftJoin('review', 'review', 'anime.uuid = review.animeUuid')
       .where(findOptions.where)
@@ -40,6 +43,24 @@ export class AnimeService {
       .skip(findOptions.skip)
       .groupBy('anime.uuid')
       .orderBy('anime.title', 'ASC')
+      .getRawMany();
+  }
+
+  async top() {
+    return this.animeRepository
+      .createQueryBuilder('anime')
+      .select(
+        'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover, anime.episodes, anime.releaseDate',
+      )
+      .addSelect(
+        'IFNULL(ROUND(AVG(Cast(review.rating as Float)), 2), 0)',
+        'rating',
+      )
+      .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
+      .leftJoin('review', 'review', 'anime.uuid = review.animeUuid')
+      .take(10)
+      .groupBy('anime.uuid')
+      .orderBy('rating', 'DESC')
       .getRawMany();
   }
 

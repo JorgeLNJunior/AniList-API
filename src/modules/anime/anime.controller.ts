@@ -81,6 +81,13 @@ export class AnimeController {
     return new FindAnimeResponse(animes).build();
   }
 
+  @ApiOkResponse({ description: 'OK', type: FindAnimeResponse })
+  @Get('top')
+  async top() {
+    const animes = await this.animeService.top();
+    return new FindAnimeResponse(animes).build();
+  }
+
   @ApiOkResponse({ description: 'OK', type: UpdateAnimeResponse })
   @ApiBadRequestResponse({
     description: 'Validation error',
