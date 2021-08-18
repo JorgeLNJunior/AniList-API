@@ -2,14 +2,13 @@
 
 <h1>Animes Review</h1>
 
-Plataforma para avaliação de animês
+Plataforma para avaliação de animes
 
 </div>
 
 <div align="center" id="badges">
 
-[![Actions Build](https://img.shields.io/github/workflow/status/JorgeLNJunior/animes-review-api/Build/master)](https://github.com/JorgeLNJunior/animes-review-api/actions/workflows/build.yml)
-[![Actions E2E](https://img.shields.io/github/workflow/status/JorgeLNJunior/animes-review-api/E2E%20Tests/master?label=e2e%20tests)](https://github.com/JorgeLNJunior/animes-review-api/actions/workflows/e2e-tests.yml)
+[![Actions E2E](https://img.shields.io/github/workflow/status/JorgeLNJunior/animes-review-api/E2E%20Tests/master)](https://github.com/JorgeLNJunior/animes-review-api/actions/workflows/e2e-tests.yml)
 [![Coverage Status](https://coveralls.io/repos/github/JorgeLNJunior/animes-review-api/badge.svg?branch=master)](https://coveralls.io/github/JorgeLNJunior/animes-review-api?branch=master)
 [![License](https://img.shields.io/github/license/JorgeLNJunior/animes-review-api)](https://github.com/JorgeLNJunior/animes-review-api/blob/master/LICENSE.md)
 [![Release](https://img.shields.io/github/v/release/JorgeLNJunior/animes-review-api?color=lgreen)](https://github.com/JorgeLNJunior/animes-review-api/releases)
