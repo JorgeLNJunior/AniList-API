@@ -41,5 +41,5 @@ jobs:
           MYSQL_DATABASE: an_review_test
       redis:
         image: redis
-          ports:
-            - 6379:6379
+        ports:
+          - 6379:6379
