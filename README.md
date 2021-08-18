@@ -17,7 +17,8 @@ Plataforma para avaliação de animes
 
 <div align="center">
 
-[**Trello »**](https://trello.com/b/o7iD52J4/animes-review)
+[Trello](https://trello.com/b/o7iD52J4/animes-review) |
+[Front-end](https://github.com/JorgeLNJunior/animes-review)
 
 </div>
 
