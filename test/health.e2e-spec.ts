@@ -24,7 +24,7 @@ describe('HealthController (e2e)', () => {
     );
     await app.init();
   });
-  afterEach(() => app.close());
+  afterEach(async () => await app.close());
 
   it('/animes (GET) Should return a list of health checks', async () => {
     const user = await getRepository(User).find({ where: { name: 'admin' } });

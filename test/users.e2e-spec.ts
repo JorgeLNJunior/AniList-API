@@ -27,7 +27,7 @@ describe('UsersController (e2e)', () => {
     );
     await app.init();
   });
-  afterEach(() => app.close());
+  afterEach(async () => await app.close());
   afterAll(async () => await DatabaseHelper.dropDatabase());
 
   it('/users (GET) Should return a list of users', async () => {

@@ -30,7 +30,7 @@ describe('AnimeController (e2e)', () => {
 
     userRepository = getRepository(User);
   });
-  afterEach(() => app.close());
+  afterEach(async () => await app.close());
   afterAll(async () => await DatabaseHelper.dropDatabase());
 
   it('/animes (GET) Should return a list of animes', async () => {

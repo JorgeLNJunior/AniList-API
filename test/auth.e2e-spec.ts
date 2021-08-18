@@ -24,7 +24,7 @@ describe('AppController (e2e)', () => {
     );
     await app.init();
   });
-  afterEach(() => app.close());
+  afterEach(async () => await app.close());
   afterAll(async () => await DatabaseHelper.dropDatabase());
 
   it('/register (POST) Should register a new user', async () => {

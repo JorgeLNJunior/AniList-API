@@ -26,7 +26,7 @@ describe('ReviewController (e2e)', () => {
     );
     await app.init();
   });
-  afterEach(() => app.close());
+  afterEach(async () => await app.close());
   afterAll(async () => await DatabaseHelper.dropDatabase());
 
   it('/reviews (GET) Should return a list of reviews', async () => {
