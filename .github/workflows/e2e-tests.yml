@@ -39,3 +39,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: an_review_test
+      redis:
+        image: redis
+          ports:
+            - 6379:6379
