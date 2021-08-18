@@ -1,3 +1,4 @@
+import { InjectQueue } from '@nestjs/bull';
 import {
   BadRequestException,
   Injectable,
@@ -6,6 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BcryptService } from '@shared/services/bcrypt.service';
+import { Queue } from 'bull';
 import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,6 +23,7 @@ export class UserService implements OnApplicationBootstrap {
   private storage: IUserStorage;
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectQueue('avatar-compression') private avatarQueue: Queue,
     private bcrypt: BcryptService,
     private configService: ConfigService,
   ) {
@@ -78,8 +81,7 @@ export class UserService implements OnApplicationBootstrap {
   }
 
   async upload(uuid: string, file: Express.Multer.File) {
-    const url = await this.storage.uploadAvatar(file);
-    await this.userRepository.update(uuid, { avatar: url });
-    return this.userRepository.findOne(uuid);
+    await this.avatarQueue.add({ userUuid: uuid, path: file.path });
+    return 'the image will be available soon';
   }
 }

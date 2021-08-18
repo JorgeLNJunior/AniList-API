@@ -29,6 +29,7 @@ import {
 import { IsAdminGuard } from '@shared/guards/isAdmin.guard';
 import { BadRequestResponse } from '@shared/responses/badRequest.response';
 import { ForbiddenResponse } from '@shared/responses/forbidden.response';
+import { MessageResponse } from '@shared/responses/message.response';
 import { TooManyRequestsResponse } from '@shared/responses/tooManyRequests.response';
 import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 
@@ -115,7 +116,7 @@ export class AnimeController {
     return new DeleteAnimeResponse().build();
   }
 
-  @ApiOkResponse({ description: 'OK', type: UpdateAnimeResponse })
+  @ApiOkResponse({ description: 'OK', type: MessageResponse })
   @ApiForbiddenResponse({
     description: 'Forbidden',
     type: ForbiddenResponse,
@@ -125,13 +126,15 @@ export class AnimeController {
     type: UploadAnimeDto,
   })
   @UseGuards(new IsAdminGuard())
-  @UseInterceptors(FileInterceptor('cover', { limits: { fileSize: 1000000 } }))
+  @UseInterceptors(
+    FileInterceptor('cover', { limits: { fileSize: 3000000 }, dest: '.temp' }),
+  )
   @Post(':uuid/upload')
   async upload(
     @Param('uuid') uuid: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const anime = await this.animeService.upload(uuid, file);
-    return new UpdateAnimeResponse(anime).build();
+    const message = await this.animeService.upload(uuid, file);
+    return { message: message };
   }
 }

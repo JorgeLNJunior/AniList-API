@@ -1,5 +1,7 @@
+import { InjectQueue } from '@nestjs/bull';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Queue } from 'bull';
 import { Repository } from 'typeorm';
 
 import { CreateAnimeDto } from './dto/create-anime.dto';
@@ -16,6 +18,7 @@ export class AnimeService {
 
   constructor(
     @InjectRepository(Anime) private animeRepository: Repository<Anime>,
+    @InjectQueue('cover-compression') private coverQueue: Queue,
   ) {
     this.storage = AnimeStorage.getInstance();
   }
@@ -77,9 +80,7 @@ export class AnimeService {
   }
 
   async upload(uuid: string, file: Express.Multer.File) {
-    const url = await this.storage.uploadCover(file);
-
-    await this.animeRepository.update(uuid, { cover: url });
-    return this.animeRepository.findOne(uuid);
+    await this.coverQueue.add({ animeUuid: uuid, path: file.path });
+    return 'the image will be available soon';
   }
 }

@@ -2,6 +2,7 @@ import { Constants } from '@config/constants';
 import { AuthModule } from '@modules/auth/auth.module';
 import { HealthModule } from '@modules/health/health.module';
 import { UserModule } from '@modules/user/user.module';
+import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
@@ -9,6 +10,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AnimeModule } from './modules/anime/anime.module';
+import { JobModule } from './modules/job/job.module';
 import { ReviewModule } from './modules/review/review.module';
 
 @Module({
@@ -18,6 +20,7 @@ import { ReviewModule } from './modules/review/review.module';
     AnimeModule,
     ReviewModule,
     HealthModule,
+    JobModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
@@ -28,6 +31,9 @@ import { ReviewModule } from './modules/review/review.module';
     }),
     TypeOrmModule.forRootAsync({
       useFactory: () => Constants.databaseConfig(),
+    }),
+    BullModule.forRootAsync({
+      useFactory: () => ({ redis: Constants.redisConfig() }),
     }),
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],

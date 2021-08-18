@@ -50,4 +50,12 @@ export class Constants {
       secure: true,
     };
   }
+
+  static redisConfig() {
+    const configService = new ConfigService();
+    return {
+      host: configService.get<string>('REDIS_HOST'),
+      port: configService.get<number>('REDIS_PORT'),
+    };
+  }
 }

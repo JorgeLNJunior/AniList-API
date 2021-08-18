@@ -28,6 +28,7 @@ import {
 } from '@nestjs/swagger';
 import { BadRequestResponse } from '@shared/responses/badRequest.response';
 import { ForbiddenResponse } from '@shared/responses/forbidden.response';
+import { MessageResponse } from '@shared/responses/message.response';
 import { TooManyRequestsResponse } from '@shared/responses/tooManyRequests.response';
 import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 
@@ -94,7 +95,7 @@ export class UserController {
     return new DeleteUserResponse().build();
   }
 
-  @ApiOkResponse({ description: 'OK', type: UpdateUserResponse })
+  @ApiOkResponse({ description: 'OK', type: MessageResponse })
   @ApiForbiddenResponse({
     description: 'Forbidden',
     type: ForbiddenResponse,
@@ -104,10 +105,12 @@ export class UserController {
     type: UploadUserDto,
   })
   @Post('upload')
-  @UseInterceptors(FileInterceptor('avatar', { limits: { fileSize: 1000000 } }))
+  @UseInterceptors(
+    FileInterceptor('avatar', { limits: { fileSize: 3000000 }, dest: '.temp' }),
+  )
   async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {
     const { uuid } = req.user;
-    const user = await this.userService.upload(uuid, file);
-    return new UpdateUserResponse(user).build();
+    const message = await this.userService.upload(uuid, file);
+    return { message: message };
   }
 }

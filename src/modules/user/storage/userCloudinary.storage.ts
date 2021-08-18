@@ -4,7 +4,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { IUserStorage } from './user.storage.interface';
 
 export class UserCloudinaryStorage implements IUserStorage {
-  uploadAvatar(file: Express.Multer.File): Promise<string> {
+  uploadAvatar(buffer: Buffer): Promise<string> {
     const config = Constants.cloudinaryConfig();
     cloudinary.config(config);
     return new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ export class UserCloudinaryStorage implements IUserStorage {
             resolve(result.url);
           }
         })
-        .end(file.buffer);
+        .end(buffer);
     });
   }
 }
