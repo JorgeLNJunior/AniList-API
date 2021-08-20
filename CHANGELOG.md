@@ -1,3 +1,34 @@
+### 0.4.0 (2021-08-20)
+
+##### Build System / Dependencies
+
+*  verificar se o pm2 já está instalado (88ba154f)
+*  usar o pm2 em produção (8f652f03)
+* **deps:**  atualizar várias dependências (726cf3e0)
+
+##### Continuous Integration
+
+* **fix:**
+  *  corrigir identação da action de testes (4386c40b)
+  *  adicionar o redis a action de testes (6e475af0)
+*  remover actions de build (ceb874ee)
+
+##### Documentation Changes
+
+*  adicionar o link do frontend no readme (4feb6ad6)
+
+##### New Features
+
+*  implementar filas para comprimir imagens (65075cbf)
+*  retornar os top 10 animes (1d7ed2ce)
+*  adicionar o parametro userUuid a query de reviews (f4835852)
+
+##### Tests
+
+* **fix:**  correção temporária para o módulo Bull que não encerra (9a7c5e18)
+*  retornar os top 10 animes (1a12d036)
+*  adicionar o parametro userUuid a query de reviews (0aa7a419)
+
 ### 0.3.0 (2021-08-09)
 
 ##### Build System / Dependencies
