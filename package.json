@@ -6,7 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "postinstall": "npm install pm2@latest -g",
+    "postinstall": "npm list -g pm2@latest || npm install pm2@latest -g",
     "prepare": "husky install",
     "prebuild": "rimraf dist",
     "build": "nest build",
