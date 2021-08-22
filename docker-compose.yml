@@ -6,12 +6,23 @@ services:
     image: mysql:8
     restart: on-failure
     volumes:
-      - ./data:/data/db
+      - ./data/db:/data/db
     ports:
       - "${DB_PORT}:${DB_PORT}"
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
+    env_file:
+      - .env
+
+  redis:
+    container_name: redis-container
+    image: redis
+    restart: on-failure
+    volumes:
+      - ./data/redis:/data/redis
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
     env_file:
       - .env
 
@@ -25,21 +36,22 @@ services:
       "mysql-container:$DB_PORT",
       "--timeout=300",
       "--",
-      "npm",
-      "run",
-      "start:prod"
+      "pm2-runtime",
+      "dist/src/main.js",
     ]
     volumes:
       - ./dist:/usr/app/animes-review-api/dist
       - ./public:/usr/app/animes-review-api/public
     ports:
-      - "3000:3000"
+      - "${PORT}:${PORT}"
     links:
       - mysql
+      - redis
     depends_on:
       - mysql
+      - redis
     environment:
       DB_HOST: mysql-container
-      WAIT_HOSTS: mysql-container:${DB_PORT}
+      REDIS_HOST: redis-container
     env_file:
       - .env
