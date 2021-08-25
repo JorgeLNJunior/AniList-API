@@ -12,6 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnimeModule } from './modules/anime/anime.module';
 import { JobModule } from './modules/job/job.module';
 import { ReviewModule } from './modules/review/review.module';
+import { ChatModule } from './websocket/chat/chat.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ReviewModule } from './modules/review/review.module';
     ReviewModule,
     HealthModule,
     JobModule,
+    ChatModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
