@@ -10,7 +10,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AnimeModule } from './modules/anime/anime.module';
-import { JobModule } from './modules/job/job.module';
+import { QueueModule } from './modules/queue/queue.module';
 import { ReviewModule } from './modules/review/review.module';
 import { ChatModule } from './websocket/chat/chat.module';
 
@@ -21,7 +21,7 @@ import { ChatModule } from './websocket/chat/chat.module';
     AnimeModule,
     ReviewModule,
     HealthModule,
-    JobModule,
+    QueueModule,
     ChatModule,
     ConfigModule.forRoot({
       isGlobal: true,

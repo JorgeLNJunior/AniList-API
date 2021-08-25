@@ -1,4 +1,4 @@
-import { JobModule } from '@modules/job/job.module';
+import { QueueModule } from '@modules/queue/queue.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BcryptService } from '@shared/services/bcrypt.service';
@@ -8,7 +8,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), JobModule],
+  imports: [TypeOrmModule.forFeature([User]), QueueModule],
   controllers: [UserController],
   providers: [UserService, BcryptService],
   exports: [UserService],

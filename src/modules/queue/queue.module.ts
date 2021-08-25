@@ -18,4 +18,4 @@ import { CoverCompressConsumer } from './consumers/cover.consumer';
   providers: [CoverCompressConsumer, AvatarCompressConsumer],
   exports: [BullModule],
 })
-export class JobModule {}
+export class QueueModule {}
