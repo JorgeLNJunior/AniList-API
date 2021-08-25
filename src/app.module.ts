@@ -10,8 +10,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AnimeModule } from './modules/anime/anime.module';
-import { QueueModule } from './modules/queue/queue.module';
 import { ReviewModule } from './modules/review/review.module';
+import { QueueModule } from './shared/modules/queue/queue.module';
 import { ChatModule } from './websocket/chat/chat.module';
 
 @Module({

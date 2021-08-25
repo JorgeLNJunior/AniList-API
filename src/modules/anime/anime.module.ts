@@ -1,6 +1,6 @@
-import { QueueModule } from '@modules/queue/queue.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { QueueModule } from '@shared/modules/queue/queue.module';
 
 import { AnimeController } from './anime.controller';
 import { AnimeService } from './anime.service';

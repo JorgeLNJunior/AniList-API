@@ -1,6 +1,6 @@
-import { QueueModule } from '@modules/queue/queue.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { QueueModule } from '@shared/modules/queue/queue.module';
 import { BcryptService } from '@shared/services/bcrypt.service';
 
 import { User } from './entities/user.entity';
