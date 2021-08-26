@@ -4,6 +4,7 @@ import { IUserStorage } from '@modules/user/storage/user.storage.interface';
 import { Process, Processor } from '@nestjs/bull';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from 'bull';
+import { rmSync } from 'fs';
 import * as sharp from 'sharp';
 import { Repository } from 'typeorm';
 
@@ -26,6 +27,8 @@ export class AvatarCompressConsumer {
     const url = await this.storeCover(buffer);
 
     await this.updateAvatar(job.data.userUuid, url);
+
+    this.deleteTempFile(job.data.path);
   }
 
   private async storeCover(buffer: Buffer) {
@@ -34,6 +37,10 @@ export class AvatarCompressConsumer {
 
   private async updateAvatar(uuid: string, url: string) {
     await this.userRepository.update(uuid, { avatar: url });
+  }
+
+  private deleteTempFile(path: string) {
+    rmSync(path, { force: true });
   }
 }
 
