@@ -3,11 +3,12 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { HealthModule } from '@modules/health/health.module';
 import { UserModule } from '@modules/user/user.module';
 import { BullModule } from '@nestjs/bull';
-import { Module } from '@nestjs/common';
+import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { existsSync, mkdirSync } from 'fs';
 
 import { AnimeModule } from './modules/anime/anime.module';
 import { ReviewModule } from './modules/review/review.module';
@@ -40,4 +41,15 @@ import { ChatModule } from './websocket/chat/chat.module';
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
-export class AppModule {}
+export class AppModule implements OnApplicationBootstrap {
+  onApplicationBootstrap() {
+    if (!existsSync('.temp')) {
+      mkdirSync('.temp');
+    }
+    if (!existsSync('public')) {
+      mkdirSync('public');
+      mkdirSync('public/anime/cover', { recursive: true });
+      mkdirSync('public/user/avatar', { recursive: true });
+    }
+  }
+}
