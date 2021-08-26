@@ -19,4 +19,20 @@ export class AnimeLocalStorage implements IAnimeStorage {
       });
     });
   }
+
+  deleteOldCover(url: string) {
+    return new Promise<void>((resolve, reject) => {
+      const fileName = url.split('/').pop();
+      fs.unlink(
+        `${path.resolve('public', 'anime', 'cover')}/${fileName}`,
+        (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        },
+      );
+    });
+  }
 }

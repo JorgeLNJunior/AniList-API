@@ -22,6 +22,9 @@ export class CoverCompressConsumer {
 
   @Process()
   async compress(job: Job<CoverCompressJob>) {
+    // eslint-disable-next-line prettier/prettier
+    const oldCover = (await this.animeRepository.findOne(job.data.animeUuid)).cover;
+
     const buffer = await sharp(job.data.path)
       .jpeg({ mozjpeg: true })
       .toBuffer();
@@ -29,6 +32,8 @@ export class CoverCompressConsumer {
     const url = await this.storeCover(buffer);
 
     await this.updateCover(job.data.animeUuid, url);
+
+    await this.deleteOldCover(oldCover);
 
     this.deleteTempFile(job.data.path);
   }
@@ -44,6 +49,12 @@ export class CoverCompressConsumer {
 
   private async updateCover(uuid: string, url: string) {
     await this.animeRepository.update(uuid, { cover: url });
+  }
+
+  private async deleteOldCover(coverUrl: string) {
+    if (coverUrl) {
+      await this.animeStorage.deleteOldCover(coverUrl);
+    }
   }
 
   private deleteTempFile(path: string) {

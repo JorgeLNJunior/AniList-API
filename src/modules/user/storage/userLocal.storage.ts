@@ -19,4 +19,20 @@ export class UserLocalStorage implements IUserStorage {
       });
     });
   }
+
+  deleteOldAvatar(url: string) {
+    return new Promise<void>((resolve, reject) => {
+      const fileName = url.split('/').pop();
+      fs.unlink(
+        `${path.resolve('public', 'user', 'avatar')}/${fileName}`,
+        (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        },
+      );
+    });
+  }
 }

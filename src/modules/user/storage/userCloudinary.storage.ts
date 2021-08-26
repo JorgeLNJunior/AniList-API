@@ -19,4 +19,16 @@ export class UserCloudinaryStorage implements IUserStorage {
         .end(buffer);
     });
   }
+
+  deleteOldAvatar(url: string) {
+    return new Promise<void>((resolve, reject) => {
+      const fileId = url.split('/').pop().split('.').shift();
+      cloudinary.uploader.destroy(fileId, {}, (error) => {
+        if (error) {
+          reject(error);
+        }
+        resolve();
+      });
+    });
+  }
 }

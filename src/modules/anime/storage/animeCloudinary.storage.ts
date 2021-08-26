@@ -19,4 +19,16 @@ export class AnimeCloudinaryStorage implements IAnimeStorage {
         .end(buffer);
     });
   }
+
+  deleteOldCover(url: string) {
+    return new Promise<void>((resolve, reject) => {
+      const fileId = url.split('/').pop().split('.').shift();
+      cloudinary.uploader.destroy(fileId, {}, (error) => {
+        if (error) {
+          reject(error);
+        }
+        resolve();
+      });
+    });
+  }
 }

@@ -22,6 +22,9 @@ export class AvatarCompressConsumer {
 
   @Process()
   async compress(job: Job<AvatarCompressJob>) {
+    // eslint-disable-next-line prettier/prettier
+    const oldAvatar = (await this.userRepository.findOne(job.data.userUuid)).avatar
+
     const buffer = await sharp(job.data.path)
       .jpeg({ mozjpeg: true })
       .toBuffer();
@@ -29,6 +32,8 @@ export class AvatarCompressConsumer {
     const url = await this.storeCover(buffer);
 
     await this.updateAvatar(job.data.userUuid, url);
+
+    await this.deleteOldAvatar(oldAvatar);
 
     this.deleteTempFile(job.data.path);
   }
@@ -44,6 +49,12 @@ export class AvatarCompressConsumer {
 
   private async updateAvatar(uuid: string, url: string) {
     await this.userRepository.update(uuid, { avatar: url });
+  }
+
+  private async deleteOldAvatar(avatarUrl: string) {
+    if (avatarUrl) {
+      await this.userStorage.deleteOldAvatar(avatarUrl);
+    }
   }
 
   private deleteTempFile(path: string) {
