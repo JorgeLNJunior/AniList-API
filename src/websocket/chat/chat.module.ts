@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
 import { ChatGateway } from './chat.gateway';
-import { WebSocketAuthGuard } from './guards/websocket.guard';
+import { WebSocketAuthGuard } from './guards/websocketAuth.guard';
 
 @Module({
   imports: [

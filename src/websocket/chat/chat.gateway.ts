@@ -6,7 +6,7 @@ import {
   WebSocketGateway,
 } from '@nestjs/websockets';
 
-import { WebSocketAuthGuard } from './guards/websocket.guard';
+import { WebSocketAuthGuard } from './guards/websocketAuth.guard';
 
 @WebSocketGateway()
 export class ChatGateway {
