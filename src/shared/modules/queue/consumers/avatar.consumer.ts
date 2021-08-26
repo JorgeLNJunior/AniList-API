@@ -1,7 +1,8 @@
 import { User } from '@modules/user/entities/user.entity';
 import { UserStorage } from '@modules/user/storage/user.storage';
 import { IUserStorage } from '@modules/user/storage/user.storage.interface';
-import { Process, Processor } from '@nestjs/bull';
+import { OnQueueError, Process, Processor } from '@nestjs/bull';
+import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from 'bull';
 import { rmSync } from 'fs';
@@ -17,6 +18,7 @@ export class AvatarCompressConsumer {
   }
 
   private userStorage: IUserStorage;
+  private readonly logger = new Logger(AvatarCompressConsumer.name);
 
   @Process()
   async compress(job: Job<AvatarCompressJob>) {
@@ -29,6 +31,11 @@ export class AvatarCompressConsumer {
     await this.updateAvatar(job.data.userUuid, url);
 
     this.deleteTempFile(job.data.path);
+  }
+
+  @OnQueueError()
+  onError(error: Error) {
+    this.logger.error('Error when process a queue', error.message);
   }
 
   private async storeCover(buffer: Buffer) {

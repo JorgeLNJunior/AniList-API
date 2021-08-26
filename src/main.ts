@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ConsoleLogger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as express from 'express';
@@ -21,6 +21,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.useLogger(new ConsoleLogger());
 
   const config = new DocumentBuilder()
     .setTitle(name)

@@ -3,7 +3,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { HealthModule } from '@modules/health/health.module';
 import { UserModule } from '@modules/user/user.module';
 import { BullModule } from '@nestjs/bull';
-import { Module, OnApplicationBootstrap } from '@nestjs/common';
+import { Logger, Module, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -42,14 +42,20 @@ import { ChatModule } from './websocket/chat/chat.module';
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule implements OnApplicationBootstrap {
+  private readonly logger = new Logger(AppModule.name);
+
   onApplicationBootstrap() {
-    if (!existsSync('.temp')) {
-      mkdirSync('.temp');
-    }
-    if (!existsSync('public')) {
-      mkdirSync('public');
-      mkdirSync('public/anime/cover', { recursive: true });
-      mkdirSync('public/user/avatar', { recursive: true });
+    try {
+      if (!existsSync('.temp')) {
+        mkdirSync('.temp');
+      }
+      if (!existsSync('public')) {
+        mkdirSync('public');
+        mkdirSync('public/anime/cover', { recursive: true });
+        mkdirSync('public/user/avatar', { recursive: true });
+      }
+    } catch (error) {
+      this.logger.error('Error when creating files directories', error.message);
     }
   }
 }

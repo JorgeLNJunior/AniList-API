@@ -1,9 +1,11 @@
 import { Anime } from '@modules/anime/entities/anime.entity';
 import { AnimeStorage } from '@modules/anime/storage/anime.storage';
 import { IAnimeStorage } from '@modules/anime/storage/anime.storage.interface';
-import { Process, Processor } from '@nestjs/bull';
+import { OnQueueError, Process, Processor } from '@nestjs/bull';
+import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from 'bull';
+import { rmSync } from 'fs';
 import * as sharp from 'sharp';
 import { Repository } from 'typeorm';
 
@@ -16,6 +18,7 @@ export class CoverCompressConsumer {
   }
 
   private animeStorage: IAnimeStorage;
+  private readonly logger = new Logger(CoverCompressConsumer.name);
 
   @Process()
   async compress(job: Job<CoverCompressJob>) {
@@ -26,6 +29,13 @@ export class CoverCompressConsumer {
     const url = await this.storeCover(buffer);
 
     await this.updateCover(job.data.animeUuid, url);
+
+    this.deleteTempFile(job.data.path);
+  }
+
+  @OnQueueError()
+  onError(error: Error) {
+    this.logger.error('Error when process a queue', error.message);
   }
 
   private async storeCover(buffer: Buffer) {
@@ -34,6 +44,10 @@ export class CoverCompressConsumer {
 
   private async updateCover(uuid: string, url: string) {
     await this.animeRepository.update(uuid, { cover: url });
+  }
+
+  private deleteTempFile(path: string) {
+    rmSync(path, { force: true });
   }
 }
 
