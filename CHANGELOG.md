@@ -1,3 +1,30 @@
+### 0.5.0 (2021-08-27)
+
+##### Build System / Dependencies
+
+* **deps:**  atualizar algumas dependências (2361a7ec)
+*  alterar nome da guarda de autenticação para websockets (bb491551)
+*  criar diretórios necessário ao iniciar a aplicação (9ea62d7b)
+*  setar a porta por variável de ambiente (534a371f)
+* **dev:**  atualizar os container docker (75865e76)
+
+##### Chores
+
+*  deletar arquivos substituídos (3a636a43)
+*  retornar erro no websocket se não estiver autenticado (c0352f9e)
+*  deletar arquivos temporários (1046d290)
+* **log:**  criar log básico para queues e jobs (71e4906f)
+
+##### New Features
+
+*  criar chat em tempo real (0a7507c6)
+
+##### Refactors
+
+*  mover o queue module para shared (83f3e76c)
+*  renomear o módulo job para queue (deb5b34e)
+*  habilitar o cors diretamente pelo nest (31c7ab20)
+
 ### 0.4.0 (2021-08-20)
 
 ##### Build System / Dependencies
