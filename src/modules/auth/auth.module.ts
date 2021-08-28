@@ -1,8 +1,10 @@
 import { Constants } from '@config/constants';
+import { User } from '@modules/user/entities/user.entity';
 import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { QueueModule } from '@shared/modules/queue/queue.module';
 import { BcryptService } from '@shared/services/bcrypt.service';
 
@@ -19,6 +21,7 @@ import { LocalStrategy } from './strategy/local.strategy';
     JwtModule.registerAsync({
       useFactory: () => Constants.jwtOptions(),
     }),
+    TypeOrmModule.forFeature([User]),
   ],
   controllers: [AuthController],
   providers: [
