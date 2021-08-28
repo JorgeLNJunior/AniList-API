@@ -31,7 +31,7 @@ export class SendgridMailService implements IMailService {
       from: sender,
       subject: 'Email confirmation',
       html: `
-        <h1>Hello! ${user.name}</h1>
+        <h3>Hello! ${user.name}</h3>
         Please confirm your email address
         <br />
         <a href="${url}" target="__blank">

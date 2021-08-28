@@ -1,23 +1,24 @@
 import { CreateUserDto } from '@modules/user/dto/create-user.dto';
 import { User } from '@modules/user/entities/user.entity';
 import { UserService } from '@modules/user/user.service';
+import { InjectQueue } from '@nestjs/bull';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from '@shared/services/bcrypt.service';
-import { MailService } from '@shared/services/mail/mail.service';
+import { Queue } from 'bull';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectQueue('email') private mailQueue: Queue,
     private userService: UserService,
     private bcrypt: BcryptService,
     private jwt: JwtService,
-    private mailService: MailService,
   ) {}
 
   async register(createUserDto: CreateUserDto) {
     const user = await this.userService.create(createUserDto);
-    await this.mailService.sendConfirmationEmail(user);
+    await this.mailQueue.add('email-confirmation', { user: user });
     return user;
   }
 
