@@ -23,6 +23,7 @@ import { UnauthorizedResponse } from '@shared/responses/unauthorized.response';
 import { AuthService } from './auth.service';
 import { EmailConfirmationDto } from './dto/email-confirmation.dto';
 import { LoginDto } from './dto/login.dto';
+import { EmailConfirmationGuard } from './guard/emailConfirmation.guard';
 import { EmailConfirmationResponse } from './responses/emailConfirmation.response';
 import { LoginResponse } from './responses/login.response';
 import { RegisterResponse } from './responses/register.response';
@@ -53,7 +54,7 @@ export class AuthController {
     description: 'Invalid credentials',
     type: UnauthorizedResponse,
   })
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(AuthGuard('local'), EmailConfirmationGuard)
   @HttpCode(200)
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Req() req) {
