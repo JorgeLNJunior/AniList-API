@@ -39,17 +39,16 @@ export class AuthService {
   }
 
   async confirmEmail(dto: EmailConfirmationDto) {
-    const uuid = this.decodeToken(dto.token);
-    const user = await this.userRepository.findOne(uuid);
-    if (!user) throw new BadRequestException('user not found');
+    const email = this.decodeToken(dto.token);
+    const user = await this.userRepository.findOne({ email: email });
+    if (!user) {
+      throw new BadRequestException('user not found');
+    }
     if (user.isEmailConfirmed) {
       throw new BadRequestException('email already confirmed');
     }
 
-    await this.userRepository.update(
-      { uuid: uuid },
-      { isEmailConfirmed: true },
-    );
+    await this.userRepository.update(user.uuid, { isEmailConfirmed: true });
   }
 
   async validateUser(email: string, password: string) {
@@ -73,7 +72,7 @@ export class AuthService {
       const payload = this.jwt.verify(token, {
         secret: this.configService.get<string>('JWT_VERIFICATION_TOKEN_SECRET'),
       });
-      return payload.uuid;
+      return payload.email;
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         throw new BadRequestException('Email confirmation token expired');
