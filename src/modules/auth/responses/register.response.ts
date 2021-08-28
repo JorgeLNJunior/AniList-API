@@ -2,13 +2,17 @@ import { User } from '@modules/user/entities/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterResponse {
-  constructor(user: User, status?: number) {
+  constructor(user: User, status?: number, message?: string) {
     this.user = user;
     this.status = status || 201;
+    this.message = message || 'please confirm your email address';
   }
 
   @ApiProperty({ default: 201 })
   private status: number;
+
+  @ApiProperty({ default: 'please confirm your email address' })
+  private message: string;
 
   @ApiProperty({
     example: {
@@ -25,6 +29,7 @@ export class RegisterResponse {
     return {
       statusCode: this.status,
       user: this.user,
+      message: this.message,
     };
   }
 }

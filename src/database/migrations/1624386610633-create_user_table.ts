@@ -39,6 +39,11 @@ export class createUserTable1624386610633 implements MigrationInterface {
             type: 'boolean',
             default: false,
           },
+          {
+            name: 'isEmailConfirmed',
+            type: 'boolean',
+            default: false,
+          },
         ],
       }),
       true,

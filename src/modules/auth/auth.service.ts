@@ -4,6 +4,7 @@ import { UserService } from '@modules/user/user.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from '@shared/services/bcrypt.service';
+import { MailService } from '@shared/services/mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -11,10 +12,13 @@ export class AuthService {
     private userService: UserService,
     private bcrypt: BcryptService,
     private jwt: JwtService,
+    private mailService: MailService,
   ) {}
 
   async register(createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+    const user = await this.userService.create(createUserDto);
+    await this.mailService.sendConfirmationEmail(user);
+    return user;
   }
 
   async validateUser(email: string, password: string) {

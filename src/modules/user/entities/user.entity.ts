@@ -23,4 +23,7 @@ export class User {
 
   @Column({ nullable: true, default: false })
   isAdmin: boolean;
+
+  @Column({ default: false })
+  isEmailConfirmed: boolean;
 }
