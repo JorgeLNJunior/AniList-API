@@ -11,7 +11,9 @@
     "@modules/(.*)": "<rootDir>/src/modules/$1",
     "@shared/(.*)": "<rootDir>/src/shared/$1",
     "@src/(.*)": "<rootDir>/src/$1",
-    "@config/(.*)": "<rootDir>/src/config/$1"
+    "@config/(.*)": "<rootDir>/src/config/$1",
+    "@http/(.*)": "<rootDir>/src/http/$1",
+    "@websocket/(.*)": "<rootDir>/src/websocket/$1"
   },
   "testTimeout": 20000,
   "collectCoverageFrom": [

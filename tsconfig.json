@@ -14,7 +14,9 @@
       "@modules/*": ["src/modules/*"],
       "@config/*": ["src/config/*"],
       "@shared/*": ["src/shared/*"],
-      "@src/*": ["src/*"]
+      "@src/*": ["src/*"],
+      "@http/*": ["src/http/*"],
+      "@websocket/*": ["src/websocket/*"]
     },
     "incremental": true,
     "resolveJsonModule": true

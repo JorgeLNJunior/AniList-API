@@ -1,7 +1,9 @@
 import { Constants } from '@config/constants';
-import { AuthModule } from '@modules/auth/auth.module';
-import { HealthModule } from '@modules/health/health.module';
-import { UserModule } from '@modules/user/user.module';
+import { AnimeModule } from '@http/modules/anime/anime.module';
+import { AuthModule } from '@http/modules/auth/auth.module';
+import { HealthModule } from '@http/modules/health/health.module';
+import { ReviewModule } from '@http/modules/review/review.module';
+import { UserModule } from '@http/modules/user/user.module';
 import { BullModule } from '@nestjs/bull';
 import { Logger, Module, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -11,9 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { existsSync, mkdirSync } from 'fs';
 import * as Joi from 'joi';
 
-import { AnimeModule } from './modules/anime/anime.module';
-import { ReviewModule } from './modules/review/review.module';
-import { QueueModule } from './shared/modules/queue/queue.module';
+import { QueueModule } from './http/shared/modules/queue/queue.module';
 import { ChatModule } from './websocket/chat/chat.module';
 
 @Module({

@@ -1,5 +1,5 @@
 import { User } from '@modules/user/entities/user.entity';
-import { BcryptService } from '@shared/services/bcrypt.service';
+import { BcryptService } from '@src/http/shared/services/bcrypt.service';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
 
