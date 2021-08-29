@@ -1,4 +1,4 @@
-import { Anime } from '@modules/anime/entities/anime.entity';
+import { Anime } from '@http/modules/anime/entities/anime.entity';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
 

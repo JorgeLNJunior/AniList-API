@@ -1,6 +1,6 @@
-import { Anime } from '@modules/anime/entities/anime.entity';
-import { Review } from '@modules/review/entities/review.entity';
-import { User } from '@modules/user/entities/user.entity';
+import { Anime } from '@http/modules/anime/entities/anime.entity';
+import { Review } from '@http/modules/review/entities/review.entity';
+import { User } from '@http/modules/user/entities/user.entity';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
 

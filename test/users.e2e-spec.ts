@@ -1,4 +1,4 @@
-import { User } from '@modules/user/entities/user.entity';
+import { User } from '@http/modules/user/entities/user.entity';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';

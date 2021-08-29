@@ -1,5 +1,5 @@
-import { User } from '@modules/user/entities/user.entity';
-import { BcryptService } from '@src/http/shared/services/bcrypt.service';
+import { User } from '@http/modules/user/entities/user.entity';
+import { BcryptService } from '@http/shared/services/bcrypt.service';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
 
@@ -9,6 +9,8 @@ export class UserBuilder {
     email: faker.internet.email(),
     password: faker.internet.password(6),
     avatar: faker.internet.avatar(),
+    isAdmin: false,
+    isEmailConfirmed: false,
   };
 
   static aUser() {
@@ -45,6 +47,11 @@ export class UserBuilder {
     return this;
   }
 
+  withEmailConfirmed() {
+    this.user.isEmailConfirmed = true;
+    return this;
+  }
+
   withPassword(password: string) {
     this.user.password = password;
     return this;
@@ -70,4 +77,6 @@ export interface FakeUser {
   email: string;
   password: string;
   avatar?: string;
+  isAdmin?: boolean;
+  isEmailConfirmed?: boolean;
 }

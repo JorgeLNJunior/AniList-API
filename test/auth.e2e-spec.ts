@@ -7,7 +7,7 @@ import * as request from 'supertest';
 import { UserBuilder } from './builder/User.builder';
 import { DatabaseHelper } from './helpers/database.helper';
 
-describe('AppController (e2e)', () => {
+describe('AuthController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -131,6 +131,7 @@ describe('AppController (e2e)', () => {
       .withEmail(email)
       .withPassword(password)
       .withoutAvatar()
+      .withEmailConfirmed()
       .persist();
 
     const { status, body } = await request(app.getHttpServer())
