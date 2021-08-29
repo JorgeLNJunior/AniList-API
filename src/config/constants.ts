@@ -34,9 +34,9 @@ export class Constants {
   static jwtOptions(): JwtModuleOptions {
     const configService = new ConfigService();
     return {
-      secret: configService.get<string>('APP_SECRET'),
+      secret: configService.get<string>('JWT_SECRET'),
       signOptions: {
-        expiresIn: configService.get<string>('TOKEN_EXP'),
+        expiresIn: configService.get<string>('JWT_EXPIRES'),
       },
     };
   }

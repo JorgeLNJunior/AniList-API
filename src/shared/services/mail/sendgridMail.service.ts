@@ -14,7 +14,7 @@ export class SendgridMailService implements IMailService {
   ) {}
 
   async sendConfirmationEmail(user: User): Promise<void> {
-    const apiKey = this.configService.get('SENDGRID_KEY');
+    const apiKey = this.configService.get('SENDGRID_API_KEY');
     const sender = this.configService.get('SENDGRID_SENDER');
     const tokenSecret = this.configService.get('JWT_VERIFICATION_TOKEN_SECRET');
     const tokenExp = this.configService.get('JWT_VERIFICATION_TOKEN_EXPIRES');
