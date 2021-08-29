@@ -1,32 +1,20 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export class createReviewTable1625254721286 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'review',
-        foreignKeys: [
-          {
-            name: 'animeUuid',
-            columnNames: ['animeUuid'],
-            referencedTableName: 'anime',
-            referencedColumnNames: ['uuid'],
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
-          },
-          {
-            name: 'userUuid',
-            columnNames: ['userUuid'],
-            referencedTableName: 'user',
-            referencedColumnNames: ['uuid'],
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
-          },
-        ],
         columns: [
           {
             name: 'uuid',
             type: 'varchar',
+            length: '36',
             isPrimary: true,
             generationStrategy: 'uuid',
           },
@@ -43,10 +31,36 @@ export class createReviewTable1625254721286 implements MigrationInterface {
             name: 'rating',
             type: 'integer',
           },
+          {
+            name: 'animeUuid',
+            type: 'varchar',
+            length: '36',
+          },
+          {
+            name: 'userUuid',
+            type: 'varchar',
+            length: '36',
+          },
         ],
       }),
       true,
     );
+    await queryRunner.createForeignKeys('review', [
+      new TableForeignKey({
+        columnNames: ['animeUuid'],
+        referencedTableName: 'anime',
+        referencedColumnNames: ['uuid'],
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      }),
+      new TableForeignKey({
+        columnNames: ['userUuid'],
+        referencedTableName: 'user',
+        referencedColumnNames: ['uuid'],
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      }),
+    ]);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

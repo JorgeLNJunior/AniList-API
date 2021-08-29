@@ -11,6 +11,7 @@ export class createAnimeTable1624810395846 implements MigrationInterface {
             type: 'varchar',
             isPrimary: true,
             generationStrategy: 'uuid',
+            length: '36',
           },
           {
             name: 'title',
@@ -36,6 +37,11 @@ export class createAnimeTable1624810395846 implements MigrationInterface {
           {
             name: 'episodes',
             type: 'integer',
+            isNullable: false,
+          },
+          {
+            name: 'releaseDate',
+            type: 'varchar',
             isNullable: false,
           },
         ],

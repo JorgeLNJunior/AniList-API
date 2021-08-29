@@ -11,6 +11,7 @@ export class createUserTable1624386610633 implements MigrationInterface {
             type: 'varchar',
             generationStrategy: 'uuid',
             isPrimary: true,
+            length: '36',
           },
           {
             name: 'name',
@@ -31,8 +32,7 @@ export class createUserTable1624386610633 implements MigrationInterface {
             name: 'avatar',
             type: 'varchar',
             isNullable: true,
-            default:
-              'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
+            default: "'http://localhost:3000/user/avatar/default.jpg'",
           },
           {
             name: 'isAdmin',
