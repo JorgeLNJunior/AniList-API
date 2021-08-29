@@ -1,4 +1,3 @@
-import { Constants } from '@config/constants';
 import { User } from '@http/modules/user/entities/user.entity';
 import { UserModule } from '@http/modules/user/user.module';
 import { Module } from '@nestjs/common';
@@ -32,12 +31,6 @@ import { LocalStrategy } from './strategy/local.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    BcryptService,
-    LocalStrategy,
-    JwtStrategy,
-    Constants,
-  ],
+  providers: [AuthService, BcryptService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}

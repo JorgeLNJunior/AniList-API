@@ -1,12 +1,16 @@
-import { Constants } from '@config/constants';
-import { v2 as cloudinary } from 'cloudinary';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { ConfigOptions, v2 as cloudinary } from 'cloudinary';
 
 import { IAnimeStorage } from './anime.storage.interface';
 
+@Injectable()
 export class AnimeCloudinaryStorage implements IAnimeStorage {
+  constructor(private configService: ConfigService) {}
+
   uploadCover(buffer: Buffer): Promise<string> {
-    const config = Constants.cloudinaryConfig();
-    cloudinary.config(config);
+    cloudinary.config(this.getConfig());
+
     return new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream({ folder: 'an_review/anime/cover' }, (error, result) => {
@@ -30,5 +34,14 @@ export class AnimeCloudinaryStorage implements IAnimeStorage {
         resolve();
       });
     });
+  }
+
+  private getConfig() {
+    return {
+      cloud_name: this.configService.get<string>('CLOUDINARY_NAME'),
+      api_key: this.configService.get<string>('CLOUDINARY_KEY'),
+      api_secret: this.configService.get<string>('CLOUDINARY_SECRET'),
+      secure: true,
+    } as ConfigOptions;
   }
 }
