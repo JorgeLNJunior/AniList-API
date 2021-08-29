@@ -1,4 +1,4 @@
-import { IsUserAlreadyExist } from '@modules/user/decorators/isUserAlreadyExist.decorator';
+import { IsUserAlreadyExist } from '@http/modules/user/decorators/isUserAlreadyExist.decorator';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 

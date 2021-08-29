@@ -16,7 +16,8 @@
       "@shared/*": ["src/shared/*"],
       "@src/*": ["src/*"],
       "@http/*": ["src/http/*"],
-      "@websocket/*": ["src/websocket/*"]
+      "@websocket/*": ["src/websocket/*"],
+      "@database/*": ["src/database/*"]
     },
     "incremental": true,
     "resolveJsonModule": true

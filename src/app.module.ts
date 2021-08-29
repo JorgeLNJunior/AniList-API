@@ -1,17 +1,14 @@
-import { Constants } from '@config/constants';
 import { AnimeModule } from '@http/modules/anime/anime.module';
 import { AuthModule } from '@http/modules/auth/auth.module';
 import { HealthModule } from '@http/modules/health/health.module';
 import { ReviewModule } from '@http/modules/review/review.module';
 import { UserModule } from '@http/modules/user/user.module';
-import { BullModule } from '@nestjs/bull';
+import { BullModule } from '@modules/bull.module';
+import { ConfigModule } from '@modules/config.module';
+import { DatabaseModule } from '@modules/database.module';
+import { ThrottlerModule } from '@modules/throttler.module';
 import { Logger, Module, OnApplicationBootstrap } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { existsSync, mkdirSync } from 'fs';
-import * as Joi from 'joi';
 
 import { QueueModule } from './http/shared/modules/queue/queue.module';
 import { ChatModule } from './websocket/chat/chat.module';
@@ -25,49 +22,11 @@ import { ChatModule } from './websocket/chat/chat.module';
     HealthModule,
     QueueModule,
     ChatModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
-      validationSchema: Joi.object({
-        ADMIN_EMAIL: Joi.string().email().required(),
-        ADMIN_PASSWORD: Joi.string().required(),
-        JWT_SECRET: Joi.string().required(),
-        JWT_EXPIRES: Joi.string().required(),
-        JWT_VERIFICATION_TOKEN_SECRET: Joi.string().required(),
-        JWT_VERIFICATION_TOKEN_EXPIRES: Joi.string().required(),
-        EMAIL_CONFIRMATION_URL: Joi.string().required(),
-        MAIL_SERVICE: Joi.string().valid('fake', 'sendgrid').required(),
-        SENDGRID_SENDER: Joi.string().email().optional(),
-        SENDGRID_API_KEY: Joi.string().optional(),
-        STORAGE: Joi.string().valid('local', 'cloudinary').required(),
-        CLOUDINARY_NAME: Joi.string().optional(),
-        CLOUDINARY_KEY: Joi.string().optional(),
-        CLOUDINARY_SECRET: Joi.string().optional(),
-        REDIS_HOST: Joi.string().required(),
-        REDIS_PORT: Joi.number().required(),
-        DB_TYPE: Joi.string().required(),
-        DB_HOST: Joi.string().required(),
-        DB_PORT: Joi.number().required(),
-        DB_USER: Joi.string().required(),
-        DB_PASSWORD: Joi.string().required(),
-        DB_NAME: Joi.string().required(),
-        DB_SYNCHRONIZE: Joi.boolean().required(),
-        DB_MIGRATE: Joi.boolean().required(),
-        PORT: Joi.number().optional(),
-      }),
-    }),
-    ThrottlerModule.forRoot({
-      ttl: 60,
-      limit: 30,
-    }),
-    TypeOrmModule.forRootAsync({
-      useFactory: () => Constants.databaseConfig(),
-    }),
-    BullModule.forRootAsync({
-      useFactory: () => ({ redis: Constants.redisConfig() }),
-    }),
+    ConfigModule,
+    DatabaseModule,
+    BullModule,
+    ThrottlerModule,
   ],
-  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule implements OnApplicationBootstrap {
   private readonly logger = new Logger(AppModule.name);
