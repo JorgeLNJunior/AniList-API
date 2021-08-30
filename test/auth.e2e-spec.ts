@@ -1,3 +1,5 @@
+import { BullModule } from '@modules/bull.module';
+import { QueueModule } from '@modules/queue/queue.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
@@ -6,6 +8,7 @@ import * as request from 'supertest';
 
 import { UserBuilder } from './builder/User.builder';
 import { DatabaseHelper } from './helpers/database.helper';
+import { FakeModule } from './helpers/fake.module';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -13,7 +16,12 @@ describe('AuthController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(BullModule)
+      .useClass(FakeModule)
+      .overrideProvider(QueueModule)
+      .useClass(FakeModule)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(

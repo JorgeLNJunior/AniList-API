@@ -1,4 +1,6 @@
 import { User } from '@http/modules/user/entities/user.entity';
+import { BullModule } from '@modules/bull.module';
+import { QueueModule } from '@modules/queue/queue.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
@@ -9,6 +11,7 @@ import { AnimeBuilder } from './builder/Anime.builder';
 import { UserBuilder } from './builder/User.builder';
 import { AuthHelper } from './helpers/auth.helper';
 import { DatabaseHelper } from './helpers/database.helper';
+import { FakeModule } from './helpers/fake.module';
 
 describe('AnimeController (e2e)', () => {
   let app: INestApplication;
@@ -17,7 +20,12 @@ describe('AnimeController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(BullModule)
+      .useClass(FakeModule)
+      .overrideProvider(QueueModule)
+      .useClass(FakeModule)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(
