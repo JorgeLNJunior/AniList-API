@@ -10,7 +10,7 @@ import { ThrottlerModule } from '@modules/throttler.module';
 import { Logger, Module, OnApplicationBootstrap } from '@nestjs/common';
 import { existsSync, mkdirSync } from 'fs';
 
-import { QueueModule } from './http/shared/modules/queue/queue.module';
+import { QueueModule } from './modules/queue/queue.module';
 import { ChatModule } from './websocket/chat/chat.module';
 
 @Module({

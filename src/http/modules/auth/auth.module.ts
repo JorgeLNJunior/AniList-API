@@ -1,11 +1,11 @@
 import { User } from '@http/modules/user/entities/user.entity';
 import { UserModule } from '@http/modules/user/user.module';
+import { QueueModule } from '@modules/queue/queue.module';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { QueueModule } from '@src/http/shared/modules/queue/queue.module';
 import { BcryptService } from '@src/http/shared/services/bcrypt.service';
 
 import { AuthController } from './auth.controller';

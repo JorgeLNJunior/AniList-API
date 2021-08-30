@@ -1,5 +1,5 @@
-import { QueueModule } from '@http/shared/modules/queue/queue.module';
 import { BcryptService } from '@http/shared/services/bcrypt.service';
+import { QueueModule } from '@modules/queue/queue.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
