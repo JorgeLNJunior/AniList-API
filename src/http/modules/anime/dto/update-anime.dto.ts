@@ -17,7 +17,7 @@ export class UpdateAnimeDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  title: string;
+  title?: string;
 
   @ApiProperty({
     example: `Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid
@@ -27,7 +27,7 @@ export class UpdateAnimeDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(1000)
-  synopsis: string;
+  synopsis?: string;
 
   @ApiProperty({
     example: 'https://www.youtube.com/watch?v=MGRm4IzK1SQ',
@@ -36,7 +36,7 @@ export class UpdateAnimeDto {
   @IsNotEmpty()
   @IsString()
   @IsYoutubeUrl()
-  trailer: string;
+  trailer?: string;
 
   @ApiProperty({
     example: 75,
@@ -44,7 +44,7 @@ export class UpdateAnimeDto {
   @IsOptional()
   @IsNotEmpty()
   @IsNumber()
-  episodes: number;
+  episodes?: number;
 
   @ApiProperty({
     example: '2020-10-15',
@@ -55,5 +55,5 @@ export class UpdateAnimeDto {
   @Matches(/^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/i, {
     message: '$property must be formatted as yyyy-mm-dd',
   })
-  releaseDate: string;
+  releaseDate?: string;
 }
