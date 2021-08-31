@@ -79,8 +79,8 @@ export class AnimeService {
     await this.animeRepository.delete(uuid);
   }
 
-  async upload(uuid: string, file: Express.Multer.File) {
-    await this.coverQueue.add({ animeUuid: uuid, path: file.path });
+  async upload(uuid: string, path: string) {
+    await this.coverQueue.add({ animeUuid: uuid, path: path });
     return 'the image will be available soon';
   }
 }

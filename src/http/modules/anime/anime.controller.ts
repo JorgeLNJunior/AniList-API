@@ -134,7 +134,7 @@ export class AnimeController {
     @Param('uuid') uuid: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const message = await this.animeService.upload(uuid, file);
+    const message = await this.animeService.upload(uuid, file.path);
     return { message: message };
   }
 }
