@@ -86,6 +86,7 @@
     "@typescript-eslint/parser": "^4.29.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "faker": "^5.5.3",
@@ -112,9 +113,6 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "moduleNameMapper": {
@@ -125,7 +123,8 @@
       "@http/(.*)": "<rootDir>/src/http/$1",
       "@websocket/(.*)": "<rootDir>/src/websocket/$1",
       "@database/(.*)": "<rootDir>/src/database/$1"
-    }
+    },
+    "verbose": true
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --fix"
