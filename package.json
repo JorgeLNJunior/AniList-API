@@ -116,13 +116,13 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "moduleNameMapper": {
-      "@modules/(.*)": "<rootDir>/src/modules/$1",
-      "@shared/(.*)": "<rootDir>/src/shared/$1",
-      "@src/(.*)": "<rootDir>/src/$1",
-      "@config/(.*)": "<rootDir>/src/config/$1",
-      "@http/(.*)": "<rootDir>/src/http/$1",
-      "@websocket/(.*)": "<rootDir>/src/websocket/$1",
-      "@database/(.*)": "<rootDir>/src/database/$1"
+      "@modules/(.*)": "<rootDir>/modules/$1",
+      "@shared/(.*)": "<rootDir>/shared/$1",
+      "@src/(.*)": "<rootDir>/$1",
+      "@config/(.*)": "<rootDir>/config/$1",
+      "@http/(.*)": "<rootDir>/http/$1",
+      "@websocket/(.*)": "<rootDir>/websocket/$1",
+      "@database/(.*)": "<rootDir>/database/$1"
     },
     "verbose": true
   },

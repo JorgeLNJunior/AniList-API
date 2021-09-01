@@ -7,7 +7,7 @@ import {
 
 @ValidatorConstraint()
 export class IsYoutubeUrlConstraint implements ValidatorConstraintInterface {
-  validate(value: any): boolean | Promise<boolean> {
+  validate(value: any): boolean {
     if (typeof value !== 'string') return false;
     const regexp =
       /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
