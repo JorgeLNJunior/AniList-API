@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ConfigOptions, v2 as cloudinary } from 'cloudinary';
 
-import { IUserStorage } from './user.storage.interface';
+import { IUserStorage } from './interface/user.storage.interface';
 
 @Injectable()
 export class UserCloudinaryStorage implements IUserStorage {

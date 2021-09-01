@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ConfigOptions, v2 as cloudinary } from 'cloudinary';
 
-import { IAnimeStorage } from './anime.storage.interface';
+import { IAnimeStorage } from './interface/anime.storage.interface';
 
 @Injectable()
 export class AnimeCloudinaryStorage implements IAnimeStorage {

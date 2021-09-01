@@ -15,20 +15,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserQueryBuilder } from './query/user.query.builder';
 import { UserQuery } from './query/user.query.interface';
-import { UserStorage } from './storage/user.storage';
-import { IUserStorage } from './storage/user.storage.interface';
 
 @Injectable()
 export class UserService implements OnApplicationBootstrap {
-  private storage: IUserStorage;
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectQueue('avatar-compression') private avatarQueue: Queue,
     private bcrypt: BcryptService,
     private configService: ConfigService,
-  ) {
-    this.storage = UserStorage.getInstance();
-  }
+  ) {}
 
   async onApplicationBootstrap() {
     const isAdminUserCreated = await this.userRepository.find({

@@ -1,9 +1,8 @@
 import { User } from '@http/modules/user/entities/user.entity';
-import { UserStorage } from '@http/modules/user/storage/user.storage';
-import { IUserStorage } from '@http/modules/user/storage/user.storage.interface';
 import { OnQueueError, Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserStorage } from '@src/http/modules/user/storage/user.storage';
 import { Job } from 'bull';
 import { rmSync } from 'fs';
 import * as sharp from 'sharp';
@@ -13,11 +12,9 @@ import { Repository } from 'typeorm';
 export class AvatarCompressConsumer {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-  ) {
-    this.userStorage = UserStorage.getInstance();
-  }
+    private userStorage: UserStorage,
+  ) {}
 
-  private userStorage: IUserStorage;
   private readonly logger = new Logger(AvatarCompressConsumer.name);
 
   @Process()

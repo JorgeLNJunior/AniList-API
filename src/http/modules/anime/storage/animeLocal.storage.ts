@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { v4 } from 'uuid';
 
-import { IAnimeStorage } from './anime.storage.interface';
+import { IAnimeStorage } from './interface/anime.storage.interface';
 
 export class AnimeLocalStorage implements IAnimeStorage {
   uploadCover(buffer: Buffer): Promise<string> {

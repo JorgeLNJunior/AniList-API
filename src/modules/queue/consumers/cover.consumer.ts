@@ -1,6 +1,5 @@
 import { Anime } from '@http/modules/anime/entities/anime.entity';
 import { AnimeStorage } from '@http/modules/anime/storage/anime.storage';
-import { IAnimeStorage } from '@http/modules/anime/storage/anime.storage.interface';
 import { OnQueueError, Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,11 +12,9 @@ import { Repository } from 'typeorm';
 export class CoverCompressConsumer {
   constructor(
     @InjectRepository(Anime) private animeRepository: Repository<Anime>,
-  ) {
-    this.animeStorage = AnimeStorage.getInstance();
-  }
+    private animeStorage: AnimeStorage,
+  ) {}
 
-  private animeStorage: IAnimeStorage;
   private readonly logger = new Logger(CoverCompressConsumer.name);
 
   @Process()

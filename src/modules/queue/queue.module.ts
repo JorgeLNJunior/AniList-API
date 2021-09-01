@@ -4,6 +4,8 @@ import { MailService } from '@http/shared/services/mail/mail.service';
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AnimeStorage } from '@src/http/modules/anime/storage/anime.storage';
+import { UserStorage } from '@src/http/modules/user/storage/user.storage';
 
 import { AvatarCompressConsumer } from './consumers/avatar.consumer';
 import { CoverCompressConsumer } from './consumers/cover.consumer';
@@ -23,6 +25,8 @@ import { EmailConsumer } from './consumers/email.consumer';
     AvatarCompressConsumer,
     EmailConsumer,
     MailService,
+    AnimeStorage,
+    UserStorage,
   ],
   exports: [BullModule],
 })
