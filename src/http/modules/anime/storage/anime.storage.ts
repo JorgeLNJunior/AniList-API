@@ -8,7 +8,7 @@ import { IAnimeStorage } from './interface/anime.storage.interface';
 @Injectable()
 export class AnimeStorage implements IAnimeStorage {
   constructor(private configService: ConfigService) {
-    this.getInstance();
+    this.setStorage();
   }
 
   private storage: IAnimeStorage;
@@ -21,7 +21,7 @@ export class AnimeStorage implements IAnimeStorage {
     return this.storage.deleteOldCover(url);
   }
 
-  private getInstance() {
+  private setStorage() {
     const env = this.configService.get<string>('STORAGE');
 
     switch (env) {
