@@ -125,7 +125,13 @@
       "@websocket/(.*)": "<rootDir>/websocket/$1",
       "@database/(.*)": "<rootDir>/database/$1"
     },
-    "verbose": true
+    "verbose": true,
+    "collectCoverageFrom": [
+      "**/*.(t|j)s",
+      "!**/*.module.(t|j)s",
+      "!**/__tests__/**/*",
+      "!database/migrations/**/*"
+    ]
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --fix"
