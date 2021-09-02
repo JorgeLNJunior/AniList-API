@@ -10,13 +10,12 @@ import { SendgridMailService } from './sendgridMail.service';
 
 @Injectable()
 export class MailService implements IMailService {
-  constructor(private configService: ConfigService) {
-    this.setMailService();
-  }
+  constructor(private configService: ConfigService) {}
 
   private mailService: IMailService;
 
   async sendConfirmationEmail(user: User): Promise<void> {
+    this.setMailService();
     await this.mailService.sendConfirmationEmail(user);
   }
 

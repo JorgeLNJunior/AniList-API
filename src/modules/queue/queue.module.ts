@@ -14,7 +14,7 @@ import { EmailConsumer } from './consumers/email.consumer';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Anime, User]),
-    BullModule.registerQueue(
+    BullModule.registerQueueAsync(
       { name: 'cover-compression' },
       { name: 'avatar-compression' },
       { name: 'email' },
