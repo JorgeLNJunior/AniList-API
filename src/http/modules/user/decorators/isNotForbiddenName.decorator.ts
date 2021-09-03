@@ -14,7 +14,7 @@ export class IsNotForbiddenNameConstraint
     return true;
   }
   defaultMessage?(): string {
-    return 'this name is forbidden';
+    return 'forbidden "name"';
   }
 }
 
