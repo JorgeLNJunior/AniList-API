@@ -110,7 +110,7 @@ export class UserController {
   )
   async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {
     const { uuid } = req.user;
-    const message = await this.userService.upload(uuid, file);
+    const message = await this.userService.upload(uuid, file.path);
     return { message: message };
   }
 }

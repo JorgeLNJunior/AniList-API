@@ -75,8 +75,8 @@ export class UserService implements OnApplicationBootstrap {
     await this.userRepository.delete(uuid);
   }
 
-  async upload(uuid: string, file: Express.Multer.File) {
-    await this.avatarQueue.add({ userUuid: uuid, path: file.path });
+  async upload(uuid: string, path: string) {
+    await this.avatarQueue.add({ userUuid: uuid, path: path });
     return 'the image will be available soon';
   }
 }
