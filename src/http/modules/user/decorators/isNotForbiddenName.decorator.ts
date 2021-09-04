@@ -10,7 +10,7 @@ export class IsNotForbiddenNameConstraint
   implements ValidatorConstraintInterface
 {
   validate(value: any): boolean {
-    if (value === 'admin') return false;
+    if (String(value).toLowerCase() === 'admin') return false;
     return true;
   }
   defaultMessage?(): string {
