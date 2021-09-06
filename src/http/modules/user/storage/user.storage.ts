@@ -7,30 +7,24 @@ import { UserLocalStorage } from './userLocal.storage';
 
 @Injectable()
 export class UserStorage implements IUserStorage {
-  constructor(private configService: ConfigService) {
-    this.setStorage();
-  }
-
-  private storage: IUserStorage;
+  constructor(private configService: ConfigService) {}
 
   uploadAvatar(buffer: Buffer): Promise<string> {
-    return this.storage.uploadAvatar(buffer);
+    return this.getStorage().uploadAvatar(buffer);
   }
 
   deleteOldAvatar(url: string): Promise<void> {
-    return this.deleteOldAvatar(url);
+    return this.getStorage().deleteOldAvatar(url);
   }
 
-  private setStorage() {
+  getStorage(): IUserStorage {
     const env = this.configService.get<string>('STORAGE');
 
     switch (env) {
       case 'cloudinary':
-        this.storage = new UserCloudinaryStorage(new ConfigService());
-        break;
+        return new UserCloudinaryStorage(new ConfigService());
       case 'local':
-        this.storage = new UserLocalStorage();
-        break;
+        return new UserLocalStorage();
       default:
         throw new Error(`"${env}" is not a valid storage`);
     }
