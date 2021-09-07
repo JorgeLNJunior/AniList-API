@@ -7,30 +7,26 @@ import { IAnimeStorage } from './interface/anime.storage.interface';
 
 @Injectable()
 export class AnimeStorage implements IAnimeStorage {
-  constructor(private configService: ConfigService) {
-    this.setStorage();
-  }
+  constructor(private configService: ConfigService) {}
 
   private storage: IAnimeStorage;
 
   uploadCover(buffer: Buffer): Promise<string> {
-    return this.storage.uploadCover(buffer);
+    return this.getStorage().uploadCover(buffer);
   }
 
   deleteOldCover(url: string): Promise<void> {
-    return this.storage.deleteOldCover(url);
+    return this.getStorage().deleteOldCover(url);
   }
 
-  private setStorage() {
+  getStorage() {
     const env = this.configService.get<string>('STORAGE');
 
     switch (env) {
       case 'cloudinary':
-        this.storage = new AnimeCloudinaryStorage(new ConfigService());
-        break;
+        return new AnimeCloudinaryStorage(new ConfigService());
       case 'local':
-        this.storage = new AnimeLocalStorage();
-        break;
+        return new AnimeLocalStorage();
       default:
         throw new Error(`"${env}" is a invalid storage`);
     }
