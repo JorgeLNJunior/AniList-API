@@ -12,6 +12,6 @@ export class EmailConfirmationResponse {
   private status: number;
 
   build() {
-    return { message: this.message };
+    return { statusCode: this.status, message: this.message };
   }
 }
