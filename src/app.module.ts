@@ -1,6 +1,5 @@
 import { AnimeModule } from '@http/modules/anime/anime.module';
 import { AuthModule } from '@http/modules/auth/auth.module';
-import { HealthModule } from '@http/modules/health/health.module';
 import { ReviewModule } from '@http/modules/review/review.module';
 import { UserModule } from '@http/modules/user/user.module';
 import { BullModule } from '@modules/bull.module';
@@ -19,7 +18,6 @@ import { ChatModule } from './websocket/chat/chat.module';
     UserModule,
     AnimeModule,
     ReviewModule,
-    HealthModule,
     QueueModule,
     ChatModule,
     ConfigModule,
