@@ -12,26 +12,18 @@ import { SendgridMailService } from './sendgridMail.service';
 export class MailService implements IMailService {
   constructor(private configService: ConfigService) {}
 
-  private mailService: IMailService;
-
   async sendConfirmationEmail(user: User): Promise<void> {
-    this.setMailService();
-    await this.mailService.sendConfirmationEmail(user);
+    await this.getMailService().sendConfirmationEmail(user);
   }
 
-  private setMailService() {
+  getMailService() {
     const env = this.configService.get<string>('MAIL_SERVICE').toLowerCase();
 
     switch (env) {
       case 'sendgrid':
-        this.mailService = new SendgridMailService(
-          new JwtService({}),
-          new ConfigService(),
-        );
-        break;
+        return new SendgridMailService(new JwtService({}), new ConfigService());
       case 'fake':
-        this.mailService = new FakeMailService(getRepository(User));
-        break;
+        return new FakeMailService(getRepository(User));
       default:
         throw new Error(`"${env}" is a invalid mail service`);
     }
