@@ -41,7 +41,6 @@ export class CreateReviewResponse {
   }
 
   build() {
-    delete this.review.user.isAdmin;
     return {
       statusCode: this.statusCode,
       review: this.review,
