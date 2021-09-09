@@ -61,7 +61,7 @@ export class ReviewController {
       req.user.uuid,
       createReviewDto,
     );
-    return new CreateReviewResponse(review);
+    return new CreateReviewResponse(review).build();
   }
 
   @ApiOkResponse({ description: 'ok', type: FindReviewResponse })
