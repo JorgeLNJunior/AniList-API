@@ -1,5 +1,5 @@
 import { getQueueToken } from '@nestjs/bull';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -148,7 +148,7 @@ describe('AuthService', () => {
       expect(service.confirmEmail(dto)).rejects.toThrow(BadRequestException);
     });
 
-    test('should throw a BadRequestException if it receives a invalid', async () => {
+    test('should throw a BadRequestException if it receives a invalid token', async () => {
       const dto: EmailConfirmationDto = {
         token: 'invalid-token',
       };
@@ -182,22 +182,22 @@ describe('AuthService', () => {
       expect(bcryptMock).toBeCalledTimes(1);
     });
 
-    test('should throw a error if the password does not match', async () => {
+    test('should throw a UnauthorizedException if the password does not match', async () => {
       jest.spyOn(BcryptService.prototype, 'compare').mockResolvedValue(false);
 
       // eslint-disable-next-line jest/valid-expect
       expect(
         service.validateUser(fakeUser.email, fakeUser.password),
-      ).rejects.toThrow(BadRequestException);
+      ).rejects.toThrow(UnauthorizedException);
     });
 
-    test('should throw a error if the user was not found', async () => {
+    test('should throw a UnauthorizedException if the user was not found', async () => {
       jest.spyOn(userServiceMock, 'findByEmail').mockResolvedValue(undefined);
 
       // eslint-disable-next-line jest/valid-expect
       expect(
         service.validateUser(fakeUser.email, fakeUser.password),
-      ).rejects.toThrow(BadRequestException);
+      ).rejects.toThrow(UnauthorizedException);
     });
   });
 });
