@@ -1,6 +1,7 @@
 import { ConsoleLogger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { useContainer } from 'class-validator';
 import * as express from 'express';
 import * as helmet from 'helmet';
 import { resolve } from 'path';
@@ -10,6 +11,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   app.use(helmet());
   app.use(express.static(resolve('public')));
