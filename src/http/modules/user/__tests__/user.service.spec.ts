@@ -8,6 +8,7 @@ import { BcryptService } from '@src/http/shared/services/bcrypt.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
+import { UserQuery } from '../query/user.query.interface';
 import { UserService } from '../user.service';
 import { avatarQueueMock } from './mocks/avatar.queue.mock';
 import { fakeUser, userRepositoryMock } from './mocks/user.repository.mock';
@@ -60,6 +61,20 @@ describe('UserService', () => {
   describe('find', () => {
     test('should return a list of users', async () => {
       const users = await service.find({});
+      expect(users).toEqual([fakeUser, fakeUser, fakeUser]);
+      expect(userRepositoryMock.find).toBeCalledTimes(1);
+    });
+
+    test('should return a list of users when a query is sent', async () => {
+      const query: UserQuery = {
+        uuid: 'uuid',
+        name: 'name',
+        email: 'email',
+        skip: 1,
+        take: 5,
+      };
+      const users = await service.find(query);
+
       expect(users).toEqual([fakeUser, fakeUser, fakeUser]);
       expect(userRepositoryMock.find).toBeCalledTimes(1);
     });
