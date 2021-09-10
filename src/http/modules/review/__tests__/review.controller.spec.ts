@@ -1,12 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { UpdateReviewDto } from '../dto/update-review.dto';
+import { Review } from '../entities/review.entity';
 import { ReviewQuery } from '../query/review.query.interface';
 import { ReviewController } from '../review.controller';
 import { ReviewService } from '../review.service';
 import { reviewServiceMock } from './mocks/review.service.mock';
-import { fakeReview } from './mocks/reviewRepository.mock';
+import {
+  fakeReview,
+  reviewRepositoryMock,
+} from './mocks/reviewRepository.mock';
 
 describe('ReviewController', () => {
   let controller: ReviewController;
@@ -16,6 +21,7 @@ describe('ReviewController', () => {
       providers: [
         ReviewController,
         { provide: ReviewService, useValue: reviewServiceMock },
+        { provide: getRepositoryToken(Review), useValue: reviewRepositoryMock },
       ],
     }).compile();
 

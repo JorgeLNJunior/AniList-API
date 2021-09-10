@@ -77,7 +77,7 @@ export class ReviewController {
     description: 'Validation Error',
     type: BadRequestResponse,
   })
-  @UseGuards(new ReviewModifyPermissionGuard())
+  @UseGuards(ReviewModifyPermissionGuard)
   @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
@@ -93,7 +93,7 @@ export class ReviewController {
     description: 'Validation Error',
     type: BadRequestResponse,
   })
-  @UseGuards(new ReviewModifyPermissionGuard())
+  @UseGuards(ReviewModifyPermissionGuard)
   @Delete(':uuid')
   async delete(@Param('uuid') uuid: string) {
     await this.reviewService.delete(uuid);
