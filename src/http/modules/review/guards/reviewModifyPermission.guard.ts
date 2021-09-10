@@ -4,26 +4,32 @@ import {
   ExecutionContext,
   Injectable,
 } from '@nestjs/common';
-import { getRepository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { Review } from '../entities/review.entity';
 
 @Injectable()
 export class ReviewModifyPermissionGuard implements CanActivate {
+  constructor(
+    @InjectRepository(Review) private reviewRepository: Repository<Review>,
+  ) {}
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     if (request.user.isAdmin) return true;
 
-    const reviewRepository = getRepository(Review);
     const reviewUuid = request.params.uuid;
     const userUuid = request.user.uuid;
 
-    const review = await reviewRepository.findOne(reviewUuid, {
+    const review = await this.reviewRepository.findOne(reviewUuid, {
       relations: ['user'],
     });
     if (!review) throw new BadRequestException(['review not found']);
 
-    if (review.user.uuid !== userUuid) return false;
+    const isReviewAuthor = review.user.uuid === userUuid;
+    if (!isReviewAuthor) return false;
+
     return true;
   }
 }
