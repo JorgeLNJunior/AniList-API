@@ -23,5 +23,6 @@
     "!src/config/**/*",
     "!src/main.ts"
   ],
-  "coverageDirectory": "test/coverage"
+  "coverageDirectory": "test/coverage",
+  "verbose": true
 }

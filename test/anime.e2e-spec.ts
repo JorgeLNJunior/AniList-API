@@ -4,6 +4,7 @@ import { QueueModule } from '@modules/queue/queue.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
+import { useContainer } from 'class-validator';
 import * as request from 'supertest';
 import { getRepository, Repository } from 'typeorm';
 
@@ -28,6 +29,7 @@ describe('AnimeController (e2e)', () => {
       .compile();
 
     app = moduleFixture.createNestApplication();
+    useContainer(app, { fallbackOnErrors: true });
     app.useGlobalPipes(
       new ValidationPipe({
         forbidUnknownValues: true,

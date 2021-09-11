@@ -4,6 +4,7 @@ import { QueueModule } from '@modules/queue/queue.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
+import { useContainer } from 'class-validator';
 import * as faker from 'faker';
 import * as request from 'supertest';
 import { getRepository } from 'typeorm';
@@ -13,7 +14,7 @@ import { AuthHelper } from './helpers/auth.helper';
 import { DatabaseHelper } from './helpers/database.helper';
 import { FakeModule } from './helpers/fake.module';
 
-describe('UsersController (e2e)', () => {
+describe('UserController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -27,6 +28,7 @@ describe('UsersController (e2e)', () => {
       .compile();
 
     app = moduleFixture.createNestApplication();
+    useContainer(app, { fallbackOnErrors: true });
     app.useGlobalPipes(
       new ValidationPipe({
         forbidUnknownValues: true,
