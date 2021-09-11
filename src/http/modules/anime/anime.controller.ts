@@ -135,6 +135,6 @@ export class AnimeController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     const message = await this.animeService.upload(uuid, file.path);
-    return { message: message };
+    return { statusCode: 200, message: message };
   }
 }
