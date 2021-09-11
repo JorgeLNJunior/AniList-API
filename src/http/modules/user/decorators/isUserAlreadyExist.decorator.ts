@@ -7,7 +7,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 @ValidatorConstraint({ async: true })
