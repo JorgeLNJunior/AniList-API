@@ -1,3 +1,9 @@
+#### 0.6.1 (2021-09-11)
+
+##### Continuous Integration
+
+*  corrigir o coverage report (26589904)
+
 ### 0.6.0 (2021-09-11)
 
 ##### Build System / Dependencies
