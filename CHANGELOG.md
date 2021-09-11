@@ -1,3 +1,108 @@
+### 0.6.0 (2021-09-11)
+
+##### Build System / Dependencies
+
+* **deps:**  atualizar algumas dependências (92d26bbc)
+*  remover o health module (3e37aa73)
+*  mover o queue module (cd80f469)
+*  recriar o package-lock (e40d42ba)
+*  organizar os arquivos em seus módulos (59b51f17)
+*  validar variáveis de ambiente (9ce4b319)
+*  instalar o @sendgrid/mail (3d7a0859)
+
+##### Chores
+
+*  remover tipo de retorno não usado (c22b4747)
+*  atualizar os arquivos .env (12220bbd)
+* **vscode:**  usar a versão do typescript no package.json (440325de)
+
+##### Continuous Integration
+
+*  coletar o coverage dos testes unitários (e612fdad)
+*  adicionar opções ao container redis (c4f2f995)
+* **actions:**  adicionar uma action para testes unitários (cddeba1e)
+
+##### Documentation Changes
+
+*  adicionar a badge de unit test ao readme (65082238)
+
+##### New Features
+
+*  impedir login se o email não estiver confirmado (d878dc7d)
+*  criar rota de confirmação de email (2116d5af)
+*  transformar o envio de email em uma fila (d063557a)
+*  enviar email de confirmação (f0457e9f)
+
+##### Bug Fixes
+
+*  importar os módulos necessários no email module (fe71d355)
+*  retornar o status na rota user upload (f645c04c)
+*  retornar o status na rota anime upload (a90c4b62)
+*  corrigir resposta da rota create review (d76d1d9a)
+*  retornar o status da requisição (fead3a79)
+*  corrigir erro com o fake mail service (8cecc906)
+*  corrigir as migrations (690ff958)
+*  corrigir confirmação de email (fa2404b6)
+
+##### Refactors
+
+*  injetar as dependências do mail service (f1386377)
+*  injetar repositório no decorator (9fe21905)
+*  alterar a review modify guard (bb07090b)
+*  nao mais deletar a propriedade isAdmin (d80c38c5)
+*  retirar repositório desnecessário (d6a2dac9)
+*  alterar o mail service (19a21579)
+*  alterar os storages de anime (c632eba8)
+*  alterar os storages de usuário (dc6d029b)
+*  alterar o decorator para verificar letras maiúsculas e minúsculas (a0a1fec6)
+*  alterar mensagem de erro (e3c46880)
+*  alterar parâmetros de upload de avatar (6499e1cf)
+*  alterar o nome de alguns métodos (7fdc4e34)
+*  alterar as classes de storage (eef8ee21)
+*  passar o caminho do arquivo para o anime service (9654c058)
+*  reconfigurar os storages (3f087449)
+*  reconfigurar os módulos JWT (6d73dd76)
+*  mover os módulos no nest (76e0c9e7)
+
+##### Code Style Changes
+
+*  remover import desnecessário (111ea743)
+*  adicionar o eslint-plugin-jest (c34b989a)
+
+##### Tests
+
+* **e2e:**  corrigir os testes (27359e65)
+* **unit:**
+  *  testar o mail service (e467bb93)
+  *  testar as funcões de upload (9e4eeb2c)
+  *  testar o websocket auth guard (1dbcdcf3)
+  *  testar o chat gateway (6ffef8cc)
+  *  testar o isUserAlreadyExistDecorator (09e18736)
+  *  adicionar teste com query do user service (692ce2cd)
+  *  testar a review modify guard (77c09e2a)
+  *  testar o review controller (b50d6881)
+  *  corrigir o erro esperado (c9994c97)
+  *  testar o review service (0e339366)
+  *  testar o is email confirmed guard (a86b234f)
+  *  testar o auth controller (f7bbbe8d)
+  *  testar o auth service (0283b9fc)
+  *  testar os storages de usuário (f637fdd0)
+  *  testar o is forbidden name decorator (a9cc7b95)
+  *  testar o user controller (b5634ce8)
+  *  testar o user service (20883e27)
+  *  testar algumas funções do anime controller (9b6f5c06)
+  *  criar os testes do anime service (acb4bbd8)
+*  retirar alguns diretórios do coverage (634072ca)
+*  remover as entidades do coverage (ab652f31)
+*  testar os storages de anime (dd47e59d)
+*  testar o user modify permission guard (28a72563)
+*  testar o bcrypt service (e300ff48)
+*  alterar os diretórios de coverage (d54803ad)
+*  testar a IsAdminUser guard (73bc9ddf)
+*  remover opções desnecessárias do database helper (7b68fd2e)
+*  mockar o bull e queue module (bdad0889)
+* **fix:**  corrigir os testes (1059dcab)
+
 ### 0.5.0 (2021-08-27)
 
 ##### Build System / Dependencies
