@@ -13,5 +13,5 @@ export const userServiceMock = {
   create: jest.fn().mockResolvedValue(fakeUser),
   update: jest.fn().mockResolvedValue(fakeUser),
   delete: jest.fn().mockResolvedValue(true),
-  upload: jest.fn().mockResolvedValue('the image will be avaliable soon'),
+  upload: jest.fn().mockResolvedValue('the image will be available soon'),
 };

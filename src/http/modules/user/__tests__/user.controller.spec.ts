@@ -1,3 +1,4 @@
+import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -82,6 +83,22 @@ describe('UserController', () => {
       });
       expect(userServiceMock.delete).toBeCalledTimes(1);
       expect(userServiceMock.delete).toBeCalledWith('uuid');
+    });
+  });
+
+  describe('upload', () => {
+    test('should return a upload message', async () => {
+      const file = createMock<Express.Multer.File>();
+      const response = await controller.upload(file, {
+        user: { uuid: 'uuid' },
+      });
+
+      expect(response).toEqual({
+        statusCode: 200,
+        message: 'the image will be available soon',
+      });
+      expect(userServiceMock.upload).toHaveBeenCalledWith('uuid', file);
+      expect(userServiceMock.upload).toHaveBeenCalledTimes(1);
     });
   });
 });

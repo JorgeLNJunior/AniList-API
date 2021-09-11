@@ -41,4 +41,5 @@ export const animeServiceMock = {
     }),
   ),
   delete: jest.fn().mockResolvedValue(true),
+  upload: jest.fn().mockResolvedValue('the image will be available soon'),
 };

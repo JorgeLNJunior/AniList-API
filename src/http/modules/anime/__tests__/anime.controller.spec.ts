@@ -1,3 +1,4 @@
+import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AnimeController } from '../anime.controller';
@@ -95,6 +96,20 @@ describe('AnimeController', () => {
       });
       expect(service.delete).toHaveBeenCalledWith('uuid');
       expect(service.delete).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('upload', () => {
+    test('should return a upload message', async () => {
+      const file = createMock<Express.Multer.File>();
+      const response = await controller.upload('uuid', file);
+
+      expect(response).toEqual({
+        statusCode: 200,
+        message: 'the image will be available soon',
+      });
+      expect(service.upload).toHaveBeenCalledWith('uuid', file);
+      expect(service.upload).toHaveBeenCalledTimes(1);
     });
   });
 });
