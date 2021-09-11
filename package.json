@@ -130,7 +130,9 @@
       "!**/*.module.(t|j)s",
       "!**/__tests__/**/*",
       "!database/migrations/**/*",
-      "!**/*.entity.(t|j)s"
+      "!**/*.entity.(t|j)s",
+      "!**/*.strategy.(t|j)s",
+      "!main.ts"
     ]
   },
   "lint-staged": {
