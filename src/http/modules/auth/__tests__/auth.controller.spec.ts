@@ -1,15 +1,15 @@
+import { authServiceMock } from '@mocks/auth.service.mock';
+import { userRepositoryMock } from '@mocks/user.repository.mock';
+import { fakeUser } from '@mocks/user.service.mock';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { userRepositoryMock } from '../../user/__tests__/mocks/user.repository.mock';
-import { fakeUser } from '../../user/__tests__/mocks/user.service.mock';
 import { CreateUserDto } from '../../user/dto/create-user.dto';
 import { User } from '../../user/entities/user.entity';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import { EmailConfirmationDto } from '../dto/email-confirmation.dto';
 import { LoginDto } from '../dto/login.dto';
-import { authServiceMock } from './mocks/auth.service.mock';
 
 describe('AuthController', () => {
   let controller: AuthController;

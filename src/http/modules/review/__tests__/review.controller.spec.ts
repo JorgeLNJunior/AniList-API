@@ -1,3 +1,5 @@
+import { reviewServiceMock } from '@mocks/review.service.mock';
+import { fakeReview, reviewRepositoryMock } from '@mocks/reviewRepository.mock';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
@@ -7,11 +9,6 @@ import { Review } from '../entities/review.entity';
 import { ReviewQuery } from '../query/review.query.interface';
 import { ReviewController } from '../review.controller';
 import { ReviewService } from '../review.service';
-import { reviewServiceMock } from './mocks/review.service.mock';
-import {
-  fakeReview,
-  reviewRepositoryMock,
-} from './mocks/reviewRepository.mock';
 
 describe('ReviewController', () => {
   let controller: ReviewController;

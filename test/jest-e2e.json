@@ -14,7 +14,8 @@
     "@config/(.*)": "<rootDir>/src/config/$1",
     "@http/(.*)": "<rootDir>/src/http/$1",
     "@websocket/(.*)": "<rootDir>/src/websocket/$1",
-    "@database/(.*)": "<rootDir>/src/database/$1"
+    "@database/(.*)": "<rootDir>/src/database/$1",
+    "@mocks/(.*)": "<rootDir>/__tests__/mocks/$1"
   },
   "testTimeout": 20000,
   "collectCoverageFrom": [

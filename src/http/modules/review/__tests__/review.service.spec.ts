@@ -1,20 +1,17 @@
+import { animeServiceMock } from '@mocks/anime.service.mock';
+import { fakeReview, reviewRepositoryMock } from '@mocks/reviewRepository.mock';
+import { userServiceMock } from '@mocks/user.service.mock';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { animeServiceMock } from '../../anime/__tests__/mocks/anime.service.mock';
 import { AnimeService } from '../../anime/anime.service';
-import { userServiceMock } from '../../user/__tests__/mocks/user.service.mock';
 import { UserService } from '../../user/user.service';
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { UpdateReviewDto } from '../dto/update-review.dto';
 import { Review } from '../entities/review.entity';
 import { ReviewQuery } from '../query/review.query.interface';
 import { ReviewService } from '../review.service';
-import {
-  fakeReview,
-  reviewRepositoryMock,
-} from './mocks/reviewRepository.mock';
 
 describe('ReviewService', () => {
   let service: ReviewService;

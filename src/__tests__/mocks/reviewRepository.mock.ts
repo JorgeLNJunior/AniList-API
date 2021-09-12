@@ -1,7 +1,6 @@
-import { fakeAnimes } from '@src/http/modules/anime/__tests__/mocks/anime.service.mock';
-import { fakeUser } from '@src/http/modules/user/__tests__/mocks/user.repository.mock';
-
-import { Review } from '../../entities/review.entity';
+import { Review } from '@http/modules/review/entities/review.entity';
+import { fakeAnimes } from '@mocks/anime.service.mock';
+import { fakeUser } from '@mocks/user.repository.mock';
 
 export const fakeReview: Review = {
   uuid: 'uuid',

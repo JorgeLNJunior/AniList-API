@@ -1,11 +1,11 @@
 import { createMock } from '@golevelup/ts-jest';
+import { animeServiceMock, fakeAnimes } from '@mocks/anime.service.mock';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AnimeController } from '../anime.controller';
 import { AnimeService } from '../anime.service';
 import { CreateAnimeDto } from '../dto/create-anime.dto';
 import { UpdateAnimeDto } from '../dto/update-anime.dto';
-import { animeServiceMock, fakeAnimes } from './mocks/anime.service.mock';
 
 describe('AnimeController', () => {
   let controller: AnimeController;

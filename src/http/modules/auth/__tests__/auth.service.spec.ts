@@ -1,16 +1,13 @@
+import { BcryptService } from '@http/shared/services/bcrypt.service';
+import { fakeUser, userRepositoryMock } from '@mocks/user.repository.mock';
+import { userServiceMock } from '@mocks/user.service.mock';
 import { getQueueToken } from '@nestjs/bull';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { BcryptService } from '@src/http/shared/services/bcrypt.service';
 
-import {
-  fakeUser,
-  userRepositoryMock,
-} from '../../user/__tests__/mocks/user.repository.mock';
-import { userServiceMock } from '../../user/__tests__/mocks/user.service.mock';
 import { CreateUserDto } from '../../user/dto/create-user.dto';
 import { User } from '../../user/entities/user.entity';
 import { UserService } from '../../user/user.service';
@@ -175,8 +172,6 @@ describe('AuthService', () => {
 
       fakeUser.isEmailConfirmed = true;
       delete fakeUser.isAdmin;
-
-      console.log(user, fakeUser);
 
       expect(user).toEqual(fakeUser);
       expect(bcryptMock).toBeCalledTimes(1);

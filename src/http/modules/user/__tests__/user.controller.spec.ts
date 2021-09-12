@@ -1,11 +1,11 @@
 import { createMock } from '@golevelup/ts-jest';
+import { fakeUser, userServiceMock } from '@mocks/user.service.mock';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserQuery } from '../query/user.query.interface';
 import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
-import { fakeUser, userServiceMock } from './mocks/user.service.mock';
 
 describe('UserController', () => {
   let controller: UserController;

@@ -1,3 +1,4 @@
+import { animeRepositoryMock, animes } from '@mocks/anime.respository.mock';
 import { getQueueToken } from '@nestjs/bull';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -9,7 +10,6 @@ import { AnimeService } from '../anime.service';
 import { CreateAnimeDto } from '../dto/create-anime.dto';
 import { UpdateAnimeDto } from '../dto/update-anime.dto';
 import { Anime } from '../entities/anime.entity';
-import { animeRepositoryMock, animes } from './mocks/anime.respository.mock';
 
 describe('AnimeService', () => {
   let service: AnimeService;

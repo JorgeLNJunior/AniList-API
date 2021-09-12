@@ -1,6 +1,5 @@
+import { Anime } from '@http/modules/anime/entities/anime.entity';
 import { DeepPartial } from 'typeorm';
-
-import { Anime } from '../../entities/anime.entity';
 
 export const animes: Anime[] = [
   {

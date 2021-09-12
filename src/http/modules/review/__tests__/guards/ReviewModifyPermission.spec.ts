@@ -1,11 +1,11 @@
 import { createMock } from '@golevelup/ts-jest';
+import { reviewRepositoryMock } from '@mocks/reviewRepository.mock';
 import { BadRequestException, ExecutionContext } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { Review } from '../../entities/review.entity';
 import { ReviewModifyPermissionGuard } from '../../guards/reviewModifyPermission.guard';
-import { reviewRepositoryMock } from '../mocks/reviewRepository.mock';
 
 describe('ReviewModifyPermissionGuard', () => {
   let guard: ReviewModifyPermissionGuard;

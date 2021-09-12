@@ -14,10 +14,11 @@
       "@modules/*": ["src/modules/*"],
       "@config/*": ["src/config/*"],
       "@shared/*": ["src/shared/*"],
-      "@src/*": ["src/*"],
       "@http/*": ["src/http/*"],
       "@websocket/*": ["src/websocket/*"],
-      "@database/*": ["src/database/*"]
+      "@database/*": ["src/database/*"],
+      "@mocks/*": ["src/__tests__/mocks/*"],
+      "@src/*": ["src/*"],
     },
     "incremental": true,
     "resolveJsonModule": true

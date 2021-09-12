@@ -122,7 +122,8 @@
       "@config/(.*)": "<rootDir>/config/$1",
       "@http/(.*)": "<rootDir>/http/$1",
       "@websocket/(.*)": "<rootDir>/websocket/$1",
-      "@database/(.*)": "<rootDir>/database/$1"
+      "@database/(.*)": "<rootDir>/database/$1",
+      "@mocks/(.*)": "<rootDir>/__tests__/mocks/$1"
     },
     "verbose": true,
     "collectCoverageFrom": [

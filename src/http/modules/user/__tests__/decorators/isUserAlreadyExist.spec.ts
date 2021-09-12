@@ -1,9 +1,9 @@
+import { userRepositoryMock } from '@mocks/user.repository.mock';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { IsUserAlreadyExistConstraint } from '../../decorators/isUserAlreadyExist.decorator';
 import { User } from '../../entities/user.entity';
-import { userRepositoryMock } from '../mocks/user.repository.mock';
 
 describe('IsUserAlreadyExistDecorator', () => {
   let decorator: IsUserAlreadyExistConstraint;

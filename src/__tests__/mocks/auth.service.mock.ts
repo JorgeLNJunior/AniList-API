@@ -1,4 +1,4 @@
-import { fakeUser } from '@src/http/modules/user/__tests__/mocks/user.service.mock';
+import { fakeUser } from '@mocks/user.service.mock';
 
 export const authServiceMock = {
   register: jest.fn().mockResolvedValue(fakeUser),

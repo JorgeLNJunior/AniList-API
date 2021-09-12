@@ -1,4 +1,4 @@
-import { User } from '../../entities/user.entity';
+import { User } from '@http/modules/user/entities/user.entity';
 
 export const fakeUser: User = {
   uuid: 'uuid',

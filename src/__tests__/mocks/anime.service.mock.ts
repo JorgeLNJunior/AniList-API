@@ -1,5 +1,5 @@
-import { CreateAnimeDto } from '../../dto/create-anime.dto';
-import { Anime } from '../../entities/anime.entity';
+import { CreateAnimeDto } from '@http/modules/anime/dto/create-anime.dto';
+import { Anime } from '@http/modules/anime/entities/anime.entity';
 
 export const fakeAnimes: Anime[] = [
   {

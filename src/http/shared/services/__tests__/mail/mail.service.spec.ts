@@ -1,12 +1,9 @@
+import { User } from '@http/modules/user/entities/user.entity';
+import { fakeUser, userRepositoryMock } from '@mocks/user.repository.mock';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import {
-  fakeUser,
-  userRepositoryMock,
-} from '@src/http/modules/user/__tests__/mocks/user.repository.mock';
-import { User } from '@src/http/modules/user/entities/user.entity';
 
 import { FakeMailService } from '../../mail/fakeMail.service';
 import { MailService } from '../../mail/mail.service';

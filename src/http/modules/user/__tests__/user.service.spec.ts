@@ -1,17 +1,17 @@
+import { BcryptService } from '@http/shared/services/bcrypt.service';
+import { avatarQueueMock } from '@mocks/avatar.queue.mock';
+import { fakeUser, userRepositoryMock } from '@mocks/user.repository.mock';
 import { getQueueToken } from '@nestjs/bull';
 import { BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { BcryptService } from '@src/http/shared/services/bcrypt.service';
 
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
 import { UserQuery } from '../query/user.query.interface';
 import { UserService } from '../user.service';
-import { avatarQueueMock } from './mocks/avatar.queue.mock';
-import { fakeUser, userRepositoryMock } from './mocks/user.repository.mock';
 
 describe('UserService', () => {
   let service: UserService;
