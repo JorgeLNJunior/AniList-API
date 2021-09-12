@@ -84,7 +84,6 @@ export class ReviewController {
     @Body() updateReviewDto: UpdateReviewDto,
   ) {
     const review = await this.reviewService.update(uuid, updateReviewDto);
-    // console.log(review);
     return new UpdateReviewResponse(review).build();
   }
 
