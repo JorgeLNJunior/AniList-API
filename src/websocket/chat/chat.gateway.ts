@@ -4,19 +4,20 @@ import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
 
 import { WebSocketAuthGuard } from './guards/websocketAuth.guard';
 
 @WebSocketGateway()
 export class ChatGateway {
+  @WebSocketServer()
+  private socket: any;
+
   @UseGuards(WebSocketAuthGuard)
   @SubscribeMessage('chat')
-  handleChatMessage(
-    @MessageBody() data: ChatMessage,
-    @ConnectedSocket() client: any,
-  ) {
-    client.emit('chat', data);
+  handleChatMessage(@MessageBody() data: ChatMessage) {
+    this.socket.emit('chat', data);
   }
 }
 
