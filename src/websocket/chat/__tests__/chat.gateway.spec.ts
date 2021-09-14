@@ -21,12 +21,14 @@ describe('ChatGateway', () => {
       message: 'message',
       username: 'user',
     };
-    const client = { emit: (chat: string, data: unknown) => data };
-    const clientSpy = jest.spyOn(client, 'emit');
+    const socket = { emit: (chat: string, data: unknown) => data };
+    const socketSpy = jest.spyOn(socket, 'emit');
 
-    gateway.handleChatMessage(data, client);
+    gateway.socket = socket;
 
-    expect(clientSpy).toBeCalledTimes(1);
-    expect(clientSpy).toBeCalledWith('chat', data);
+    gateway.handleChatMessage(data);
+
+    expect(socketSpy).toBeCalledTimes(1);
+    expect(socketSpy).toBeCalledWith('chat', data);
   });
 });
