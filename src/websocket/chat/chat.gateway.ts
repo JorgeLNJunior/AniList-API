@@ -1,6 +1,5 @@
 import { UseGuards } from '@nestjs/common';
 import {
-  ConnectedSocket,
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
@@ -12,7 +11,7 @@ import { WebSocketAuthGuard } from './guards/websocketAuth.guard';
 @WebSocketGateway()
 export class ChatGateway {
   @WebSocketServer()
-  private socket: any;
+  socket: any;
 
   @UseGuards(WebSocketAuthGuard)
   @SubscribeMessage('chat')
