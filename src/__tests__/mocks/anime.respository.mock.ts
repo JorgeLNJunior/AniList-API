@@ -1,26 +1,7 @@
 import { Anime } from '@http/modules/anime/entities/anime.entity';
 import { DeepPartial } from 'typeorm';
 
-export const animes: Anime[] = [
-  {
-    uuid: 'uuid',
-    title: 'title',
-    synopsis: 'synopsis',
-    cover: 'cover',
-    trailer: 'trailer',
-    episodes: 10,
-    releaseDate: '2020-10-21',
-  },
-  {
-    uuid: 'uuid',
-    title: 'title2',
-    synopsis: 'synopsis2',
-    cover: 'cover2',
-    trailer: 'trailer2',
-    episodes: 16,
-    releaseDate: '2019-08-10',
-  },
-];
+import { fakeAnime } from './fakes';
 
 export const animeRepositoryMock = {
   createQueryBuilder: jest.fn(() => ({
@@ -32,9 +13,9 @@ export const animeRepositoryMock = {
     skip: jest.fn().mockReturnThis(),
     groupBy: jest.fn().mockReturnThis(),
     orderBy: jest.fn().mockReturnThis(),
-    getRawMany: jest.fn().mockResolvedValueOnce(animes),
+    getRawMany: jest.fn().mockResolvedValueOnce([fakeAnime]),
   })),
-  findOne: jest.fn().mockResolvedValue(animes[0]),
+  findOne: jest.fn().mockResolvedValue(fakeAnime),
   create: jest.fn().mockImplementation((dto: DeepPartial<Anime>) => dto),
   save: jest
     .fn()

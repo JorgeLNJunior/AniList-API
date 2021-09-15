@@ -1,5 +1,6 @@
 import { createMock } from '@golevelup/ts-jest';
-import { animeServiceMock, fakeAnimes } from '@mocks/anime.service.mock';
+import { animeServiceMock } from '@mocks/anime.service.mock';
+import { fakeAnime } from '@mocks/fakes';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AnimeController } from '../anime.controller';
@@ -29,12 +30,12 @@ describe('AnimeController', () => {
   describe('find', () => {
     test('should return a list of anime', async () => {
       const response = await controller.find({});
-      expect(response).toEqual({ statusCode: 200, animes: fakeAnimes });
+      expect(response).toEqual({ statusCode: 200, animes: [fakeAnime] });
     });
 
     test('should return a list of top animes', async () => {
       const response = await controller.top();
-      expect(response).toEqual({ statusCode: 200, animes: fakeAnimes });
+      expect(response).toEqual({ statusCode: 200, animes: [fakeAnime] });
       expect(service.find).toHaveBeenCalledTimes(1);
     });
   });

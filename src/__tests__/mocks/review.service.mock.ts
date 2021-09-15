@@ -1,4 +1,4 @@
-import { fakeReview } from './reviewRepository.mock';
+import { fakeReview } from './fakes';
 
 export const reviewServiceMock = {
   create: jest.fn().mockResolvedValue(fakeReview),

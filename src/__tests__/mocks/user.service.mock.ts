@@ -1,11 +1,4 @@
-export const fakeUser = {
-  uuid: 'uuid',
-  name: 'name',
-  email: 'email',
-  password: 'password',
-  avatar: 'avatar',
-  isEmailConfirmed: true,
-};
+import { fakeUser } from './fakes';
 
 export const userServiceMock = {
   find: jest.fn().mockResolvedValue([fakeUser]),

@@ -1,5 +1,6 @@
 import { BcryptService } from '@http/shared/services/bcrypt.service';
-import { fakeUser, userRepositoryMock } from '@mocks/user.repository.mock';
+import { fakeUser } from '@mocks/fakes';
+import { userRepositoryMock } from '@mocks/user.repository.mock';
 import { userServiceMock } from '@mocks/user.service.mock';
 import { getQueueToken } from '@nestjs/bull';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
@@ -52,8 +53,6 @@ describe('AuthService', () => {
         password: fakeUser.password,
       };
       const user = await service.register(dto);
-
-      delete fakeUser.isAdmin;
 
       expect(user).toEqual(fakeUser);
       expect(userServiceMock.create).toBeCalledTimes(1);
@@ -171,7 +170,6 @@ describe('AuthService', () => {
       );
 
       fakeUser.isEmailConfirmed = true;
-      delete fakeUser.isAdmin;
 
       expect(user).toEqual(fakeUser);
       expect(bcryptMock).toBeCalledTimes(1);

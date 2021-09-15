@@ -1,5 +1,6 @@
 import { createMock } from '@golevelup/ts-jest';
-import { fakeUser, userServiceMock } from '@mocks/user.service.mock';
+import { fakeUser } from '@mocks/fakes';
+import { userServiceMock } from '@mocks/user.service.mock';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { UpdateUserDto } from '../dto/update-user.dto';

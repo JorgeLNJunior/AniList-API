@@ -3,7 +3,6 @@ import { ExecutionContext } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { WsException } from '@nestjs/websockets';
-import { AuthService } from '@src/http/modules/auth/auth.service';
 
 import { WebSocketAuthGuard } from '../../guards/websocketAuth.guard';
 

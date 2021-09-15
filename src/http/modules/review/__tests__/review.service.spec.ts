@@ -1,5 +1,6 @@
 import { animeServiceMock } from '@mocks/anime.service.mock';
-import { fakeReview, reviewRepositoryMock } from '@mocks/reviewRepository.mock';
+import { fakeReview } from '@mocks/fakes';
+import { reviewRepositoryMock } from '@mocks/reviewRepository.mock';
 import { userServiceMock } from '@mocks/user.service.mock';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';

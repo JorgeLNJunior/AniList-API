@@ -1,30 +1,10 @@
 import { CreateAnimeDto } from '@http/modules/anime/dto/create-anime.dto';
-import { Anime } from '@http/modules/anime/entities/anime.entity';
 
-export const fakeAnimes: Anime[] = [
-  {
-    uuid: 'uuid',
-    title: 'title',
-    synopsis: 'synopsis',
-    cover: 'cover',
-    trailer: 'trailer',
-    episodes: 10,
-    releaseDate: '2020-10-21',
-  },
-  {
-    uuid: 'uuid',
-    title: 'title2',
-    synopsis: 'synopsis2',
-    cover: 'cover2',
-    trailer: 'trailer2',
-    episodes: 16,
-    releaseDate: '2019-08-10',
-  },
-];
+import { fakeAnime } from './fakes';
 
 export const animeServiceMock = {
-  find: jest.fn().mockResolvedValue(fakeAnimes),
-  top: jest.fn().mockResolvedValue(fakeAnimes),
+  find: jest.fn().mockResolvedValue([fakeAnime]),
+  top: jest.fn().mockResolvedValue([fakeAnime]),
   create: jest
     .fn()
     .mockImplementation((dto: CreateAnimeDto) =>

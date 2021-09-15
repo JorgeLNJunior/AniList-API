@@ -1,5 +1,6 @@
+import { fakeReview } from '@mocks/fakes';
 import { reviewServiceMock } from '@mocks/review.service.mock';
-import { fakeReview, reviewRepositoryMock } from '@mocks/reviewRepository.mock';
+import { reviewRepositoryMock } from '@mocks/reviewRepository.mock';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 

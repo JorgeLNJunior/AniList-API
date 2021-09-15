@@ -1,6 +1,7 @@
 import { BcryptService } from '@http/shared/services/bcrypt.service';
 import { avatarQueueMock } from '@mocks/avatar.queue.mock';
-import { fakeUser, userRepositoryMock } from '@mocks/user.repository.mock';
+import { fakeUser } from '@mocks/fakes';
+import { userRepositoryMock } from '@mocks/user.repository.mock';
 import { getQueueToken } from '@nestjs/bull';
 import { BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

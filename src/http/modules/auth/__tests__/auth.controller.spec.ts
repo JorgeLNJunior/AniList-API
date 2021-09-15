@@ -1,6 +1,6 @@
 import { authServiceMock } from '@mocks/auth.service.mock';
+import { fakeUser } from '@mocks/fakes';
 import { userRepositoryMock } from '@mocks/user.repository.mock';
-import { fakeUser } from '@mocks/user.service.mock';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 

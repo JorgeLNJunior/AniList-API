@@ -1,5 +1,6 @@
 import { User } from '@http/modules/user/entities/user.entity';
-import { fakeUser, userRepositoryMock } from '@mocks/user.repository.mock';
+import { fakeUser } from '@mocks/fakes';
+import { userRepositoryMock } from '@mocks/user.repository.mock';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';

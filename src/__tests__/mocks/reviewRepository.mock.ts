@@ -1,15 +1,4 @@
-import { Review } from '@http/modules/review/entities/review.entity';
-import { fakeAnimes } from '@mocks/anime.service.mock';
-import { fakeUser } from '@mocks/user.repository.mock';
-
-export const fakeReview: Review = {
-  uuid: 'uuid',
-  anime: fakeAnimes[0],
-  title: 'title',
-  description: 'description',
-  rating: 5,
-  user: fakeUser,
-};
+import { fakeReview } from './fakes';
 
 export const reviewRepositoryMock = {
   find: jest.fn().mockResolvedValue([fakeReview]),

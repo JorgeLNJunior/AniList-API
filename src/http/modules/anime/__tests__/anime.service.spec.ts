@@ -1,4 +1,5 @@
-import { animeRepositoryMock, animes } from '@mocks/anime.respository.mock';
+import { animeRepositoryMock } from '@mocks/anime.respository.mock';
+import { fakeAnime } from '@mocks/fakes';
 import { getQueueToken } from '@nestjs/bull';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -42,7 +43,7 @@ describe('AnimeService', () => {
 
   describe('find', () => {
     test('should return a list of anime', async () => {
-      expect(await service.find({})).toEqual(animes);
+      expect(await service.find({})).toEqual([fakeAnime]);
     });
 
     test('should return a list of anime with query', async () => {
@@ -54,11 +55,11 @@ describe('AnimeService', () => {
         uuid: 'uuid',
       };
       const anime = await service.find(query);
-      expect(anime).toEqual(animes);
+      expect(anime).toEqual([fakeAnime]);
     });
 
     test('should return a list of top anime', async () => {
-      expect(await service.top()).toEqual(animes);
+      expect(await service.top()).toEqual([fakeAnime]);
     });
   });
 
@@ -91,7 +92,7 @@ describe('AnimeService', () => {
 
       const anime = await service.update('uuid', dto);
 
-      expect(anime).toEqual(animes[0]);
+      expect(anime).toEqual(fakeAnime);
       expect(repo.update).toHaveBeenCalledTimes(1);
       expect(repo.update).toHaveBeenCalledWith('uuid', dto);
     });
