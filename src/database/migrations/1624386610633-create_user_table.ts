@@ -44,6 +44,18 @@ export class createUserTable1624386610633 implements MigrationInterface {
             type: 'boolean',
             default: false,
           },
+          {
+            name: 'createdAt',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP',
+          },
+          {
+            name: 'updatedAt',
+            type: 'timestamp',
+            isNullable: true,
+            default: null,
+            onUpdate: 'CURRENT_TIMESTAMP',
+          },
         ],
       }),
       true,
@@ -51,6 +63,6 @@ export class createUserTable1624386610633 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user');
+    await queryRunner.dropTable('user', true);
   }
 }

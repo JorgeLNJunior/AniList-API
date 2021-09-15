@@ -41,6 +41,18 @@ export class createReviewTable1625254721286 implements MigrationInterface {
             type: 'varchar',
             length: '36',
           },
+          {
+            name: 'createdAt',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP',
+          },
+          {
+            name: 'updatedAt',
+            type: 'timestamp',
+            isNullable: true,
+            default: null,
+            onUpdate: 'CURRENT_TIMESTAMP',
+          },
         ],
       }),
       true,

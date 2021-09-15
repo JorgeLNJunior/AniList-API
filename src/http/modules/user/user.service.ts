@@ -38,6 +38,7 @@ export class UserService implements OnApplicationBootstrap {
       email: email,
       password: hash,
       isAdmin: true,
+      isEmailConfirmed: true,
     });
     await this.userRepository.save(admin);
   }

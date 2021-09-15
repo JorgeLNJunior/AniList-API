@@ -2,10 +2,12 @@ import { Anime } from '@http/modules/anime/entities/anime.entity';
 import { User } from '@http/modules/user/entities/user.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -29,4 +31,10 @@ export class Review {
   @ManyToOne(() => User, { cascade: ['update', 'remove'] })
   @JoinColumn()
   user: User;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
