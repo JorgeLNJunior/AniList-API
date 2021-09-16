@@ -1,3 +1,4 @@
+import { SeedModule } from '@database/seed/seed.module';
 import { AnimeModule } from '@http/modules/anime/anime.module';
 import { AuthModule } from '@http/modules/auth/auth.module';
 import { ReviewModule } from '@http/modules/review/review.module';
@@ -24,12 +25,13 @@ import { ChatModule } from './websocket/chat/chat.module';
     DatabaseModule,
     BullModule,
     ThrottlerModule,
+    SeedModule,
   ],
 })
 export class AppModule implements OnApplicationBootstrap {
   private readonly logger = new Logger(AppModule.name);
 
-  onApplicationBootstrap() {
+  async onApplicationBootstrap() {
     try {
       if (!existsSync('.temp')) {
         mkdirSync('.temp');
