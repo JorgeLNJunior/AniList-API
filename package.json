@@ -132,6 +132,7 @@
       "!**/*.module.(t|j)s",
       "!**/__tests__/**/*",
       "!database/migrations/**/*",
+      "!database/seed/**/*",
       "!**/*.entity.(t|j)s",
       "!**/*.strategy.(t|j)s",
       "!main.ts"
