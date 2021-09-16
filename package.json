@@ -24,7 +24,6 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json --runInBand --force-exit",
     "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'chore: atualizar o CHANGELOG.md' && npm version major -m \"docs: atualizar para %s\" && git push --tags",
     "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'chore: atualizar o CHANGELOG.md' && npm version minor -m \"docs: atualizar para %s\" && git push --tags",
     "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'chore: atualizar o CHANGELOG.md' && npm version patch -m \"docs: atualizar para %s\" && git push --tags"
