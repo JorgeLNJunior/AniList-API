@@ -81,17 +81,6 @@ describe('UserService', () => {
     });
   });
 
-  describe('findByEmail', () => {
-    test('should return a user', async () => {
-      const user = await service.findByEmail('email');
-      expect(user).toEqual(fakeUser);
-      expect(userRepositoryMock.find).toBeCalledTimes(1);
-      expect(userRepositoryMock.find).toBeCalledWith({
-        where: { email: 'email' },
-      });
-    });
-  });
-
   describe('update', () => {
     test('shloud update a user', async () => {
       const dto: UpdateUserDto = {

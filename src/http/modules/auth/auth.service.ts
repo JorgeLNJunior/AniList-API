@@ -1,6 +1,5 @@
 import { CreateUserDto } from '@http/modules/user/dto/create-user.dto';
 import { User } from '@http/modules/user/entities/user.entity';
-import { UserService } from '@http/modules/user/user.service';
 import { BcryptService } from '@http/shared/services/bcrypt.service';
 import { InjectQueue } from '@nestjs/bull';
 import {
@@ -21,15 +20,20 @@ export class AuthService {
   constructor(
     @InjectQueue('email') private mailQueue: Queue,
     @InjectRepository(User) private userRepository: Repository<User>,
-    private userService: UserService,
     private bcrypt: BcryptService,
     private jwt: JwtService,
     private configService: ConfigService,
   ) {}
 
   async register(createUserDto: CreateUserDto) {
-    const user = await this.userService.create(createUserDto);
+    const passwordHash = await this.bcrypt.hash(createUserDto.password);
+    createUserDto.password = passwordHash;
+
+    const userData = this.userRepository.create(createUserDto);
+    const user = await this.userRepository.save(userData);
+
     await this.mailQueue.add('email-confirmation', { user: user });
+
     return user;
   }
 
@@ -52,19 +56,22 @@ export class AuthService {
   }
 
   async validateUser(email: string, password: string) {
-    const user = await this.userService.findByEmail(email);
+    const user = await this.userRepository.find({ email: email });
 
-    if (!user) {
+    if (!user[0]) {
       throw new UnauthorizedException('this email is not registered');
     }
 
-    const isSamePassword = await this.bcrypt.compare(password, user.password);
+    const isSamePassword = await this.bcrypt.compare(
+      password,
+      user[0].password,
+    );
 
     if (!isSamePassword) {
       throw new UnauthorizedException('wrong credentials');
     }
 
-    return user;
+    return user[0];
   }
 
   private decodeToken(token: string) {

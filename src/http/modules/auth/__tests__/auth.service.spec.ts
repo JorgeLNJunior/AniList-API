@@ -1,7 +1,6 @@
 import { BcryptService } from '@http/shared/services/bcrypt.service';
 import { fakeUser } from '@mocks/fakes';
 import { userRepositoryMock } from '@mocks/user.repository.mock';
-import { userServiceMock } from '@mocks/user.service.mock';
 import { getQueueToken } from '@nestjs/bull';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -11,7 +10,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { CreateUserDto } from '../../user/dto/create-user.dto';
 import { User } from '../../user/entities/user.entity';
-import { UserService } from '../../user/user.service';
 import { AuthService } from '../auth.service';
 import { EmailConfirmationDto } from '../dto/email-confirmation.dto';
 
@@ -33,10 +31,6 @@ describe('AuthService', () => {
           provide: getRepositoryToken(User),
           useValue: userRepositoryMock,
         },
-        {
-          provide: UserService,
-          useValue: userServiceMock,
-        },
       ],
     }).compile();
 
@@ -55,8 +49,8 @@ describe('AuthService', () => {
       const user = await service.register(dto);
 
       expect(user).toEqual(fakeUser);
-      expect(userServiceMock.create).toBeCalledTimes(1);
-      expect(userServiceMock.create).toBeCalledWith(dto);
+      expect(userRepositoryMock.create).toBeCalledTimes(1);
+      expect(userRepositoryMock.create).toBeCalledWith(dto);
     });
   });
 
@@ -185,12 +179,14 @@ describe('AuthService', () => {
     });
 
     test('should throw a UnauthorizedException if the user was not found', async () => {
-      jest.spyOn(userServiceMock, 'findByEmail').mockResolvedValue(undefined);
+      jest.spyOn(userRepositoryMock, 'find').mockResolvedValue([]);
 
       // eslint-disable-next-line jest/valid-expect
       expect(
         service.validateUser(fakeUser.email, fakeUser.password),
       ).rejects.toThrow(UnauthorizedException);
+      expect(userRepositoryMock.find).toBeCalledTimes(1);
+      expect(userRepositoryMock.find).toBeCalledWith({ email: fakeUser.email });
     });
   });
 });

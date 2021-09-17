@@ -57,13 +57,6 @@ export class UserService implements OnApplicationBootstrap {
     return this.userRepository.find(findOptions);
   }
 
-  async findByEmail(email: string): Promise<User> {
-    const user = await this.userRepository.find({
-      where: { email: email },
-    });
-    return user[0];
-  }
-
   async update(uuid: string, updateUserDto: UpdateUserDto) {
     const user = await this.userRepository.findOne(uuid);
     if (!user) throw new BadRequestException(['user not found']);

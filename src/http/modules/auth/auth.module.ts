@@ -15,7 +15,6 @@ import { LocalStrategy } from './strategy/local.strategy';
 
 @Module({
   imports: [
-    UserModule,
     PassportModule,
     QueueModule,
     TypeOrmModule.forFeature([User]),
