@@ -21,6 +21,8 @@ export class FindAnimeResponse {
         rating: 4,
         reviews: 2,
         releaseDate: '2020-10-15',
+        createdAt: '2021-09-16 14:38:09',
+        updatedAt: null,
       },
     ],
   })

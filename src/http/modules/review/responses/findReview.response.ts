@@ -9,9 +9,12 @@ export class FindReviewResponse {
   @ApiProperty({
     example: [
       {
+        uuid: 'b852dcea-f442-4141-97f5-0567d9f25b1d',
         title: 'naruto',
         description: 'Proin at pulvinar enim, eget vulputate sem...',
         rating: 4,
+        createdAt: '2021-09-16 14:38:09',
+        updatedAt: null,
         anime: {
           uuid: '5fe7e1fb-1341-4625-bbaf-72688a697624',
           title: 'naruto',
@@ -22,6 +25,8 @@ export class FindReviewResponse {
           trailer: 'youtube.com/watch?v=j2hiC9BmJlQ',
           episodes: 200,
           releaseDate: '2020-10-15',
+          createdAt: '2021-09-16 14:38:09',
+          updatedAt: null,
         },
         user: {
           uuid: 'd83c3162-923a-4cb2-8ec5-d3bc5f3c38a6',
@@ -31,8 +36,9 @@ export class FindReviewResponse {
             '$2b$10$i0vQ/xHd8t2ozS4TQaZeTudbGvJzQd/DPCHF6EC/scsiX9JNf1pA6',
           avatar:
             'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
+          createdAt: '2021-09-16 14:38:09',
+          updatedAt: null,
         },
-        uuid: 'b852dcea-f442-4141-97f5-0567d9f25b1d',
       },
     ],
   })

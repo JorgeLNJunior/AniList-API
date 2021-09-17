@@ -21,6 +21,8 @@ export class RegisterResponse {
       email: 'Easton.Hamill@gmail.com',
       password: '$2b$10$DaLu8rQHFH/j6PrD3QS4PuBC6jqaWEnvng95y4HzkPLl/UReJTnpq',
       avatar: null,
+      createdAt: '2021-09-16 14:38:09',
+      updatedAt: null,
     },
   })
   private user: User;

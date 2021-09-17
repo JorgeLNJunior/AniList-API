@@ -17,6 +17,8 @@ export class FindUsersResponse {
         password:
           '$2b$10$DaLu8rQHFH/j6PrD3QS4PuBC6jqaWEnvng95y4HzkPLl/UReJTnpq',
         avatar: 'https://cdn.fakercloud.com/avatars/waghner_128.jpg',
+        createdAt: '2021-09-16 14:38:09',
+        updatedAt: null,
       },
     ],
   })
