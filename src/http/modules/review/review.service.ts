@@ -5,6 +5,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { Anime } from '../anime/entities/anime.entity';
+import { User } from '../user/entities/user.entity';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { Review } from './entities/review.entity';
@@ -15,8 +17,8 @@ import { ReviewQuery } from './query/review.query.interface';
 export class ReviewService {
   constructor(
     @InjectRepository(Review) private reviewRepository: Repository<Review>,
-    private userService: UserService,
-    private animeService: AnimeService,
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Anime) private animeRepository: Repository<Anime>,
   ) {}
 
   async create(userUuid: string, createReviewDto: CreateReviewDto) {
@@ -32,10 +34,10 @@ export class ReviewService {
       }
     });
 
-    const user = await this.userService.find({ uuid: userUuid });
+    const user = await this.userRepository.findOne(userUuid);
 
-    const anime = await this.animeService.find({ uuid: animeUuid });
-    if (!anime[0]) throw new BadRequestException(['anime not found']);
+    const anime = await this.animeRepository.findOne(animeUuid);
+    if (!anime) throw new BadRequestException(['anime not found']);
 
     const review = this.reviewRepository.create({
       title: title,
