@@ -3,7 +3,9 @@ import { CreateAnimeDto } from '@http/modules/anime/dto/create-anime.dto';
 import { fakeAnime } from './fakes';
 
 export const animeServiceMock = {
-  find: jest.fn().mockResolvedValue([fakeAnime]),
+  find: jest
+    .fn()
+    .mockResolvedValue({ results: [fakeAnime], pageTotal: 1, total: 10 }),
   top: jest.fn().mockResolvedValue([fakeAnime]),
   create: jest
     .fn()

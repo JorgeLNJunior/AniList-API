@@ -11,10 +11,13 @@ export const animeRepositoryMock = {
     where: jest.fn().mockReturnThis(),
     take: jest.fn().mockReturnThis(),
     skip: jest.fn().mockReturnThis(),
+    limit: jest.fn().mockReturnThis(),
+    offset: jest.fn().mockReturnThis(),
     groupBy: jest.fn().mockReturnThis(),
     orderBy: jest.fn().mockReturnThis(),
     getRawMany: jest.fn().mockResolvedValueOnce([fakeAnime]),
   })),
+  count: jest.fn().mockResolvedValue(10),
   findOne: jest.fn().mockResolvedValue(fakeAnime),
   create: jest.fn().mockImplementation((dto: DeepPartial<Anime>) => dto),
   save: jest

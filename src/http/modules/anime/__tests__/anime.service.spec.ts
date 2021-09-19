@@ -43,7 +43,11 @@ describe('AnimeService', () => {
 
   describe('find', () => {
     test('should return a list of anime', async () => {
-      expect(await service.find({})).toEqual([fakeAnime]);
+      expect(await service.find({})).toEqual({
+        results: [fakeAnime],
+        pageTotal: 1,
+        total: 10,
+      });
     });
 
     test('should return a list of anime with query', async () => {
@@ -55,7 +59,7 @@ describe('AnimeService', () => {
         uuid: 'uuid',
       };
       const anime = await service.find(query);
-      expect(anime).toEqual([fakeAnime]);
+      expect(anime).toEqual({ results: [fakeAnime], pageTotal: 1, total: 10 });
     });
 
     test('should return a list of top anime', async () => {

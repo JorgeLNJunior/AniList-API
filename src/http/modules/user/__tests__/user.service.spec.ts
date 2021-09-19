@@ -62,7 +62,7 @@ describe('UserService', () => {
   describe('find', () => {
     test('should return a list of users', async () => {
       const users = await service.find({});
-      expect(users).toEqual([fakeUser, fakeUser, fakeUser]);
+      expect(users).toEqual({ results: [fakeUser], pageTotal: 1, total: 10 });
       expect(userRepositoryMock.find).toBeCalledTimes(1);
     });
 
@@ -76,7 +76,7 @@ describe('UserService', () => {
       };
       const users = await service.find(query);
 
-      expect(users).toEqual([fakeUser, fakeUser, fakeUser]);
+      expect(users).toEqual({ results: [fakeUser], pageTotal: 1, total: 10 });
       expect(userRepositoryMock.find).toBeCalledTimes(1);
     });
   });

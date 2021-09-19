@@ -32,7 +32,9 @@ describe('UserController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        users: [fakeUser],
+        results: [fakeUser],
+        pageTotal: 1,
+        total: 10,
       });
       expect(userServiceMock.find).toBeCalledTimes(1);
       expect(userServiceMock.find).toBeCalledWith({});
@@ -50,7 +52,9 @@ describe('UserController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        users: [fakeUser],
+        results: [fakeUser],
+        pageTotal: 1,
+        total: 10,
       });
       expect(userServiceMock.find).toBeCalledTimes(1);
       expect(userServiceMock.find).toBeCalledWith(query);

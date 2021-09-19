@@ -30,12 +30,20 @@ describe('AnimeController', () => {
   describe('find', () => {
     test('should return a list of anime', async () => {
       const response = await controller.find({});
-      expect(response).toEqual({ statusCode: 200, animes: [fakeAnime] });
+      expect(response).toEqual({
+        statusCode: 200,
+        results: [fakeAnime],
+        pageTotal: 1,
+        total: 10,
+      });
     });
 
     test('should return a list of top animes', async () => {
       const response = await controller.top();
-      expect(response).toEqual({ statusCode: 200, animes: [fakeAnime] });
+      expect(response).toEqual({
+        statusCode: 200,
+        animes: [fakeAnime],
+      });
       expect(service.find).toHaveBeenCalledTimes(1);
     });
   });

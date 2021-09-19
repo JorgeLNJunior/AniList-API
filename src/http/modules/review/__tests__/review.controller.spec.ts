@@ -53,7 +53,9 @@ describe('ReviewController', () => {
       const reviews = await controller.find({});
       expect(reviews).toEqual({
         statusCode: 200,
-        reviews: [fakeReview],
+        results: [fakeReview],
+        pageTotal: 1,
+        total: 10,
       });
       expect(reviewServiceMock.find).toBeCalledTimes(1);
       expect(reviewServiceMock.find).toBeCalledWith({});
@@ -72,7 +74,9 @@ describe('ReviewController', () => {
 
       expect(reviews).toEqual({
         statusCode: 200,
-        reviews: [fakeReview],
+        results: [fakeReview],
+        pageTotal: 1,
+        total: 10,
       });
       expect(reviewServiceMock.find).toBeCalledTimes(1);
       expect(reviewServiceMock.find).toBeCalledWith(query);

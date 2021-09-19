@@ -1,13 +1,15 @@
+import { Anime } from '@http/modules/anime/entities/anime.entity';
+import { User } from '@http/modules/user/entities/user.entity';
+import { animeRepositoryMock } from '@mocks/anime.respository.mock';
 import { animeServiceMock } from '@mocks/anime.service.mock';
 import { fakeReview } from '@mocks/fakes';
 import { reviewRepositoryMock } from '@mocks/reviewRepository.mock';
+import { userRepositoryMock } from '@mocks/user.repository.mock';
 import { userServiceMock } from '@mocks/user.service.mock';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { AnimeService } from '../../anime/anime.service';
-import { UserService } from '../../user/user.service';
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { UpdateReviewDto } from '../dto/update-review.dto';
 import { Review } from '../entities/review.entity';
@@ -21,9 +23,9 @@ describe('ReviewService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ReviewService,
-        { provide: UserService, useValue: userServiceMock },
-        { provide: AnimeService, useValue: animeServiceMock },
         { provide: getRepositoryToken(Review), useValue: reviewRepositoryMock },
+        { provide: getRepositoryToken(Anime), useValue: animeRepositoryMock },
+        { provide: getRepositoryToken(User), useValue: userRepositoryMock },
       ],
     }).compile();
 
@@ -45,8 +47,8 @@ describe('ReviewService', () => {
       const review = await service.create('uuid', dto);
 
       expect(review).toEqual(fakeReview);
-      expect(userServiceMock.find).toBeCalledTimes(1);
-      expect(animeServiceMock.find).toBeCalledTimes(1);
+      expect(userRepositoryMock.findOne).toBeCalledTimes(1);
+      expect(animeRepositoryMock.findOne).toBeCalledTimes(1);
       expect(reviewRepositoryMock.create).toBeCalledTimes(1);
       expect(reviewRepositoryMock.save).toBeCalledTimes(1);
     });
@@ -61,8 +63,8 @@ describe('ReviewService', () => {
 
       // eslint-disable-next-line jest/valid-expect
       expect(service.create('uuid', dto)).rejects.toThrow(BadRequestException);
-      expect(userServiceMock.find).toBeCalledTimes(0);
-      expect(animeServiceMock.find).toBeCalledTimes(0);
+      expect(userRepositoryMock.findOne).toBeCalledTimes(0);
+      expect(animeRepositoryMock.findOne).toBeCalledTimes(0);
     });
 
     test('should throw a BadRequestException if the anime was not found', async () => {
@@ -73,12 +75,10 @@ describe('ReviewService', () => {
         rating: fakeReview.rating,
       };
 
-      jest.spyOn(animeServiceMock, 'find').mockResolvedValue([]);
+      jest.spyOn(animeRepositoryMock, 'findOne').mockResolvedValue(undefined);
 
       // eslint-disable-next-line jest/valid-expect
       expect(service.create('uuid', dto)).rejects.toThrow(BadRequestException);
-      // expect(userServiceMock.find).toBeCalledTimes(1);
-      // expect(animeServiceMock.find).toBeCalledTimes(1);
     });
   });
 
@@ -87,7 +87,11 @@ describe('ReviewService', () => {
 
     test('should return a list of review', async () => {
       const reviews = await service.find({});
-      expect(reviews).toEqual([fakeReview]);
+      expect(reviews).toEqual({
+        results: [fakeReview],
+        pageTotal: 1,
+        total: 10,
+      });
     });
 
     test('should return a list of review with query', async () => {
@@ -99,7 +103,11 @@ describe('ReviewService', () => {
         skip: 2,
       };
       const reviews = await service.find(query);
-      expect(reviews).toEqual([fakeReview]);
+      expect(reviews).toEqual({
+        results: [fakeReview],
+        pageTotal: 1,
+        total: 10,
+      });
     });
   });
 
