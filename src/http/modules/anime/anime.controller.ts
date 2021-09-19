@@ -41,6 +41,7 @@ import { AnimeQuery } from './query/anime.query.interface';
 import { CreateAnimeResponse } from './responses/createAnime.response';
 import { DeleteAnimeResponse } from './responses/deleteAnime.response';
 import { FindAnimeResponse } from './responses/findAnimes.response';
+import { FindTopAnimesResponse } from './responses/findTopAnimes.response';
 import { UpdateAnimeResponse } from './responses/updateAnime.response';
 
 @ApiBearerAuth()
@@ -86,7 +87,7 @@ export class AnimeController {
   @Get('top')
   async top() {
     const animes = await this.animeService.top();
-    return new FindAnimeResponse(animes).build();
+    return new FindTopAnimesResponse(animes).build();
   }
 
   @ApiOkResponse({ description: 'OK', type: UpdateAnimeResponse })

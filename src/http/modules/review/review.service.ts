@@ -1,5 +1,6 @@
 import { AnimeService } from '@http/modules/anime/anime.service';
 import { UserService } from '@http/modules/user/user.service';
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -47,12 +48,18 @@ export class ReviewService {
     return this.reviewRepository.save(review);
   }
 
-  find(query: ReviewQuery) {
+  async find(query: ReviewQuery): Promise<PaginationInterface<Review>> {
     const findOptions = new ReviewQueryBuilder(query).build();
-    return this.reviewRepository.find({
+
+    const total = await this.reviewRepository.count({
+      where: findOptions.where,
+    });
+    const reviews = await this.reviewRepository.find({
       ...findOptions,
       relations: ['user', 'anime'],
     });
+
+    return { results: reviews, pageTotal: reviews.length, total: total };
   }
 
   async update(uuid: string, updateReviewDto: UpdateReviewDto) {

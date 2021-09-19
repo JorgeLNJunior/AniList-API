@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { Repository } from 'typeorm';
 
+import { PaginationInterface } from '../../shared/pagination/pagination.interface';
 import { CreateAnimeDto } from './dto/create-anime.dto';
 import { UpdateAnimeDto } from './dto/update-anime.dto';
 import { Anime } from './entities/anime.entity';
@@ -21,10 +22,13 @@ export class AnimeService {
     return this.animeRepository.save(anime);
   }
 
-  async find(query: AnimeQuery) {
+  async find(query: AnimeQuery): Promise<PaginationInterface<Anime>> {
     const findOptions = new AnimeQueryBuilder(query).build();
 
-    return this.animeRepository
+    const total = await this.animeRepository.count({
+      where: findOptions.where,
+    });
+    const animes = await this.animeRepository
       .createQueryBuilder('anime')
       .select(
         'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover, anime.episodes, anime.releaseDate, anime.createdAt, anime.updatedAt',
@@ -36,11 +40,13 @@ export class AnimeService {
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
       .leftJoin('review', 'review', 'anime.uuid = review.animeUuid')
       .where(findOptions.where)
-      .take(findOptions.take)
-      .skip(findOptions.skip)
+      .limit(findOptions.take)
+      .offset(findOptions.skip)
       .groupBy('anime.uuid')
-      .orderBy('anime.title', 'ASC')
+      .orderBy('anime.createdAt', 'DESC')
       .getRawMany();
+
+    return { results: animes, total: total, pageTotal: animes.length };
   }
 
   async top() {

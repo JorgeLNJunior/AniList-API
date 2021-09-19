@@ -1,3 +1,4 @@
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface';
 import { BcryptService } from '@http/shared/services/bcrypt.service';
 import { InjectQueue } from '@nestjs/bull';
 import {
@@ -52,9 +53,13 @@ export class UserService implements OnApplicationBootstrap {
     return this.userRepository.save(user);
   }
 
-  async find(query?: UserQuery) {
+  async find(query?: UserQuery): Promise<PaginationInterface<User>> {
     const findOptions = new UserQueryBuilder(query).build();
-    return this.userRepository.find(findOptions);
+
+    const total = await this.userRepository.count({ where: findOptions.where });
+    const users = await this.userRepository.find(findOptions);
+
+    return { results: users, pageTotal: users.length, total: total };
   }
 
   async update(uuid: string, updateUserDto: UpdateUserDto) {
