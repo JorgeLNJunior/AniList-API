@@ -9,6 +9,7 @@ export const animeRepositoryMock = {
     addSelect: jest.fn().mockReturnThis(),
     leftJoin: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
     take: jest.fn().mockReturnThis(),
     skip: jest.fn().mockReturnThis(),
     limit: jest.fn().mockReturnThis(),
@@ -26,5 +27,5 @@ export const animeRepositoryMock = {
       Promise.resolve({ uuid: 'uuid', cover: 'cover', ...entity }),
     ),
   update: jest.fn().mockResolvedValue(true),
-  delete: jest.fn().mockResolvedValue(true),
+  softDelete: jest.fn().mockResolvedValue(true),
 };

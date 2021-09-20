@@ -120,8 +120,8 @@ describe('AnimeService', () => {
     test('should delete an anime', async () => {
       await service.delete('uuid');
 
-      expect(repo.delete).toHaveBeenCalledTimes(1);
-      expect(repo.delete).toHaveBeenCalledWith('uuid');
+      expect(repo.softDelete).toHaveBeenCalledTimes(1);
+      expect(repo.softDelete).toHaveBeenCalledWith('uuid');
     });
   });
 

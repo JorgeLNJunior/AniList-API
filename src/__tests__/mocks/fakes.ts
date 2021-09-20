@@ -12,6 +12,7 @@ export const fakeUser: User = {
   isEmailConfirmed: true,
   createdAt: new Date('2020-01-01'),
   updatedAt: null,
+  deletedAt: null,
 };
 
 export const fakeAnime: Anime = {
@@ -24,6 +25,7 @@ export const fakeAnime: Anime = {
   releaseDate: '2020-10-21',
   createdAt: new Date('2020-01-01'),
   updatedAt: null,
+  deletedAt: null,
 };
 
 export const fakeReview: Review = {
@@ -35,4 +37,5 @@ export const fakeReview: Review = {
   user: fakeUser,
   createdAt: new Date('2020-01-01'),
   updatedAt: null,
+  deletedAt: null,
 };

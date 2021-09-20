@@ -7,5 +7,5 @@ export const reviewRepositoryMock = {
   create: jest.fn().mockResolvedValue(fakeReview),
   save: jest.fn().mockResolvedValue(fakeReview),
   update: jest.fn().mockResolvedValue(fakeReview),
-  delete: jest.fn().mockResolvedValue(true),
+  softDelete: jest.fn().mockResolvedValue(true),
 };

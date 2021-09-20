@@ -114,8 +114,8 @@ describe('UserService', () => {
     test('should delete a user', async () => {
       await service.delete('uuid');
 
-      expect(userRepositoryMock.delete).toBeCalledTimes(1);
-      expect(userRepositoryMock.delete).toBeCalledWith('uuid');
+      expect(userRepositoryMock.softDelete).toBeCalledTimes(1);
+      expect(userRepositoryMock.softDelete).toBeCalledWith('uuid');
     });
   });
 

@@ -1,11 +1,9 @@
 import { Anime } from '@http/modules/anime/entities/anime.entity';
 import { User } from '@http/modules/user/entities/user.entity';
 import { animeRepositoryMock } from '@mocks/anime.respository.mock';
-import { animeServiceMock } from '@mocks/anime.service.mock';
 import { fakeReview } from '@mocks/fakes';
 import { reviewRepositoryMock } from '@mocks/reviewRepository.mock';
 import { userRepositoryMock } from '@mocks/user.repository.mock';
-import { userServiceMock } from '@mocks/user.service.mock';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -153,7 +151,7 @@ describe('ReviewService', () => {
       await service.delete('uuid');
 
       expect(reviewRepositoryMock.findOne).toBeCalledTimes(1);
-      expect(reviewRepositoryMock.delete).toBeCalledTimes(1);
+      expect(reviewRepositoryMock.softDelete).toBeCalledTimes(1);
     });
 
     test('should throw a BadRequestException if the review was not found', async () => {
@@ -162,7 +160,7 @@ describe('ReviewService', () => {
       // eslint-disable-next-line jest/valid-expect
       expect(service.delete('uuid')).rejects.toThrow(BadRequestException);
       expect(reviewRepositoryMock.findOne).toBeCalledTimes(1);
-      expect(reviewRepositoryMock.delete).toBeCalledTimes(0);
+      expect(reviewRepositoryMock.softDelete).toBeCalledTimes(0);
     });
   });
 });

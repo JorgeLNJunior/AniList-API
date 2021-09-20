@@ -7,5 +7,5 @@ export const userRepositoryMock = {
   findOne: jest.fn().mockResolvedValue(fakeUser),
   update: jest.fn().mockResolvedValue(true),
   save: jest.fn().mockResolvedValue(fakeUser),
-  delete: jest.fn().mockResolvedValue(true),
+  softDelete: jest.fn().mockResolvedValue(true),
 };
