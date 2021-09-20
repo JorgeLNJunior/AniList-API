@@ -56,6 +56,11 @@ export class createAnimeTable1624810395846 implements MigrationInterface {
             default: null,
             onUpdate: 'CURRENT_TIMESTAMP',
           },
+          {
+            name: 'deletedAt',
+            type: 'timestamp',
+            isNullable: true,
+          },
         ],
       }),
       true,

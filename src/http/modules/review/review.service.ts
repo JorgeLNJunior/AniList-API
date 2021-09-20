@@ -78,6 +78,6 @@ export class ReviewService {
     const review = await this.reviewRepository.findOne(uuid);
     if (!review) throw new BadRequestException(['review not found']);
 
-    await this.reviewRepository.delete(uuid);
+    await this.reviewRepository.softDelete(uuid);
   }
 }

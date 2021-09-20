@@ -40,6 +40,7 @@ export class AnimeService {
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
       .leftJoin('review', 'review', 'anime.uuid = review.animeUuid')
       .where(findOptions.where)
+      .andWhere('anime.deletedAt IS NULL')
       .limit(findOptions.take)
       .offset(findOptions.skip)
       .groupBy('anime.uuid')
@@ -61,7 +62,8 @@ export class AnimeService {
       )
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
       .leftJoin('review', 'review', 'anime.uuid = review.animeUuid')
-      .take(10)
+      .where('anime.deletedAt IS NULL')
+      .limit(10)
       .groupBy('anime.uuid')
       .orderBy('rating', 'DESC')
       .getRawMany();
@@ -76,7 +78,7 @@ export class AnimeService {
   }
 
   async delete(uuid: string) {
-    await this.animeRepository.delete(uuid);
+    await this.animeRepository.softDelete(uuid);
   }
 
   async upload(uuid: string, path: string) {

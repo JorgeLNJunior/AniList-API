@@ -53,6 +53,11 @@ export class createReviewTable1625254721286 implements MigrationInterface {
             default: null,
             onUpdate: 'CURRENT_TIMESTAMP',
           },
+          {
+            name: 'deletedAt',
+            type: 'timestamp',
+            isNullable: true,
+          },
         ],
       }),
       true,

@@ -71,7 +71,7 @@ export class UserService implements OnApplicationBootstrap {
   }
 
   async delete(uuid: string) {
-    await this.userRepository.delete(uuid);
+    await this.userRepository.softDelete(uuid);
   }
 
   async upload(uuid: string, path: string) {
