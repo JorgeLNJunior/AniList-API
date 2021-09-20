@@ -21,7 +21,8 @@ export class ChatGateway {
 }
 
 interface ChatMessage {
-  avatar: string;
+  userUuid: string;
   username: string;
+  avatar: string;
   message: string;
 }
