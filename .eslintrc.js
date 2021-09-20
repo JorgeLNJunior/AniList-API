@@ -5,13 +5,13 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: [
-    '@typescript-eslint/eslint-plugin',
+    '@typescript-eslint',
     'simple-import-sort',
     'jest'
   ],
   extends: [
+    'standard',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
     'plugin:jest/recommended'
   ],
   root: true,
