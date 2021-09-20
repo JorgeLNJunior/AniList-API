@@ -1,28 +1,28 @@
-import { User } from '@http/modules/user/entities/user.entity';
-import { fakeUser } from '@mocks/fakes';
-import { userRepositoryMock } from '@mocks/user.repository.mock';
-import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { User } from '@http/modules/user/entities/user.entity'
+import { fakeUser } from '@mocks/fakes'
+import { userRepositoryMock } from '@mocks/user.repository.mock'
+import { Test, TestingModule } from '@nestjs/testing'
+import { getRepositoryToken } from '@nestjs/typeorm'
 
-import { FakeMailService } from '../../mail/fakeMail.service';
+import { FakeMailService } from '../../mail/fakeMail.service'
 
 describe('FakeMailService', () => {
-  let service: FakeMailService;
+  let service: FakeMailService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         FakeMailService,
-        { provide: getRepositoryToken(User), useValue: userRepositoryMock },
-      ],
-    }).compile();
+        { provide: getRepositoryToken(User), useValue: userRepositoryMock }
+      ]
+    }).compile()
 
-    service = module.get(FakeMailService);
-  });
+    service = module.get(FakeMailService)
+  })
 
   test('should send a email', async () => {
-    await service.sendConfirmationEmail(fakeUser);
+    await service.sendConfirmationEmail(fakeUser)
 
-    expect(userRepositoryMock.update).toBeCalledTimes(1);
-  });
-});
+    expect(userRepositoryMock.update).toBeCalledTimes(1)
+  })
+})

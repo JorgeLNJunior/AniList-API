@@ -4,8 +4,8 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  UpdateDateColumn
+} from 'typeorm'
 
 @Entity()
 export class User {
@@ -22,7 +22,7 @@ export class User {
   password: string;
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   avatar: string;
 

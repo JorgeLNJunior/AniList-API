@@ -1,22 +1,22 @@
-import { Anime } from '@http/modules/anime/entities/anime.entity';
-import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/typeorm';
-import { Connection } from 'typeorm';
+import { Anime } from '@http/modules/anime/entities/anime.entity'
+import { HttpService } from '@nestjs/axios'
+import { Injectable, Logger } from '@nestjs/common'
+import { InjectConnection } from '@nestjs/typeorm'
+import { Connection } from 'typeorm'
 
 @Injectable()
 export class AnimeSeeder {
   private readonly logger = new Logger(AnimeSeeder.name);
 
-  constructor(
+  constructor (
     @InjectConnection() private connection: Connection,
-    private httpService: HttpService,
+    private httpService: HttpService
   ) {}
 
-  async run() {
+  async run () {
     return new Promise<void>((resolve) => {
       this.findAnimes().subscribe(async (res) => {
-        const animes = res.data.data as any[];
+        const animes = res.data.data as any[]
 
         for (let index = 0; index < animes.length; index++) {
           await this.insert({
@@ -26,25 +26,25 @@ export class AnimeSeeder {
             episodes: animes[index].attributes.episodeCount || 999,
             trailer: `https://youtube.com/watch?v=${animes[index].attributes.youtubeVideoId}`,
             cover: animes[index].attributes.coverImage.original,
-            createdAt: new Date(),
-          });
+            createdAt: new Date()
+          })
         }
-        this.logger.log('Anime seed finished');
-        resolve();
-      });
-    });
+        this.logger.log('Anime seed finished')
+        resolve()
+      })
+    })
   }
 
-  findAnimes() {
-    return this.httpService.get('https://kitsu.io/api/edge/trending/anime');
+  findAnimes () {
+    return this.httpService.get('https://kitsu.io/api/edge/trending/anime')
   }
 
-  async insert(dto: any) {
+  async insert (dto: any) {
     await this.connection
       .createQueryBuilder()
       .insert()
       .into(Anime)
       .values(dto)
-      .execute();
+      .execute()
   }
 }

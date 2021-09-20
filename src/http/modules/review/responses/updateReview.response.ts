@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
-import { Review } from '../entities/review.entity';
+import { Review } from '../entities/review.entity'
 
 export class UpdateReviewResponse {
   @ApiProperty({ default: 200 })
@@ -24,7 +24,7 @@ export class UpdateReviewResponse {
         episodes: 200,
         releaseDate: '2020-10-15',
         createdAt: '2021-09-16 14:38:09',
-        updatedAt: null,
+        updatedAt: null
       },
       user: {
         uuid: 'd83c3162-923a-4cb2-8ec5-d3bc5f3c38a6',
@@ -35,22 +35,22 @@ export class UpdateReviewResponse {
         avatar:
           'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
         createdAt: '2021-09-16 14:38:09',
-        updatedAt: null,
-      },
-    },
+        updatedAt: null
+      }
+    }
   })
   private review: Review;
 
-  constructor(review: Review, status?: number) {
-    this.review = review;
-    this.statusCode = status || 200;
+  constructor (review: Review, status?: number) {
+    this.review = review
+    this.statusCode = status || 200
   }
 
-  build() {
-    delete this.review.user.isAdmin;
+  build () {
+    delete this.review.user.isAdmin
     return {
       statusCode: this.statusCode,
-      review: this.review,
-    };
+      review: this.review
+    }
   }
 }

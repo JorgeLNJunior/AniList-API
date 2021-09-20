@@ -1,7 +1,7 @@
-import { PaginationInterface } from '@http/shared/pagination/pagination.interface';
-import { ApiProperty } from '@nestjs/swagger';
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
+import { ApiProperty } from '@nestjs/swagger'
 
-import { Review } from '../entities/review.entity';
+import { Review } from '../entities/review.entity'
 
 export class FindReviewResponse {
   @ApiProperty({ default: 200 })
@@ -28,7 +28,7 @@ export class FindReviewResponse {
             episodes: 200,
             releaseDate: '2020-10-15',
             createdAt: '2021-09-16 14:38:09',
-            updatedAt: null,
+            updatedAt: null
           },
           user: {
             uuid: 'd83c3162-923a-4cb2-8ec5-d3bc5f3c38a6',
@@ -39,25 +39,25 @@ export class FindReviewResponse {
             avatar:
               'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
             createdAt: '2021-09-16 14:38:09',
-            updatedAt: null,
-          },
-        },
+            updatedAt: null
+          }
+        }
       ],
       pageTotal: 20,
-      total: 50,
-    },
+      total: 50
+    }
   })
   private result: PaginationInterface<Review>;
 
-  constructor(result: PaginationInterface<Review>, status?: number) {
-    this.result = result;
-    this.statusCode = status || 200;
+  constructor (result: PaginationInterface<Review>, status?: number) {
+    this.result = result
+    this.statusCode = status || 200
   }
 
-  build() {
+  build () {
     return {
       statusCode: this.statusCode,
-      ...this.result,
-    };
+      ...this.result
+    }
   }
 }

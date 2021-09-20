@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger'
+import { IsOptional } from 'class-validator'
 
 export class UserQuery {
   @ApiProperty({
     example: '6f693ea5-5739-4750-9e8c-0824f626198b',
-    required: false,
+    required: false
   })
   @IsOptional()
   uuid?: string;

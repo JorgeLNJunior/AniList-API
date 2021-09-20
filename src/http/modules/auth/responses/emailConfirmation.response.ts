@@ -1,9 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
 export class EmailConfirmationResponse {
-  constructor(status?: number, message?: string) {
-    this.status = status || 200;
-    this.message = message || 'email confirmed';
+  constructor (status?: number, message?: string) {
+    this.status = status || 200
+    this.message = message || 'email confirmed'
   }
 
   @ApiProperty({ default: 'email confirmed' })
@@ -11,7 +11,7 @@ export class EmailConfirmationResponse {
 
   private status: number;
 
-  build() {
-    return { statusCode: this.status, message: this.message };
+  build () {
+    return { statusCode: this.status, message: this.message }
   }
 }

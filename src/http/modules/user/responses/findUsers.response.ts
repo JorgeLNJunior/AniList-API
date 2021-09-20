@@ -1,11 +1,11 @@
-import { PaginationInterface } from '@http/shared/pagination/pagination.interface';
-import { ApiProperty } from '@nestjs/swagger';
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
+import { ApiProperty } from '@nestjs/swagger'
 
-import { User } from '../entities/user.entity';
+import { User } from '../entities/user.entity'
 
 export class FindUsersResponse {
   @ApiProperty({
-    default: 200,
+    default: 200
   })
   private statusCode: number;
 
@@ -20,24 +20,24 @@ export class FindUsersResponse {
             '$2b$10$DaLu8rQHFH/j6PrD3QS4PuBC6jqaWEnvng95y4HzkPLl/UReJTnpq',
           avatar: 'https://cdn.fakercloud.com/avatars/waghner_128.jpg',
           createdAt: '2021-09-16 14:38:09',
-          updatedAt: null,
-        },
+          updatedAt: null
+        }
       ],
       pageTotal: 20,
-      total: 50,
-    },
+      total: 50
+    }
   })
   private results: PaginationInterface<User>;
 
-  constructor(results: PaginationInterface<User>, status?: number) {
-    this.results = results;
-    this.statusCode = status || 200;
+  constructor (results: PaginationInterface<User>, status?: number) {
+    this.results = results
+    this.statusCode = status || 200
   }
 
-  build() {
+  build () {
     return {
       statusCode: this.statusCode,
-      ...this.results,
-    };
+      ...this.results
+    }
   }
 }

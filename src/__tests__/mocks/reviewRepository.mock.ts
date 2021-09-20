@@ -1,4 +1,4 @@
-import { fakeReview } from './fakes';
+import { fakeReview } from './fakes'
 
 export const reviewRepositoryMock = {
   count: jest.fn().mockResolvedValue(10),
@@ -7,5 +7,5 @@ export const reviewRepositoryMock = {
   create: jest.fn().mockResolvedValue(fakeReview),
   save: jest.fn().mockResolvedValue(fakeReview),
   update: jest.fn().mockResolvedValue(fakeReview),
-  softDelete: jest.fn().mockResolvedValue(true),
-};
+  softDelete: jest.fn().mockResolvedValue(true)
+}

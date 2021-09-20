@@ -1,18 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
 export class UnauthorizedResponse {
   @ApiProperty({
-    default: 401,
+    default: 401
   })
   statusCode: number;
 
   @ApiProperty({
-    example: 'invalid credentials',
+    example: 'invalid credentials'
   })
   message: string;
 
   @ApiProperty({
-    default: 'Unauthorized',
+    default: 'Unauthorized'
   })
   error: string;
 }

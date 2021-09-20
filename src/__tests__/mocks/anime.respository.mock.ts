@@ -1,7 +1,7 @@
-import { Anime } from '@http/modules/anime/entities/anime.entity';
-import { DeepPartial } from 'typeorm';
+import { Anime } from '@http/modules/anime/entities/anime.entity'
+import { DeepPartial } from 'typeorm'
 
-import { fakeAnime } from './fakes';
+import { fakeAnime } from './fakes'
 
 export const animeRepositoryMock = {
   createQueryBuilder: jest.fn(() => ({
@@ -16,7 +16,7 @@ export const animeRepositoryMock = {
     offset: jest.fn().mockReturnThis(),
     groupBy: jest.fn().mockReturnThis(),
     orderBy: jest.fn().mockReturnThis(),
-    getRawMany: jest.fn().mockResolvedValueOnce([fakeAnime]),
+    getRawMany: jest.fn().mockResolvedValueOnce([fakeAnime])
   })),
   count: jest.fn().mockResolvedValue(10),
   findOne: jest.fn().mockResolvedValue(fakeAnime),
@@ -24,8 +24,8 @@ export const animeRepositoryMock = {
   save: jest
     .fn()
     .mockImplementation((entity: Anime) =>
-      Promise.resolve({ uuid: 'uuid', cover: 'cover', ...entity }),
+      Promise.resolve({ uuid: 'uuid', cover: 'cover', ...entity })
     ),
   update: jest.fn().mockResolvedValue(true),
-  softDelete: jest.fn().mockResolvedValue(true),
-};
+  softDelete: jest.fn().mockResolvedValue(true)
+}

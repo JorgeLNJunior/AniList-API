@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
-import { Anime } from '../entities/anime.entity';
+import { Anime } from '../entities/anime.entity'
 
 export class UpdateAnimeResponse {
   @ApiProperty({
-    default: 200,
+    default: 200
   })
   private statusCode: number;
 
@@ -20,20 +20,20 @@ export class UpdateAnimeResponse {
       episodes: 75,
       releaseDate: '2020-10-15',
       createdAt: '2021-09-16 14:38:09',
-      updatedAt: null,
-    },
+      updatedAt: null
+    }
   })
   private anime: Anime;
 
-  constructor(anime: Anime, status?: number) {
-    this.anime = anime;
-    this.statusCode = status || 200;
+  constructor (anime: Anime, status?: number) {
+    this.anime = anime
+    this.statusCode = status || 200
   }
 
-  build() {
+  build () {
     return {
       statusCode: this.statusCode,
-      anime: this.anime,
-    };
+      anime: this.anime
+    }
   }
 }

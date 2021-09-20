@@ -1,11 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
-import { PaginationInterface } from '../../../shared/pagination/pagination.interface';
-import { Anime } from '../entities/anime.entity';
+import { PaginationInterface } from '../../../shared/pagination/pagination.interface'
+import { Anime } from '../entities/anime.entity'
 
 export class FindAnimeResponse {
   @ApiProperty({
-    default: 200,
+    default: 200
   })
   private statusCode: number;
 
@@ -24,24 +24,24 @@ export class FindAnimeResponse {
           reviews: 2,
           releaseDate: '2020-10-15',
           createdAt: '2021-09-16 14:38:09',
-          updatedAt: null,
-        },
+          updatedAt: null
+        }
       ],
       pageTotal: 10,
-      total: 40,
-    },
+      total: 40
+    }
   })
   private animes: PaginationInterface<Anime>;
 
-  constructor(animes: PaginationInterface<Anime>, status?: number) {
-    this.animes = animes;
-    this.statusCode = status || 200;
+  constructor (animes: PaginationInterface<Anime>, status?: number) {
+    this.animes = animes
+    this.statusCode = status || 200
   }
 
-  build() {
+  build () {
     return {
       statusCode: this.statusCode,
-      ...this.animes,
-    };
+      ...this.animes
+    }
   }
 }

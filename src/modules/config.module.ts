@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule as Config } from '@nestjs/config';
-import * as Joi from 'joi';
+import { Module } from '@nestjs/common'
+import { ConfigModule as Config } from '@nestjs/config'
+import * as Joi from 'joi'
 
 @Module({
   imports: [
@@ -33,9 +33,9 @@ import * as Joi from 'joi';
         SENDGRID_SENDER: Joi.string().email().optional(),
         SENDGRID_API_KEY: Joi.string().optional(),
         PORT: Joi.number().optional(),
-        RUN_SEEDS: Joi.boolean().optional(),
-      }),
-    }),
-  ],
+        RUN_SEEDS: Joi.boolean().optional()
+      })
+    })
+  ]
 })
 export class ConfigModule {}

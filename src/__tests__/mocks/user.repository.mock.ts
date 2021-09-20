@@ -1,4 +1,4 @@
-import { fakeUser } from './fakes';
+import { fakeUser } from './fakes'
 
 export const userRepositoryMock = {
   count: jest.fn().mockResolvedValue(10),
@@ -7,5 +7,5 @@ export const userRepositoryMock = {
   findOne: jest.fn().mockResolvedValue(fakeUser),
   update: jest.fn().mockResolvedValue(true),
   save: jest.fn().mockResolvedValue(fakeUser),
-  softDelete: jest.fn().mockResolvedValue(true),
-};
+  softDelete: jest.fn().mockResolvedValue(true)
+}

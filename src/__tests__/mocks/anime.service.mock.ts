@@ -1,6 +1,6 @@
-import { CreateAnimeDto } from '@http/modules/anime/dto/create-anime.dto';
+import { CreateAnimeDto } from '@http/modules/anime/dto/create-anime.dto'
 
-import { fakeAnime } from './fakes';
+import { fakeAnime } from './fakes'
 
 export const animeServiceMock = {
   find: jest
@@ -10,7 +10,7 @@ export const animeServiceMock = {
   create: jest
     .fn()
     .mockImplementation((dto: CreateAnimeDto) =>
-      Promise.resolve({ uuid: 'uuid', cover: 'cover', ...dto }),
+      Promise.resolve({ uuid: 'uuid', cover: 'cover', ...dto })
     ),
   update: jest.fn().mockImplementation((uuid: string, dto: CreateAnimeDto) =>
     Promise.resolve({
@@ -19,9 +19,9 @@ export const animeServiceMock = {
       synopsis: 'synopsis',
       episodes: 10,
       releaseDate: '2020-05-13',
-      ...dto,
-    }),
+      ...dto
+    })
   ),
   delete: jest.fn().mockResolvedValue(true),
-  upload: jest.fn().mockResolvedValue('the image will be available soon'),
-};
+  upload: jest.fn().mockResolvedValue('the image will be available soon')
+}

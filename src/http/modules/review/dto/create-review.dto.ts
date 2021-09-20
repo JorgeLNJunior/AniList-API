@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 import {
   IsNotEmpty,
   IsNumber,
@@ -6,8 +6,8 @@ import {
   IsUUID,
   Max,
   MaxLength,
-  Min,
-} from 'class-validator';
+  Min
+} from 'class-validator'
 
 export class CreateReviewDto {
   @ApiProperty({ example: 'naruto' })
@@ -30,7 +30,7 @@ export class CreateReviewDto {
 
   @ApiProperty({
     example: '1c12dd97-839e-4058-91f0-e75934b02d52',
-    description: 'anime uuid',
+    description: 'anime uuid'
   })
   @IsNotEmpty()
   @IsString()

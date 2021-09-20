@@ -1,11 +1,11 @@
-import { User } from '@http/modules/user/entities/user.entity';
-import { ApiProperty } from '@nestjs/swagger';
+import { User } from '@http/modules/user/entities/user.entity'
+import { ApiProperty } from '@nestjs/swagger'
 
 export class RegisterResponse {
-  constructor(user: User, status?: number, message?: string) {
-    this.user = user;
-    this.status = status || 201;
-    this.message = message || 'please confirm your email address';
+  constructor (user: User, status?: number, message?: string) {
+    this.user = user
+    this.status = status || 201
+    this.message = message || 'please confirm your email address'
   }
 
   @ApiProperty({ default: 201 })
@@ -22,16 +22,16 @@ export class RegisterResponse {
       password: '$2b$10$DaLu8rQHFH/j6PrD3QS4PuBC6jqaWEnvng95y4HzkPLl/UReJTnpq',
       avatar: null,
       createdAt: '2021-09-16 14:38:09',
-      updatedAt: null,
-    },
+      updatedAt: null
+    }
   })
   private user: User;
 
-  build() {
+  build () {
     return {
       statusCode: this.status,
       user: this.user,
-      message: this.message,
-    };
+      message: this.message
+    }
   }
 }

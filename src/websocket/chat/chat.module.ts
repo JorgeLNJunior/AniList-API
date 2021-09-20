@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
+import { Module } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { JwtModule } from '@nestjs/jwt'
 
-import { ChatGateway } from './chat.gateway';
-import { WebSocketAuthGuard } from './guards/websocketAuth.guard';
+import { ChatGateway } from './chat.gateway'
+import { WebSocketAuthGuard } from './guards/websocketAuth.guard'
 
 @Module({
   imports: [
@@ -13,11 +13,11 @@ import { WebSocketAuthGuard } from './guards/websocketAuth.guard';
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRES'),
-        },
-      }),
-    }),
+          expiresIn: configService.get<string>('JWT_EXPIRES')
+        }
+      })
+    })
   ],
-  providers: [ChatGateway, WebSocketAuthGuard],
+  providers: [ChatGateway, WebSocketAuthGuard]
 })
 export class ChatModule {}

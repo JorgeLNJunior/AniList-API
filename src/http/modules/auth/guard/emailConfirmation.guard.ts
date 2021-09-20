@@ -1,21 +1,20 @@
-import { User } from '@http/modules/user/entities/user.entity';
 import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+  UnauthorizedException
+} from '@nestjs/common'
 
 @Injectable()
 export class EmailConfirmationGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest();
+  canActivate (context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest()
 
-    const isEmailConfirmed = request.user.isEmailConfirmed;
+    const isEmailConfirmed = request.user.isEmailConfirmed
     if (!isEmailConfirmed) {
-      throw new UnauthorizedException('confirm your email first');
+      throw new UnauthorizedException('confirm your email first')
     }
 
-    return true;
+    return true
   }
 }

@@ -1,18 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   Matches,
-  MaxLength,
-} from 'class-validator';
+  MaxLength
+} from 'class-validator'
 
-import { IsYoutubeUrl } from '../decorators/isYoutubeUrl.decorator';
+import { IsYoutubeUrl } from '../decorators/isYoutubeUrl.decorator'
 
 export class UpdateAnimeDto {
   @ApiProperty({
-    example: 'Attack on titan',
+    example: 'Attack on titan'
   })
   @IsOptional()
   @IsNotEmpty()
@@ -21,7 +21,7 @@ export class UpdateAnimeDto {
 
   @ApiProperty({
     example: `Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid
-      creatures called titans, forcing humans to hide in fear behind enormous concentric walls`,
+      creatures called titans, forcing humans to hide in fear behind enormous concentric walls`
   })
   @IsOptional()
   @IsNotEmpty()
@@ -30,7 +30,7 @@ export class UpdateAnimeDto {
   synopsis?: string;
 
   @ApiProperty({
-    example: 'https://www.youtube.com/watch?v=MGRm4IzK1SQ',
+    example: 'https://www.youtube.com/watch?v=MGRm4IzK1SQ'
   })
   @IsOptional()
   @IsNotEmpty()
@@ -39,7 +39,7 @@ export class UpdateAnimeDto {
   trailer?: string;
 
   @ApiProperty({
-    example: 75,
+    example: 75
   })
   @IsOptional()
   @IsNotEmpty()
@@ -47,13 +47,13 @@ export class UpdateAnimeDto {
   episodes?: number;
 
   @ApiProperty({
-    example: '2020-10-15',
+    example: '2020-10-15'
   })
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   @Matches(/^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/i, {
-    message: '$property must be formatted as yyyy-mm-dd',
+    message: '$property must be formatted as yyyy-mm-dd'
   })
   releaseDate?: string;
 }

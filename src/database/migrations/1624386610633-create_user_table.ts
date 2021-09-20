@@ -1,7 +1,7 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
 export class createUserTable1624386610633 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<void> {
+  public async up (queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'user',
@@ -11,63 +11,63 @@ export class createUserTable1624386610633 implements MigrationInterface {
             type: 'varchar',
             generationStrategy: 'uuid',
             isPrimary: true,
-            length: '36',
+            length: '36'
           },
           {
             name: 'name',
             type: 'varchar',
-            isNullable: false,
+            isNullable: false
           },
           {
             name: 'email',
             type: 'varchar',
-            isNullable: false,
+            isNullable: false
           },
           {
             name: 'password',
             type: 'varchar',
-            isNullable: false,
+            isNullable: false
           },
           {
             name: 'avatar',
             type: 'varchar',
             isNullable: true,
-            default: "'http://localhost:3000/user/avatar/default.jpg'",
+            default: "'http://localhost:3000/user/avatar/default.jpg'"
           },
           {
             name: 'isAdmin',
             type: 'boolean',
-            default: false,
+            default: false
           },
           {
             name: 'isEmailConfirmed',
             type: 'boolean',
-            default: false,
+            default: false
           },
           {
             name: 'createdAt',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP',
+            default: 'CURRENT_TIMESTAMP'
           },
           {
             name: 'updatedAt',
             type: 'timestamp',
             isNullable: true,
             default: null,
-            onUpdate: 'CURRENT_TIMESTAMP',
+            onUpdate: 'CURRENT_TIMESTAMP'
           },
           {
             name: 'deletedAt',
             type: 'timestamp',
-            isNullable: true,
-          },
-        ],
+            isNullable: true
+          }
+        ]
       }),
-      true,
-    );
+      true
+    )
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user', true);
+  public async down (queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('user', true)
   }
 }

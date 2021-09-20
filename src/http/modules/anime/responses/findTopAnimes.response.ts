@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
-import { Anime } from '../entities/anime.entity';
+import { Anime } from '../entities/anime.entity'
 
 export class FindTopAnimesResponse {
   @ApiProperty({
-    default: 200,
+    default: 200
   })
   private statusCode: number;
 
@@ -22,21 +22,21 @@ export class FindTopAnimesResponse {
         reviews: 2,
         releaseDate: '2020-10-15',
         createdAt: '2021-09-16 14:38:09',
-        updatedAt: null,
-      },
-    ],
+        updatedAt: null
+      }
+    ]
   })
   private animes: Anime[];
 
-  constructor(animes: Anime[], status?: number) {
-    this.animes = animes;
-    this.statusCode = status || 200;
+  constructor (animes: Anime[], status?: number) {
+    this.animes = animes
+    this.statusCode = status || 200
   }
 
-  build() {
+  build () {
     return {
       statusCode: this.statusCode,
-      animes: this.animes,
-    };
+      animes: this.animes
+    }
   }
 }

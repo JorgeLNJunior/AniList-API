@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
-import { User } from '../entities/user.entity';
+import { User } from '../entities/user.entity'
 
 export class UpdateUserResponse {
   @ApiProperty({
-    default: 200,
+    default: 200
   })
   private statusCode: number;
 
@@ -16,21 +16,21 @@ export class UpdateUserResponse {
       password: '$2b$10$DaLu8rQHFH/j6PrD3QS4PuBC6jqaWEnvng95y4HzkPLl/UReJTnpq',
       avatar: 'https://cdn.fakercloud.com/avatars/waghner_128.jpg',
       createdAt: '2021-09-16 14:38:09',
-      updatedAt: null,
-    },
+      updatedAt: null
+    }
   })
   private user: User;
 
-  constructor(user: User, status?: number) {
-    this.user = user;
-    this.statusCode = status || 200;
+  constructor (user: User, status?: number) {
+    this.user = user
+    this.statusCode = status || 200
   }
 
-  build() {
-    delete this.user.isAdmin;
+  build () {
+    delete this.user.isAdmin
     return {
       statusCode: this.statusCode,
-      user: this.user,
-    };
+      user: this.user
+    }
   }
 }

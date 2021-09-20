@@ -1,12 +1,13 @@
-import { UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common'
 import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
+  WebSocketServer
+} from '@nestjs/websockets'
 
-import { WebSocketAuthGuard } from './guards/websocketAuth.guard';
+import { WebSocketAuthGuard } from './guards/websocketAuth.guard'
+import { ChatMessage } from './interfaces/chatMessage.interface'
 
 @WebSocketGateway()
 export class ChatGateway {
@@ -15,14 +16,7 @@ export class ChatGateway {
 
   @UseGuards(WebSocketAuthGuard)
   @SubscribeMessage('chat')
-  handleChatMessage(@MessageBody() data: ChatMessage) {
-    this.socket.emit('chat', data);
+  handleChatMessage (@MessageBody() data: ChatMessage) {
+    this.socket.emit('chat', data)
   }
-}
-
-interface ChatMessage {
-  userUuid: string;
-  username: string;
-  avatar: string;
-  message: string;
 }

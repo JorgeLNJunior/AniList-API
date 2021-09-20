@@ -1,65 +1,61 @@
-import { User } from '@http/modules/user/entities/user.entity';
-import { OnQueueError, Process, Processor } from '@nestjs/bull';
-import { Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserStorage } from '@src/http/modules/user/storage/user.storage';
-import { Job } from 'bull';
-import { rmSync } from 'fs';
-import * as sharp from 'sharp';
-import { Repository } from 'typeorm';
+import { User } from '@http/modules/user/entities/user.entity'
+import { OnQueueError, Process, Processor } from '@nestjs/bull'
+import { Logger } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { UserStorage } from '@src/http/modules/user/storage/user.storage'
+import { Job } from 'bull'
+import { rmSync } from 'fs'
+import * as sharp from 'sharp'
+import { Repository } from 'typeorm'
+
+import { AvatarCompressJob } from './interfaces/jobs.interface'
 
 @Processor('avatar-compression')
 export class AvatarCompressConsumer {
-  constructor(
+  constructor (
     @InjectRepository(User) private userRepository: Repository<User>,
-    private userStorage: UserStorage,
+    private userStorage: UserStorage
   ) {}
 
   private readonly logger = new Logger(AvatarCompressConsumer.name);
 
   @Process()
-  async compress(job: Job<AvatarCompressJob>) {
-    // eslint-disable-next-line prettier/prettier
+  async compress (job: Job<AvatarCompressJob>) {
     const oldAvatar = (await this.userRepository.findOne(job.data.userUuid)).avatar
 
     const buffer = await sharp(job.data.path)
       .jpeg({ mozjpeg: true })
-      .toBuffer();
+      .toBuffer()
 
-    const url = await this.storeCover(buffer);
+    const url = await this.storeCover(buffer)
 
-    await this.updateAvatar(job.data.userUuid, url);
+    await this.updateAvatar(job.data.userUuid, url)
 
-    await this.deleteOldAvatar(oldAvatar);
+    await this.deleteOldAvatar(oldAvatar)
 
-    this.deleteTempFile(job.data.path);
+    this.deleteTempFile(job.data.path)
   }
 
   @OnQueueError()
-  onError(error: Error) {
-    this.logger.error('Error when process a queue', error.message);
+  onError (error: Error) {
+    this.logger.error('Error when process a queue', error.message)
   }
 
-  private async storeCover(buffer: Buffer) {
-    return this.userStorage.uploadAvatar(buffer);
+  private async storeCover (buffer: Buffer) {
+    return this.userStorage.uploadAvatar(buffer)
   }
 
-  private async updateAvatar(uuid: string, url: string) {
-    await this.userRepository.update(uuid, { avatar: url });
+  private async updateAvatar (uuid: string, url: string) {
+    await this.userRepository.update(uuid, { avatar: url })
   }
 
-  private async deleteOldAvatar(avatarUrl: string) {
+  private async deleteOldAvatar (avatarUrl: string) {
     if (avatarUrl) {
-      await this.userStorage.deleteOldAvatar(avatarUrl);
+      await this.userStorage.deleteOldAvatar(avatarUrl)
     }
   }
 
-  private deleteTempFile(path: string) {
-    rmSync(path, { force: true });
+  private deleteTempFile (path: string) {
+    rmSync(path, { force: true })
   }
-}
-
-interface AvatarCompressJob {
-  userUuid: string;
-  path: string;
 }

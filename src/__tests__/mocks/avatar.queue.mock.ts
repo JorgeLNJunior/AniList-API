@@ -1,3 +1,3 @@
 export const avatarQueueMock = {
-  add: jest.fn().mockResolvedValue(true),
-};
+  add: jest.fn().mockResolvedValue(true)
+}

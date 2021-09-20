@@ -1,16 +1,16 @@
-import { createMock } from '@golevelup/ts-jest';
-import { animeServiceMock } from '@mocks/anime.service.mock';
-import { fakeAnime } from '@mocks/fakes';
-import { Test, TestingModule } from '@nestjs/testing';
+import { createMock } from '@golevelup/ts-jest'
+import { animeServiceMock } from '@mocks/anime.service.mock'
+import { fakeAnime } from '@mocks/fakes'
+import { Test, TestingModule } from '@nestjs/testing'
 
-import { AnimeController } from '../anime.controller';
-import { AnimeService } from '../anime.service';
-import { CreateAnimeDto } from '../dto/create-anime.dto';
-import { UpdateAnimeDto } from '../dto/update-anime.dto';
+import { AnimeController } from '../anime.controller'
+import { AnimeService } from '../anime.service'
+import { CreateAnimeDto } from '../dto/create-anime.dto'
+import { UpdateAnimeDto } from '../dto/update-anime.dto'
 
 describe('AnimeController', () => {
-  let controller: AnimeController;
-  let service: AnimeService;
+  let controller: AnimeController
+  let service: AnimeService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,35 +18,35 @@ describe('AnimeController', () => {
       providers: [
         {
           provide: AnimeService,
-          useValue: animeServiceMock,
-        },
-      ],
-    }).compile();
+          useValue: animeServiceMock
+        }
+      ]
+    }).compile()
 
-    controller = module.get<AnimeController>(AnimeController);
-    service = module.get<AnimeService>(AnimeService);
-  });
+    controller = module.get<AnimeController>(AnimeController)
+    service = module.get<AnimeService>(AnimeService)
+  })
 
   describe('find', () => {
     test('should return a list of anime', async () => {
-      const response = await controller.find({});
+      const response = await controller.find({})
       expect(response).toEqual({
         statusCode: 200,
         results: [fakeAnime],
         pageTotal: 1,
-        total: 10,
-      });
-    });
+        total: 10
+      })
+    })
 
     test('should return a list of top animes', async () => {
-      const response = await controller.top();
+      const response = await controller.top()
       expect(response).toEqual({
         statusCode: 200,
-        animes: [fakeAnime],
-      });
-      expect(service.find).toHaveBeenCalledTimes(1);
-    });
-  });
+        animes: [fakeAnime]
+      })
+      expect(service.find).toHaveBeenCalledTimes(1)
+    })
+  })
 
   describe('create', () => {
     test('should create a new anime', async () => {
@@ -55,30 +55,30 @@ describe('AnimeController', () => {
         synopsis: 'synopsis',
         episodes: 10,
         releaseDate: '2020-05-13',
-        trailer: 'trailer',
-      };
-      const response = await controller.create(dto);
+        trailer: 'trailer'
+      }
+      const response = await controller.create(dto)
 
       expect(response).toEqual({
         statusCode: 201,
         anime: {
           uuid: 'uuid',
           cover: 'cover',
-          ...dto,
-        },
-      });
-      expect(service.create).toHaveBeenCalledWith(dto);
-      expect(service.create).toHaveBeenCalledTimes(1);
-    });
-  });
+          ...dto
+        }
+      })
+      expect(service.create).toHaveBeenCalledWith(dto)
+      expect(service.create).toHaveBeenCalledTimes(1)
+    })
+  })
 
   describe('update', () => {
     test('should update an anime', async () => {
       const dto: UpdateAnimeDto = {
         title: 'title',
-        trailer: 'trailer',
-      };
-      const response = await controller.update('uuid', dto);
+        trailer: 'trailer'
+      }
+      const response = await controller.update('uuid', dto)
 
       expect(response).toEqual({
         statusCode: 200,
@@ -88,37 +88,37 @@ describe('AnimeController', () => {
           synopsis: 'synopsis',
           episodes: 10,
           releaseDate: '2020-05-13',
-          ...dto,
-        },
-      });
-      expect(service.update).toHaveBeenCalledWith('uuid', dto);
-      expect(service.update).toHaveBeenCalledTimes(1);
-    });
-  });
+          ...dto
+        }
+      })
+      expect(service.update).toHaveBeenCalledWith('uuid', dto)
+      expect(service.update).toHaveBeenCalledTimes(1)
+    })
+  })
 
   describe('delete', () => {
     test('should delete an anime', async () => {
-      const response = await controller.delete('uuid');
+      const response = await controller.delete('uuid')
       expect(response).toEqual({
         statusCode: 200,
-        message: 'the anime has been deleted',
-      });
-      expect(service.delete).toHaveBeenCalledWith('uuid');
-      expect(service.delete).toHaveBeenCalledTimes(1);
-    });
-  });
+        message: 'the anime has been deleted'
+      })
+      expect(service.delete).toHaveBeenCalledWith('uuid')
+      expect(service.delete).toHaveBeenCalledTimes(1)
+    })
+  })
 
   describe('upload', () => {
     test('should return a upload message', async () => {
-      const file = createMock<Express.Multer.File>();
-      const response = await controller.upload('uuid', file);
+      const file = createMock<Express.Multer.File>()
+      const response = await controller.upload('uuid', file)
 
       expect(response).toEqual({
         statusCode: 200,
-        message: 'the image will be available soon',
-      });
-      expect(service.upload).toHaveBeenCalledWith('uuid', file);
-      expect(service.upload).toHaveBeenCalledTimes(1);
-    });
-  });
-});
+        message: 'the image will be available soon'
+      })
+      expect(service.upload).toHaveBeenCalledWith('uuid', file)
+      expect(service.upload).toHaveBeenCalledTimes(1)
+    })
+  })
+})
