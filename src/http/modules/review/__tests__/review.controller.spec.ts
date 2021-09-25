@@ -53,7 +53,7 @@ describe('ReviewController', () => {
       const reviews = await controller.find({})
       expect(reviews).toEqual({
         statusCode: 200,
-        results: [fakeReview],
+        reviews: [fakeReview],
         pageTotal: 1,
         total: 10
       })
@@ -74,7 +74,7 @@ describe('ReviewController', () => {
 
       expect(reviews).toEqual({
         statusCode: 200,
-        results: [fakeReview],
+        reviews: [fakeReview],
         pageTotal: 1,
         total: 10
       })

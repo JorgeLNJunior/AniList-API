@@ -32,7 +32,7 @@ describe('AnimeController', () => {
       const response = await controller.find({})
       expect(response).toEqual({
         statusCode: 200,
-        results: [fakeAnime],
+        animes: [fakeAnime],
         pageTotal: 1,
         total: 10
       })

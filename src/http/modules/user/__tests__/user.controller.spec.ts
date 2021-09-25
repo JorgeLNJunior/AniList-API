@@ -32,7 +32,7 @@ describe('UserController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        results: [fakeUser],
+        users: [fakeUser],
         pageTotal: 1,
         total: 10
       })
@@ -52,7 +52,7 @@ describe('UserController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        results: [fakeUser],
+        users: [fakeUser],
         pageTotal: 1,
         total: 10
       })
