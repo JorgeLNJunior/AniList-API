@@ -10,6 +10,7 @@ import { ThrottlerModule } from '@modules/throttler.module'
 import { Logger, Module, OnApplicationBootstrap } from '@nestjs/common'
 import { existsSync, mkdirSync } from 'fs'
 
+import { VoteModule } from './http/modules/vote/vote.module'
 import { QueueModule } from './modules/queue/queue.module'
 import { ChatModule } from './websocket/chat/chat.module'
 
@@ -25,7 +26,8 @@ import { ChatModule } from './websocket/chat/chat.module'
     DatabaseModule,
     BullModule,
     ThrottlerModule,
-    SeedModule
+    SeedModule,
+    VoteModule
   ]
 })
 export class AppModule implements OnApplicationBootstrap {

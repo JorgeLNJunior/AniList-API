@@ -1,6 +1,7 @@
 import { createUserTable1624386610633 } from '@database/migrations/1624386610633-create_user_table'
 import { createAnimeTable1624810395846 } from '@database/migrations/1624810395846-create_anime_table'
 import { createReviewTable1625254721286 } from '@database/migrations/1625254721286-create_review_table'
+import { createVoteTable1632599516442 } from '@database/migrations/1632599516442-create_vote_table'
 import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -22,7 +23,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
         migrations: [
           createUserTable1624386610633,
           createAnimeTable1624810395846,
-          createReviewTable1625254721286
+          createReviewTable1625254721286,
+          createVoteTable1632599516442
         ],
         migrationsRun: configService.get<boolean>('DB_MIGRATE')
       })
