@@ -12,7 +12,8 @@ module.exports = {
   extends: [
     'standard',
     'plugin:@typescript-eslint/recommended',
-    'plugin:jest/recommended'
+    'plugin:jest/recommended',
+    'prettier'
   ],
   root: true,
   env: {
