@@ -10,26 +10,41 @@ export class CreateVoteResponse {
 
   @ApiProperty({
     example: {
-      uuid: '4f3ab4ae-7854-4720-9122-db5cad01f610',
-      title: 'Attack on titan',
-      synopsis: `Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid
-      creatures called titans, forcing humans to hide in fear behind enormous concentric walls`,
-      cover: null,
-      trailer: 'https://www.youtube.com/watch?v=MGRm4IzK1SQ',
-      episodes: 75,
-      releaseDate: '2020-10-15',
-      createdAt: '2021-09-16 14:38:09',
-      updatedAt: null
+      uuid: '7397f870-20d8-424c-b9f2-c49d3129c650',
+      createdAt: '2021-09-27T22:27:51.000Z',
+      updatedAt: null,
+      deletedAt: null,
+      user: {
+        uuid: '2183467f-42ba-44cd-913d-e4f53de5ca61',
+        name: 'admin',
+        email: 'admin@mail.com',
+        password: '$2b$10$oGLTkplt09K5K5ib9RQ/oeYPy9SoIkcSTw6rB8sfAPShuG/dV9V9q',
+        avatar: 'http://localhost:3000/user/avatar/default.jpg',
+        isAdmin: true,
+        isEmailConfirmed: true,
+        createdAt: '2021-09-25T23:12:08.000Z',
+        updatedAt: null,
+        deletedAt: null
+      },
+      review: {
+        uuid: '150e0f98-14be-45f2-ad14-3f214ba34781',
+        title: 'nam non expedita',
+        description: 'Maiores et ut non saepe. Qui voluptas maxime expedita aperiam. Omnis voluptates dolor asperiores facilis quo laborum. Explicabo corporis ut nihil aperiam veniam tempora. Molestias iure temporibus provident atque soluta.',
+        rating: 2,
+        createdAt: '2021-09-25T20:12:15.000Z',
+        updatedAt: null,
+        deletedAt: null
+      },
     }
   })
   private vote: Vote;
 
-  constructor (vote: Vote, status?: number) {
+  constructor(vote: Vote, status?: number) {
     this.vote = vote
     this.statusCode = status || 201
   }
 
-  build () {
+  build() {
     return {
       statusCode: this.statusCode,
       vote: this.vote
