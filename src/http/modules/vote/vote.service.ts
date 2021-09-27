@@ -1,21 +1,39 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { Review } from '../review/entities/review.entity'
+import { User } from '../user/entities/user.entity'
 import { CreateVoteDto } from './dto/create-vote.dto'
 import { UpdateVoteDto } from './dto/update-vote.dto'
 import { Vote } from './entities/vote.entity'
 
 @Injectable()
 export class VoteService {
-  constructor (@InjectRepository(Vote) private voteRepository: Repository<Vote>) { }
+  constructor (
+    @InjectRepository(Vote) private voteRepository: Repository<Vote>,
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Review) private reviewRepository: Repository<Review>
+  ) {}
 
   async create (userUuid: string, createVoteDto: CreateVoteDto): Promise<Vote> {
-    const vote = await this.voteRepository.save({
+    const review = await this.reviewRepository.findOne(createVoteDto.reviewUuid)
+    if (!review) throw new BadRequestException(['review not found'])
+
+    const user = await this.userRepository.findOne(userUuid)
+    if (!user) throw new BadRequestException(['user not found'])
+
+    const isAlreadyVoted = await this.voteRepository.findOne({
       user: { uuid: userUuid },
       review: { uuid: createVoteDto.reviewUuid }
+    },
+    { relations: ['user', 'review'] })
+    if (isAlreadyVoted) throw new BadRequestException(['you have already voted'])
+
+    return this.voteRepository.save({
+      user: user,
+      review: review
     })
-    return this.voteRepository.findOne(vote.uuid, { relations: ['user', 'review'] })
   }
 
   findAll () {
