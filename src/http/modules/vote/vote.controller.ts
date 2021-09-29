@@ -1,13 +1,14 @@
 import { BadRequestResponse } from '@http/shared/responses/badRequest.response'
 import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.response'
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response'
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger'
+import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger'
 
 import { CreateVoteDto } from './dto/create-vote.dto'
-import { UpdateVoteDto } from './dto/update-vote.dto'
+import { VoteQuery } from './query/vote.query.interface'
 import { CreateVoteResponse } from './responses/createVote.response'
+import { FindVoteResponse } from './responses/findVote.response'
 import { VoteService } from './vote.service'
 
 @ApiUnauthorizedResponse({
@@ -36,19 +37,12 @@ export class VoteController {
     return new CreateVoteResponse(vote).build()
   }
 
+  @ApiOkResponse({ description: 'OK', type: FindVoteResponse })
+  @ApiQuery({ type: VoteQuery })
   @Get()
-  findAll () {
-    return this.voteService.findAll()
-  }
-
-  @Get(':id')
-  findOne (@Param('id') id: string) {
-    return this.voteService.findOne(+id)
-  }
-
-  @Patch(':id')
-  update (@Param('id') id: string, @Body() updateVoteDto: UpdateVoteDto) {
-    return this.voteService.update(+id, updateVoteDto)
+  async find (@Query() query: VoteQuery) {
+    const results = await this.voteService.find(query)
+    return new FindVoteResponse(results).build()
   }
 
   @Delete(':id')
