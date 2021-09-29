@@ -1,9 +1,11 @@
 import { fakeUser, fakeVote } from '@mocks/fakes'
+import { voteRepositoryMock } from '@mocks/vote.repository.mock'
 import { voteServiceMock } from '@mocks/vote.service.mock'
 import { Test, TestingModule } from '@nestjs/testing'
+import { getRepositoryToken } from '@nestjs/typeorm'
 
 import { CreateVoteDto } from '../dto/create-vote.dto'
-import { VoteQuery } from '../query/vote.query.interface'
+import { Vote } from '../entities/vote.entity'
 import { VoteController } from '../vote.controller'
 import { VoteService } from '../vote.service'
 
@@ -14,7 +16,8 @@ describe('VoteController', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         VoteController,
-        { provide: VoteService, useValue: voteServiceMock }
+        { provide: VoteService, useValue: voteServiceMock },
+        { provide: getRepositoryToken(Vote), useValue: voteRepositoryMock }
       ]
     }).compile()
 
@@ -51,24 +54,14 @@ describe('VoteController', () => {
       })
       expect(voteServiceMock.find).toBeCalledTimes(1)
     })
-
-    test('should return a list of votes when query params are sent', async () => {
-      const query: VoteQuery = {
-        uuid: 'uuid',
-        userUuid: 'uuid',
-        reviewUuid: 'uuid',
-        take: 10,
-        skip: 5,
-      }
-      const vote = await controller.find(query)
-
-      expect(vote).toEqual({
-        statusCode: 200,
-        votes: [fakeVote],
-        total: 10,
-        pageTotal: 1
-      })
-      expect(voteServiceMock.find).toBeCalledTimes(1)
-    })
   })
+
+  describe('delete', () => {
+    test('should delete a vote', async () => {
+      await controller.delete('uuid')
+      expect(voteServiceMock.delete).toBeCalledTimes(1)
+      expect(voteServiceMock.delete).toBeCalledWith('uuid')
+    });
+  });
+
 })

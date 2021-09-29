@@ -10,6 +10,7 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 
 import { CreateVoteDto } from '../dto/create-vote.dto'
 import { Vote } from '../entities/vote.entity'
+import { VoteQuery } from '../query/vote.query.interface'
 import { VoteService } from '../vote.service'
 
 describe('VoteService', () => {
@@ -93,6 +94,33 @@ describe('VoteService', () => {
       })
       expect(voteRepositoryMock.find).toBeCalledTimes(1)
       expect(voteRepositoryMock.count).toBeCalledTimes(1)
+    });
+
+    test('should return a list of votes when query params are sent', async () => {
+      const query: VoteQuery = {
+        uuid: 'uuid',
+        userUuid: 'uuid',
+        reviewUuid: 'uuid',
+        take: 10,
+        skip: 5,
+      }
+      const vote = await service.find(query)
+
+      expect(vote).toEqual({
+        results: [fakeVote],
+        total: 10,
+        pageTotal: 1
+      })
+      expect(voteRepositoryMock.find).toBeCalledTimes(1)
+      expect(voteRepositoryMock.count).toBeCalledTimes(1)
+    })
+  });
+
+  describe('delete', () => {
+    test('should delete a vote', async () => {
+      await service.delete('uuid')
+      expect(voteRepositoryMock.softDelete).toBeCalledTimes(1)
+      expect(voteRepositoryMock.softDelete).toBeCalledWith('uuid')
     });
   });
 
