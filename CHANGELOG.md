@@ -1,3 +1,68 @@
+### 0.7.0 (2021-09-29)
+
+##### Build System / Dependencies
+
+* **deps:**  atualizar várias dependências (42e5f0f6)
+*  aumentar o limite de requests para 70 (274991ac)
+
+##### Chores
+
+*  deletar o update-vote dto (5e94fc06)
+*  deixar o socket público (95c1a5e2)
+
+##### Documentation Changes
+
+*  atualizar o readme (585d6da4)
+*  atualizar a resposta da rota create vote (6bdba87d)
+*  adicionar as colunas timestamp nas respostas (bb46da73)
+
+##### New Features
+
+*  criar rota para deletar votos (370b34a6)
+*  criar rota para retornar votos (e5dd2090)
+*  criar rota para criação de votos (662b1da8)
+*  implementar o soft delete (68193c5c)
+*  criar seeders (f8d33cca)
+*  adicionar colunas de timestamp (0406ea96)
+* **BEAKING:**  alterar o formato das respostas (d71df530)
+* **BREAKING:**  retornar dados de paginação (1d80b352)
+
+##### Bug Fixes
+
+*  retornar as colunas timestamp de animes (df4a6ac4)
+*  corrigir mensagens do websocket (2ee971e5)
+
+##### Refactors
+
+*  alterar o método create do vote service (db6f1cdf)
+*  retornar o uuid do usuário no websocket (ae6636b4)
+*  injetar repositórios no review service (6dd1bd4a)
+*  remover o método findByEmail (4045e8ed)
+
+##### Code Style Changes
+
+*  adicionar o prettier (c55f0e8e)
+*  corrigir erros de lint (ba105af0)
+*  alterar o style guide (5967a4ed)
+*  remover console log (cad3cb6d)
+
+##### Tests
+
+* **unit:**
+  *  criar rota para deletar votos (a4d0a976)
+  *  criar rota para retornar votos (581427a5)
+  *  testar o método create do vote controller (3a7988d1)
+  *  alterar o método create do vote service (9e7503ea)
+  *  criar rota para criação de votos (503b3d34)
+  *  corrigir os testes (bd04b6fc)
+  *  implementar o soft delete (b25549f1)
+  *  retornar dados de paginação (8888acc6)
+*  remover os tests e2e (f22cf6e5)
+*  remover os seeds do coverage (2fe1ced0)
+*  mover os fakes para um único arquivo (82da511e)
+*  atualizar os testes do chat gateway (db1c8337)
+*  mover os mocks para uma pasta (7f20c69c)
+
 #### 0.6.1 (2021-09-11)
 
 ##### Continuous Integration
