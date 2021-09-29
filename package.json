@@ -14,7 +14,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "NODE_ENV=production pm2 start dist/src/main.js --name animes-review-api --log logs -i 0",
+    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
     "docker:build": "npm run build && docker-compose build",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
