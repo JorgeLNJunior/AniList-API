@@ -6,8 +6,10 @@ import { AuthGuard } from '@nestjs/passport'
 import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger'
 
 import { CreateVoteDto } from './dto/create-vote.dto'
+import { VoteModifyPermissionGuard } from './guards/voteModifyPermission.guard'
 import { VoteQuery } from './query/vote.query.interface'
 import { CreateVoteResponse } from './responses/createVote.response'
+import { DeleteVoteResponse } from './responses/deleteVote.response'
 import { FindVoteResponse } from './responses/findVote.response'
 import { VoteService } from './vote.service'
 
@@ -45,8 +47,15 @@ export class VoteController {
     return new FindVoteResponse(results).build()
   }
 
-  @Delete(':id')
-  remove (@Param('id') id: string) {
-    return this.voteService.remove(+id)
+  @ApiOkResponse({ description: 'OK', type: DeleteVoteResponse })
+  @ApiBadRequestResponse({
+    description: 'Validation Error',
+    type: BadRequestResponse
+  })
+  @UseGuards(VoteModifyPermissionGuard)
+  @Delete(':uuid')
+  async delete (@Param('uuid') uuid: string) {
+   await this.voteService.delete(uuid)
+   return new DeleteVoteResponse().build()
   }
 }

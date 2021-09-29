@@ -50,7 +50,7 @@ export class VoteService {
     return { results: votes, pageTotal: votes.length, total: total }
   }
 
-  remove (id: number) {
-    return `This action removes a #${id} vote`
+  async delete (uuid: string) {
+    await this.voteRepository.softDelete(uuid)
   }
 }
