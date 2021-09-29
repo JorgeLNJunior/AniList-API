@@ -40,6 +40,7 @@ Informações básicas sobre as rotas da aplicação.
 | GET    | /login              | autentica um usuário                | não          |
 | GET    | /users              | retorna todos os usuários           | sim          |
 | GET    | /docs               | documentação da API                 | não          |
+
 **A fazer**
 
 ## Tecnologias
@@ -56,13 +57,14 @@ Este projeto foi construído com as seguintes tecnologias:
 ### Requisitos
   - [Node.js »](https://nodejs.org/en/download) na sua versão lts
   - Um Banco de dados suportado pelo [TypeORM »](https://typeorm.io)
+  - Um Banco de dados [Redis »](https://redis.io/)
 
-### Instalação
+### Instalação e inicialização
   1. Clone o projeto: `git clone https://github.com/JorgeLNJunior/animes-review-api.git`
   2. Instale as dependências: `npm i`
   3. Renomeie o arquivo `.env.example` para `.env`
-  4. Para iniciar a aplicação execute `npm start:dev`
-  5. Para os testes execute `npm test:e2e`
+  4. Para iniciar a aplicação execute `npm run build` e `npm start`
+  5. Para os testes execute `npm test`
 
 ## Licença
 Projeto sob a licença [MIT »](https://github.com/JorgeLNJunior/animes-review-api/blob/master/LICENSE.md)
