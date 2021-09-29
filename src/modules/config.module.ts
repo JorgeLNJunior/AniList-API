@@ -19,6 +19,7 @@ import * as Joi from 'joi'
         STORAGE: Joi.string().valid('local', 'cloudinary').required(),
         REDIS_HOST: Joi.string().required(),
         REDIS_PORT: Joi.number().required(),
+        REDIS_PASSWORD: Joi.string().optional().allow(''),
         DB_TYPE: Joi.string().required(),
         DB_HOST: Joi.string().required(),
         DB_PORT: Joi.number().required(),
