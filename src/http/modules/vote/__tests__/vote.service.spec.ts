@@ -81,4 +81,19 @@ describe('VoteService', () => {
       expect(service.create('uuid', dto)).rejects.toThrow(new BadRequestException(['review not found']))
     })
   })
+
+  describe('find', () => {
+    test('should return a list of votes', async () => {
+      const votes = await service.find({})
+
+      expect(votes).toEqual({
+        results: [fakeVote],
+        total: 10,
+        pageTotal: 1
+      })
+      expect(voteRepositoryMock.find).toBeCalledTimes(1)
+      expect(voteRepositoryMock.count).toBeCalledTimes(1)
+    });
+  });
+
 })
