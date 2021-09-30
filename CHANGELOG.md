@@ -8,6 +8,20 @@
 * **deps:**  mover o faker para produção (92c9d382)
 * **heroku:**  adicionar o Procfile (f8320d01)
 
+##### Chores
+
+*  atualizar o CHANGELOG.md (16db7c2a)
+
+#### 0.7.1 (2021-09-30)
+
+##### Build System / Dependencies
+
+*  retirar o cluster mode do pm2 (9a6ac44f)
+*  reconfigurar o pm2 (20875dde)
+*  adicionar o password na conexão do bull module (e9e289c8)
+* **deps:**  mover o faker para produção (92c9d382)
+* **heroku:**  adicionar o Procfile (f8320d01)
+
 ### 0.7.0 (2021-09-29)
 
 ##### Build System / Dependencies
