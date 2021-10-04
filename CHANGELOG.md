@@ -1,3 +1,13 @@
+#### 0.7.2 (2021-10-04)
+
+##### Build System / Dependencies
+
+*  alterar a url do avatar padrão (83427c95)
+
+##### Documentation Changes
+
+*  documentar a rota de votos (934c5da2)
+
 #### 0.7.1 (2021-09-30)
 
 ##### Build System / Dependencies
