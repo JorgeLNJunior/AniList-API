@@ -32,7 +32,7 @@ export class createUserTable1624386610633 implements MigrationInterface {
             name: 'avatar',
             type: 'varchar',
             isNullable: true,
-            default: "'http://localhost:3000/user/avatar/default.jpg'"
+            default: "'https://res.cloudinary.com/dmqkppauk/image/upload/v1624804907/an_review/user/avatar/oyks2ufyd623929cla6s.jpg'"
           },
           {
             name: 'isAdmin',
