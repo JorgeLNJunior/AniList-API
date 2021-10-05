@@ -1,6 +1,6 @@
 <div align="center" id="short-description">
 
-<img src="https://i.ibb.co/C6JZ8W6/AR-Logo.png" width="300px">
+<img src="https://i.ibb.co/q045V4Z/AR-Logo.png" width="300px">
 
 <h1>Animes Review</h1>
 
