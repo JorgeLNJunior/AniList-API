@@ -1,3 +1,10 @@
+#### 0.7.3 (2021-10-05)
+
+##### Documentation Changes
+
+*  alterar o logo (6b6c75ae)
+*  adicionar o logo (a9ba45a9)
+
 #### 0.7.2 (2021-10-04)
 
 ##### Build System / Dependencies
