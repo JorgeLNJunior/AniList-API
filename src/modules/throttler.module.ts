@@ -9,7 +9,7 @@ import {
   imports: [
     Throttler.forRoot({
       ttl: 60,
-      limit: 70
+      limit: 200
     })
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }]
