@@ -4,7 +4,7 @@ import { Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserStorage } from '@src/http/modules/user/storage/user.storage'
 import { Job } from 'bull'
-import { rmSync } from 'fs'
+import { rm } from 'fs/promises'
 import * as sharp from 'sharp'
 import { Repository } from 'typeorm'
 
@@ -27,13 +27,13 @@ export class AvatarCompressConsumer {
       .jpeg({ mozjpeg: true })
       .toBuffer()
 
-    const url = await this.storeCover(buffer)
+    const url = await this.storeAvatar(buffer)
 
     await this.updateAvatar(job.data.userUuid, url)
 
     await this.deleteOldAvatar(oldAvatar)
 
-    this.deleteTempFile(job.data.path)
+    await this.deleteTempFile(job.data.path)
   }
 
   @OnQueueError()
@@ -41,7 +41,7 @@ export class AvatarCompressConsumer {
     this.logger.error('Error when process a queue', error.message)
   }
 
-  private async storeCover (buffer: Buffer) {
+  private async storeAvatar (buffer: Buffer) {
     return this.userStorage.uploadAvatar(buffer)
   }
 
@@ -55,7 +55,7 @@ export class AvatarCompressConsumer {
     }
   }
 
-  private deleteTempFile (path: string) {
-    rmSync(path, { force: true })
+  private async deleteTempFile (path: string) {
+    await rm(path, { force: true })
   }
 }

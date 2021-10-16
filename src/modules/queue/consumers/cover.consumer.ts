@@ -4,7 +4,7 @@ import { OnQueueError, Process, Processor } from '@nestjs/bull'
 import { Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Job } from 'bull'
-import { rmSync } from 'fs'
+import { rm } from 'fs/promises'
 import * as sharp from 'sharp'
 import { Repository } from 'typeorm'
 
@@ -33,7 +33,7 @@ export class CoverCompressConsumer {
 
     await this.deleteOldCover(oldCover)
 
-    this.deleteTempFile(job.data.path)
+    await this.deleteTempFile(job.data.path)
   }
 
   @OnQueueError()
@@ -55,7 +55,7 @@ export class CoverCompressConsumer {
     }
   }
 
-  private deleteTempFile (path: string) {
-    rmSync(path, { force: true })
+  private async deleteTempFile (path: string) {
+    await rm(path, { force: true })
   }
 }
