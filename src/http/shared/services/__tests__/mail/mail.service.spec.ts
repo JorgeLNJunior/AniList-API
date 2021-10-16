@@ -44,6 +44,15 @@ describe('MailService', () => {
       const result = service.getMailService()
       expect(result).toBeInstanceOf(SendgridMailService)
     })
+
+    test('should throw an error if it receives a invalid mail service', async () => {
+      jest.spyOn(config, 'get').mockReturnValue('invalid service')
+
+      // eslint-disable-next-line jest/valid-expect
+      expect(() => {
+        service.getMailService()
+      }).toThrow()
+    })
   })
 
   describe('sendConfirmationEmail', () => {
