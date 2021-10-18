@@ -1,7 +1,7 @@
 import { createMock } from "@golevelup/ts-jest";
 import { User } from "@http/modules/user/entities/user.entity";
 import { UserStorage } from "@http/modules/user/storage/user.storage";
-import { userRepositoryMock } from "@mocks/user.repository.mock";
+import { userRepositoryMock } from "@mocks/repositories/user.repository.mock";
 import { Logger } from '@nestjs/common'
 import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";

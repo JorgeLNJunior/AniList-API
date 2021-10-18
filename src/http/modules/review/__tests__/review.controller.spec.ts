@@ -1,8 +1,8 @@
-import { fakeReview } from '@mocks/fakes'
-import { reviewServiceMock } from '@mocks/review.service.mock'
-import { reviewRepositoryMock } from '@mocks/reviewRepository.mock'
+import { reviewRepositoryMock } from '@mocks/repositories/reviewRepository.mock'
+import { reviewServiceMock } from '@mocks/services/review.service.mock'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { fakeReview } from '@src/__tests__/fakes'
 
 import { CreateReviewDto } from '../dto/create-review.dto'
 import { UpdateReviewDto } from '../dto/update-review.dto'

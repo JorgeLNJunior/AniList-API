@@ -1,9 +1,9 @@
-import { animeRepositoryMock } from '@mocks/anime.respository.mock'
-import { fakeAnime } from '@mocks/fakes'
+import { animeRepositoryMock } from '@mocks/repositories/anime.respository.mock'
 import { getQueueToken } from '@nestjs/bull'
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { fakeAnime } from '@src/__tests__/fakes'
 import { Queue } from 'bull'
 import { Repository } from 'typeorm'
 

@@ -1,8 +1,8 @@
 import { createMock } from "@golevelup/ts-jest";
 import { MailService } from "@http/shared/services/mail/mail.service";
-import { fakeUser } from "@mocks/fakes";
 import { Logger } from '@nestjs/common'
 import { Test } from "@nestjs/testing";
+import { fakeUser } from "@src/__tests__/fakes";
 import Bull from "bull";
 
 import { EmailConsumer } from "../email.consumer";

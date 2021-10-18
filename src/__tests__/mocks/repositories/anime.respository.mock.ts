@@ -1,7 +1,7 @@
 import { Anime } from '@http/modules/anime/entities/anime.entity'
 import { DeepPartial } from 'typeorm'
 
-import { fakeAnime } from './fakes'
+import { fakeAnime } from '../../fakes'
 
 export const animeRepositoryMock = {
   createQueryBuilder: jest.fn(() => ({

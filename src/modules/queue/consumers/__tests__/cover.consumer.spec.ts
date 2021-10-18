@@ -1,7 +1,7 @@
 import { createMock } from "@golevelup/ts-jest";
 import { Anime } from "@http/modules/anime/entities/anime.entity";
 import { AnimeStorage } from "@http/modules/anime/storage/anime.storage";
-import { animeRepositoryMock } from "@mocks/anime.respository.mock";
+import { animeRepositoryMock } from "@mocks/repositories/anime.respository.mock";
 import { Logger } from '@nestjs/common'
 import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";

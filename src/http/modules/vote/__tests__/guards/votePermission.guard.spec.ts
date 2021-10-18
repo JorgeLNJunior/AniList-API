@@ -1,5 +1,5 @@
 import { createMock } from '@golevelup/ts-jest'
-import { voteRepositoryMock } from '@mocks/vote.repository.mock'
+import { voteRepositoryMock } from '@mocks/repositories/vote.repository.mock'
 import { BadRequestException, ExecutionContext } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'

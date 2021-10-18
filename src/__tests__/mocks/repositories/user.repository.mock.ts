@@ -1,4 +1,4 @@
-import { fakeUser } from './fakes'
+import { fakeUser } from '../../fakes'
 
 export const userRepositoryMock = {
   count: jest.fn().mockResolvedValue(10),

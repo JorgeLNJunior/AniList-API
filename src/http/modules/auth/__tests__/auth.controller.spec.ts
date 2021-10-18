@@ -1,8 +1,8 @@
-import { authServiceMock } from '@mocks/auth.service.mock'
-import { fakeUser } from '@mocks/fakes'
-import { userRepositoryMock } from '@mocks/user.repository.mock'
+import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
+import { authServiceMock } from '@mocks/services/auth.service.mock'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { fakeUser } from '@src/__tests__/fakes'
 
 import { CreateUserDto } from '../../user/dto/create-user.dto'
 import { User } from '../../user/entities/user.entity'

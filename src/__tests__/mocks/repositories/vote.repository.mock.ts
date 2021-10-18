@@ -1,4 +1,4 @@
-import { fakeVote } from './fakes'
+import { fakeVote } from '../../fakes'
 
 export const voteRepositoryMock = {
   count: jest.fn().mockResolvedValue(10),

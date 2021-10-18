@@ -1,8 +1,8 @@
-import { fakeUser, fakeVote } from '@mocks/fakes'
-import { voteRepositoryMock } from '@mocks/vote.repository.mock'
-import { voteServiceMock } from '@mocks/vote.service.mock'
+import { voteRepositoryMock } from '@mocks/repositories/vote.repository.mock'
+import { voteServiceMock } from '@mocks/services/vote.service.mock'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { fakeUser, fakeVote } from '@src/__tests__/fakes'
 
 import { CreateVoteDto } from '../dto/create-vote.dto'
 import { Vote } from '../entities/vote.entity'

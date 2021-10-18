@@ -1,4 +1,4 @@
-import { userRepositoryMock } from '@mocks/user.repository.mock'
+import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 

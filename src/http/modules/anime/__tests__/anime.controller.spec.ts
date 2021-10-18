@@ -1,7 +1,7 @@
 import { createMock } from '@golevelup/ts-jest'
-import { animeServiceMock } from '@mocks/anime.service.mock'
-import { fakeAnime } from '@mocks/fakes'
+import { animeServiceMock } from '@mocks/services/anime.service.mock'
 import { Test, TestingModule } from '@nestjs/testing'
+import { fakeAnime } from '@src/__tests__/fakes'
 
 import { AnimeController } from '../anime.controller'
 import { AnimeService } from '../anime.service'

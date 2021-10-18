@@ -1,6 +1,6 @@
 import { CreateAnimeDto } from '@http/modules/anime/dto/create-anime.dto'
 
-import { fakeAnime } from './fakes'
+import { fakeAnime } from '../../fakes'
 
 export const animeServiceMock = {
   find: jest

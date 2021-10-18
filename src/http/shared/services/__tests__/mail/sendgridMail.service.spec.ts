@@ -1,7 +1,7 @@
-import { fakeUser } from "@mocks/fakes";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
+import { fakeUser } from "@src/__tests__/fakes";
 
 import { SendgridMailService } from "../../mail/sendgridMail.service";
 
