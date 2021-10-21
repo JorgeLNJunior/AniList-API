@@ -1,3 +1,22 @@
+#### 0.7.4 (2021-10-21)
+
+##### Build System / Dependencies
+
+* **deps:**  atualizar algumas dependências (dacb414d)
+*  aumentar o limite de requests para 200/min (0a784dcb)
+
+##### Refactors
+
+*  alterar nomes de funções (43c08f3c)
+
+##### Tests
+
+*  organizar a pasta de testes (fb6097e7)
+* **unit:**
+  *  testar o sendgrid mail service (c39f5033)
+  *  adicionar teste do mail service (34a82680)
+  *  testar os consumers (3dc9e440)
+
 #### 0.7.3 (2021-10-05)
 
 ##### Documentation Changes
