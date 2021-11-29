@@ -10,7 +10,6 @@ module.exports = {
     'jest'
   ],
   extends: [
-    'standard',
     'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
     'prettier'
