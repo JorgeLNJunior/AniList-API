@@ -1,3 +1,13 @@
+#### 0.7.5 (2021-11-29)
+
+##### Build System / Dependencies
+
+* **deps:**  atualizar algumas dependências (0795660e)
+
+##### Code Style Changes
+
+*  remover o standard (49d8050c)
+
 #### 0.7.4 (2021-10-21)
 
 ##### Build System / Dependencies
