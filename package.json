@@ -5,6 +5,9 @@
   "author": "JorgeLNJunior",
   "private": true,
   "license": "MIT",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "postinstall": "npm list -g pm2@latest || npm install pm2@latest -g",
     "prepare": "husky install",
