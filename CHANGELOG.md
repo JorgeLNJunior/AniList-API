@@ -1,3 +1,10 @@
+#### 0.7.6 (2021-12-03)
+
+##### Build System / Dependencies
+
+*  especificar a versão do node (61f22e07)
+* **deps:**  atualizar algumas dependências (561bff9f)
+
 #### 0.7.5 (2021-11-29)
 
 ##### Build System / Dependencies
