@@ -28,11 +28,11 @@ import * as Joi from 'joi'
         DB_NAME: Joi.string().required(),
         DB_SYNCHRONIZE: Joi.boolean().required(),
         DB_MIGRATE: Joi.boolean().required(),
-        CLOUDINARY_NAME: Joi.string().optional(),
-        CLOUDINARY_KEY: Joi.string().optional(),
-        CLOUDINARY_SECRET: Joi.string().optional(),
-        SENDGRID_SENDER: Joi.string().email().optional(),
-        SENDGRID_API_KEY: Joi.string().optional(),
+        CLOUDINARY_NAME: Joi.string().optional().allow(''),
+        CLOUDINARY_KEY: Joi.string().optional().allow(''),
+        CLOUDINARY_SECRET: Joi.string().optional().allow(''),
+        SENDGRID_SENDER: Joi.string().email().optional().allow(''),
+        SENDGRID_API_KEY: Joi.string().optional().allow(''),
         PORT: Joi.number().optional(),
         RUN_SEEDS: Joi.boolean().optional()
       })
