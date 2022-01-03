@@ -18,6 +18,7 @@ export class CreateAnimeResponse {
       trailer: 'https://www.youtube.com/watch?v=MGRm4IzK1SQ',
       episodes: 75,
       releaseDate: '2020-10-15',
+      season: 'fall 2020',
       createdAt: '2021-09-16 14:38:09',
       updatedAt: null
     }

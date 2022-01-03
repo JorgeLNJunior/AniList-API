@@ -32,7 +32,8 @@ export class AnimeService {
     const animes = await this.animeRepository
       .createQueryBuilder('anime')
       .select(
-        'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover, anime.episodes, anime.releaseDate, anime.createdAt, anime.updatedAt'
+        'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover,' +
+        'anime.episodes, anime.releaseDate, anime.season, anime.createdAt, anime.updatedAt'
       )
       .addSelect(
         'IFNULL(ROUND(AVG(Cast(review.rating as Float)) ,2), 0)',
@@ -55,7 +56,8 @@ export class AnimeService {
     return this.animeRepository
       .createQueryBuilder('anime')
       .select(
-        'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover, anime.episodes, anime.releaseDate'
+        'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover,' +
+        'anime.episodes, anime.releaseDate, anime.season'
       )
       .addSelect(
         'IFNULL(ROUND(AVG(Cast(review.rating as Float)), 2), 0)',

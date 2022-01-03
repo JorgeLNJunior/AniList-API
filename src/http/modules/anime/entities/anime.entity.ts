@@ -30,6 +30,9 @@ export class Anime {
   @Column()
   releaseDate: string;
 
+  @Column()
+  season: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

@@ -56,4 +56,15 @@ export class UpdateAnimeDto {
     message: '$property must be formatted as yyyy-mm-dd'
   })
   releaseDate?: string;
+
+  @ApiProperty({
+    example: 'fall 2020'
+  })
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^(spring|summer|fall|winter)[" "][0-9]{4}$/, {
+    message: '$property must be formatted as "season year"'
+  })
+  season?: string;
 }
