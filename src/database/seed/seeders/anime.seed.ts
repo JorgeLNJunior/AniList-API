@@ -26,6 +26,7 @@ export class AnimeSeeder {
             episodes: animes[index].attributes.episodeCount || 999,
             trailer: `https://youtube.com/watch?v=${animes[index].attributes.youtubeVideoId}`,
             cover: animes[index].attributes.coverImage.original,
+            season: 'winter 2015',
             createdAt: new Date()
           })
         }
