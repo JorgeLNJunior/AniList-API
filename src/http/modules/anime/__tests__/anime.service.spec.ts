@@ -74,7 +74,8 @@ describe('AnimeService', () => {
         episodes: 20,
         releaseDate: '2020-03-10',
         synopsis: 'synopsis',
-        trailer: 'trailer'
+        trailer: 'trailer',
+        season: 'winter 2020'
       }
       expect(await service.create(dto)).toEqual({
         uuid: 'uuid',
@@ -91,7 +92,8 @@ describe('AnimeService', () => {
         synopsis: 'synopsis',
         trailer: 'trailer',
         episodes: 10,
-        releaseDate: '2020-10-21'
+        releaseDate: '2020-10-21',
+        season: 'fall 2020'
       }
 
       const anime = await service.update('uuid', dto)
