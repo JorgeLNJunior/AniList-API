@@ -20,7 +20,7 @@ Plataforma para avaliação de animes
 <div align="center">
 
 [Trello](https://trello.com/b/o7iD52J4/animes-review) |
-[Front-end](https://github.com/JorgeLNJunior/animes-review)
+[~~Front-end~~](https://github.com/JorgeLNJunior/animes-review)
 
 </div>
 
@@ -36,14 +36,15 @@ Plataforma para avaliação de animes
 ## Rotas
 
 Informações básicas sobre as rotas da aplicação.
+
+**A fazer**
+
 | HTTP   | Rota                | Descrição                           | Autenticação |
 |--------|---------------------|-------------------------------------|--------------|
 | GET    | /register           | registra um usuário                 | não          |
 | GET    | /login              | autentica um usuário                | não          |
 | GET    | /users              | retorna todos os usuários           | sim          |
 | GET    | /docs               | documentação da API                 | não          |
-
-**A fazer**
 
 ## Tecnologias
 Este projeto foi construído com as seguintes tecnologias:
@@ -57,7 +58,7 @@ Este projeto foi construído com as seguintes tecnologias:
 
 ## Instalação e configuração
 ### Requisitos
-  - [Node.js »](https://nodejs.org/en/download) na sua versão lts
+  - [Node.js »](https://nodejs.org/en/download) na sua versão LTS
   - Um Banco de dados suportado pelo [TypeORM »](https://typeorm.io)
   - Um Banco de dados [Redis »](https://redis.io/)
 
@@ -65,8 +66,9 @@ Este projeto foi construído com as seguintes tecnologias:
   1. Clone o projeto: `git clone https://github.com/JorgeLNJunior/animes-review-api.git`
   2. Instale as dependências: `npm i`
   3. Renomeie o arquivo `.env.example` para `.env`
-  4. Para iniciar a aplicação execute `npm run build` e `npm start`
-  5. Para os testes execute `npm test`
+  4. Para iniciar a aplicação execute `npm run build` e `npm run start:prod`
+  5. Para iniciar um container docker execute `npm run docker:build` e `npm run docker:run`
+  6. Para os testes execute `npm test`
 
 ## Licença
 Projeto sob a licença [MIT »](https://github.com/JorgeLNJunior/animes-review-api/blob/master/LICENSE.md)
