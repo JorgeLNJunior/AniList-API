@@ -1,17 +1,25 @@
-FROM node:14-alpine
+FROM node:lts-alpine
 
-WORKDIR /usr/app/animes-review-api
+WORKDIR /usr/src/app
 
-RUN apk add --no-cache bash
+COPY ["package.json", "tsconfig.json", "tsconfig.build.json", "ecosystem.config.js", "./"]
 
-COPY package*.json ./
+COPY ./src ./src
 
-RUN npm install --only=prod
+RUN npm install
 
-RUN npm install pm2@latest -g
+RUN npm run build
 
-COPY public/ ./public/
+RUN rm -rf ./src
 
-COPY wait-for-it.sh ./
+RUN npm prune --production
 
-RUN chmod +x ./wait-for-it.sh
+RUN chown -R node /usr/src/app
+
+USER node
+
+ENV NODE_ENV=production
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start:prod"]
