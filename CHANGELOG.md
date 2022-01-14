@@ -1,3 +1,36 @@
+### 0.8.0 (2022-01-14)
+
+##### Build System / Dependencies
+
+* **deps:**
+  *  atualizar algumas dependências (e0cd1d75)
+  *  atualizar algumas dependências (8e397116)
+* **docker:**  remover o compose e reescrever a imagem (a78fa5bb)
+
+##### Chores
+
+*  atualizar o anime seed (da8d3134)
+
+##### Documentation Changes
+
+*  atualizar o readme (d8d8482b)
+
+##### New Features
+
+*  adicionar a temporada dos animes (6f64cd43)
+
+##### Bug Fixes
+
+*  corrigir validação do config service (cecb39c5)
+
+##### Refactors
+
+*  retornar erro correto na função getStorage (180b968c)
+
+##### Tests
+
+* **unit:**  adicionar a temporada dos animes (45238b02)
+
 #### 0.7.6 (2021-12-03)
 
 ##### Build System / Dependencies
