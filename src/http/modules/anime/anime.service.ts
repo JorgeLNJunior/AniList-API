@@ -33,7 +33,8 @@ export class AnimeService {
       .createQueryBuilder('anime')
       .select(
         'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover,' +
-        'anime.episodes, anime.releaseDate, anime.season, anime.createdAt, anime.updatedAt'
+        'anime.episodes, anime.releaseDate, anime.season, anime.genre,' +
+        'anime.createdAt, anime.updatedAt'
       )
       .addSelect(
         'IFNULL(ROUND(AVG(Cast(review.rating as Float)) ,2), 0)',
@@ -57,7 +58,7 @@ export class AnimeService {
       .createQueryBuilder('anime')
       .select(
         'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover,' +
-        'anime.episodes, anime.releaseDate, anime.season'
+        'anime.episodes, anime.releaseDate, anime.season, anime.genre'
       )
       .addSelect(
         'IFNULL(ROUND(AVG(Cast(review.rating as Float)), 2), 0)',

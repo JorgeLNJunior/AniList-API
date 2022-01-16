@@ -56,7 +56,8 @@ describe('AnimeController', () => {
         episodes: 10,
         releaseDate: '2020-05-13',
         trailer: 'trailer',
-        season: 'spring 2020'
+        season: 'spring 2020',
+        genre: 'action'
       }
       const response = await controller.create(dto)
 

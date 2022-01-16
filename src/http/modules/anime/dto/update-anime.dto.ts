@@ -67,4 +67,12 @@ export class UpdateAnimeDto {
     message: '$property must be formatted as "season year"'
   })
   season?: string;
+
+  @ApiProperty({
+    example: 'action'
+  })
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  genre?: string;
 }

@@ -15,12 +15,13 @@ export class AnimeQueryBuilder {
     const conditions: FindConditions<Anime> = {}
 
     if (this.query.uuid) conditions.uuid = this.query.uuid
+    if (this.query.genre) conditions.genre = this.query.genre
     if (this.query.title) conditions.title = Like(`%${this.query.title}%`)
     if (this.query.episodes) conditions.episodes = Number(this.query.episodes)
+    if (this.query.skip) findOptions.skip = this.query.skip
     if (this.query.take) {
       findOptions.take = this.query.take
     } else findOptions.take = 20
-    if (this.query.skip) findOptions.skip = this.query.skip
 
     findOptions.where = conditions
 

@@ -50,6 +50,11 @@ export class createAnimeTable1624810395846 implements MigrationInterface {
             isNullable: false
           },
           {
+            name: 'genre',
+            type: 'varchar',
+            isNullable: false
+          },
+          {
             name: 'createdAt',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP'

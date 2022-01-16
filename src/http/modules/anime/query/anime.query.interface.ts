@@ -24,6 +24,13 @@ export class AnimeQuery {
   episodes?: string;
 
   @ApiProperty({
+    example: 'action',
+    required: false
+  })
+  @IsOptional()
+  genre?: string;
+
+  @ApiProperty({
     example: 2,
     required: false
   })
