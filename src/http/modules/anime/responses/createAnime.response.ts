@@ -19,6 +19,7 @@ export class CreateAnimeResponse {
       episodes: 75,
       releaseDate: '2020-10-15',
       season: 'fall 2020',
+      genre: 'action',
       createdAt: '2021-09-16 14:38:09',
       updatedAt: null
     }
