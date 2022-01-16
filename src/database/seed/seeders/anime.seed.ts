@@ -27,6 +27,7 @@ export class AnimeSeeder {
             trailer: `https://youtube.com/watch?v=${animes[index].attributes.youtubeVideoId}`,
             cover: animes[index].attributes.coverImage.original,
             season: 'winter 2015',
+            genre: 'unknow',
             createdAt: new Date()
           })
         }
