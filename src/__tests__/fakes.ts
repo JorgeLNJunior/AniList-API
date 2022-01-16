@@ -25,6 +25,7 @@ export const fakeAnime: Anime = {
   episodes: 10,
   releaseDate: '2020-10-21',
   season: 'Fall 2021',
+  genre: 'genre',
   createdAt: new Date('2020-01-01'),
   updatedAt: null,
   deletedAt: null

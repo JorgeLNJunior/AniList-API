@@ -75,7 +75,8 @@ describe('AnimeService', () => {
         releaseDate: '2020-03-10',
         synopsis: 'synopsis',
         trailer: 'trailer',
-        season: 'winter 2020'
+        season: 'winter 2020',
+        genre: 'action'
       }
       expect(await service.create(dto)).toEqual({
         uuid: 'uuid',
