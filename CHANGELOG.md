@@ -1,3 +1,21 @@
+#### 0.8.3 (2022-02-05)
+
+##### Build System / Dependencies
+
+* **fix:**  corrigir o build (45748385)
+
+##### Chores
+
+*  atualizar o CHANGELOG.md (d7a55e3c)
+
+##### Documentation Changes
+
+*  atualizar para 0.8.1 (7e47ead4)
+
+##### Bug Fixes
+
+*  corrigir conflitos (f6243cef)
+
 #### 0.8.2 (2022-02-05)
 
 ##### Build System / Dependencies
