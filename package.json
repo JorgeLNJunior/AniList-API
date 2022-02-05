@@ -45,6 +45,7 @@
     "@nestjs/typeorm": "^8.0.3",
     "@nestjs/websockets": "^8.2.6",
     "@sendgrid/mail": "^7.6.0",
+    "axios": "^0.25.0",
     "bcrypt": "^5.0.1",
     "bull": "^3.29.3",
     "class-transformer": "^0.5.1",
