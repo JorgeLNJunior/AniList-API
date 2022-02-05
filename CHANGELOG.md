@@ -1,3 +1,37 @@
+#### 0.8.2 (2022-02-05)
+
+##### Build System / Dependencies
+
+* **deps:**  atualizar algumas dependências (ef0ef2ec)
+
+##### Chores
+
+*  atualizar o CHANGELOG.md (59a3bf18)
+* **seeds:**  adicionar gênero aos animes (a78a5a39)
+
+##### Continuous Integration
+
+* **actions:**  adicionar o script de build as actions (3eaf5d98)
+
+##### Documentation Changes
+
+*  atualizar para 0.8.1 (22a39d10)
+*  adicionar gênero aos animes (6c89c7a3)
+
+##### New Features
+
+*  adicionar gênero aos animes (7cd7958f)
+
+##### Bug Fixes
+
+* **build:**  sincronizar o package lock (0549591a)
+
+##### Tests
+
+* **unit:**
+  *  adicionar o gênero a query de animes (bf78c1e8)
+  *  adicionar gênero aos animes (fef428ae)
+
 #### 0.8.1 (2022-02-05)
 
 ##### Build System / Dependencies
@@ -20,6 +54,13 @@
 
 *  adicionar gênero aos animes (7cd7958f)
 
+<<<<<<< HEAD
+=======
+##### Bug Fixes
+
+* **build:**  sincronizar o package lock (0549591a)
+
+>>>>>>> release/v0.8.2
 ##### Tests
 
 * **unit:**
