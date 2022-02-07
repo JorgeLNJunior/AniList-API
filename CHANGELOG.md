@@ -1,3 +1,11 @@
+#### 0.8.4 (2022-02-07)
+
+##### Documentation Changes
+
+*  corrigir o changelog (43b3dd36)
+*  corrigir a url para a build action (365059d6)
+* **fix:**  corrigir a url para a build action (3634326f)
+
 #### 0.8.3 (2022-02-05)
 
 ##### Build System / Dependencies
