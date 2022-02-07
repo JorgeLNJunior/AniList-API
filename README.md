@@ -10,7 +10,7 @@ Plataforma para avaliação de animes
 
 <div align="center" id="badges">
 
-[![Actions Unit](https://img.shields.io/github/workflow/status/JorgeLNJunior/animes-review-api/Build%20And%20Test/master)](https://github.com/JorgeLNJunior/animes-review-api/actions/workflows/build.yml)
+[![Actions Build And Test](https://img.shields.io/github/workflow/status/JorgeLNJunior/animes-review-api/Build%20and%20Test/master)](https://github.com/JorgeLNJunior/animes-review-api/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/github/JorgeLNJunior/animes-review-api/badge.svg?branch=master)](https://coveralls.io/github/JorgeLNJunior/animes-review-api?branch=master)
 [![License](https://img.shields.io/github/license/JorgeLNJunior/animes-review-api)](https://github.com/JorgeLNJunior/animes-review-api/blob/master/LICENSE.md)
 [![Release](https://img.shields.io/github/v/release/JorgeLNJunior/animes-review-api?color=lgreen)](https://github.com/JorgeLNJunior/animes-review-api/releases)
