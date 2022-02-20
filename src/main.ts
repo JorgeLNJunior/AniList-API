@@ -3,13 +3,13 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { useContainer } from 'class-validator'
 import * as express from 'express'
-import * as helmet from 'helmet'
+import helmet from 'helmet'
 import { resolve } from 'path'
 
 import { description, name, version } from '../package.json'
 import { AppModule } from './app.module'
 
-async function bootstrap () {
+async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   useContainer(app.select(AppModule), { fallbackOnErrors: true })
 
