@@ -10,7 +10,6 @@ jest.mock('@sendgrid/mail', () => ({
   send: jest.fn()
 }))
 
-// eslint-disable-next-line import/first
 import * as sgMail from '@sendgrid/mail'
 
 describe('SendgridMailService', () => {
