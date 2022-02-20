@@ -1,18 +1,18 @@
+import { faker } from '@faker-js/faker'
 import { Anime } from '@http/modules/anime/entities/anime.entity'
 import { Review } from '@http/modules/review/entities/review.entity'
 import { User } from '@http/modules/user/entities/user.entity'
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectConnection } from '@nestjs/typeorm'
-import * as faker from 'faker'
 import { Connection } from 'typeorm'
 
 @Injectable()
 export class ReviewSeeder {
   private readonly logger = new Logger(ReviewSeeder.name);
 
-  constructor (@InjectConnection() private connection: Connection) {}
+  constructor(@InjectConnection() private connection: Connection) { }
 
-  async run () {
+  async run() {
     try {
       const users = await this.getUsers()
       const animes = await this.getAnimes()
@@ -34,7 +34,7 @@ export class ReviewSeeder {
     }
   }
 
-  private async getUsers () {
+  private async getUsers() {
     return this.connection
       .createQueryBuilder()
       .select()
@@ -43,7 +43,7 @@ export class ReviewSeeder {
       .getRawMany()
   }
 
-  private async getAnimes () {
+  private async getAnimes() {
     return this.connection
       .createQueryBuilder()
       .select()
@@ -52,7 +52,7 @@ export class ReviewSeeder {
       .getRawMany()
   }
 
-  private async insert (dto: any) {
+  private async insert(dto: any) {
     await this.connection
       .createQueryBuilder()
       .insert()
