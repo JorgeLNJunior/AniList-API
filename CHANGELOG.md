@@ -1,3 +1,23 @@
+#### 0.8.5 (2022-02-27)
+
+##### Build System / Dependencies
+
+* **deps:**  atualizar as dependências (2c5796a1)
+*  substituir o faker pelo @faker-js/faker (817cc124)
+*  atualizar as dependências (259d903b)
+
+##### Chores
+
+* **seeds:**  alterar serviço http (53371252)
+
+##### Code Style Changes
+
+*  remover comentário (d4aba4b4)
+
+##### Tests
+
+* **unit:**  testar o http service (1b968767)
+
 #### 0.8.4 (2022-02-07)
 
 ##### Documentation Changes
