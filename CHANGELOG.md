@@ -1,3 +1,9 @@
+#### 0.8.6 (2022-02-28)
+
+##### Build System / Dependencies
+
+* **fix:**  mover o faker para dependência de produção (6ddf6733)
+
 #### 0.8.5 (2022-02-27)
 
 ##### Build System / Dependencies
