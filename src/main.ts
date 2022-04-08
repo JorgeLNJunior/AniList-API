@@ -26,7 +26,8 @@ async function bootstrap() {
   app.useLogger(new ConsoleLogger())
 
   const config = new DocumentBuilder()
-    .setTitle(name)
+    // capitalize (animes-review-api to Animes Review API)
+    .setTitle(name.replaceAll('-', ' ').split(' ').map(word => word[0].toUpperCase() + word.substring(1)).join(' ').replace('Api', 'API'))
     .setDescription(description)
     .setVersion(version)
     .addTag('Auth')
