@@ -1,10 +1,10 @@
-<div align="center" id="short-description">
+<div align="center" id="short-description-and-logo">
 
 <img src="https://i.ibb.co/q045V4Z/AR-Logo.png" width="300px">
 
 <h1>Animes Review</h1>
 
-Plataforma para avaliação de animes
+Avalie e veja a opnião de outras pessoas sobre seus animes favoritos
 
 </div>
 
@@ -20,32 +20,19 @@ Plataforma para avaliação de animes
 <div align="center">
 
 [Trello](https://trello.com/b/o7iD52J4/animes-review) |
-[~~Front-end~~](https://github.com/JorgeLNJunior/animes-review)
+[Docs](api-animes-review.herokuapp.com/docs)
 
 </div>
 
+Animes Review é uma plataforma inspirada no [My Anime List](https://myanimelist.net/) a qual foi contruída para aprimorar minhas habilidade em NodeJs, NestJs, APIs e código limpo, além de aprender como processar dados em filas (processamento de imagens e envio de e-mails), testes unitários e diferentes níveis de permissão e autenticação.
+
 ## Tabela de Conteúdos
 
-- [Rotas](https://github.com/JorgeLNJunior/animes-review-api#rotas)
 - [Tecnologias](https://github.com/JorgeLNJunior/animes-review-api#tecnologias)
 - [Instalação e configuração](https://github.com/JorgeLNJunior/animes-review-api#instala%C3%A7%C3%A3o-e-configura%C3%A7%C3%A3o)
   - [Requisitos](https://github.com/JorgeLNJunior/animes-review-api#requisitos)
-  - [Opcional](https://github.com/JorgeLNJunior/animes-review-api#requisitos)
   - [Instalação](https://github.com/JorgeLNJunior/animes-review-api#instala%C3%A7%C3%A3o)
 - [Licença](https://github.com/JorgeLNJunior/animes-review-api#licen%C3%A7a)
-
-## Rotas
-
-Informações básicas sobre as rotas da aplicação.
-
-**A fazer**
-
-| HTTP | Rota      | Descrição                 | Autenticação |
-| ---- | --------- | ------------------------- | ------------ |
-| GET  | /register | registra um usuário       | não          |
-| GET  | /login    | autentica um usuário      | não          |
-| GET  | /users    | retorna todos os usuários | sim          |
-| GET  | /docs     | documentação da API       | não          |
 
 ## Tecnologias
 
@@ -58,6 +45,7 @@ Este projeto foi construído com as seguintes tecnologias:
 - [GitHub Actions »](https://github.com/features/actions)
 - [Swagger »](https://swagger.io)
 - [TypeORM »](https://typeorm.io)
+- [Redis »](https://redis.io/)
 
 ## Instalação e configuração
 
