@@ -1,33 +1,38 @@
 import { User } from '@http/modules/user/entities/user.entity'
-import { Injectable } from '@nestjs/common'
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
 import { FakeMailService } from './fakeMail.service'
-import { IMailService } from './interface/mail.service.interface'
 import { SendgridMailService } from './sendgridMail.service'
+import { IMailService } from './types/mail.service.interface'
+import { MailServiceEnum } from './types/mail.types'
 
 @Injectable()
 export class MailService implements IMailService {
-  constructor (
+  private readonly logger = new Logger(MailService.name)
+
+  constructor(
     private configService: ConfigService,
     private sendgridMailService: SendgridMailService,
     private fakeMailService: FakeMailService
-  ) {}
+  ) { }
 
-  async sendConfirmationEmail (user: User): Promise<void> {
+  async sendConfirmationEmail(user: User): Promise<void> {
     await this.getMailService().sendConfirmationEmail(user)
   }
 
-  getMailService (): IMailService {
-    const env = this.configService.get<string>('MAIL_SERVICE').toLowerCase()
+  // public method for testing purposes
+  getMailService(): IMailService {
+    const envMailValue = this.configService.get<string>('MAIL_SERVICE').toLowerCase()
 
-    switch (env) {
-      case 'sendgrid':
+    switch (envMailValue) {
+      case MailServiceEnum.SENDGRID:
         return this.sendgridMailService
-      case 'fake':
+      case MailServiceEnum.FAKE:
         return this.fakeMailService
       default:
-        throw new Error(`"${env}" is a invalid mail service`)
+        this.logger.error(`"${envMailValue}" is a invalid mail service`)
+        throw new InternalServerErrorException()
     }
   }
 }
