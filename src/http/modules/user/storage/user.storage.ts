@@ -1,32 +1,37 @@
-import { Injectable } from '@nestjs/common'
+import { StorageService } from '@http/shared/types/storage.types'
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
-import { IUserStorage } from './interface/user.storage.interface'
+import { IUserStorage } from './types/user.storage.interface'
 import { UserCloudinaryStorage } from './userCloudinary.storage'
 import { UserLocalStorage } from './userLocal.storage'
 
 @Injectable()
 export class UserStorage implements IUserStorage {
-  constructor (private configService: ConfigService) {}
+  private readonly logger = new Logger(UserStorage.name)
 
-  uploadAvatar (buffer: Buffer): Promise<string> {
+  constructor(private configService: ConfigService) { }
+
+  uploadAvatar(buffer: Buffer): Promise<string> {
     return this.getStorage().uploadAvatar(buffer)
   }
 
-  deleteOldAvatar (url: string): Promise<void> {
+  deleteOldAvatar(url: string): Promise<void> {
     return this.getStorage().deleteOldAvatar(url)
   }
 
-  getStorage (): IUserStorage {
-    const env = this.configService.get<string>('STORAGE')
+  // public method for testing purposes
+  getStorage(): IUserStorage {
+    const envStorageValue = this.configService.get<string>('STORAGE')
 
-    switch (env) {
-      case 'cloudinary':
+    switch (envStorageValue) {
+      case StorageService.CLOUDINARY:
         return new UserCloudinaryStorage(new ConfigService())
-      case 'local':
+      case StorageService.LOCAL:
         return new UserLocalStorage()
       default:
-        throw new Error(`"${env}" is not a valid storage`)
+        this.logger.error(`"${envStorageValue}" is not a valid storage`)
+        throw new InternalServerErrorException()
     }
   }
 }

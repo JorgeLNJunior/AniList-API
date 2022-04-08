@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ConfigOptions, v2 as cloudinary } from 'cloudinary'
 
-import { IUserStorage } from './interface/user.storage.interface'
+import { IUserStorage } from './types/user.storage.interface'
 
 @Injectable()
 export class UserCloudinaryStorage implements IUserStorage {
-  constructor (private configService: ConfigService) {}
+  constructor(private configService: ConfigService) { }
 
-  uploadAvatar (buffer: Buffer): Promise<string> {
+  uploadAvatar(buffer: Buffer): Promise<string> {
     cloudinary.config(this.getConfig())
 
     return new Promise((resolve, reject) => {
@@ -24,7 +24,7 @@ export class UserCloudinaryStorage implements IUserStorage {
     })
   }
 
-  deleteOldAvatar (url: string) {
+  deleteOldAvatar(url: string) {
     return new Promise<void>((resolve, reject) => {
       const fileId = url.split('/').pop().split('.').shift()
       cloudinary.uploader.destroy(fileId, {}, (error) => {
@@ -36,7 +36,7 @@ export class UserCloudinaryStorage implements IUserStorage {
     })
   }
 
-  private getConfig () {
+  private getConfig() {
     return {
       cloud_name: this.configService.get<string>('CLOUDINARY_NAME'),
       api_key: this.configService.get<string>('CLOUDINARY_KEY'),

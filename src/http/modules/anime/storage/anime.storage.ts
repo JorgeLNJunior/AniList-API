@@ -1,32 +1,37 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common'
+import { StorageService } from '@http/shared/types/storage.types'
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
 import { AnimeCloudinaryStorage } from './animeCloudinary.storage'
 import { AnimeLocalStorage } from './animeLocal.storage'
-import { IAnimeStorage } from './interface/anime.storage.interface'
+import { IAnimeStorage } from './types/anime.storage.interface'
 
 @Injectable()
 export class AnimeStorage implements IAnimeStorage {
-  constructor (private configService: ConfigService) {}
+  private readonly logger = new Logger(AnimeStorage.name)
 
-  uploadCover (buffer: Buffer): Promise<string> {
+  constructor(private configService: ConfigService) { }
+
+  uploadCover(buffer: Buffer): Promise<string> {
     return this.getStorage().uploadCover(buffer)
   }
 
-  deleteOldCover (url: string): Promise<void> {
+  deleteOldCover(url: string): Promise<void> {
     return this.getStorage().deleteOldCover(url)
   }
 
-  getStorage (): IAnimeStorage {
-    const env = this.configService.get<string>('STORAGE')
+  // public method for testing purposes
+  getStorage(): IAnimeStorage {
+    const envStorageValue = this.configService.get<string>('STORAGE')
 
-    switch (env) {
-      case 'cloudinary':
+    switch (envStorageValue) {
+      case StorageService.CLOUDINARY:
         return new AnimeCloudinaryStorage(new ConfigService())
-      case 'local':
+      case StorageService.LOCAL:
         return new AnimeLocalStorage()
       default:
-        throw new InternalServerErrorException(`"${env}" is a invalid storage`)
+        this.logger.error(`"${envStorageValue}" is an invalid storage`)
+        throw new InternalServerErrorException()
     }
   }
 }
