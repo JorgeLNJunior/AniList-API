@@ -21,10 +21,10 @@
         "src/shared/*"
       ],
       "@http/*": [
-        "src/http/*"
+        "src/app/http/*"
       ],
       "@websocket/*": [
-        "src/websocket/*"
+        "src/app/websocket/*"
       ],
       "@database/*": [
         "src/database/*"

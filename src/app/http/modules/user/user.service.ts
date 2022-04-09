@@ -19,14 +19,14 @@ import { UserQuery } from './query/user.query.interface'
 
 @Injectable()
 export class UserService implements OnApplicationBootstrap {
-  constructor (
+  constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectQueue('avatar-compression') private avatarQueue: Queue,
     private bcrypt: BcryptService,
     private configService: ConfigService
-  ) {}
+  ) { }
 
-  async onApplicationBootstrap () {
+  async onApplicationBootstrap() {
     const isAdminUserCreated = await this.userRepository.find({
       name: 'admin'
     })
@@ -44,7 +44,7 @@ export class UserService implements OnApplicationBootstrap {
     await this.userRepository.save(admin)
   }
 
-  async create (createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
     const passwordHash = await this.bcrypt.hash(createUserDto.password)
     createUserDto.password = passwordHash
 
@@ -53,7 +53,7 @@ export class UserService implements OnApplicationBootstrap {
     return this.userRepository.save(user)
   }
 
-  async find (query?: UserQuery): Promise<PaginationInterface<User>> {
+  async find(query?: UserQuery): Promise<PaginationInterface<User>> {
     const findOptions = new UserQueryBuilder(query).build()
 
     const total = await this.userRepository.count({ where: findOptions.where })
@@ -62,7 +62,7 @@ export class UserService implements OnApplicationBootstrap {
     return { results: users, pageTotal: users.length, total: total }
   }
 
-  async update (uuid: string, updateUserDto: UpdateUserDto) {
+  async update(uuid: string, updateUserDto: UpdateUserDto) {
     const user = await this.userRepository.findOne(uuid)
     if (!user) throw new BadRequestException(['user not found'])
 
@@ -70,11 +70,11 @@ export class UserService implements OnApplicationBootstrap {
     return await this.userRepository.findOne(uuid)
   }
 
-  async delete (uuid: string) {
+  async delete(uuid: string) {
     await this.userRepository.softDelete(uuid)
   }
 
-  async upload (uuid: string, path: string) {
+  async upload(uuid: string, path: string) {
     await this.avatarQueue.add({ userUuid: uuid, path: path })
     return 'the image will be available soon'
   }

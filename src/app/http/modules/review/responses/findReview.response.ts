@@ -20,9 +20,9 @@ export class FindReviewResponse {
           uuid: '5fe7e1fb-1341-4625-bbaf-72688a697624',
           title: 'naruto',
           synopsis:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
           cover:
-              'https://betteranime.net/storage/cover/746cd6f190bdff4bcd01bfea06d500971ac4921f32b31a47274c345d20df4afb.jpg',
+            'https://betteranime.net/storage/cover/746cd6f190bdff4bcd01bfea06d500971ac4921f32b31a47274c345d20df4afb.jpg',
           trailer: 'youtube.com/watch?v=j2hiC9BmJlQ',
           episodes: 200,
           releaseDate: '2020-10-15',
@@ -34,9 +34,9 @@ export class FindReviewResponse {
           name: 'user',
           email: 'user@mail.com',
           password:
-              '$2b$10$i0vQ/xHd8t2ozS4TQaZeTudbGvJzQd/DPCHF6EC/scsiX9JNf1pA6',
+            '$2b$10$i0vQ/xHd8t2ozS4TQaZeTudbGvJzQd/DPCHF6EC/scsiX9JNf1pA6',
           avatar:
-              'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
+            'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg',
           createdAt: '2021-09-16 14:38:09',
           updatedAt: null
         }
@@ -55,12 +55,12 @@ export class FindReviewResponse {
   })
   private readonly total: number;
 
-  constructor (reviews: PaginationInterface<Review>, status?: number) {
+  constructor(reviews: PaginationInterface<Review>, status?: number) {
     this.reviews = reviews
     this.statusCode = status || 200
   }
 
-  build () {
+  build() {
     return {
       statusCode: this.statusCode,
       reviews: this.reviews.results,

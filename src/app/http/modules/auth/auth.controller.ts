@@ -35,7 +35,7 @@ import { RegisterResponse } from './responses/register.response'
 })
 @Controller()
 export class AuthController {
-  constructor (private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @ApiCreatedResponse({ description: 'OK', type: RegisterResponse })
   @ApiBadRequestResponse({
@@ -43,7 +43,7 @@ export class AuthController {
     type: BadRequestResponse
   })
   @Post('register')
-  async create (@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto) {
     const user = await this.authService.register(createUserDto)
 
     return new RegisterResponse(user).build()
@@ -57,7 +57,7 @@ export class AuthController {
   @UseGuards(AuthGuard('local'), EmailConfirmationGuard)
   @HttpCode(200)
   @Post('login')
-  async login (@Body() loginDto: LoginDto, @Req() req) {
+  async login(@Body() loginDto: LoginDto, @Req() req) {
     const token = await this.authService.login(req.user)
     return new LoginResponse(token).build()
   }
@@ -68,7 +68,7 @@ export class AuthController {
     type: BadRequestResponse
   })
   @Post('confirm')
-  async confirm (@Body() confirmDto: EmailConfirmationDto) {
+  async confirm(@Body() confirmDto: EmailConfirmationDto) {
     await this.authService.confirmEmail(confirmDto)
     return new EmailConfirmationResponse().build()
   }

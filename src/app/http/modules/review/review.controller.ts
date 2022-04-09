@@ -48,7 +48,7 @@ import { ReviewService } from './review.service'
 @UseGuards(AuthGuard('jwt'))
 @Controller('reviews')
 export class ReviewController {
-  constructor (private readonly reviewService: ReviewService) {}
+  constructor(private readonly reviewService: ReviewService) { }
 
   @ApiCreatedResponse({ description: 'OK', type: CreateReviewResponse })
   @ApiBadRequestResponse({
@@ -56,7 +56,7 @@ export class ReviewController {
     type: BadRequestResponse
   })
   @Post()
-  async create (@Body() createReviewDto: CreateReviewDto, @Req() req) {
+  async create(@Body() createReviewDto: CreateReviewDto, @Req() req) {
     const review = await this.reviewService.create(
       req.user.uuid,
       createReviewDto
@@ -67,7 +67,7 @@ export class ReviewController {
   @ApiOkResponse({ description: 'ok', type: FindReviewResponse })
   @ApiQuery({ type: ReviewQuery })
   @Get()
-  async find (@Query() query: ReviewQuery) {
+  async find(@Query() query: ReviewQuery) {
     const reviews = await this.reviewService.find(query)
     return new FindReviewResponse(reviews).build()
   }
@@ -79,7 +79,7 @@ export class ReviewController {
   })
   @UseGuards(ReviewModifyPermissionGuard)
   @Patch(':uuid')
-  async update (
+  async update(
     @Param('uuid') uuid: string,
     @Body() updateReviewDto: UpdateReviewDto
   ) {
@@ -94,7 +94,7 @@ export class ReviewController {
   })
   @UseGuards(ReviewModifyPermissionGuard)
   @Delete(':uuid')
-  async delete (@Param('uuid') uuid: string) {
+  async delete(@Param('uuid') uuid: string) {
     await this.reviewService.delete(uuid)
     return new DeleteReviewResponse().build()
   }

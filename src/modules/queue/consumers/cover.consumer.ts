@@ -12,15 +12,15 @@ import { CoverCompressJob } from './interfaces/jobs.interface'
 
 @Processor('cover-compression')
 export class CoverCompressConsumer {
-  constructor (
+  constructor(
     @InjectRepository(Anime) private animeRepository: Repository<Anime>,
     private animeStorage: AnimeStorage
-  ) {}
+  ) { }
 
   private readonly logger = new Logger(CoverCompressConsumer.name);
 
   @Process()
-  async compress (job: Job<CoverCompressJob>) {
+  async compress(job: Job<CoverCompressJob>) {
     const oldCover = (await this.animeRepository.findOne(job.data.animeUuid)).cover
 
     const buffer = await sharp(job.data.path)
@@ -37,25 +37,25 @@ export class CoverCompressConsumer {
   }
 
   @OnQueueError()
-  onError (error: Error) {
+  onError(error: Error) {
     this.logger.error('Error when process a queue', error.message)
   }
 
-  private async storeCover (buffer: Buffer) {
+  private async storeCover(buffer: Buffer) {
     return this.animeStorage.uploadCover(buffer)
   }
 
-  private async updateCover (uuid: string, url: string) {
+  private async updateCover(uuid: string, url: string) {
     await this.animeRepository.update(uuid, { cover: url })
   }
 
-  private async deleteOldCover (coverUrl: string) {
+  private async deleteOldCover(coverUrl: string) {
     if (coverUrl) {
       await this.animeStorage.deleteOldCover(coverUrl)
     }
   }
 
-  private async deleteTempFile (path: string) {
+  private async deleteTempFile(path: string) {
     await rm(path, { force: true })
   }
 }

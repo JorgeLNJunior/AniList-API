@@ -17,15 +17,15 @@ import { EmailConfirmationDto } from './dto/email-confirmation.dto'
 
 @Injectable()
 export class AuthService {
-  constructor (
+  constructor(
     @InjectQueue('email') private mailQueue: Queue,
     @InjectRepository(User) private userRepository: Repository<User>,
     private bcrypt: BcryptService,
     private jwt: JwtService,
     private configService: ConfigService
-  ) {}
+  ) { }
 
-  async register (createUserDto: CreateUserDto) {
+  async register(createUserDto: CreateUserDto) {
     const passwordHash = await this.bcrypt.hash(createUserDto.password)
     createUserDto.password = passwordHash
 
@@ -37,12 +37,12 @@ export class AuthService {
     return user
   }
 
-  async login (user: User) {
+  async login(user: User) {
     const payload = { uuid: user.uuid, isAdmin: user.isAdmin }
     return this.jwt.sign(payload)
   }
 
-  async confirmEmail (dto: EmailConfirmationDto) {
+  async confirmEmail(dto: EmailConfirmationDto) {
     const email = this.decodeToken(dto.token)
     const user = await this.userRepository.findOne({ email: email })
     if (!user) {
@@ -55,7 +55,7 @@ export class AuthService {
     await this.userRepository.update(user.uuid, { isEmailConfirmed: true })
   }
 
-  async validateUser (email: string, password: string) {
+  async validateUser(email: string, password: string) {
     const user = await this.userRepository.find({ email: email })
 
     if (!user[0]) {
@@ -74,7 +74,7 @@ export class AuthService {
     return user[0]
   }
 
-  private decodeToken (token: string) {
+  private decodeToken(token: string) {
     try {
       const payload = this.jwt.verify(token, {
         secret: this.configService.get<string>('JWT_VERIFICATION_TOKEN_SECRET')

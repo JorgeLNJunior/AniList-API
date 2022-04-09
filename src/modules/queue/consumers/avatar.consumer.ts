@@ -1,8 +1,8 @@
 import { User } from '@http/modules/user/entities/user.entity'
+import { UserStorage } from '@http/modules/user/storage/user.storage'
 import { OnQueueError, Process, Processor } from '@nestjs/bull'
 import { Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { UserStorage } from '@src/http/modules/user/storage/user.storage'
 import { Job } from 'bull'
 import { rm } from 'fs/promises'
 import * as sharp from 'sharp'
@@ -12,15 +12,15 @@ import { AvatarCompressJob } from './interfaces/jobs.interface'
 
 @Processor('avatar-compression')
 export class AvatarCompressConsumer {
-  constructor (
+  constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private userStorage: UserStorage
-  ) {}
+  ) { }
 
   private readonly logger = new Logger(AvatarCompressConsumer.name);
 
   @Process()
-  async compress (job: Job<AvatarCompressJob>) {
+  async compress(job: Job<AvatarCompressJob>) {
     const oldAvatar = (await this.userRepository.findOne(job.data.userUuid)).avatar
 
     const buffer = await sharp(job.data.path)
@@ -37,25 +37,25 @@ export class AvatarCompressConsumer {
   }
 
   @OnQueueError()
-  onError (error: Error) {
+  onError(error: Error) {
     this.logger.error('Error when process a queue', error.message)
   }
 
-  private async storeAvatar (buffer: Buffer) {
+  private async storeAvatar(buffer: Buffer) {
     return this.userStorage.uploadAvatar(buffer)
   }
 
-  private async updateAvatar (uuid: string, url: string) {
+  private async updateAvatar(uuid: string, url: string) {
     await this.userRepository.update(uuid, { avatar: url })
   }
 
-  private async deleteOldAvatar (avatarUrl: string) {
+  private async deleteOldAvatar(avatarUrl: string) {
     if (avatarUrl) {
       await this.userStorage.deleteOldAvatar(avatarUrl)
     }
   }
 
-  private async deleteTempFile (path: string) {
+  private async deleteTempFile(path: string) {
     await rm(path, { force: true })
   }
 }

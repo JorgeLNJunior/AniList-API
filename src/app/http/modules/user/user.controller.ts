@@ -54,12 +54,12 @@ import { UserService } from './user.service'
 @UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UserController {
-  constructor (private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @ApiOkResponse({ description: 'OK', type: FindUsersResponse })
   @ApiQuery({ type: UserQuery })
   @Get()
-  async find (@Query() query: UserQuery) {
+  async find(@Query() query: UserQuery) {
     const users = await this.userService.find(query)
     return new FindUsersResponse(users).build()
   }
@@ -75,7 +75,7 @@ export class UserController {
   })
   @UseGuards(new UserModifyPermissionGuard())
   @Patch(':uuid')
-  async update (
+  async update(
     @Body() updateuserDto: UpdateUserDto,
     @Param('uuid') uuid: string
   ) {
@@ -90,7 +90,7 @@ export class UserController {
   })
   @UseGuards(new UserModifyPermissionGuard())
   @Delete(':uuid')
-  async delete (@Param('uuid') uuid: string) {
+  async delete(@Param('uuid') uuid: string) {
     await this.userService.delete(uuid)
     return new DeleteUserResponse().build()
   }
@@ -108,7 +108,7 @@ export class UserController {
   @UseInterceptors(
     FileInterceptor('avatar', { limits: { fileSize: 3000000 }, dest: '.temp' })
   )
-  async upload (@UploadedFile() file: Express.Multer.File, @Req() req) {
+  async upload(@UploadedFile() file: Express.Multer.File, @Req() req) {
     const { uuid } = req.user
     const message = await this.userService.upload(uuid, file.path)
     return { statusCode: 200, message: message }

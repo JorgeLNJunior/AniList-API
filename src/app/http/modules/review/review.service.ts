@@ -13,13 +13,13 @@ import { ReviewQuery } from './query/review.query.interface'
 
 @Injectable()
 export class ReviewService {
-  constructor (
+  constructor(
     @InjectRepository(Review) private reviewRepository: Repository<Review>,
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Anime) private animeRepository: Repository<Anime>
-  ) {}
+  ) { }
 
-  async create (userUuid: string, createReviewDto: CreateReviewDto) {
+  async create(userUuid: string, createReviewDto: CreateReviewDto) {
     const { anime: animeUuid, title, description, rating } = createReviewDto
 
     const userReviews = await this.reviewRepository.find({
@@ -48,7 +48,7 @@ export class ReviewService {
     return this.reviewRepository.save(review)
   }
 
-  async find (query: ReviewQuery): Promise<PaginationInterface<Review>> {
+  async find(query: ReviewQuery): Promise<PaginationInterface<Review>> {
     const findOptions = new ReviewQueryBuilder(query).build()
 
     const total = await this.reviewRepository.count({
@@ -62,7 +62,7 @@ export class ReviewService {
     return { results: reviews, pageTotal: reviews.length, total: total }
   }
 
-  async update (uuid: string, updateReviewDto: UpdateReviewDto) {
+  async update(uuid: string, updateReviewDto: UpdateReviewDto) {
     const review = await this.reviewRepository.findOne(uuid)
     if (!review) throw new BadRequestException(['review not found'])
 
@@ -72,7 +72,7 @@ export class ReviewService {
     })
   }
 
-  async delete (uuid: string) {
+  async delete(uuid: string) {
     const review = await this.reviewRepository.findOne(uuid)
     if (!review) throw new BadRequestException(['review not found'])
 

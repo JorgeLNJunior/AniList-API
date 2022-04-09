@@ -1,15 +1,15 @@
 import { Anime } from '@http/modules/anime/entities/anime.entity'
+import { AnimeStorage } from '@http/modules/anime/storage/anime.storage'
 import { User } from '@http/modules/user/entities/user.entity'
+import { UserStorage } from '@http/modules/user/storage/user.storage'
+import { FakeMailService } from '@http/shared/services/mail/fakeMail.service'
 import { MailService } from '@http/shared/services/mail/mail.service'
+import { SendgridMailService } from '@http/shared/services/mail/sendgridMail.service'
 import { BullModule } from '@nestjs/bull'
 import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AnimeStorage } from '@src/http/modules/anime/storage/anime.storage'
-import { UserStorage } from '@src/http/modules/user/storage/user.storage'
-import { FakeMailService } from '@src/http/shared/services/mail/fakeMail.service'
-import { SendgridMailService } from '@src/http/shared/services/mail/sendgridMail.service'
 
 import { AvatarCompressConsumer } from './consumers/avatar.consumer'
 import { CoverCompressConsumer } from './consumers/cover.consumer'
@@ -38,4 +38,4 @@ import { EmailConsumer } from './consumers/email.consumer'
   ],
   exports: [BullModule]
 })
-export class QueueModule {}
+export class QueueModule { }

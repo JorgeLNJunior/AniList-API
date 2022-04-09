@@ -61,7 +61,7 @@ import { UpdateAnimeResponse } from './responses/updateAnime.response'
 @UseGuards(AuthGuard('jwt'))
 @Controller('animes')
 export class AnimeController {
-  constructor (private readonly animeService: AnimeService) {}
+  constructor(private readonly animeService: AnimeService) { }
 
   @ApiCreatedResponse({ description: 'OK', type: CreateAnimeResponse })
   @ApiBadRequestResponse({
@@ -70,7 +70,7 @@ export class AnimeController {
   })
   @UseGuards(new IsAdminGuard())
   @Post()
-  async create (@Body() createAnimeDto: CreateAnimeDto) {
+  async create(@Body() createAnimeDto: CreateAnimeDto) {
     const anime = await this.animeService.create(createAnimeDto)
     return new CreateAnimeResponse(anime).build()
   }
@@ -78,14 +78,14 @@ export class AnimeController {
   @ApiOkResponse({ description: 'OK', type: FindAnimeResponse })
   @ApiQuery({ type: AnimeQuery })
   @Get()
-  async find (@Query() query: AnimeQuery) {
+  async find(@Query() query: AnimeQuery) {
     const animes = await this.animeService.find(query)
     return new FindAnimeResponse(animes).build()
   }
 
   @ApiOkResponse({ description: 'OK', type: FindAnimeResponse })
   @Get('top')
-  async top () {
+  async top() {
     const animes = await this.animeService.top()
     return new FindTopAnimesResponse(animes).build()
   }
@@ -97,7 +97,7 @@ export class AnimeController {
   })
   @UseGuards(new IsAdminGuard())
   @Patch(':uuid')
-  async update (
+  async update(
     @Param('uuid') uuid: string,
     @Body() updateAnimeDto: UpdateAnimeDto
   ) {
@@ -112,7 +112,7 @@ export class AnimeController {
   })
   @UseGuards(new IsAdminGuard())
   @Delete(':uuid')
-  async delete (@Param('uuid') uuid: string) {
+  async delete(@Param('uuid') uuid: string) {
     await this.animeService.delete(uuid)
     return new DeleteAnimeResponse().build()
   }
@@ -131,7 +131,7 @@ export class AnimeController {
     FileInterceptor('cover', { limits: { fileSize: 3000000 }, dest: '.temp' })
   )
   @Post(':uuid/upload')
-  async upload (
+  async upload(
     @Param('uuid') uuid: string,
     @UploadedFile() file: Express.Multer.File
   ) {

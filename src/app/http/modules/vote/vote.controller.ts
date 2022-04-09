@@ -26,7 +26,7 @@ import { VoteService } from './vote.service'
 @UseGuards(AuthGuard('jwt'))
 @Controller('votes')
 export class VoteController {
-  constructor (private readonly voteService: VoteService) {}
+  constructor(private readonly voteService: VoteService) { }
 
   @ApiCreatedResponse({ description: 'OK', type: CreateVoteDto })
   @ApiBadRequestResponse({
@@ -34,7 +34,7 @@ export class VoteController {
     type: BadRequestResponse
   })
   @Post()
-  async create (@Body() createVoteDto: CreateVoteDto, @Req() req) {
+  async create(@Body() createVoteDto: CreateVoteDto, @Req() req) {
     const vote = await this.voteService.create(req.user.uuid, createVoteDto)
     return new CreateVoteResponse(vote).build()
   }
@@ -42,7 +42,7 @@ export class VoteController {
   @ApiOkResponse({ description: 'OK', type: FindVoteResponse })
   @ApiQuery({ type: VoteQuery })
   @Get()
-  async find (@Query() query: VoteQuery) {
+  async find(@Query() query: VoteQuery) {
     const results = await this.voteService.find(query)
     return new FindVoteResponse(results).build()
   }
@@ -54,8 +54,8 @@ export class VoteController {
   })
   @UseGuards(VoteModifyPermissionGuard)
   @Delete(':uuid')
-  async delete (@Param('uuid') uuid: string) {
-   await this.voteService.delete(uuid)
-   return new DeleteVoteResponse().build()
+  async delete(@Param('uuid') uuid: string) {
+    await this.voteService.delete(uuid)
+    return new DeleteVoteResponse().build()
   }
 }

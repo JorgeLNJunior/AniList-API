@@ -12,12 +12,12 @@ import { Repository } from 'typeorm'
 @Injectable()
 @ValidatorConstraint({ async: true })
 export class IsUserAlreadyExistConstraint
-implements ValidatorConstraintInterface {
-  constructor (
+  implements ValidatorConstraintInterface {
+  constructor(
     @InjectRepository(User) private userRepository: Repository<User>
-  ) {}
+  ) { }
 
-  validate (value: any): boolean | Promise<boolean> {
+  validate(value: any): boolean | Promise<boolean> {
     return this.userRepository
       .findOne({
         where: { email: value }
@@ -28,12 +28,12 @@ implements ValidatorConstraintInterface {
       })
   }
 
-  defaultMessage? (): string {
+  defaultMessage?(): string {
     return 'this email is already registered'
   }
 }
 
-export function IsUserAlreadyExist (validationOption?: ValidationOptions) {
+export function IsUserAlreadyExist(validationOption?: ValidationOptions) {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return function (object: Object, propertyName: string) {
     registerDecorator({

@@ -122,8 +122,8 @@
       "@shared/(.*)": "<rootDir>/shared/$1",
       "@src/(.*)": "<rootDir>/$1",
       "@config/(.*)": "<rootDir>/config/$1",
-      "@http/(.*)": "<rootDir>/http/$1",
-      "@websocket/(.*)": "<rootDir>/websocket/$1",
+      "@http/(.*)": "<rootDir>/app/http/$1",
+      "@websocket/(.*)": "<rootDir>/app/websocket/$1",
       "@database/(.*)": "<rootDir>/database/$1",
       "@mocks/(.*)": "<rootDir>/__tests__/mocks/$1"
     },

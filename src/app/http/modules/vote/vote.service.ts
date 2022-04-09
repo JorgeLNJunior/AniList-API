@@ -12,13 +12,13 @@ import { VoteQuery } from './query/vote.query.interface'
 
 @Injectable()
 export class VoteService {
-  constructor (
+  constructor(
     @InjectRepository(Vote) private voteRepository: Repository<Vote>,
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Review) private reviewRepository: Repository<Review>
-  ) {}
+  ) { }
 
-  async create (userUuid: string, createVoteDto: CreateVoteDto): Promise<Vote> {
+  async create(userUuid: string, createVoteDto: CreateVoteDto): Promise<Vote> {
     const review = await this.reviewRepository.findOne(createVoteDto.reviewUuid)
     if (!review) throw new BadRequestException(['review not found'])
 
@@ -29,7 +29,7 @@ export class VoteService {
       user: { uuid: userUuid },
       review: { uuid: createVoteDto.reviewUuid }
     },
-    { relations: ['user', 'review'] })
+      { relations: ['user', 'review'] })
     if (isAlreadyVoted) throw new BadRequestException(['you have already voted'])
 
     return this.voteRepository.save({
@@ -38,7 +38,7 @@ export class VoteService {
     })
   }
 
-  async find (query: VoteQuery): Promise<PaginationInterface<Vote>> {
+  async find(query: VoteQuery): Promise<PaginationInterface<Vote>> {
     const findOptions = new VoteQueryBuilder(query).build()
 
     const total = await this.voteRepository.count(findOptions)
@@ -50,7 +50,7 @@ export class VoteService {
     return { results: votes, pageTotal: votes.length, total: total }
   }
 
-  async delete (uuid: string) {
+  async delete(uuid: string) {
     await this.voteRepository.softDelete(uuid)
   }
 }

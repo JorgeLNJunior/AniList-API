@@ -50,12 +50,12 @@ export class FindVoteResponse {
   })
   private readonly total: number;
 
-  constructor (votes: PaginationInterface<Vote>, status?: number) {
+  constructor(votes: PaginationInterface<Vote>, status?: number) {
     this.votes = votes
     this.statusCode = status || 200
   }
 
-  build () {
+  build() {
     return {
       statusCode: this.statusCode,
       votes: this.votes.results,

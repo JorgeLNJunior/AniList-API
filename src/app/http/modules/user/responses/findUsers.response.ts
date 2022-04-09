@@ -16,7 +16,7 @@ export class FindUsersResponse {
         name: 'Easton',
         email: 'easton.hamill@gmail.com',
         password:
-            '$2b$10$DaLu8rQHFH/j6PrD3QS4PuBC6jqaWEnvng95y4HzkPLl/UReJTnpq',
+          '$2b$10$DaLu8rQHFH/j6PrD3QS4PuBC6jqaWEnvng95y4HzkPLl/UReJTnpq',
         avatar: 'https://cdn.fakercloud.com/avatars/waghner_128.jpg',
         createdAt: '2021-09-16 14:38:09',
         updatedAt: null
@@ -35,12 +35,12 @@ export class FindUsersResponse {
   })
   private readonly total: number;
 
-  constructor (users: PaginationInterface<User>, status?: number) {
+  constructor(users: PaginationInterface<User>, status?: number) {
     this.users = users
     this.statusCode = status || 200
   }
 
-  build () {
+  build() {
     return {
       statusCode: this.statusCode,
       users: this.users.results,
