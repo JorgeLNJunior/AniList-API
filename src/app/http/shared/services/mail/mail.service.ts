@@ -31,7 +31,7 @@ export class MailService implements IMailService {
       case MailServiceEnum.FAKE:
         return this.fakeMailService
       default:
-        this.logger.error(`"${envMailValue}" is a invalid mail service`)
+        this.logger.error(`"${envMailValue}" is an invalid mail service`)
         throw new InternalServerErrorException()
     }
   }
