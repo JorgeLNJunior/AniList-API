@@ -27,13 +27,15 @@ export class UserService implements OnApplicationBootstrap {
   ) { }
 
   async onApplicationBootstrap() {
-    const isAdminUserCreated = await this.userRepository.find({
+    const isAdminUserAlreadyCreated = await this.userRepository.findOne({
       name: 'admin'
     })
-    if (isAdminUserCreated[0]) return
+    if (isAdminUserAlreadyCreated) return
+
     const email = this.configService.get<string>('ADMIN_EMAIL')
     const password = this.configService.get<string>('ADMIN_PASSWORD')
     const hash = await this.bcrypt.hash(password)
+
     const admin = this.userRepository.create({
       name: 'admin',
       email: email,
@@ -41,6 +43,7 @@ export class UserService implements OnApplicationBootstrap {
       isAdmin: true,
       isEmailConfirmed: true
     })
+
     await this.userRepository.save(admin)
   }
 

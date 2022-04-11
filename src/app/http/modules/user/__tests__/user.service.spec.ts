@@ -138,20 +138,20 @@ describe('UserService', () => {
 
   describe('onApplicationBootstrap', () => {
     test('sholud create an admin user', async () => {
-      jest.spyOn(userRepositoryMock, 'find').mockResolvedValue([])
+      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
       await service.onApplicationBootstrap()
 
-      expect(userRepositoryMock.find).toBeCalledTimes(1)
-      expect(userRepositoryMock.find).toBeCalledWith({ name: 'admin' })
+      expect(userRepositoryMock.findOne).toBeCalledTimes(1)
+      expect(userRepositoryMock.findOne).toBeCalledWith({ name: 'admin' })
       expect(userRepositoryMock.save).toBeCalledTimes(1)
     })
 
     test('should not create an admin user if it already exists', async () => {
-      jest.spyOn(userRepositoryMock, 'find').mockResolvedValue([fakeUser])
+      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(fakeUser)
       await service.onApplicationBootstrap()
 
-      expect(userRepositoryMock.find).toBeCalledTimes(1)
-      expect(userRepositoryMock.find).toBeCalledWith({ name: 'admin' })
+      expect(userRepositoryMock.findOne).toBeCalledTimes(1)
+      expect(userRepositoryMock.findOne).toBeCalledWith({ name: 'admin' })
       expect(userRepositoryMock.save).toBeCalledTimes(0)
     })
   })
