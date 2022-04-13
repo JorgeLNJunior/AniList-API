@@ -3,6 +3,7 @@ import { AnimeModule } from '@http/modules/anime/anime.module'
 import { AuthModule } from '@http/modules/auth/auth.module'
 import { ReviewModule } from '@http/modules/review/review.module'
 import { UserModule } from '@http/modules/user/user.module'
+import { UserListModule } from '@http/modules/userList/userList.module';
 import { VoteModule } from '@http/modules/vote/vote.module'
 import { BullModule } from '@modules/bull.module'
 import { ConfigModule } from '@modules/config.module'
@@ -15,10 +16,6 @@ import { existsSync, mkdirSync } from 'fs'
 
 @Module({
   imports: [
-    AuthModule,
-    UserModule,
-    AnimeModule,
-    ReviewModule,
     QueueModule,
     ChatModule,
     ConfigModule,
@@ -26,7 +23,12 @@ import { existsSync, mkdirSync } from 'fs'
     BullModule,
     ThrottlerModule,
     SeedModule,
-    VoteModule
+    AuthModule,
+    VoteModule,
+    UserListModule,
+    UserModule,
+    AnimeModule,
+    ReviewModule,
   ]
 })
 export class AppModule implements OnApplicationBootstrap {
