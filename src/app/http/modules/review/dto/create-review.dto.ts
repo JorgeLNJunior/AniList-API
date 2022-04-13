@@ -1,3 +1,4 @@
+import { IsValidAnimeUUID } from '@http/modules/anime/decorators/isValidAnimeUUID.decorator';
 import { ApiProperty } from '@nestjs/swagger'
 import {
   IsNotEmpty,
@@ -35,5 +36,6 @@ export class CreateReviewDto {
   @IsNotEmpty()
   @IsString()
   @IsUUID('4')
+  @IsValidAnimeUUID()
   anime: string;
 }
