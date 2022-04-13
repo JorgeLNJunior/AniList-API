@@ -26,7 +26,6 @@ import {
   ApiConsumes,
   ApiForbiddenResponse,
   ApiOkResponse,
-  ApiQuery,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse
@@ -57,7 +56,6 @@ export class UserController {
   constructor(private readonly userService: UserService) { }
 
   @ApiOkResponse({ description: 'OK', type: FindUsersResponse })
-  @ApiQuery({ type: UserQuery })
   @Get()
   async find(@Query() query: UserQuery) {
     const users = await this.userService.find(query)

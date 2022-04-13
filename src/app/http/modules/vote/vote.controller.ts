@@ -1,9 +1,27 @@
 import { BadRequestResponse } from '@http/shared/responses/badRequest.response'
 import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.response'
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response'
-import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+  Req,
+  UseGuards
+} from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger'
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiTooManyRequestsResponse,
+  ApiUnauthorizedResponse
+} from '@nestjs/swagger'
 
 import { CreateVoteDto } from './dto/create-vote.dto'
 import { VoteModifyPermissionGuard } from './guards/voteModifyPermission.guard'
@@ -40,7 +58,6 @@ export class VoteController {
   }
 
   @ApiOkResponse({ description: 'OK', type: FindVoteResponse })
-  @ApiQuery({ type: VoteQuery })
   @Get()
   async find(@Query() query: VoteQuery) {
     const results = await this.voteService.find(query)

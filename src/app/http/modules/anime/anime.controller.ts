@@ -27,7 +27,6 @@ import {
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
-  ApiQuery,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse
@@ -76,7 +75,6 @@ export class AnimeController {
   }
 
   @ApiOkResponse({ description: 'OK', type: FindAnimeResponse })
-  @ApiQuery({ type: AnimeQuery })
   @Get()
   async find(@Query() query: AnimeQuery) {
     const animes = await this.animeService.find(query)

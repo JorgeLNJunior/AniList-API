@@ -19,7 +19,6 @@ import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
-  ApiQuery,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse
@@ -65,7 +64,6 @@ export class ReviewController {
   }
 
   @ApiOkResponse({ description: 'ok', type: FindReviewResponse })
-  @ApiQuery({ type: ReviewQuery })
   @Get()
   async find(@Query() query: ReviewQuery) {
     const reviews = await this.reviewService.find(query)
