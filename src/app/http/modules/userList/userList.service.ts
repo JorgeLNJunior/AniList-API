@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { AddToUserListDto } from './dto/addToUserList.dto';
-import { UpdateUserListDto } from './dto/update-user-list.dto';
+import { UpdateUserListDto } from './dto/updateUserList.dto';
 import { UserList } from './entities/userList.entity';
 
 @Injectable()
@@ -28,8 +28,9 @@ export class UserListService {
     return `This action returns all userList`;
   }
 
-  update(id: number, updateUserListDto: UpdateUserListDto) {
-    return `This action updates a #${id} userList`;
+  async update(uuid: string, updateUserListDto: UpdateUserListDto) {
+    await this.userListRepository.update(uuid, updateUserListDto)
+    return this.userListRepository.findOne(uuid, { relations: ['user', 'anime'] })
   }
 
   remove(id: number) {

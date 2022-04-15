@@ -7,8 +7,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 import { AddToUserListDto } from './dto/addToUserList.dto';
-import { UpdateUserListDto } from './dto/update-user-list.dto';
+import { UpdateUserListDto } from './dto/updateUserList.dto';
 import { AddToUserListResponse } from './responses/addToUserList.response';
+import { UpdateUserListResponse } from './responses/updateUserList.response';
 import { UserListService } from './userList.service';
 
 @ApiBearerAuth()
@@ -46,9 +47,15 @@ export class UserListController {
     return this.userListService.findAll();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserListDto: UpdateUserListDto) {
-    return this.userListService.update(+id, updateUserListDto);
+  @ApiCreatedResponse({ description: 'OK', type: UpdateUserListResponse })
+  @ApiBadRequestResponse({
+    description: 'Validation error',
+    type: BadRequestResponse
+  })
+  @Patch(':uuid')
+  async update(@Param('uuid') uuid: string, @Body() updateUserListDto: UpdateUserListDto) {
+    const list = await this.userListService.update(uuid, updateUserListDto);
+    return new UpdateUserListResponse(list).build()
   }
 
   @Delete(':id')
