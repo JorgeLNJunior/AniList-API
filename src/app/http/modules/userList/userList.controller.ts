@@ -4,11 +4,13 @@ import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiOkResponse, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 import { AddToUserListDto } from './dto/addToUserList.dto';
 import { UpdateUserListDto } from './dto/updateUserList.dto';
+import { UserListModifyPermissionGuard } from './guards/userListModifyPermission.guard';
 import { AddToUserListResponse } from './responses/addToUserList.response';
+import { RemoveFromUserListResponse } from './responses/removeFromUserList.response';
 import { UpdateUserListResponse } from './responses/updateUserList.response';
 import { UserListService } from './userList.service';
 
@@ -47,19 +49,23 @@ export class UserListController {
     return this.userListService.findAll();
   }
 
-  @ApiCreatedResponse({ description: 'OK', type: UpdateUserListResponse })
+  @ApiOkResponse({ description: 'OK', type: UpdateUserListResponse })
   @ApiBadRequestResponse({
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @UseGuards(UserListModifyPermissionGuard)
   @Patch(':uuid')
   async update(@Param('uuid') uuid: string, @Body() updateUserListDto: UpdateUserListDto) {
     const list = await this.userListService.update(uuid, updateUserListDto);
     return new UpdateUserListResponse(list).build()
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userListService.remove(+id);
+  @ApiOkResponse({ description: 'OK', type: RemoveFromUserListResponse })
+  @UseGuards(UserListModifyPermissionGuard)
+  @Delete(':uuid')
+  async remove(@Param('uuid') uuid: string) {
+    await this.userListService.remove(uuid);
+    return new RemoveFromUserListResponse()
   }
 }

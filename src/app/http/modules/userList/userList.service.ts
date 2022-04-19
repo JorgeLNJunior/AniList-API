@@ -33,7 +33,7 @@ export class UserListService {
     return this.userListRepository.findOne(uuid, { relations: ['user', 'anime'] })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userList`;
+  async remove(uuid: string) {
+    await this.userListRepository.softDelete(uuid);
   }
 }
