@@ -26,6 +26,7 @@ import {
   ApiConsumes,
   ApiForbiddenResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse
@@ -56,6 +57,7 @@ export class UserController {
   constructor(private readonly userService: UserService) { }
 
   @ApiOkResponse({ description: 'OK', type: FindUsersResponse })
+  @ApiOperation({ summary: 'Find users' })
   @Get()
   async find(@Query() query: UserQuery) {
     const users = await this.userService.find(query)
@@ -71,6 +73,7 @@ export class UserController {
     description: 'Forbidden',
     type: ForbiddenResponse
   })
+  @ApiOperation({ summary: 'Update users' })
   @UseGuards(new UserModifyPermissionGuard())
   @Patch(':uuid')
   async update(
@@ -86,6 +89,7 @@ export class UserController {
     description: 'Forbidden',
     type: ForbiddenResponse
   })
+  @ApiOperation({ summary: 'Delete users' })
   @UseGuards(new UserModifyPermissionGuard())
   @Delete(':uuid')
   async delete(@Param('uuid') uuid: string) {
@@ -102,6 +106,7 @@ export class UserController {
   @ApiBody({
     type: UploadUserDto
   })
+  @ApiOperation({ summary: 'Upload user avatar' })
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('avatar', { limits: { fileSize: 3000000 }, dest: '.temp' })

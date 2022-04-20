@@ -16,6 +16,7 @@ import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse
@@ -42,6 +43,7 @@ export class AuthController {
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'User register' })
   @Post('register')
   async create(@Body() createUserDto: CreateUserDto) {
     const user = await this.authService.register(createUserDto)
@@ -54,6 +56,7 @@ export class AuthController {
     description: 'Invalid credentials',
     type: UnauthorizedResponse
   })
+  @ApiOperation({ summary: 'User auth token' })
   @UseGuards(AuthGuard('local'), IsEmailActiveGuard)
   @HttpCode(200)
   @Post('login')
@@ -67,6 +70,7 @@ export class AuthController {
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'User account activation' })
   @Post('activate/:token')
   async activate(@Param('token') token: string) {
     await this.authService.activateEmail(token)

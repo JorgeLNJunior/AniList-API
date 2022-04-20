@@ -27,6 +27,7 @@ import {
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse
@@ -67,6 +68,7 @@ export class AnimeController {
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Add animes' })
   @UseGuards(new IsAdminGuard())
   @Post()
   async create(@Body() createAnimeDto: CreateAnimeDto) {
@@ -75,6 +77,7 @@ export class AnimeController {
   }
 
   @ApiOkResponse({ description: 'OK', type: FindAnimeResponse })
+  @ApiOperation({ summary: 'Find animes' })
   @Get()
   async find(@Query() query: AnimeQuery) {
     const animes = await this.animeService.find(query)
@@ -82,6 +85,7 @@ export class AnimeController {
   }
 
   @ApiOkResponse({ description: 'OK', type: FindAnimeResponse })
+  @ApiOperation({ summary: 'Top 10 most overrated animes' })
   @Get('top')
   async top() {
     const animes = await this.animeService.top()
@@ -93,6 +97,7 @@ export class AnimeController {
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Update animes' })
   @UseGuards(new IsAdminGuard())
   @Patch(':uuid')
   async update(
@@ -108,6 +113,7 @@ export class AnimeController {
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Delete animes' })
   @UseGuards(new IsAdminGuard())
   @Delete(':uuid')
   async delete(@Param('uuid') uuid: string) {
@@ -120,6 +126,7 @@ export class AnimeController {
     description: 'Forbidden',
     type: ForbiddenResponse
   })
+  @ApiOperation({ summary: 'Upload anime cover' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     type: UploadAnimeDto

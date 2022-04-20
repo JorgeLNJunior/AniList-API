@@ -18,6 +18,7 @@ import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse
@@ -51,6 +52,7 @@ export class VoteController {
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Add votes to reviews' })
   @Post()
   async create(@Body() createVoteDto: CreateVoteDto, @Req() req) {
     const vote = await this.voteService.create(req.user.uuid, createVoteDto)
@@ -58,6 +60,7 @@ export class VoteController {
   }
 
   @ApiOkResponse({ description: 'OK', type: FindVoteResponse })
+  @ApiOperation({ summary: 'Find review votes' })
   @Get()
   async find(@Query() query: VoteQuery) {
     const results = await this.voteService.find(query)
@@ -69,6 +72,7 @@ export class VoteController {
     description: 'Validation Error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Remove votes from reviews' })
   @UseGuards(VoteModifyPermissionGuard)
   @Delete(':uuid')
   async delete(@Param('uuid') uuid: string) {

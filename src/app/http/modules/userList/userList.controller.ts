@@ -4,7 +4,7 @@ import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiOkResponse, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiOkResponse, ApiOperation, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 import { AddToUserListDto } from './dto/addToUserList.dto';
 import { UpdateUserListDto } from './dto/updateUserList.dto';
@@ -15,7 +15,7 @@ import { UpdateUserListResponse } from './responses/updateUserList.response';
 import { UserListService } from './userList.service';
 
 @ApiBearerAuth()
-@ApiTags('User Lists')
+@ApiTags('User List')
 @ApiUnauthorizedResponse({
   description: 'Invalid credentials',
   type: UnauthorizedResponse
@@ -29,7 +29,7 @@ import { UserListService } from './userList.service';
   type: TooManyRequestsResponse
 })
 @UseGuards(AuthGuard('jwt'))
-@Controller('user-lists')
+@Controller('user-list')
 export class UserListController {
   constructor(private readonly userListService: UserListService) { }
 
@@ -38,6 +38,7 @@ export class UserListController {
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Add animes to user anime list' })
   @Post()
   async addToUserList(@Body() addToUserListDto: AddToUserListDto, @Req() req) {
     const list = await this.userListService.addToList(req.user.uuid, addToUserListDto);
@@ -54,6 +55,7 @@ export class UserListController {
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Update user anime list' })
   @UseGuards(UserListModifyPermissionGuard)
   @Patch(':uuid')
   async update(@Param('uuid') uuid: string, @Body() updateUserListDto: UpdateUserListDto) {
@@ -63,6 +65,7 @@ export class UserListController {
 
   @ApiOkResponse({ description: 'OK', type: RemoveFromUserListResponse })
   @UseGuards(UserListModifyPermissionGuard)
+  @ApiOperation({ summary: 'Remove animes from user anime list' })
   @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     await this.userListService.remove(uuid);

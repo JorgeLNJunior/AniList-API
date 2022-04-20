@@ -19,6 +19,7 @@ import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse
@@ -54,6 +55,7 @@ export class ReviewController {
     description: 'Validation error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Create anime reviews' })
   @Post()
   async create(@Body() createReviewDto: CreateReviewDto, @Req() req) {
     const review = await this.reviewService.create(
@@ -64,6 +66,7 @@ export class ReviewController {
   }
 
   @ApiOkResponse({ description: 'ok', type: FindReviewResponse })
+  @ApiOperation({ summary: 'Find reviews' })
   @Get()
   async find(@Query() query: ReviewQuery) {
     const reviews = await this.reviewService.find(query)
@@ -75,6 +78,7 @@ export class ReviewController {
     description: 'Validation Error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Update reviews' })
   @UseGuards(ReviewModifyPermissionGuard)
   @Patch(':uuid')
   async update(
@@ -90,6 +94,7 @@ export class ReviewController {
     description: 'Validation Error',
     type: BadRequestResponse
   })
+  @ApiOperation({ summary: 'Delete reviews' })
   @UseGuards(ReviewModifyPermissionGuard)
   @Delete(':uuid')
   async delete(@Param('uuid') uuid: string) {
