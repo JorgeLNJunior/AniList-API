@@ -1,5 +1,7 @@
 import { Anime } from '@http/modules/anime/entities/anime.entity'
 import { AnimeStorage } from '@http/modules/anime/storage/anime.storage'
+import { Jobs } from '@modules/queue/types/jobs.enum'
+import { CoverCompressJob } from '@modules/queue/types/jobs.interface'
 import { OnQueueError, Process, Processor } from '@nestjs/bull'
 import { Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -7,9 +9,6 @@ import { Job } from 'bull'
 import { rm } from 'fs/promises'
 import * as sharp from 'sharp'
 import { Repository } from 'typeorm'
-
-import { Jobs } from './types/jobs.enum'
-import { CoverCompressJob } from './types/jobs.interface'
 
 @Processor(Jobs.COVER_COMPRESSION)
 export class CoverCompressionConsumer {

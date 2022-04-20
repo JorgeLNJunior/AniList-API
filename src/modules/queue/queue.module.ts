@@ -1,5 +1,8 @@
+import { CoverCompressionConsumer } from '@http/modules/anime/consumers/cover.consumer'
 import { Anime } from '@http/modules/anime/entities/anime.entity'
 import { AnimeStorage } from '@http/modules/anime/storage/anime.storage'
+import { EmailActivationConsumer } from '@http/modules/auth/consumers/email.consumer'
+import { AvatarCompressionConsumer } from '@http/modules/user/consumers/avatar.consumer'
 import { User } from '@http/modules/user/entities/user.entity'
 import { UserStorage } from '@http/modules/user/storage/user.storage'
 import { FakeMailService } from '@http/shared/services/mail/fakeMail.service'
@@ -11,10 +14,7 @@ import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { AvatarCompressionConsumer } from './consumers/avatar.consumer'
-import { CoverCompressionConsumer } from './consumers/cover.consumer'
-import { EmailActivationConsumer } from './consumers/email.consumer'
-import { Jobs } from './consumers/types/jobs.enum'
+import { Jobs } from './types/jobs.enum'
 
 @Module({
   imports: [

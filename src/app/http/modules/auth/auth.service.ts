@@ -1,7 +1,7 @@
 import { CreateUserDto } from '@http/modules/user/dto/create-user.dto'
 import { User } from '@http/modules/user/entities/user.entity'
 import { BcryptService } from '@http/shared/services/bcrypt.service'
-import { Jobs } from '@modules/queue/consumers/types/jobs.enum'
+import { Jobs } from '@modules/queue/types/jobs.enum'
 import { InjectQueue } from '@nestjs/bull'
 import {
   BadRequestException,

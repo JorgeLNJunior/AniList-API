@@ -1,5 +1,7 @@
 import { User } from '@http/modules/user/entities/user.entity'
 import { UserStorage } from '@http/modules/user/storage/user.storage'
+import { Jobs } from '@modules/queue/types/jobs.enum'
+import { AvatarCompressJob } from '@modules/queue/types/jobs.interface'
 import { OnQueueError, Process, Processor } from '@nestjs/bull'
 import { Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -7,9 +9,6 @@ import { Job } from 'bull'
 import { rm } from 'fs/promises'
 import * as sharp from 'sharp'
 import { Repository } from 'typeorm'
-
-import { Jobs } from './types/jobs.enum'
-import { AvatarCompressJob } from './types/jobs.interface'
 
 @Processor(Jobs.AVATAR_COMPRESSION)
 export class AvatarCompressionConsumer {

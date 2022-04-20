@@ -1,10 +1,9 @@
 import { MailService } from '@http/shared/services/mail/mail.service'
+import { Jobs } from '@modules/queue/types/jobs.enum'
+import { EmailActivationJob } from '@modules/queue/types/jobs.interface'
 import { OnQueueError, Process, Processor } from '@nestjs/bull'
 import { Logger } from '@nestjs/common'
 import { Job } from 'bull'
-
-import { Jobs } from './types/jobs.enum'
-import { EmailActivationJob } from './types/jobs.interface'
 
 @Processor(Jobs.EMAIL_ACTIVATION)
 export class EmailActivationConsumer {

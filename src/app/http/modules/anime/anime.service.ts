@@ -1,4 +1,4 @@
-import { Jobs } from '@modules/queue/consumers/types/jobs.enum'
+import { Jobs } from '@modules/queue/types/jobs.enum'
 import { InjectQueue } from '@nestjs/bull'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
