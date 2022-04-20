@@ -8,7 +8,6 @@ import { CreateUserDto } from '../../user/dto/create-user.dto'
 import { User } from '../../user/entities/user.entity'
 import { AuthController } from '../auth.controller'
 import { AuthService } from '../auth.service'
-import { EmailConfirmationDto } from '../dto/email-confirmation.dto'
 import { LoginDto } from '../dto/login.dto'
 
 describe('AuthController', () => {
@@ -29,7 +28,7 @@ describe('AuthController', () => {
   afterEach(() => jest.clearAllMocks())
 
   describe('register', () => {
-    test('should register a user', async () => {
+    test('should register an user', async () => {
       const dto: CreateUserDto = {
         name: fakeUser.name,
         email: fakeUser.email,
@@ -61,15 +60,14 @@ describe('AuthController', () => {
   })
 
   describe('confirmEmail', () => {
-    test('should confirm a email', async () => {
-      const dto: EmailConfirmationDto = {
-        token: 'token'
-      }
-      const response = await controller.confirm(dto)
+    test('should confirm an email', async () => {
+      const token = 'token'
+
+      const response = await controller.activate(token)
 
       expect(response).toEqual({
         statusCode: 200,
-        message: 'email confirmed'
+        message: 'email activated'
       })
     })
   })

@@ -59,7 +59,7 @@ describe('MailService', () => {
     test('should send a email', async () => {
       jest.spyOn(config, 'get').mockReturnValue('fake')
 
-      await service.sendConfirmationEmail(fakeUser)
+      await service.sendUserActivationEmail(fakeUser)
 
       expect(userRepositoryMock.update).toBeCalledTimes(1)
     })

@@ -34,7 +34,7 @@ describe('SendgridMailService', () => {
   test('should send a email', async () => {
     jest.spyOn(config, 'get').mockReturnValue('1d')
 
-    await service.sendConfirmationEmail(fakeUser)
+    await service.sendUserActivationEmail(fakeUser)
 
     expect(config.get).toBeCalled()
     expect(sgMail.setApiKey).toBeCalledTimes(1)

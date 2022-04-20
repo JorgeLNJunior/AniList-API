@@ -6,7 +6,7 @@ import { fakeUser } from "@src/__tests__/fakes";
 import Bull from "bull";
 
 import { EmailConsumer } from "../email.consumer";
-import { EmailConfirmationJob } from '../interfaces/jobs.interface'
+import { EmailActivationJob } from '../interfaces/jobs.interface'
 
 describe('EmailConsumer', () => {
   let consumer: EmailConsumer
@@ -19,7 +19,7 @@ describe('EmailConsumer', () => {
         {
           provide: MailService,
           useValue: {
-            sendConfirmationEmail: jest.fn().mockResolvedValue(Promise.resolve())
+            sendUserActivationEmail: jest.fn().mockResolvedValue(Promise.resolve())
           }
         }
       ]
@@ -32,19 +32,19 @@ describe('EmailConsumer', () => {
   afterEach(() => jest.clearAllMocks())
 
   describe('sendConfirmationEmail', () => {
-    test('should send a email', async () => {
-      const job = createMock<Bull.Job<EmailConfirmationJob>>({
+    test('should send an email', async () => {
+      const job = createMock<Bull.Job<EmailActivationJob>>({
         data: { user: fakeUser }
       })
       await consumer.sendConfirmationEmail(job)
 
-      expect(mailService.sendConfirmationEmail).toBeCalledTimes(1)
-      expect(mailService.sendConfirmationEmail).toBeCalledWith(fakeUser)
+      expect(mailService.sendUserActivationEmail).toBeCalledTimes(1)
+      expect(mailService.sendUserActivationEmail).toBeCalledWith(fakeUser)
     });
   })
 
   describe('onError', () => {
-    test('should log a error', async () => {
+    test('should log an error', async () => {
       const loggerSpy = jest.spyOn(Logger.prototype, 'error')
       consumer.onError(new Error('error message'))
 

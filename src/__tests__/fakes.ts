@@ -10,7 +10,7 @@ export const fakeUser: User = {
   password: 'password',
   avatar: 'avatar',
   isAdmin: false,
-  isEmailConfirmed: true,
+  isActive: true,
   createdAt: new Date('2020-01-01'),
   updatedAt: null,
   deletedAt: null

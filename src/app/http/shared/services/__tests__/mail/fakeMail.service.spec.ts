@@ -21,7 +21,7 @@ describe('FakeMailService', () => {
   })
 
   test('should send a email', async () => {
-    await service.sendConfirmationEmail(fakeUser)
+    await service.sendUserActivationEmail(fakeUser)
 
     expect(userRepositoryMock.update).toBeCalledTimes(1)
   })

@@ -1,20 +1,20 @@
 import { createMock } from '@golevelup/ts-jest'
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common'
 
-import { EmailConfirmationGuard } from '../../guard/emailConfirmation.guard'
+import { IsEmailActiveGuard } from '../../guard/isEmailActive.guard'
 
-describe('EmailConfirmationGuard', () => {
-  let guard: EmailConfirmationGuard
+describe('IsEmailActiveGuard', () => {
+  let guard: IsEmailActiveGuard
 
   beforeEach(() => {
-    guard = new EmailConfirmationGuard()
+    guard = new IsEmailActiveGuard()
   })
 
   test('should return true if the email is already confirmed', async () => {
     const ctx = createMock<ExecutionContext>({
       switchToHttp: () => ({
         getRequest: () => ({
-          user: { isEmailConfirmed: true }
+          user: { isActive: true }
         })
       })
     })
@@ -28,7 +28,7 @@ describe('EmailConfirmationGuard', () => {
     const ctx = createMock<ExecutionContext>({
       switchToHttp: () => ({
         getRequest: () => ({
-          user: { isEmailConfirmed: false }
+          user: { isActive: false }
         })
       })
     })
