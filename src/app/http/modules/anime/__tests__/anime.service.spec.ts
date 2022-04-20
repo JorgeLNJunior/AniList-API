@@ -1,4 +1,5 @@
 import { animeRepositoryMock } from "@mocks/repositories/anime.respository.mock";
+import { Jobs } from "@modules/queue/consumers/types/jobs.enum";
 import { getQueueToken } from "@nestjs/bull";
 import { BadRequestException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -27,7 +28,7 @@ describe("AnimeService", () => {
           useValue: animeRepositoryMock,
         },
         {
-          provide: getQueueToken("cover-compression"),
+          provide: getQueueToken(Jobs.COVER_COMPRESSION),
           useValue: {
             add: jest.fn().mockResolvedValue(true),
           },
@@ -37,7 +38,7 @@ describe("AnimeService", () => {
 
     service = module.get<AnimeService>(AnimeService);
     repo = module.get<Repository<Anime>>(getRepositoryToken(Anime));
-    queue = module.get<Queue>(getQueueToken("cover-compression"));
+    queue = module.get<Queue>(getQueueToken(Jobs.COVER_COMPRESSION));
   });
 
   afterEach(() => jest.clearAllMocks());

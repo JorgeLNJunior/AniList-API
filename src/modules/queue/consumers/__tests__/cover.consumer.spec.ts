@@ -8,8 +8,8 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 import Bull from "bull";
 import * as fs from 'fs/promises'
 
-import { CoverCompressConsumer } from "../cover.consumer";
-import { CoverCompressJob } from "../interfaces/jobs.interface";
+import { CoverCompressionConsumer } from "../cover.consumer";
+import { CoverCompressJob } from "../types/jobs.interface";
 
 jest.mock('sharp', () => () => ({
   jpeg: () => ({
@@ -21,13 +21,13 @@ jest.mock('fs/promises', () => ({
   rm: () => ({})
 }))
 
-describe('CoverCompressConsumer', () => {
-  let consumer: CoverCompressConsumer
+describe('CoverCompressionConsumer', () => {
+  let consumer: CoverCompressionConsumer
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
-        CoverCompressConsumer,
+        CoverCompressionConsumer,
         {
           provide: getRepositoryToken(Anime),
           useValue: animeRepositoryMock
@@ -42,7 +42,7 @@ describe('CoverCompressConsumer', () => {
       ]
     }).compile()
 
-    consumer = module.get(CoverCompressConsumer)
+    consumer = module.get(CoverCompressionConsumer)
   })
 
   afterEach(() => jest.clearAllMocks())

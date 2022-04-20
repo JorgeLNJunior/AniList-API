@@ -1,5 +1,6 @@
 import { BcryptService } from '@http/shared/services/bcrypt.service'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
+import { Jobs } from '@modules/queue/consumers/types/jobs.enum'
 import { getQueueToken } from '@nestjs/bull'
 import { BadRequestException, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -23,7 +24,7 @@ describe('AuthService', () => {
         BcryptService,
         ConfigService,
         {
-          provide: getQueueToken('email'),
+          provide: getQueueToken(Jobs.EMAIL_ACTIVATION),
           useValue: { add: jest.fn().mockResolvedValue(true) }
         },
         {

@@ -5,17 +5,17 @@ import { Test } from "@nestjs/testing";
 import { fakeUser } from "@src/__tests__/fakes";
 import Bull from "bull";
 
-import { EmailConsumer } from "../email.consumer";
-import { EmailActivationJob } from '../interfaces/jobs.interface'
+import { EmailActivationConsumer } from "../email.consumer";
+import { EmailActivationJob } from '../types/jobs.interface'
 
 describe('EmailConsumer', () => {
-  let consumer: EmailConsumer
+  let consumer: EmailActivationConsumer
   let mailService: MailService
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
-        EmailConsumer,
+        EmailActivationConsumer,
         {
           provide: MailService,
           useValue: {
@@ -25,7 +25,7 @@ describe('EmailConsumer', () => {
       ]
     }).compile()
 
-    consumer = module.get(EmailConsumer)
+    consumer = module.get(EmailActivationConsumer)
     mailService = module.get(MailService)
   })
 
