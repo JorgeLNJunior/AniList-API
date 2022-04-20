@@ -13,9 +13,9 @@ export class FakeMailService implements IMailService {
     @InjectRepository(User) private userRepository: Repository<User>
   ) { }
 
-  async sendConfirmationEmail(user: User): Promise<void> {
+  async sendUserActivationEmail(user: User): Promise<void> {
     try {
-      await this.userRepository.update(user.uuid, { isEmailConfirmed: true })
+      await this.userRepository.update(user.uuid, { isActive: true })
     } catch (error) {
       this.logger.error('failed to send email', error)
     }

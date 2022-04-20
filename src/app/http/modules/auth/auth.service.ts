@@ -13,8 +13,6 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Queue } from 'bull'
 import { Repository } from 'typeorm'
 
-import { EmailConfirmationDto } from './dto/email-confirmation.dto'
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -32,7 +30,7 @@ export class AuthService {
     const userData = this.userRepository.create(createUserDto)
     const user = await this.userRepository.save(userData)
 
-    await this.mailQueue.add('email-confirmation', { user: user })
+    await this.mailQueue.add('email_activation', { user: user })
 
     return user
   }
@@ -42,47 +40,47 @@ export class AuthService {
     return this.jwt.sign(payload)
   }
 
-  async confirmEmail(dto: EmailConfirmationDto) {
-    const email = this.decodeToken(dto.token)
+  async activateEmail(token: string) {
+    const email = this.decodeToken(token)
     const user = await this.userRepository.findOne({ email: email })
     if (!user) {
       throw new BadRequestException('user not found')
     }
-    if (user.isEmailConfirmed) {
-      throw new BadRequestException('email already confirmed')
+    if (user.isActive) {
+      throw new BadRequestException('this email is already active')
     }
 
-    await this.userRepository.update(user.uuid, { isEmailConfirmed: true })
+    await this.userRepository.update(user.uuid, { isActive: true })
   }
 
   async validateUser(email: string, password: string) {
-    const user = await this.userRepository.find({ email: email })
+    const user = await this.userRepository.findOne({ email: email })
 
-    if (!user[0]) {
+    if (!user) {
       throw new UnauthorizedException('this email is not registered')
     }
 
     const isSamePassword = await this.bcrypt.compare(
       password,
-      user[0].password
+      user.password
     )
 
     if (!isSamePassword) {
       throw new UnauthorizedException('wrong credentials')
     }
 
-    return user[0]
+    return user
   }
 
   private decodeToken(token: string) {
     try {
       const payload = this.jwt.verify(token, {
-        secret: this.configService.get<string>('JWT_VERIFICATION_TOKEN_SECRET')
+        secret: this.configService.get<string>('EMAIL_ACTIVATION_TOKEN_SECRET')
       })
       return payload.email
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
-        throw new BadRequestException('Email confirmation token expired')
+        throw new BadRequestException('token expired')
       }
       throw new BadRequestException('Invalid token')
     }

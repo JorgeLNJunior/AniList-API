@@ -21,7 +21,7 @@ export class CreateVoteResponse {
         password: '$2b$10$oGLTkplt09K5K5ib9RQ/oeYPy9SoIkcSTw6rB8sfAPShuG/dV9V9q',
         avatar: 'http://localhost:3000/user/avatar/default.jpg',
         isAdmin: true,
-        isEmailConfirmed: true,
+        isActive: true,
         createdAt: '2021-09-25T23:12:08.000Z',
         updatedAt: null,
         deletedAt: null

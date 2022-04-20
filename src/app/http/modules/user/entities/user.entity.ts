@@ -30,7 +30,7 @@ export class User {
   isAdmin: boolean;
 
   @Column({ default: false })
-  isEmailConfirmed: boolean;
+  isActive: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

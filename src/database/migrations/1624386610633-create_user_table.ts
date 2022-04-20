@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
 export class createUserTable1624386610633 implements MigrationInterface {
-  public async up (queryRunner: QueryRunner): Promise<void> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'user',
@@ -40,7 +40,7 @@ export class createUserTable1624386610633 implements MigrationInterface {
             default: false
           },
           {
-            name: 'isEmailConfirmed',
+            name: 'isActive',
             type: 'boolean',
             default: false
           },
@@ -67,7 +67,7 @@ export class createUserTable1624386610633 implements MigrationInterface {
     )
   }
 
-  public async down (queryRunner: QueryRunner): Promise<void> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('user', true)
   }
 }

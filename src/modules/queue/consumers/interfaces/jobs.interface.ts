@@ -10,6 +10,6 @@ export interface CoverCompressJob {
   path: string;
 }
 
-export interface EmailConfirmationJob {
+export interface EmailActivationJob {
   user: User;
 }

@@ -32,7 +32,7 @@ export class UserSeeder {
         email: faker.internet.email().toLowerCase(),
         password: hashSync('123456', 10),
         avatar: faker.internet.avatar(),
-        isEmailConfirmed: true
+        isActive: true
       })
       .execute()
   }

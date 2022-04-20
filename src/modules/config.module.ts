@@ -10,11 +10,11 @@ import * as Joi from 'joi'
       validationSchema: Joi.object({
         ADMIN_EMAIL: Joi.string().email().required(),
         ADMIN_PASSWORD: Joi.string().required(),
-        JWT_SECRET: Joi.string().required(),
-        JWT_EXPIRES: Joi.string().required(),
-        JWT_VERIFICATION_TOKEN_SECRET: Joi.string().required(),
-        JWT_VERIFICATION_TOKEN_EXPIRES: Joi.string().required(),
-        EMAIL_CONFIRMATION_URL: Joi.string().required(),
+        AUTH_TOKEN_SECRET: Joi.string().required(),
+        AUTH_TOKEN_EXPIRES_IN: Joi.string().required(),
+        EMAIL_ACTIVATION_TOKEN_SECRET: Joi.string().required(),
+        EMAIL_ACTIVATION_TOKEN_EXPIRES_IN: Joi.string().required(),
+        EMAIL_ACTIVATION_URL: Joi.string().required(),
         MAIL_SERVICE: Joi.string().valid('fake', 'sendgrid').required(),
         STORAGE: Joi.string().valid('local', 'cloudinary').required(),
         REDIS_HOST: Joi.string().required(),
@@ -39,4 +39,4 @@ import * as Joi from 'joi'
     })
   ]
 })
-export class ConfigModule {}
+export class ConfigModule { }

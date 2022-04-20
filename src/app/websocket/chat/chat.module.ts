@@ -11,13 +11,13 @@ import { WebSocketAuthGuard } from './guards/websocketAuth.guard'
       imports: [ConfigService],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
+        secret: configService.get<string>('AUTH_TOKEN_SECRET'),
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRES')
+          expiresIn: configService.get<string>('AUTH_TOKEN_EXPIRES_IN')
         }
       })
     })
   ],
   providers: [ChatGateway, WebSocketAuthGuard]
 })
-export class ChatModule {}
+export class ChatModule { }

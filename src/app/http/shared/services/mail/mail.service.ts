@@ -17,8 +17,8 @@ export class MailService implements IMailService {
     private fakeMailService: FakeMailService
   ) { }
 
-  async sendConfirmationEmail(user: User): Promise<void> {
-    await this.getMailService().sendConfirmationEmail(user)
+  async sendUserActivationEmail(user: User): Promise<void> {
+    await this.getMailService().sendUserActivationEmail(user)
   }
 
   // public method for testing purposes

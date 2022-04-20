@@ -15,13 +15,13 @@ export class SendgridMailService implements IMailService {
     private configService: ConfigService
   ) { }
 
-  async sendConfirmationEmail(user: User): Promise<void> {
+  async sendUserActivationEmail(user: User): Promise<void> {
     try {
       const apiKey = this.configService.get('SENDGRID_API_KEY')
       const sender = this.configService.get('SENDGRID_SENDER')
-      const tokenSecret = this.configService.get('JWT_VERIFICATION_TOKEN_SECRET')
-      const tokenExp = this.configService.get('JWT_VERIFICATION_TOKEN_EXPIRES')
-      const appUrl = this.configService.get('EMAIL_CONFIRMATION_URL')
+      const tokenSecret = this.configService.get('EMAIL_ACTIVATION_TOKEN_SECRET')
+      const tokenExp = this.configService.get('EMAIL_ACTIVATION_TOKEN_EXPIRES_IN')
+      const appUrl = this.configService.get('EMAIL_ACTIVATION_URL')
       const token = this.jwtService.sign(
         { email: user.email },
         { secret: tokenSecret, expiresIn: tokenExp }
@@ -32,7 +32,7 @@ export class SendgridMailService implements IMailService {
       await sgMail.send({
         to: user.email,
         from: sender,
-        subject: 'Email confirmation',
+        subject: 'Email activation',
         html: `
           <h3>Hello! ${user.name}</h3>
           Please confirm your email address

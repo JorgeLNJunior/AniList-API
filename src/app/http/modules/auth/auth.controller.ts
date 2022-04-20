@@ -6,6 +6,7 @@ import {
   Body,
   Controller,
   HttpCode,
+  Param,
   Post,
   Req,
   UseGuards
@@ -21,10 +22,9 @@ import {
 } from '@nestjs/swagger'
 
 import { AuthService } from './auth.service'
-import { EmailConfirmationDto } from './dto/email-confirmation.dto'
 import { LoginDto } from './dto/login.dto'
-import { EmailConfirmationGuard } from './guard/emailConfirmation.guard'
-import { EmailConfirmationResponse } from './responses/emailConfirmation.response'
+import { IsEmailActiveGuard } from './guard/isEmailActive.guard'
+import { EmailActivationResponse } from './responses/emailActivation.response'
 import { LoginResponse } from './responses/login.response'
 import { RegisterResponse } from './responses/register.response'
 
@@ -54,7 +54,7 @@ export class AuthController {
     description: 'Invalid credentials',
     type: UnauthorizedResponse
   })
-  @UseGuards(AuthGuard('local'), EmailConfirmationGuard)
+  @UseGuards(AuthGuard('local'), IsEmailActiveGuard)
   @HttpCode(200)
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Req() req) {
@@ -62,14 +62,14 @@ export class AuthController {
     return new LoginResponse(token).build()
   }
 
-  @ApiCreatedResponse({ description: 'OK', type: EmailConfirmationResponse })
+  @ApiCreatedResponse({ description: 'OK', type: EmailActivationResponse })
   @ApiBadRequestResponse({
     description: 'Validation error',
     type: BadRequestResponse
   })
-  @Post('confirm')
-  async confirm(@Body() confirmDto: EmailConfirmationDto) {
-    await this.authService.confirmEmail(confirmDto)
-    return new EmailConfirmationResponse().build()
+  @Post('activate/:token')
+  async activate(@Param('token') token: string) {
+    await this.authService.activateEmail(token)
+    return new EmailActivationResponse().build()
   }
 }

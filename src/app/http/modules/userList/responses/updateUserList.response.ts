@@ -21,7 +21,7 @@ export class UpdateUserListResponse {
         "email": "josh@mail.com",
         "avatar": "https://res.cloudinary.com/dmqkppauk/image/upload/v1624804907/an_review/user/avatar/oyks2ufyd623929cla6s.jpg",
         "isAdmin": false,
-        "isEmailConfirmed": true,
+        "isActive": true,
         "createdAt": "2022-02-21T21:00:55.000Z",
         "updatedAt": null,
         "deletedAt": null
