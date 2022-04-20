@@ -8,16 +8,17 @@ import { rm } from 'fs/promises'
 import * as sharp from 'sharp'
 import { Repository } from 'typeorm'
 
-import { AvatarCompressJob } from './interfaces/jobs.interface'
+import { Jobs } from './types/jobs.enum'
+import { AvatarCompressJob } from './types/jobs.interface'
 
-@Processor('avatar-compression')
-export class AvatarCompressConsumer {
+@Processor(Jobs.AVATAR_COMPRESSION)
+export class AvatarCompressionConsumer {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private userStorage: UserStorage
   ) { }
 
-  private readonly logger = new Logger(AvatarCompressConsumer.name);
+  private readonly logger = new Logger(AvatarCompressionConsumer.name);
 
   @Process()
   async compress(job: Job<AvatarCompressJob>) {

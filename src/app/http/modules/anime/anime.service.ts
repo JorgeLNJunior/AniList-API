@@ -1,3 +1,4 @@
+import { Jobs } from '@modules/queue/consumers/types/jobs.enum'
 import { InjectQueue } from '@nestjs/bull'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -13,17 +14,17 @@ import { AnimeQuery } from './query/anime.query.interface'
 
 @Injectable()
 export class AnimeService {
-  constructor (
+  constructor(
     @InjectRepository(Anime) private animeRepository: Repository<Anime>,
-    @InjectQueue('cover-compression') private coverQueue: Queue
-  ) {}
+    @InjectQueue(Jobs.COVER_COMPRESSION) private coverQueue: Queue
+  ) { }
 
-  create (createAnimeDto: CreateAnimeDto) {
+  create(createAnimeDto: CreateAnimeDto) {
     const anime = this.animeRepository.create(createAnimeDto)
     return this.animeRepository.save(anime)
   }
 
-  async find (query: AnimeQuery): Promise<PaginationInterface<Anime>> {
+  async find(query: AnimeQuery): Promise<PaginationInterface<Anime>> {
     const findOptions = new AnimeQueryBuilder(query).build()
 
     const total = await this.animeRepository.count({
@@ -53,7 +54,7 @@ export class AnimeService {
     return { results: animes, total: total, pageTotal: animes.length }
   }
 
-  async top () {
+  async top() {
     return this.animeRepository
       .createQueryBuilder('anime')
       .select(
@@ -73,7 +74,7 @@ export class AnimeService {
       .getRawMany()
   }
 
-  async update (uuid: string, updateAnimeDto: UpdateAnimeDto) {
+  async update(uuid: string, updateAnimeDto: UpdateAnimeDto) {
     const anime = await this.animeRepository.findOne(uuid)
     if (!anime) throw new BadRequestException(['anime not found'])
 
@@ -81,11 +82,11 @@ export class AnimeService {
     return this.animeRepository.findOne(uuid)
   }
 
-  async delete (uuid: string) {
+  async delete(uuid: string) {
     await this.animeRepository.softDelete(uuid)
   }
 
-  async upload (uuid: string, path: string) {
+  async upload(uuid: string, path: string) {
     await this.coverQueue.add({ animeUuid: uuid, path: path })
     return 'the image will be available soon'
   }

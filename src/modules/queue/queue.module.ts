@@ -11,25 +11,26 @@ import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { AvatarCompressConsumer } from './consumers/avatar.consumer'
-import { CoverCompressConsumer } from './consumers/cover.consumer'
-import { EmailConsumer } from './consumers/email.consumer'
+import { AvatarCompressionConsumer } from './consumers/avatar.consumer'
+import { CoverCompressionConsumer } from './consumers/cover.consumer'
+import { EmailActivationConsumer } from './consumers/email.consumer'
+import { Jobs } from './consumers/types/jobs.enum'
 
 @Module({
   imports: [
     JwtModule.register({}),
     TypeOrmModule.forFeature([Anime, User]),
     BullModule.registerQueueAsync(
-      { name: 'cover-compression' },
-      { name: 'avatar-compression' },
-      { name: 'email' }
+      { name: Jobs.COVER_COMPRESSION },
+      { name: Jobs.AVATAR_COMPRESSION },
+      { name: Jobs.EMAIL_ACTIVATION }
     )
   ],
   providers: [
     ConfigService,
-    CoverCompressConsumer,
-    AvatarCompressConsumer,
-    EmailConsumer,
+    CoverCompressionConsumer,
+    AvatarCompressionConsumer,
+    EmailActivationConsumer,
     MailService,
     FakeMailService,
     SendgridMailService,

@@ -1,6 +1,7 @@
 import { CreateUserDto } from '@http/modules/user/dto/create-user.dto'
 import { User } from '@http/modules/user/entities/user.entity'
 import { BcryptService } from '@http/shared/services/bcrypt.service'
+import { Jobs } from '@modules/queue/consumers/types/jobs.enum'
 import { InjectQueue } from '@nestjs/bull'
 import {
   BadRequestException,
@@ -16,7 +17,7 @@ import { Repository } from 'typeorm'
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectQueue('email') private mailQueue: Queue,
+    @InjectQueue(Jobs.EMAIL_ACTIVATION) private mailQueue: Queue,
     @InjectRepository(User) private userRepository: Repository<User>,
     private bcrypt: BcryptService,
     private jwt: JwtService,

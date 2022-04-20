@@ -8,16 +8,17 @@ import { rm } from 'fs/promises'
 import * as sharp from 'sharp'
 import { Repository } from 'typeorm'
 
-import { CoverCompressJob } from './interfaces/jobs.interface'
+import { Jobs } from './types/jobs.enum'
+import { CoverCompressJob } from './types/jobs.interface'
 
-@Processor('cover-compression')
-export class CoverCompressConsumer {
+@Processor(Jobs.COVER_COMPRESSION)
+export class CoverCompressionConsumer {
   constructor(
     @InjectRepository(Anime) private animeRepository: Repository<Anime>,
     private animeStorage: AnimeStorage
   ) { }
 
-  private readonly logger = new Logger(CoverCompressConsumer.name);
+  private readonly logger = new Logger(CoverCompressionConsumer.name);
 
   @Process()
   async compress(job: Job<CoverCompressJob>) {

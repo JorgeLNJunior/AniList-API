@@ -1,5 +1,6 @@
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { BcryptService } from '@http/shared/services/bcrypt.service'
+import { Jobs } from '@modules/queue/consumers/types/jobs.enum'
 import { InjectQueue } from '@nestjs/bull'
 import {
   BadRequestException,
@@ -21,7 +22,7 @@ import { UserQuery } from './query/user.query.interface'
 export class UserService implements OnApplicationBootstrap {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectQueue('avatar-compression') private avatarQueue: Queue,
+    @InjectQueue(Jobs.AVATAR_COMPRESSION) private avatarQueue: Queue,
     private bcrypt: BcryptService,
     private configService: ConfigService
   ) { }

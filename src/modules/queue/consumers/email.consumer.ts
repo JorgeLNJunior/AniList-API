@@ -3,15 +3,16 @@ import { OnQueueError, Process, Processor } from '@nestjs/bull'
 import { Logger } from '@nestjs/common'
 import { Job } from 'bull'
 
-import { EmailActivationJob } from './interfaces/jobs.interface'
+import { Jobs } from './types/jobs.enum'
+import { EmailActivationJob } from './types/jobs.interface'
 
-@Processor('email')
-export class EmailConsumer {
+@Processor(Jobs.EMAIL_ACTIVATION)
+export class EmailActivationConsumer {
   constructor(private mailService: MailService) { }
 
-  private readonly logger = new Logger(EmailConsumer.name);
+  private readonly logger = new Logger(EmailActivationConsumer.name);
 
-  @Process('email_confirmation')
+  @Process(Jobs.EMAIL_ACTIVATION)
   async sendConfirmationEmail(job: Job<EmailActivationJob>) {
     await this.mailService.sendUserActivationEmail(job.data.user)
   }
