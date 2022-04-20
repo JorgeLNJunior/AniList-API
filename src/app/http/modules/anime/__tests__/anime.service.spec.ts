@@ -1,5 +1,5 @@
 import { animeRepositoryMock } from "@mocks/repositories/anime.respository.mock";
-import { Jobs } from "@modules/queue/consumers/types/jobs.enum";
+import { Jobs } from "@modules/queue/types/jobs.enum";
 import { getQueueToken } from "@nestjs/bull";
 import { BadRequestException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";

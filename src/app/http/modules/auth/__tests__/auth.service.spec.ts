@@ -1,6 +1,6 @@
 import { BcryptService } from '@http/shared/services/bcrypt.service'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
-import { Jobs } from '@modules/queue/consumers/types/jobs.enum'
+import { Jobs } from '@modules/queue/types/jobs.enum'
 import { getQueueToken } from '@nestjs/bull'
 import { BadRequestException, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'

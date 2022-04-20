@@ -1,15 +1,14 @@
 import { createMock } from "@golevelup/ts-jest";
+import { CoverCompressionConsumer } from "@http/modules/anime/consumers/cover.consumer";
 import { Anime } from "@http/modules/anime/entities/anime.entity";
 import { AnimeStorage } from "@http/modules/anime/storage/anime.storage";
 import { animeRepositoryMock } from "@mocks/repositories/anime.respository.mock";
+import { CoverCompressJob } from "@modules/queue/types/jobs.interface";
 import { Logger } from '@nestjs/common'
 import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import Bull from "bull";
 import * as fs from 'fs/promises'
-
-import { CoverCompressionConsumer } from "../cover.consumer";
-import { CoverCompressJob } from "../types/jobs.interface";
 
 jest.mock('sharp', () => () => ({
   jpeg: () => ({

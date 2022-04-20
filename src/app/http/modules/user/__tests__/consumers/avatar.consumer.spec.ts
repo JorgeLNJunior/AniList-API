@@ -1,15 +1,14 @@
 import { createMock } from "@golevelup/ts-jest";
+import { AvatarCompressionConsumer } from "@http/modules/user/consumers/avatar.consumer";
 import { User } from "@http/modules/user/entities/user.entity";
 import { UserStorage } from "@http/modules/user/storage/user.storage";
 import { userRepositoryMock } from "@mocks/repositories/user.repository.mock";
+import { AvatarCompressJob } from "@modules/queue/types/jobs.interface";
 import { Logger } from '@nestjs/common'
 import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import Bull from "bull";
 import * as fs from 'fs/promises'
-
-import { AvatarCompressionConsumer } from "../avatar.consumer";
-import { AvatarCompressJob } from "../types/jobs.interface";
 
 jest.mock('sharp', () => () => ({
   jpeg: () => ({

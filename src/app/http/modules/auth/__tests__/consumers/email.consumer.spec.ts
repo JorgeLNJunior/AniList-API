@@ -1,12 +1,12 @@
 import { createMock } from "@golevelup/ts-jest";
 import { MailService } from "@http/shared/services/mail/mail.service";
+import { EmailActivationJob } from '@modules/queue/types/jobs.interface'
 import { Logger } from '@nestjs/common'
 import { Test } from "@nestjs/testing";
 import { fakeUser } from "@src/__tests__/fakes";
 import Bull from "bull";
 
-import { EmailActivationConsumer } from "../email.consumer";
-import { EmailActivationJob } from '../types/jobs.interface'
+import { EmailActivationConsumer } from "../../consumers/email.consumer";
 
 describe('EmailConsumer', () => {
   let consumer: EmailActivationConsumer
