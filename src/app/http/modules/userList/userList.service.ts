@@ -1,3 +1,4 @@
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -39,16 +40,25 @@ export class UserListService {
     })
   }
 
-  async find(query: UserListQuery) {
+  async find(query: UserListQuery): Promise<PaginationInterface<UserList>> {
     const findOptions = new UserListQueryBuilder(query).build()
 
-    return this.userListRepository.find({
+    const total = await this.userListRepository.count({
+      where: findOptions.where
+    })
+    const list = await this.userListRepository.find({
       loadRelationIds: {
         disableMixedMap: true,
         relations: ['anime', 'user']
       },
       ...findOptions
     })
+
+    return {
+      results: list,
+      pageTotal: list.length,
+      total: total
+    }
   }
 
   async update(uuid: string, updateUserListDto: UpdateUserListDto) {
