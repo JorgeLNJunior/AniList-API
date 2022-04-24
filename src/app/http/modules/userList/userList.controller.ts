@@ -2,14 +2,16 @@ import { BadRequestResponse } from '@http/shared/responses/badRequest.response';
 import { ForbiddenResponse } from '@http/shared/responses/forbidden.response';
 import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.response';
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response';
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiOkResponse, ApiOperation, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 import { AddToUserListDto } from './dto/addToUserList.dto';
 import { UpdateUserListDto } from './dto/updateUserList.dto';
 import { UserListModifyPermissionGuard } from './guards/userListModifyPermission.guard';
+import { UserListQuery } from './query/userList.query.interface';
 import { AddToUserListResponse } from './responses/addToUserList.response';
+import { FindUserListResponse } from './responses/findUserList.response';
 import { RemoveFromUserListResponse } from './responses/removeFromUserList.response';
 import { UpdateUserListResponse } from './responses/updateUserList.response';
 import { UserListService } from './userList.service';
@@ -45,9 +47,16 @@ export class UserListController {
     return new AddToUserListResponse(list).build()
   }
 
+  @ApiCreatedResponse({ description: 'OK', type: FindUserListResponse })
+  @ApiBadRequestResponse({
+    description: 'Query validation error',
+    type: BadRequestResponse
+  })
+  @ApiOperation({ summary: 'Find user anime lists' })
   @Get()
-  findAll() {
-    return this.userListService.findAll();
+  async find(@Query() query: UserListQuery) {
+    const list = await this.userListService.find(query);
+    return new FindUserListResponse(list).build()
   }
 
   @ApiOkResponse({ description: 'OK', type: UpdateUserListResponse })

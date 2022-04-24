@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { AddToUserListDto } from './dto/addToUserList.dto';
 import { UpdateUserListDto } from './dto/updateUserList.dto';
 import { UserList } from './entities/userList.entity';
+import { UserListQueryBuilder } from './query/userList.query.builder';
+import { UserListQuery } from './query/userList.query.interface';
 
 @Injectable()
 export class UserListService {
@@ -24,8 +26,16 @@ export class UserListService {
     return this.userListRepository.findOne(result.uuid, { relations: ['user', 'anime'] })
   }
 
-  findAll() {
-    return `This action returns all userList`;
+  async find(query: UserListQuery) {
+    const findOptions = new UserListQueryBuilder(query)
+
+    return this.userListRepository.find({
+      loadRelationIds: {
+        disableMixedMap: true,
+        relations: ['anime', 'user']
+      },
+      where: findOptions
+    })
   }
 
   async update(uuid: string, updateUserListDto: UpdateUserListDto) {
