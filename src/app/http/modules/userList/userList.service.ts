@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -15,6 +15,14 @@ export class UserListService {
   ) { }
 
   async addToList(userUUID: string, addToUserListDto: AddToUserListDto) {
+    const isAlreadyInUserList = await this.userListRepository.findOne({
+      where: {
+        user: { uuid: userUUID },
+        anime: { uuid: addToUserListDto.animeUuid }
+      }
+    })
+    if (isAlreadyInUserList) throw new BadRequestException(['this anime is already in your list'])
+
     const review = this.userListRepository.create({
       user: { uuid: userUUID },
       anime: { uuid: addToUserListDto.animeUuid },
