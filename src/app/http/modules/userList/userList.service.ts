@@ -23,24 +23,34 @@ export class UserListService {
 
     const result = await this.userListRepository.save(review)
 
-    return this.userListRepository.findOne(result.uuid, { relations: ['user', 'anime'] })
+    return this.userListRepository.findOne(result.uuid, {
+      loadRelationIds: {
+        disableMixedMap: true,
+        relations: ['anime', 'user']
+      },
+    })
   }
 
   async find(query: UserListQuery) {
-    const findOptions = new UserListQueryBuilder(query)
+    const findOptions = new UserListQueryBuilder(query).build()
 
     return this.userListRepository.find({
       loadRelationIds: {
         disableMixedMap: true,
         relations: ['anime', 'user']
       },
-      where: findOptions
+      ...findOptions
     })
   }
 
   async update(uuid: string, updateUserListDto: UpdateUserListDto) {
     await this.userListRepository.update(uuid, updateUserListDto)
-    return this.userListRepository.findOne(uuid, { relations: ['user', 'anime'] })
+    return this.userListRepository.findOne(uuid, {
+      loadRelationIds: {
+        disableMixedMap: true,
+        relations: ['anime', 'user']
+      },
+    })
   }
 
   async remove(uuid: string) {
