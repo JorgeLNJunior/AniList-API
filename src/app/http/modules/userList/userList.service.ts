@@ -22,14 +22,7 @@ export class UserListService {
       status: addToUserListDto.status
     });
 
-    const result = await this.userListRepository.save(review)
-
-    return this.userListRepository.findOne(result.uuid, {
-      loadRelationIds: {
-        disableMixedMap: true,
-        relations: ['anime', 'user']
-      },
-    })
+    return this.userListRepository.save(review)
   }
 
   async find(query: UserListQuery): Promise<PaginationInterface<UserList>> {
