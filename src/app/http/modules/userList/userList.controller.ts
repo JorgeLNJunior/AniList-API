@@ -8,6 +8,7 @@ import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenR
 
 import { AddToUserListDto } from './dto/addToUserList.dto';
 import { UpdateUserListDto } from './dto/updateUserList.dto';
+import { IsAlreadyInUserListGuard } from './guards/isAlreadyInUserList.guard';
 import { UserListModifyPermissionGuard } from './guards/userListModifyPermission.guard';
 import { UserListQuery } from './query/userList.query.interface';
 import { AddToUserListResponse } from './responses/addToUserList.response';
@@ -41,8 +42,9 @@ export class UserListController {
     type: BadRequestResponse
   })
   @ApiOperation({ summary: 'Add animes to user anime list' })
+  @UseGuards(IsAlreadyInUserListGuard) // this validation can't be done at DTO layer
   @Post()
-  async addToUserList(@Body() addToUserListDto: AddToUserListDto, @Req() req) {
+  async addToUserList(@Req() req, @Body() addToUserListDto: AddToUserListDto) {
     const list = await this.userListService.addToList(req.user.uuid, addToUserListDto);
     return new AddToUserListResponse(list).build()
   }
