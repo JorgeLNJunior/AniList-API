@@ -80,6 +80,6 @@ export class UserListController {
   @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     await this.userListService.remove(uuid);
-    return new RemoveFromUserListResponse()
+    return new RemoveFromUserListResponse().build()
   }
 }
