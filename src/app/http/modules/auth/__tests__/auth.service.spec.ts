@@ -169,7 +169,7 @@ describe('AuthService', () => {
     })
 
     test('should throw a UnauthorizedException if the user was not found', async () => {
-      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue([])
+      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
 
       // eslint-disable-next-line jest/valid-expect
       expect(
