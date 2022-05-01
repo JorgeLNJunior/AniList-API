@@ -1,4 +1,4 @@
-import { UserList } from '@http/modules/userList/entities/userList.entity';
+import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity';
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { ApiProperty } from '@nestjs/swagger'
 
@@ -13,7 +13,7 @@ export class FindUserAnimeListByUserResponse {
   @ApiProperty({
     example: findUserAnimeListByUserResponseExample
   })
-  private userAnimeList: UserList[];
+  private userAnimeList: UserAnimeList[];
 
   @ApiProperty({
     example: 20
@@ -25,7 +25,7 @@ export class FindUserAnimeListByUserResponse {
   })
   private readonly total: number;
 
-  constructor(results: PaginationInterface<UserList>, status?: number) {
+  constructor(results: PaginationInterface<UserAnimeList>, status?: number) {
     this.userAnimeList = results.results
     this.total = results.total
     this.pageTotal = results.pageTotal

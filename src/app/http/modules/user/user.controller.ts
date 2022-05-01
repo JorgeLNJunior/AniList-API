@@ -35,8 +35,8 @@ import {
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UploadUserDto } from './dto/upload-user.dto'
 import { UserModifyPermissionGuard } from './guards/userModifyPermission.guard'
-import { AnimeListByUserQuery } from './query/animeListByUser.query.interface'
 import { UserQuery } from './query/user.query.interface'
+import { UserAnimeListByUserQuery } from './query/userAnimeListByUser.query.interface'
 import { DeleteUserResponse } from './responses/deleteUser.response'
 import { FindUserAnimeListByUserResponse } from './responses/findUserAnimeListByUser.response'
 import { FindUsersResponse } from './responses/findUsers.response'
@@ -124,7 +124,7 @@ export class UserController {
   @Get(':uuid/list')
   async getUserAnimeList(
     @Param('uuid') userUUID: string,
-    @Query() query: AnimeListByUserQuery
+    @Query() query: UserAnimeListByUserQuery
   ) {
     const results = await this.userService.getUserAnimeList(userUUID, query)
     return new FindUserAnimeListByUserResponse(results).build()

@@ -1,6 +1,8 @@
+import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity'
 import { BcryptService } from '@http/shared/services/bcrypt.service'
 import { avatarQueueMock } from '@mocks/avatar.queue.mock'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
+import { userAnimeListRepositoryMock } from '@mocks/repositories/userList.repository.mock'
 import { Jobs } from '@modules/queue/types/jobs.enum'
 import { getQueueToken } from '@nestjs/bull'
 import { BadRequestException } from '@nestjs/common'
@@ -36,6 +38,10 @@ describe('UserService', () => {
         {
           provide: getRepositoryToken(User),
           useValue: userRepositoryMock
+        },
+        {
+          provide: getRepositoryToken(UserAnimeList),
+          useValue: userAnimeListRepositoryMock
         }
       ]
     }).compile()

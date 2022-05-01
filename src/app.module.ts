@@ -3,7 +3,7 @@ import { AnimeModule } from '@http/modules/anime/anime.module'
 import { AuthModule } from '@http/modules/auth/auth.module'
 import { ReviewModule } from '@http/modules/review/review.module'
 import { UserModule } from '@http/modules/user/user.module'
-import { UserListModule } from '@http/modules/userList/userList.module';
+import { UserAnimeListModule } from '@http/modules/userAnimeList/userAnimeList.module';
 import { VoteModule } from '@http/modules/vote/vote.module'
 import { BullModule } from '@modules/bull.module'
 import { ConfigModule } from '@modules/config.module'
@@ -25,7 +25,7 @@ import { existsSync, mkdirSync } from 'fs'
     SeedModule,
     AuthModule,
     VoteModule,
-    UserListModule,
+    UserAnimeListModule,
     UserModule,
     AnimeModule,
     ReviewModule,

@@ -1,4 +1,4 @@
-export const userListServiceMock = {
+export const userAnimeListServiceMock = {
   addToList: jest.fn().mockResolvedValue(Promise.resolve()),
   find: jest.fn().mockResolvedValue(Promise.resolve()),
   update: jest.fn().mockResolvedValue(Promise.resolve()),

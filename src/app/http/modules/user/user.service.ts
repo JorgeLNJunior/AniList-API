@@ -12,20 +12,20 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Queue } from 'bull'
 import { Repository } from 'typeorm'
 
-import { UserList } from '../userList/entities/userList.entity'
+import { UserAnimeList } from '../userAnimeList/entities/userAnimeList.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
-import { AnimeListByUserQueryBuilder } from './query/animeListByUser.query.builder'
-import { AnimeListByUserQuery } from './query/animeListByUser.query.interface'
 import { UserQueryBuilder } from './query/user.query.builder'
 import { UserQuery } from './query/user.query.interface'
+import { UserAnimeListByUserQueryBuilder } from './query/userAnimeListByUser.query.builder'
+import { UserAnimeListByUserQuery } from './query/userAnimeListByUser.query.interface'
 
 @Injectable()
 export class UserService implements OnApplicationBootstrap {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(UserList) private userListRepository: Repository<UserList>,
+    @InjectRepository(UserAnimeList) private userAnimeListRepository: Repository<UserAnimeList>,
     @InjectQueue(Jobs.AVATAR_COMPRESSION) private avatarQueue: Queue,
     private bcrypt: BcryptService,
     private configService: ConfigService
@@ -89,17 +89,17 @@ export class UserService implements OnApplicationBootstrap {
 
   async getUserAnimeList(
     userUUID: string,
-    query: AnimeListByUserQuery
-  ): Promise<PaginationInterface<UserList>> {
-    const findOptions = new AnimeListByUserQueryBuilder(query).build()
+    query: UserAnimeListByUserQuery
+  ): Promise<PaginationInterface<UserAnimeList>> {
+    const findOptions = new UserAnimeListByUserQueryBuilder(query).build()
 
-    const total = await this.userListRepository.count({
+    const total = await this.userAnimeListRepository.count({
       where: {
         user: { uuid: userUUID }
       },
       ...findOptions,
     })
-    const results = await this.userListRepository.find({
+    const results = await this.userAnimeListRepository.find({
       where: {
         user: { uuid: userUUID }
       },
