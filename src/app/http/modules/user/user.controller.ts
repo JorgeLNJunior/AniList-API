@@ -35,8 +35,10 @@ import {
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UploadUserDto } from './dto/upload-user.dto'
 import { UserModifyPermissionGuard } from './guards/userModifyPermission.guard'
+import { AnimeListByUserQuery } from './query/animeListByUser.query.interface'
 import { UserQuery } from './query/user.query.interface'
 import { DeleteUserResponse } from './responses/deleteUser.response'
+import { FindUserAnimeListByUserResponse } from './responses/findUserAnimeListByUser.response'
 import { FindUsersResponse } from './responses/findUsers.response'
 import { UpdateUserResponse } from './responses/updateUser.response'
 import { UserService } from './user.service'
@@ -115,5 +117,16 @@ export class UserController {
     const { uuid } = req.user
     const message = await this.userService.upload(uuid, file.path)
     return { statusCode: 200, message: message }
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindUserAnimeListByUserResponse })
+  @ApiOperation({ summary: 'Get user anime list' })
+  @Get(':uuid/list')
+  async getUserAnimeList(
+    @Param('uuid') userUUID: string,
+    @Query() query: AnimeListByUserQuery
+  ) {
+    const results = await this.userService.getUserAnimeList(userUUID, query)
+    return new FindUserAnimeListByUserResponse(results).build()
   }
 }
