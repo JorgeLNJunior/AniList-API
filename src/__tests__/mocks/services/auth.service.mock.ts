@@ -1,7 +1,5 @@
-import { fakeUser } from '../../fakes'
-
 export const authServiceMock = {
-  register: jest.fn().mockResolvedValue(fakeUser),
-  login: jest.fn().mockResolvedValue('token'),
-  activateEmail: jest.fn().mockResolvedValue(true)
+  register: jest.fn().mockResolvedValue(Promise.resolve()),
+  login: jest.fn().mockResolvedValue(Promise.resolve()),
+  activateEmail: jest.fn().mockResolvedValue(Promise.resolve())
 }

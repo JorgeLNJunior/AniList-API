@@ -66,4 +66,9 @@ export class UserBuilder {
     return this
   }
 
+  withIsActive(isActive: boolean): UserBuilder {
+    this.isActive = isActive
+    return this
+  }
+
 }
