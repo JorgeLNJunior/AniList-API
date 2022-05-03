@@ -11,7 +11,7 @@ export class EmailActivationConsumer {
 
   private readonly logger = new Logger(EmailActivationConsumer.name);
 
-  @Process(Jobs.EMAIL_ACTIVATION)
+  @Process()
   async sendConfirmationEmail(job: Job<EmailActivationJob>) {
     await this.mailService.sendUserActivationEmail(job.data.user)
   }

@@ -2,9 +2,9 @@ import { IsUserAlreadyExist } from '@http/modules/user/decorators/isUserAlreadyE
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator'
 
-import { IsNotForbiddenName } from '../decorators/isNotForbiddenName.decorator'
+import { IsNotForbiddenName } from '../../user/decorators/isNotForbiddenName.decorator'
 
-export class CreateUserDto {
+export class RegisterDto {
   @ApiProperty({
     example: 'user'
   })

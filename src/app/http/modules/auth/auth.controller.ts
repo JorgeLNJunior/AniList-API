@@ -1,4 +1,4 @@
-import { CreateUserDto } from '@http/modules/user/dto/create-user.dto'
+import { RegisterDto } from '@http/modules/auth/dto/register.dto'
 import { BadRequestResponse } from '@http/shared/responses/badRequest.response'
 import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.response'
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response'
@@ -45,8 +45,8 @@ export class AuthController {
   })
   @ApiOperation({ summary: 'User register' })
   @Post('register')
-  async create(@Body() createUserDto: CreateUserDto) {
-    const user = await this.authService.register(createUserDto)
+  async create(@Body() dto: RegisterDto) {
+    const user = await this.authService.register(dto)
 
     return new RegisterResponse(user).build()
   }
@@ -60,7 +60,7 @@ export class AuthController {
   @UseGuards(AuthGuard('local'), IsEmailActiveGuard)
   @HttpCode(200)
   @Post('login')
-  async login(@Body() loginDto: LoginDto, @Req() req) {
+  async login(@Body() _dto: LoginDto, @Req() req) {
     const token = await this.authService.login(req.user)
     return new LoginResponse(token).build()
   }

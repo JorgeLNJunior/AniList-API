@@ -1,4 +1,4 @@
-import { CreateUserDto } from '@http/modules/user/dto/create-user.dto'
+import { RegisterDto } from '@http/modules/auth/dto/register.dto'
 import { User } from '@http/modules/user/entities/user.entity'
 import { BcryptService } from '@http/shared/services/bcrypt.service'
 import { Jobs } from '@modules/queue/types/jobs.enum'
@@ -24,14 +24,14 @@ export class AuthService {
     private configService: ConfigService
   ) { }
 
-  async register(createUserDto: CreateUserDto) {
-    const passwordHash = await this.bcrypt.hash(createUserDto.password)
-    createUserDto.password = passwordHash
+  async register(dto: RegisterDto) {
+    const passwordHash = await this.bcrypt.hash(dto.password)
+    dto.password = passwordHash
 
-    const userData = this.userRepository.create(createUserDto)
+    const userData = this.userRepository.create(dto)
     const user = await this.userRepository.save(userData)
 
-    await this.mailQueue.add('email_activation', { user: user })
+    await this.mailQueue.add({ user: user })
 
     return user
   }
@@ -83,7 +83,7 @@ export class AuthService {
       if (error.name === 'TokenExpiredError') {
         throw new BadRequestException('token expired')
       }
-      throw new BadRequestException('Invalid token')
+      throw new BadRequestException('invalid token')
     }
   }
 }
