@@ -11,11 +11,12 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { fakeUser } from '@src/__tests__/fakes'
 
-import { CreateUserDto } from '../dto/create-user.dto'
 import { UpdateUserDto } from '../dto/update-user.dto'
 import { User } from '../entities/user.entity'
+import { UserQueryBuilder } from '../query/user.query.builder'
 import { UserQuery } from '../query/user.query.interface'
 import { UserService } from '../user.service'
+import { UserBuilder } from './builders/user.builder'
 
 describe('UserService', () => {
   let service: UserService
@@ -51,101 +52,174 @@ describe('UserService', () => {
 
   afterEach(() => jest.clearAllMocks())
 
-  describe('create', () => {
-    test('should create a user', async () => {
-      const dto: CreateUserDto = {
-        name: fakeUser.name,
-        email: fakeUser.email,
-        password: fakeUser.password
-      }
-      const user = await service.create(dto)
-
-      expect(user).toEqual(fakeUser)
-      expect(userRepositoryMock.create).toBeCalledTimes(1)
-      expect(userRepositoryMock.create).toBeCalledWith(dto)
-    })
-  })
-
   describe('find', () => {
+    afterEach(() => jest.clearAllMocks())
+
     test('should return a list of users', async () => {
-      const users = await service.find({})
-      expect(users).toEqual({ results: [fakeUser], pageTotal: 1, total: 10 })
-      expect(userRepositoryMock.find).toBeCalledTimes(1)
+      const users = [
+        new UserBuilder().build()
+      ]
+
+      userRepositoryMock.find.mockResolvedValue(users)
+
+      const results = await service.find({})
+
+      expect(results).toEqual({
+        results: users,
+        pageTotal: users.length,
+        total: 10
+      })
     })
 
     test('should return a list of users when a query is sent', async () => {
+      const users = [
+        new UserBuilder().build()
+      ]
       const query: UserQuery = {
-        uuid: 'uuid',
-        name: 'name',
-        email: 'email',
+        uuid: users[0].uuid,
+        name: users[0].name,
+        email: users[0].email,
         skip: 1,
         take: 5
       }
-      const users = await service.find(query)
 
-      expect(users).toEqual({ results: [fakeUser], pageTotal: 1, total: 10 })
+      userRepositoryMock.find.mockResolvedValue(users)
+
+      const results = await service.find(query)
+
+      expect(results).toEqual({
+        results: users,
+        pageTotal: users.length,
+        total: 10
+      })
       expect(userRepositoryMock.find).toBeCalledTimes(1)
+    })
+
+    test('should call the repository with correct params', async () => {
+      const users = [
+        new UserBuilder().build()
+      ]
+      const query: UserQuery = {
+        uuid: users[0].uuid,
+        name: users[0].name,
+        email: users[0].email,
+        skip: 1,
+        take: 5
+      }
+      const findOptions = new UserQueryBuilder(query).build()
+
+      const findSpy = jest.spyOn(userRepositoryMock, 'find').mockResolvedValue(users)
+      const countSpy = jest.spyOn(userRepositoryMock, 'count').mockResolvedValue(10)
+
+      const results = await service.find(query)
+
+      expect(countSpy).toBeCalledWith({
+        where: findOptions.where
+      })
+      expect(countSpy).toBeCalledTimes(1)
+      expect(findSpy).toBeCalledWith(findOptions)
+      expect(findSpy).toBeCalledTimes(1)
+      expect(results).toEqual({
+        results: users,
+        pageTotal: users.length,
+        total: 10
+      })
     })
   })
 
   describe('update', () => {
-    test('shloud update a user', async () => {
-      const dto: UpdateUserDto = {
-        name: 'name'
-      }
-      const user = await service.update('uuid', dto)
+    afterEach(() => jest.clearAllMocks())
 
-      expect(user).toEqual(fakeUser)
+    test('should update a user', async () => {
+      const user = new UserBuilder().build()
+      const dto: UpdateUserDto = {
+        name: user.name,
+      }
+
+      userRepositoryMock.findOne.mockResolvedValue(user)
+
+      const result = await service.update(user.uuid, dto)
+
+      expect(result).toEqual(user)
+    })
+
+    test('should call the repository with correct params', async () => {
+      const user = new UserBuilder().build()
+      const dto: UpdateUserDto = {
+        name: user.name,
+      }
+
+      userRepositoryMock.findOne.mockResolvedValue(user)
+
+      const result = await service.update(user.uuid, dto)
+
+      expect(result).toEqual(user)
       expect(userRepositoryMock.update).toBeCalledTimes(1)
-      expect(userRepositoryMock.update).toBeCalledWith('uuid', dto)
+      expect(userRepositoryMock.update).toBeCalledWith(user.uuid, dto)
       expect(userRepositoryMock.findOne).toBeCalledTimes(2)
-      expect(userRepositoryMock.findOne).toBeCalledWith('uuid')
+      expect(userRepositoryMock.findOne).toBeCalledWith(user.uuid)
     })
 
     test('should throw a BadRequestException if the user was not found', async () => {
-      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
-
+      const user = new UserBuilder().build()
       const dto: UpdateUserDto = {
-        name: 'name'
+        name: user.name
       }
 
+      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
+
       // eslint-disable-next-line jest/valid-expect
-      expect(service.update('uuid', dto)).rejects.toThrow(BadRequestException)
+      expect(service.update(user.uuid, dto)).rejects.toThrow(
+        new BadRequestException(['user not found'])
+      )
       expect(userRepositoryMock.update).toBeCalledTimes(0)
       expect(userRepositoryMock.findOne).toBeCalledTimes(1)
-      expect(userRepositoryMock.findOne).toBeCalledWith('uuid')
+      expect(userRepositoryMock.findOne).toBeCalledWith(user.uuid)
     })
   })
 
   describe('delete', () => {
+    afterEach(() => jest.clearAllMocks())
+
     test('should delete a user', async () => {
-      await service.delete('uuid')
+      const user = new UserBuilder().build()
+
+      await service.delete(user.uuid)
 
       expect(userRepositoryMock.softDelete).toBeCalledTimes(1)
-      expect(userRepositoryMock.softDelete).toBeCalledWith('uuid')
+      expect(userRepositoryMock.softDelete).toBeCalledWith(user.uuid)
     })
   })
 
   describe('upload', () => {
+    afterEach(() => jest.clearAllMocks())
+
     test('should add the image to avatar queue', async () => {
-      await service.upload('uuid', 'path')
+      const user = new UserBuilder().build()
+
+      await service.upload(user.uuid, 'path')
 
       expect(avatarQueueMock.add).toBeCalledTimes(1)
       expect(avatarQueueMock.add).toBeCalledWith({
-        userUuid: 'uuid',
+        userUuid: user.uuid,
         path: 'path'
       })
     })
 
     test('should return a message', async () => {
-      const message = await service.upload('uuid', 'path')
+      const user = new UserBuilder().build()
+
+      const message = await service.upload(user.uuid, 'path')
       expect(message).toBe('the image will be available soon')
     })
   })
 
   describe('onApplicationBootstrap', () => {
-    test('sholud create an admin user', async () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should create an admin user', async () => {
       jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
+
       await service.onApplicationBootstrap()
 
       expect(userRepositoryMock.findOne).toBeCalledTimes(1)

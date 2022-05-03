@@ -13,7 +13,6 @@ import { Queue } from 'bull'
 import { Repository } from 'typeorm'
 
 import { UserAnimeList } from '../userAnimeList/entities/userAnimeList.entity'
-import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
 import { UserQueryBuilder } from './query/user.query.builder'
@@ -50,15 +49,6 @@ export class UserService implements OnApplicationBootstrap {
     })
 
     await this.userRepository.save(admin)
-  }
-
-  async create(createUserDto: CreateUserDto) {
-    const passwordHash = await this.bcrypt.hash(createUserDto.password)
-    createUserDto.password = passwordHash
-
-    const user = this.userRepository.create(createUserDto)
-
-    return this.userRepository.save(user)
   }
 
   async find(query?: UserQuery): Promise<PaginationInterface<User>> {
