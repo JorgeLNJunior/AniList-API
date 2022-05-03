@@ -35,7 +35,7 @@ describe('UserStorage', () => {
       expect(config.get).toBeCalledTimes(1)
     })
 
-    test('should throw an error if it receives a invalid storage name', async () => {
+    test('should throw an error if it receives an invalid storage name', async () => {
       jest.spyOn(config, 'get').mockReturnValue('invalid-storage')
 
       expect(() => {
@@ -60,7 +60,7 @@ describe('UserStorage', () => {
     expect(userStorage.getStorage().uploadAvatar).toBeCalledWith(buffer)
   })
 
-  test('should delete a avatar', async () => {
+  test('should delete an avatar', async () => {
     jest.spyOn(config, 'get').mockReturnValue('cloudinary')
     jest.spyOn(userStorage, 'getStorage').mockReturnValue({
       uploadAvatar: jest.fn().mockResolvedValue('url'),

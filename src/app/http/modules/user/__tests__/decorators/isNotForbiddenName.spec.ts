@@ -7,19 +7,19 @@ describe('IsNotForbiddenNameDecorator', () => {
     decorator = new IsNotForbiddenNameConstraint()
   })
 
-  test('should return false if has received "admin" in lowercase', async () => {
+  test('should return false if it receives "admin" in lowercase', async () => {
     expect(decorator.validate('admin')).toBe(false)
   })
 
-  test('should return false if has received "admin" in uppercase', async () => {
+  test('should return false if it receives "admin" in uppercase', async () => {
     expect(decorator.validate('ADMIN')).toBe(false)
   })
 
-  test('should return false if has received "admin" in uppercase and lowercase', async () => {
+  test('should return false if it receives "admin" in uppercase and lowercase', async () => {
     expect(decorator.validate('AdMiN')).toBe(false)
   })
 
-  test('should return true if not received "admin"', async () => {
+  test('should return true if it not receives "admin"', async () => {
     expect(decorator.validate('user')).toBe(true)
   })
 

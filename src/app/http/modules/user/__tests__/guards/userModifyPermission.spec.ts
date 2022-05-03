@@ -39,7 +39,7 @@ describe('UserModifyPermissionGuard', () => {
   })
 
   describe('admin user', () => {
-    test('should return true if user is has admin permission', async () => {
+    test('should return true if user has admin permission', async () => {
       const ctxMock = createMock<ExecutionContext>({
         switchToHttp: () => ({
           getRequest: () => ({
