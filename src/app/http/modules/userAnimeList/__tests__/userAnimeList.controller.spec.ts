@@ -11,7 +11,7 @@ import { UserAnimeListQuery } from "../query/userAnimeList.query.interface";
 import { AnimeStatus } from "../types/animeStatus.enum";
 import { UserAnimeListController } from "../userAnimeList.controller";
 import { UserAnimeListService } from "../userAnimeList.service";
-import { UserAnimeListBuilder } from "./builders/userList.builder";
+import { UserAnimeListBuilder } from "./builders/userAnimeList.builder";
 
 describe('UserListController', () => {
   let controller: UserAnimeListController

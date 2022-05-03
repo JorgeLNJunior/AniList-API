@@ -9,7 +9,7 @@ import { UserAnimeListQueryBuilder } from "../query/userAnimeList.query.builder"
 import { UserAnimeListQuery } from "../query/userAnimeList.query.interface";
 import { AnimeStatus } from "../types/animeStatus.enum";
 import { UserAnimeListService } from "../userAnimeList.service";
-import { UserAnimeListBuilder } from "./builders/userList.builder";
+import { UserAnimeListBuilder } from "./builders/userAnimeList.builder";
 
 describe('UserListService', () => {
   let service: UserAnimeListService

@@ -6,7 +6,7 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 
 import { UserAnimeList } from "../../entities/userAnimeList.entity";
 import { IsAlreadyInUserAnimeListGuard } from "../../guards/isAlreadyInUserAnimeList.guard";
-import { UserAnimeListBuilder } from "../builders/userList.builder";
+import { UserAnimeListBuilder } from "../builders/userAnimeList.builder";
 
 describe('IsAlreadyInUserAnimeListGuard', () => {
   let guard: IsAlreadyInUserAnimeListGuard

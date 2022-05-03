@@ -7,7 +7,7 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 
 import { UserAnimeList } from "../../entities/userAnimeList.entity";
 import { UserAnimeListModifyPermissionGuard } from "../../guards/userAnimeListModifyPermission.guard";
-import { UserAnimeListBuilder } from "../builders/userList.builder";
+import { UserAnimeListBuilder } from "../builders/userAnimeList.builder";
 
 describe('UserListModifyPermissionGuard', () => {
   let guard: UserAnimeListModifyPermissionGuard
