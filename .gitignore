@@ -5,6 +5,9 @@
 # jest
 test/coverage/**/*
 
+# eslint
+.eslintcache
+
 # public folder
 public/**/*.jpg
 public/**/*.jpeg
