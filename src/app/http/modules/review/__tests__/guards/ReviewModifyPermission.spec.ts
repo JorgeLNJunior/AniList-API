@@ -78,7 +78,7 @@ describe('ReviewModifyPermissionGuard', () => {
       })
     })
 
-    jest.spyOn(reviewRepositoryMock, 'findOne').mockResolvedValue(undefined)
+    reviewRepositoryMock.findOne.mockResolvedValue(undefined)
 
     // eslint-disable-next-line jest/valid-expect
     expect(guard.canActivate(ctx)).rejects.toThrow(BadRequestException)

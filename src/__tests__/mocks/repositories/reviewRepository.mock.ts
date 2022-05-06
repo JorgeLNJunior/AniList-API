@@ -1,11 +1,9 @@
-import { fakeReview } from '../../fakes'
-
 export const reviewRepositoryMock = {
   count: jest.fn().mockResolvedValue(10),
-  find: jest.fn().mockResolvedValue([fakeReview]),
-  findOne: jest.fn().mockResolvedValue(fakeReview),
-  create: jest.fn().mockResolvedValue(fakeReview),
-  save: jest.fn().mockResolvedValue(fakeReview),
-  update: jest.fn().mockResolvedValue(fakeReview),
-  softDelete: jest.fn().mockResolvedValue(true)
+  find: jest.fn().mockResolvedValue(Promise.resolve()),
+  findOne: jest.fn().mockResolvedValue(Promise.resolve()),
+  create: jest.fn().mockImplementation((dto) => dto),
+  save: jest.fn().mockResolvedValue(Promise.resolve()),
+  update: jest.fn().mockResolvedValue(Promise.resolve()),
+  softDelete: jest.fn().mockResolvedValue(Promise.resolve())
 }
