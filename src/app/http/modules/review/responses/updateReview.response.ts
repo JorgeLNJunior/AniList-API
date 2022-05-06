@@ -41,13 +41,12 @@ export class UpdateReviewResponse {
   })
   private review: Review;
 
-  constructor (review: Review, status?: number) {
+  constructor(review: Review, status?: number) {
     this.review = review
     this.statusCode = status || 200
   }
 
-  build () {
-    delete this.review.user.isAdmin
+  build() {
     return {
       statusCode: this.statusCode,
       review: this.review
