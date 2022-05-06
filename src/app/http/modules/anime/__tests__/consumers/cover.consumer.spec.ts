@@ -10,6 +10,8 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 import Bull from "bull";
 import * as fs from 'fs/promises'
 
+import { AnimeBuilder } from "../builder/anime.builder";
+
 jest.mock('sharp', () => () => ({
   jpeg: () => ({
     toBuffer: () => ({})
@@ -48,13 +50,16 @@ describe('CoverCompressionConsumer', () => {
 
   describe('compress', () => {
     test('should compress an avatar', async () => {
-      const consumerSpy = jest.spyOn(consumer, 'compress')
-      const fsSpy = jest.spyOn(fs, 'rm')
-
+      const anime = new AnimeBuilder().build()
       const job = createMock<Bull.Job<CoverCompressJob>>({
         id: 'id',
-        data: { animeUuid: 'uuid', path: 'path' }
+        data: { animeUuid: anime.uuid, path: 'path' }
       })
+
+      const consumerSpy = jest.spyOn(consumer, 'compress')
+      const fsSpy = jest.spyOn(fs, 'rm')
+      animeRepositoryMock.findOne.mockResolvedValue(anime)
+
       await consumer.compress(job)
 
       expect(consumerSpy).toBeCalled()

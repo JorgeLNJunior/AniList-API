@@ -4,6 +4,7 @@ import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
 import { Anime } from "../../entities/anime.entity";
+import { AnimeBuilder } from '../builder/anime.builder'
 
 describe('IsValidAnimeUUIDConstraint', () => {
   let decorator: IsValidAnimeUUIDConstraint;
@@ -27,9 +28,11 @@ describe('IsValidAnimeUUIDConstraint', () => {
     afterEach(() => jest.clearAllMocks())
 
     test('should return true if it receives a valid anime uuid', async () => {
-      const uuid = 'uuid'
+      const anime = new AnimeBuilder().build()
 
-      const result = await decorator.validate(uuid)
+      animeRepositoryMock.findOne.mockResolvedValue(anime)
+
+      const result = await decorator.validate(anime.uuid)
 
       expect(result).toBe(true)
     });

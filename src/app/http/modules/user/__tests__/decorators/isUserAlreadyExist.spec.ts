@@ -4,6 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 
 import { IsUserAlreadyExistConstraint } from '../../decorators/isUserAlreadyExist.decorator'
 import { User } from '../../entities/user.entity'
+import { UserBuilder } from '../builders/user.builder'
 
 describe('IsUserAlreadyExistDecorator', () => {
   let decorator: IsUserAlreadyExistConstraint
@@ -23,14 +24,21 @@ describe('IsUserAlreadyExistDecorator', () => {
     afterEach(() => jest.clearAllMocks())
 
     test('should return false if the user already exists', async () => {
-      const result = await decorator.validate('email')
+      const user = new UserBuilder().build()
+      userRepositoryMock.findOne.mockResolvedValue(user)
+
+      const result = await decorator.validate(user.email)
+
       expect(result).toBe(false)
     })
 
     test('should return true if the user does not exist', async () => {
-      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
+      const user = new UserBuilder().build()
 
-      const result = await decorator.validate('email')
+      userRepositoryMock.findOne.mockResolvedValue(undefined)
+
+      const result = await decorator.validate(user.email)
+
       expect(result).toBe(true)
     })
   })

@@ -6,6 +6,7 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 
 import { Review } from '../../entities/review.entity'
 import { ReviewModifyPermissionGuard } from '../../guards/reviewModifyPermission.guard'
+import { ReviewBuilder } from '../builder/review.builder'
 
 describe('ReviewModifyPermissionGuard', () => {
   let guard: ReviewModifyPermissionGuard
@@ -39,14 +40,17 @@ describe('ReviewModifyPermissionGuard', () => {
   })
 
   test('should return true if the user is the review author', async () => {
+    const review = new ReviewBuilder().build()
     const ctx = createMock<ExecutionContext>({
       switchToHttp: () => ({
         getRequest: () => ({
-          user: { isAdmin: false, uuid: 'uuid' },
-          params: { uuid: 'uuid' }
+          user: { isAdmin: false, uuid: review.user.uuid },
+          params: { uuid: review.uuid }
         })
       })
     })
+
+    reviewRepositoryMock.findOne.mockResolvedValue(review)
 
     const result = await guard.canActivate(ctx)
 
@@ -54,14 +58,17 @@ describe('ReviewModifyPermissionGuard', () => {
   })
 
   test('should return false if the user does not have permission', async () => {
+    const review = new ReviewBuilder().build()
     const ctx = createMock<ExecutionContext>({
       switchToHttp: () => ({
         getRequest: () => ({
-          user: { isAdmin: false, uuid: 'a uuid' },
-          params: { uuid: 'uuid' }
+          user: { isAdmin: false, uuid: 'invalid uuid' },
+          params: { uuid: review.uuid }
         })
       })
     })
+
+    reviewRepositoryMock.findOne.mockResolvedValue(review)
 
     const result = await guard.canActivate(ctx)
 

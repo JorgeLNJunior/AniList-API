@@ -10,6 +10,8 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 import Bull from "bull";
 import * as fs from 'fs/promises'
 
+import { UserBuilder } from "../builders/user.builder";
+
 jest.mock('sharp', () => () => ({
   jpeg: () => ({
     toBuffer: () => ({})
@@ -47,14 +49,17 @@ describe('AvatarCompressionConsumer', () => {
   afterEach(() => jest.clearAllMocks())
 
   describe('compress', () => {
-    test('should compress an avatar', async () => {
-      const consumerSpy = jest.spyOn(consumer, 'compress')
-      const fsSpy = jest.spyOn(fs, 'rm')
-
+    test('should compress an cover', async () => {
+      const user = new UserBuilder().build()
       const job = createMock<Bull.Job<AvatarCompressJob>>({
         id: 'id',
-        data: { userUuid: 'uuid', path: 'path' }
+        data: { userUuid: user.uuid, path: 'path' }
       })
+
+      const consumerSpy = jest.spyOn(consumer, 'compress')
+      const fsSpy = jest.spyOn(fs, 'rm')
+      userRepositoryMock.findOne.mockResolvedValue(user)
+
       await consumer.compress(job)
 
       expect(consumerSpy).toBeCalled()
