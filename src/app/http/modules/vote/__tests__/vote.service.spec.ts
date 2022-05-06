@@ -1,17 +1,18 @@
 import { Review } from '@http/modules/review/entities/review.entity'
 import { User } from '@http/modules/user/entities/user.entity'
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { reviewRepositoryMock } from '@mocks/repositories/reviewRepository.mock'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
 import { voteRepositoryMock } from '@mocks/repositories/vote.repository.mock'
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import { fakeUser, fakeVote } from '@src/__tests__/fakes'
 
 import { CreateVoteDto } from '../dto/create-vote.dto'
 import { Vote } from '../entities/vote.entity'
 import { VoteQuery } from '../query/vote.query.interface'
 import { VoteService } from '../vote.service'
+import { VoteBuilder } from './builder/vote.builder'
 
 describe('VoteService', () => {
   let service: VoteService
@@ -28,21 +29,25 @@ describe('VoteService', () => {
 
     service = module.get(VoteService)
   })
-
   afterEach(() => jest.clearAllMocks())
 
   describe('create', () => {
     afterEach(() => jest.clearAllMocks())
 
     test('should create a vote', async () => {
-      jest.spyOn(voteRepositoryMock, 'findOne').mockResolvedValue(undefined)
-
+      const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: 'uuid'
+        reviewUuid: vote.review.uuid
       }
-      const vote = await service.create('uuid', dto)
 
-      expect(vote).toEqual(fakeVote)
+      voteRepositoryMock.findOne.mockResolvedValue(undefined)
+      voteRepositoryMock.save.mockResolvedValue(vote)
+      userRepositoryMock.findOne.mockResolvedValue(vote.user)
+      reviewRepositoryMock.findOne.mockResolvedValue(vote.review)
+
+      const result = await service.create(vote.user.uuid, dto)
+
+      expect(result).toEqual(vote)
       expect(voteRepositoryMock.findOne).toBeCalledTimes(1)
       expect(voteRepositoryMock.save).toBeCalledTimes(1)
       expect(userRepositoryMock.findOne).toBeCalledTimes(1)
@@ -50,77 +55,107 @@ describe('VoteService', () => {
     })
 
     test('should throw a BadRequestException if user has already voted', async () => {
-      jest.spyOn(voteRepositoryMock, 'findOne').mockResolvedValue(fakeVote)
+      const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: 'uuid'
+        reviewUuid: vote.review.uuid
       }
 
+      voteRepositoryMock.findOne.mockResolvedValue(vote)
+      userRepositoryMock.findOne.mockResolvedValue(vote.user)
+      reviewRepositoryMock.findOne.mockResolvedValue(vote.review)
+
       // eslint-disable-next-line jest/valid-expect
-      expect(service.create('uuid', dto)).rejects.toThrow(new BadRequestException(['you have already voted']))
+      expect(service.create(vote.user.uuid, dto))
+        .rejects.toThrow(new BadRequestException(['you have already voted']))
     })
 
-    test('should throw a BadRequestException if user was not found', async () => {
-      jest.spyOn(voteRepositoryMock, 'findOne').mockResolvedValue(fakeVote)
-      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
+    test('should throw a BadRequestException if the user was not found', async () => {
+      const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: 'uuid'
+        reviewUuid: vote.review.uuid
       }
 
+      userRepositoryMock.findOne.mockResolvedValue(undefined)
+      reviewRepositoryMock.findOne.mockResolvedValue(vote.review)
+
       // eslint-disable-next-line jest/valid-expect
-      expect(service.create('uuid', dto)).rejects.toThrow(new BadRequestException(['user not found']))
+      expect(service.create(vote.user.uuid, dto))
+        .rejects.toThrow(new BadRequestException(['user not found']))
     })
 
     test('should throw a BadRequestException if review was not found', async () => {
-      jest.spyOn(voteRepositoryMock, 'findOne').mockResolvedValue(fakeVote)
-      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(fakeUser)
-      jest.spyOn(reviewRepositoryMock, 'findOne').mockResolvedValue(undefined)
+      const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: 'uuid'
+        reviewUuid: vote.review.uuid
       }
 
+      reviewRepositoryMock.findOne.mockResolvedValue(undefined)
+
       // eslint-disable-next-line jest/valid-expect
-      expect(service.create('uuid', dto)).rejects.toThrow(new BadRequestException(['review not found']))
+      expect(service.create(vote.user.uuid, dto))
+        .rejects.toThrow(new BadRequestException(['review not found']))
     })
   })
 
   describe('find', () => {
-    test('should return a list of votes', async () => {
-      const votes = await service.find({})
+    afterEach(() => jest.clearAllMocks())
 
-      expect(votes).toEqual({
-        results: [fakeVote],
+    test('should return a list of votes', async () => {
+      const votes = [
+        new VoteBuilder().build()
+      ]
+
+      voteRepositoryMock.count.mockResolvedValue(10)
+      voteRepositoryMock.find.mockResolvedValue(votes)
+
+      const results = await service.find({})
+
+      expect(results).toEqual({
+        results: votes,
         total: 10,
-        pageTotal: 1
-      })
+        pageTotal: votes.length
+      } as PaginationInterface<Vote>)
       expect(voteRepositoryMock.find).toBeCalledTimes(1)
       expect(voteRepositoryMock.count).toBeCalledTimes(1)
     });
 
-    test('should return a list of votes when query params are sent', async () => {
+    test('should return a list of votes when it receives query params', async () => {
+      const votes = [
+        new VoteBuilder().build()
+      ]
       const query: VoteQuery = {
-        uuid: 'uuid',
-        userUuid: 'uuid',
-        reviewUuid: 'uuid',
+        uuid: votes[0].uuid,
+        userUuid: votes[0].user.uuid,
+        reviewUuid: votes[0].review.uuid,
         take: 10,
         skip: 5,
       }
-      const vote = await service.find(query)
 
-      expect(vote).toEqual({
-        results: [fakeVote],
+      voteRepositoryMock.count.mockResolvedValue(10)
+      voteRepositoryMock.find.mockResolvedValue(votes)
+
+      const results = await service.find(query)
+
+      expect(results).toEqual({
+        results: votes,
         total: 10,
-        pageTotal: 1
-      })
+        pageTotal: votes.length
+      } as PaginationInterface<Vote>)
       expect(voteRepositoryMock.find).toBeCalledTimes(1)
       expect(voteRepositoryMock.count).toBeCalledTimes(1)
     })
   });
 
   describe('delete', () => {
+    afterEach(() => jest.clearAllMocks())
+
     test('should delete a vote', async () => {
-      await service.delete('uuid')
+      const vote = new VoteBuilder().build()
+
+      await service.delete(vote.uuid)
+
       expect(voteRepositoryMock.softDelete).toBeCalledTimes(1)
-      expect(voteRepositoryMock.softDelete).toBeCalledWith('uuid')
+      expect(voteRepositoryMock.softDelete).toBeCalledWith(vote.uuid)
     });
   });
 

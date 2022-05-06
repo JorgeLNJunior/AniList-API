@@ -6,6 +6,7 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 
 import { Vote } from '../../entities/vote.entity'
 import { VoteModifyPermissionGuard } from '../../guards/voteModifyPermission.guard'
+import { VoteBuilder } from '../builder/vote.builder'
 
 describe('VoteModifyPermissionGuard', () => {
   let guard: VoteModifyPermissionGuard
@@ -39,14 +40,17 @@ describe('VoteModifyPermissionGuard', () => {
   })
 
   test('should return true if the user is the vote author', async () => {
+    const vote = new VoteBuilder().build()
     const ctx = createMock<ExecutionContext>({
       switchToHttp: () => ({
         getRequest: () => ({
-          user: { isAdmin: false, uuid: 'uuid' },
-          params: { uuid: 'uuid' }
+          user: { isAdmin: false, uuid: vote.user.uuid },
+          params: { uuid: vote.uuid }
         })
       })
     })
+
+    voteRepositoryMock.findOne.mockResolvedValue(vote)
 
     const result = await guard.canActivate(ctx)
 
@@ -78,7 +82,7 @@ describe('VoteModifyPermissionGuard', () => {
       })
     })
 
-    jest.spyOn(voteRepositoryMock, 'findOne').mockResolvedValue(undefined)
+    voteRepositoryMock.findOne.mockResolvedValue(undefined)
 
     // eslint-disable-next-line jest/valid-expect
     expect(guard.canActivate(ctx)).rejects.toThrow(BadRequestException)

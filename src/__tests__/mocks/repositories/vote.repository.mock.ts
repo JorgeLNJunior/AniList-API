@@ -1,9 +1,7 @@
-import { fakeVote } from '../../fakes'
-
 export const voteRepositoryMock = {
   count: jest.fn().mockResolvedValue(10),
-  findOne: jest.fn().mockResolvedValue(fakeVote),
-  find: jest.fn().mockResolvedValue([fakeVote]),
-  save: jest.fn().mockResolvedValue(fakeVote),
-  softDelete: jest.fn().mockResolvedValue(true),
+  findOne: jest.fn().mockResolvedValue(Promise.resolve()),
+  find: jest.fn().mockResolvedValue(Promise.resolve()),
+  save: jest.fn().mockResolvedValue(Promise.resolve()),
+  softDelete: jest.fn().mockResolvedValue(Promise.resolve()),
 }
