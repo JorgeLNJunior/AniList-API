@@ -1,4 +1,6 @@
+import { UserAnimeListBuilder } from '@http/modules/userAnimeList/__tests__/builders/userAnimeList.builder'
 import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity'
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { BcryptService } from '@http/shared/services/bcrypt.service'
 import { avatarQueueMock } from '@mocks/avatar.queue.mock'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
@@ -15,6 +17,8 @@ import { UpdateUserDto } from '../dto/update-user.dto'
 import { User } from '../entities/user.entity'
 import { UserQueryBuilder } from '../query/user.query.builder'
 import { UserQuery } from '../query/user.query.interface'
+import { UserAnimeListByUserQueryBuilder } from '../query/userAnimeListByUser.query.builder'
+import { UserAnimeListByUserQuery } from '../query/userAnimeListByUser.query.interface'
 import { UserService } from '../user.service'
 import { UserBuilder } from './builders/user.builder'
 
@@ -234,6 +238,97 @@ describe('UserService', () => {
       expect(userRepositoryMock.findOne).toBeCalledTimes(1)
       expect(userRepositoryMock.findOne).toBeCalledWith({ name: 'admin' })
       expect(userRepositoryMock.save).toBeCalledTimes(0)
+    })
+  })
+
+  describe('getUserAnimeList', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return an user anime list', async () => {
+      const user = new UserBuilder().build()
+      const userAnimeList = [
+        new UserAnimeListBuilder().build()
+      ]
+
+      userAnimeListRepositoryMock.find.mockResolvedValue(userAnimeList)
+      userAnimeListRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getUserAnimeList(user.uuid, {})
+
+      expect(results).toEqual({
+        results: userAnimeList,
+        pageTotal: userAnimeList.length,
+        total: 10
+      } as PaginationInterface<UserAnimeList>)
+    })
+
+    test('should return an user anime list when it receives query params', async () => {
+      const user = new UserBuilder().build()
+      const userAnimeList = [
+        new UserAnimeListBuilder().build()
+      ]
+      const query: UserAnimeListByUserQuery = {
+        animeUUID: userAnimeList[0].anime.uuid,
+        status: userAnimeList[0].status,
+        uuid: 'uuid',
+        take: 10,
+        skip: 5
+      }
+
+      userAnimeListRepositoryMock.find.mockResolvedValue(userAnimeList)
+      userAnimeListRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getUserAnimeList(user.uuid, query)
+
+      expect(results).toEqual({
+        results: userAnimeList,
+        pageTotal: userAnimeList.length,
+        total: 10
+      } as PaginationInterface<UserAnimeList>)
+    })
+
+    test('should call the repository with correct params', async () => {
+      const user = new UserBuilder().build()
+      const userAnimeList = [
+        new UserAnimeListBuilder().build()
+      ]
+      const query: UserAnimeListByUserQuery = {
+        animeUUID: userAnimeList[0].anime.uuid,
+        status: userAnimeList[0].status,
+        uuid: 'uuid',
+        take: 10,
+        skip: 5
+      }
+      const findOptions = new UserAnimeListByUserQueryBuilder(query).build()
+
+      userAnimeListRepositoryMock.find.mockResolvedValue(userAnimeList)
+      userAnimeListRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getUserAnimeList(user.uuid, query)
+
+      expect(results).toEqual({
+        results: userAnimeList,
+        pageTotal: userAnimeList.length,
+        total: 10
+      } as PaginationInterface<UserAnimeList>)
+      expect(userAnimeListRepositoryMock.find).toBeCalledTimes(1)
+      expect(userAnimeListRepositoryMock.find).toBeCalledWith({
+        where: {
+          user: { uuid: user.uuid }
+        },
+        ...findOptions,
+        loadRelationIds: {
+          disableMixedMap: true,
+          relations: ['anime']
+        }
+      })
+      expect(userAnimeListRepositoryMock.count).toBeCalledTimes(1)
+      expect(userAnimeListRepositoryMock.count).toBeCalledWith({
+        where: {
+          user: { uuid: user.uuid }
+        },
+        ...findOptions,
+      })
     })
   })
 })

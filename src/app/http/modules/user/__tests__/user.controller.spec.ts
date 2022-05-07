@@ -1,4 +1,6 @@
 import { createMock } from '@golevelup/ts-jest'
+import { UserAnimeListBuilder } from '@http/modules/userAnimeList/__tests__/builders/userAnimeList.builder'
+import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity'
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { userServiceMock } from '@mocks/services/user.service.mock'
 import { Test, TestingModule } from '@nestjs/testing'
@@ -6,6 +8,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { UpdateUserDto } from '../dto/update-user.dto'
 import { User } from '../entities/user.entity'
 import { UserQuery } from '../query/user.query.interface'
+import { UserAnimeListByUserQuery } from '../query/userAnimeListByUser.query.interface'
 import { UserController } from '../user.controller'
 import { UserService } from '../user.service'
 import { UserBuilder } from './builders/user.builder'
@@ -202,6 +205,32 @@ describe('UserController', () => {
       expect(response).toEqual({
         statusCode: 200,
         message: 'the image will be available soon'
+      })
+    })
+  })
+
+  describe('getUserAnimeList', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return an user anime list', async () => {
+      const user = new UserBuilder().build()
+      const userAnimeList = [
+        new UserAnimeListBuilder().build()
+      ]
+
+      userServiceMock.getUserAnimeList.mockResolvedValue({
+        results: userAnimeList,
+        total: 10,
+        pageTotal: userAnimeList.length
+      } as PaginationInterface<UserAnimeList>)
+
+      const response = await controller.getUserAnimeList(user.uuid, {})
+
+      expect(response).toEqual({
+        statusCode: 200,
+        list: userAnimeList,
+        pageTotal: userAnimeList.length,
+        total: 10
       })
     })
   })
