@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm'
 
 export class createVoteTable1632599516442 implements MigrationInterface {
-  public async up (queryRunner: QueryRunner): Promise<void> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(new Table({
       name: 'vote',
       columns: [
@@ -13,12 +13,12 @@ export class createVoteTable1632599516442 implements MigrationInterface {
           generationStrategy: 'uuid'
         },
         {
-          name: 'userUuid',
+          name: 'userUUID',
           type: 'varchar',
           length: '36'
         },
         {
-          name: 'reviewUuid',
+          name: 'reviewUUID',
           type: 'varchar',
           length: '36'
         },
@@ -44,14 +44,14 @@ export class createVoteTable1632599516442 implements MigrationInterface {
 
     await queryRunner.createForeignKeys('vote', [
       new TableForeignKey({
-        columnNames: ['userUuid'],
+        columnNames: ['userUUID'],
         referencedTableName: 'user',
         referencedColumnNames: ['uuid'],
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       }),
       new TableForeignKey({
-        columnNames: ['reviewUuid'],
+        columnNames: ['reviewUUID'],
         referencedTableName: 'review',
         referencedColumnNames: ['uuid'],
         onUpdate: 'CASCADE',
@@ -60,7 +60,7 @@ export class createVoteTable1632599516442 implements MigrationInterface {
     ])
   }
 
-  public async down (queryRunner: QueryRunner): Promise<void> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('vote', true)
   }
 }

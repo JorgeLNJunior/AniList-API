@@ -37,5 +37,5 @@ export class CreateReviewDto {
   @IsString()
   @IsUUID('4')
   @IsValidAnimeUUID()
-  anime: string;
+  animeUUID: string;
 }

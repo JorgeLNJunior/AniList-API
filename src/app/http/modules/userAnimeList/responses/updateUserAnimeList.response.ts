@@ -12,17 +12,17 @@ export class UpdateUserAnimeListResponse {
   @ApiProperty({
     example: updateUserAnimeListResponseExample
   })
-  private list: UserAnimeList;
+  private data: UserAnimeList;
 
   constructor(list: UserAnimeList, status?: number) {
-    this.list = list
+    this.data = list
     this.statusCode = status || 200
   }
 
   build() {
     return {
       statusCode: this.statusCode,
-      list: this.list
+      data: this.data
     }
   }
 }

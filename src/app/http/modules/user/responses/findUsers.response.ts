@@ -2,6 +2,7 @@ import { PaginationInterface } from '@http/shared/pagination/pagination.interfac
 import { ApiProperty } from '@nestjs/swagger'
 
 import { User } from '../entities/user.entity'
+import { findUsersResponseExample } from './types/user.response.types';
 
 export class FindUsersResponse {
   @ApiProperty({
@@ -10,20 +11,9 @@ export class FindUsersResponse {
   private statusCode: number;
 
   @ApiProperty({
-    example: [
-      {
-        uuid: '1c12dd97-839e-4058-91f0-e75934b02d52',
-        name: 'Easton',
-        email: 'easton.hamill@gmail.com',
-        password:
-          '$2b$10$DaLu8rQHFH/j6PrD3QS4PuBC6jqaWEnvng95y4HzkPLl/UReJTnpq',
-        avatar: 'https://cdn.fakercloud.com/avatars/waghner_128.jpg',
-        createdAt: '2021-09-16 14:38:09',
-        updatedAt: null
-      }
-    ]
+    example: findUsersResponseExample
   })
-  private users: PaginationInterface<User>;
+  private data: User[];
 
   @ApiProperty({
     example: 20
@@ -35,17 +25,19 @@ export class FindUsersResponse {
   })
   private readonly total: number;
 
-  constructor(users: PaginationInterface<User>, status?: number) {
-    this.users = users
+  constructor(results: PaginationInterface<User>, status?: number) {
     this.statusCode = status || 200
+    this.data = results.data
+    this.pageTotal = results.pageTotal
+    this.total = results.total
   }
 
   build() {
     return {
       statusCode: this.statusCode,
-      users: this.users.results,
-      pageTotal: this.users.pageTotal,
-      total: this.users.total
+      data: this.data,
+      pageTotal: this.pageTotal,
+      total: this.total
     }
   }
 }

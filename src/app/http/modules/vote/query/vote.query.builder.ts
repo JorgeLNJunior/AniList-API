@@ -6,17 +6,17 @@ import { VoteQuery } from './vote.query.interface';
 export class VoteQueryBuilder {
   private query: VoteQuery;
 
-  constructor (query: VoteQuery) {
+  constructor(query: VoteQuery) {
     this.query = query
   }
 
-  build (): FindManyOptions<Vote> {
+  build(): FindManyOptions<Vote> {
     const findOptions: FindManyOptions<Vote> = {}
     const conditions: FindConditions<Vote> = {}
 
     if (this.query.uuid) conditions.uuid = this.query.uuid
-    if (this.query.userUuid) conditions.user = { uuid: this.query.userUuid }
-    if (this.query.reviewUuid) conditions.review = { uuid: this.query.reviewUuid }
+    if (this.query.userUUID) conditions.user = { uuid: this.query.userUUID }
+    if (this.query.reviewUUID) conditions.review = { uuid: this.query.reviewUUID }
     if (this.query.take) findOptions.take = this.query.take
     if (this.query.skip) findOptions.skip = this.query.skip
 

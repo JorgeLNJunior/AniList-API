@@ -18,16 +18,16 @@ export class VoteService {
     @InjectRepository(Review) private reviewRepository: Repository<Review>
   ) { }
 
-  async create(userUuid: string, createVoteDto: CreateVoteDto): Promise<Vote> {
-    const review = await this.reviewRepository.findOne(createVoteDto.reviewUuid)
+  async create(userUUID: string, createVoteDto: CreateVoteDto): Promise<Vote> {
+    const review = await this.reviewRepository.findOne(createVoteDto.reviewUUID)
     if (!review) throw new BadRequestException(['review not found'])
 
-    const user = await this.userRepository.findOne(userUuid)
+    const user = await this.userRepository.findOne(userUUID)
     if (!user) throw new BadRequestException(['user not found'])
 
     const isAlreadyVoted = await this.voteRepository.findOne({
-      user: { uuid: userUuid },
-      review: { uuid: createVoteDto.reviewUuid }
+      user: { uuid: userUUID },
+      review: { uuid: createVoteDto.reviewUUID }
     },
       { relations: ['user', 'review'] })
     if (isAlreadyVoted) throw new BadRequestException(['you have already voted'])
@@ -44,10 +44,13 @@ export class VoteService {
     const total = await this.voteRepository.count(findOptions)
     const votes = await this.voteRepository.find({
       ...findOptions,
-      relations: ['user', 'review']
+      loadRelationIds: {
+        relations: ['user', 'review'],
+        disableMixedMap: true
+      }
     })
 
-    return { results: votes, pageTotal: votes.length, total: total }
+    return { data: votes, pageTotal: votes.length, total: total }
   }
 
   async delete(uuid: string) {

@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 
 import { PaginationInterface } from '../../../shared/pagination/pagination.interface'
 import { Anime } from '../entities/anime.entity'
+import { findAnimeResponseExample } from './types/anime.response.type';
 
 export class FindAnimeResponse {
   @ApiProperty({
@@ -10,27 +11,9 @@ export class FindAnimeResponse {
   private statusCode: number;
 
   @ApiProperty({
-    example:
-       [
-         {
-           uuid: '4f3ab4ae-7854-4720-9122-db5cad01f610',
-           title: 'Attack on titan',
-           synopsis: `Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid
-        creatures called titans, forcing humans to hide in fear behind enormous concentric walls`,
-           cover: null,
-           trailer: 'https://www.youtube.com/watch?v=MGRm4IzK1SQ',
-           episodes: 75,
-           rating: 4,
-           reviews: 2,
-           releaseDate: '2020-10-15',
-           season: 'fall 2020',
-           genre: 'action',
-           createdAt: '2021-09-16 14:38:09',
-           updatedAt: null
-         }
-       ]
+    example: findAnimeResponseExample
   })
-  private animes: PaginationInterface<Anime>;
+  private data: Anime[];
 
   @ApiProperty({
     example: 20
@@ -42,17 +25,19 @@ export class FindAnimeResponse {
   })
   private readonly total: number;
 
-  constructor (animes: PaginationInterface<Anime>, status?: number) {
-    this.animes = animes
+  constructor(results: PaginationInterface<Anime>, status?: number) {
     this.statusCode = status || 200
+    this.data = results.data
+    this.total = results.total
+    this.pageTotal = results.pageTotal
   }
 
-  build () {
+  build() {
     return {
       statusCode: this.statusCode,
-      animes: this.animes.results,
-      pageTotal: this.animes.pageTotal,
-      total: this.animes.total
+      data: this.data,
+      pageTotal: this.pageTotal,
+      total: this.total
     }
   }
 }

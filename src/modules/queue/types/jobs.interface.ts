@@ -1,12 +1,12 @@
 import { User } from '@http/modules/user/entities/user.entity'
 
 export interface AvatarCompressJob {
-  userUuid: string;
+  userUUID: string;
   path: string;
 }
 
 export interface CoverCompressJob {
-  animeUuid: string;
+  animeUUID: string;
   path: string;
 }
 

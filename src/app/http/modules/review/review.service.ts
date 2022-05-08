@@ -19,30 +19,33 @@ export class ReviewService {
     @InjectRepository(Anime) private animeRepository: Repository<Anime>
   ) { }
 
-  async create(userUuid: string, createReviewDto: CreateReviewDto) {
-    const { anime: animeUuid, title, description, rating } = createReviewDto
+  async create(userUUID: string, createReviewDto: CreateReviewDto) {
+    const { animeUUID, title, description, rating } = createReviewDto
 
     const userReviews = await this.reviewRepository.find({
-      where: { user: { uuid: userUuid } },
-      relations: ['anime']
+      where: { user: { uuid: userUUID } },
+      loadRelationIds: {
+        relations: ['anime'],
+        disableMixedMap: true
+      }
     })
     userReviews.forEach((review) => {
-      if (review.anime.uuid === animeUuid) {
+      if (review.anime.uuid === animeUUID) {
         throw new BadRequestException(['you already reviewed this anime'])
       }
     })
 
-    const user = await this.userRepository.findOne(userUuid)
+    const user = await this.userRepository.findOne(userUUID)
 
-    const anime = await this.animeRepository.findOne(animeUuid)
+    const anime = await this.animeRepository.findOne(animeUUID)
     if (!anime) throw new BadRequestException(['anime not found'])
 
     const review = this.reviewRepository.create({
       title: title,
       description: description,
       rating: rating,
-      anime: anime[0],
-      user: user[0]
+      anime: anime,
+      user: user
     })
 
     return this.reviewRepository.save(review)
@@ -56,10 +59,17 @@ export class ReviewService {
     })
     const reviews = await this.reviewRepository.find({
       ...findOptions,
-      relations: ['user', 'anime']
+      loadRelationIds: {
+        relations: ['user', 'anime'],
+        disableMixedMap: true
+      }
     })
 
-    return { results: reviews, pageTotal: reviews.length, total: total }
+    return {
+      data: reviews,
+      pageTotal: reviews.length,
+      total: total
+    }
   }
 
   async update(uuid: string, updateReviewDto: UpdateReviewDto) {
@@ -68,7 +78,10 @@ export class ReviewService {
 
     await this.reviewRepository.update(uuid, updateReviewDto)
     return this.reviewRepository.findOne(uuid, {
-      relations: ['user', 'anime']
+      loadRelationIds: {
+        relations: ['user', 'anime'],
+        disableMixedMap: true
+      }
     })
   }
 

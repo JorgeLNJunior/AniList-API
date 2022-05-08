@@ -57,7 +57,7 @@ export class UserService implements OnApplicationBootstrap {
     const total = await this.userRepository.count({ where: findOptions.where })
     const users = await this.userRepository.find(findOptions)
 
-    return { results: users, pageTotal: users.length, total: total }
+    return { data: users, pageTotal: users.length, total: total }
   }
 
   async update(uuid: string, updateUserDto: UpdateUserDto) {
@@ -73,7 +73,7 @@ export class UserService implements OnApplicationBootstrap {
   }
 
   async upload(uuid: string, path: string) {
-    await this.avatarQueue.add({ userUuid: uuid, path: path })
+    await this.avatarQueue.add({ userUUID: uuid, path: path })
     return 'the image will be available soon'
   }
 
@@ -101,7 +101,7 @@ export class UserService implements OnApplicationBootstrap {
     })
 
     return {
-      results: results,
+      data: results,
       pageTotal: results.length,
       total: total
     }

@@ -1,5 +1,5 @@
 export interface ChatMessage {
-  userUuid: string;
+  userUUID: string;
   username: string;
   avatar: string;
   message: string;

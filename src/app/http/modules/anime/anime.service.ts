@@ -42,7 +42,7 @@ export class AnimeService {
         'rating'
       )
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
-      .leftJoin('review', 'review', 'anime.uuid = review.animeUuid')
+      .leftJoin('review', 'review', 'anime.uuid = review.animeUUID')
       .where(findOptions.where)
       .andWhere('anime.deletedAt IS NULL')
       .limit(findOptions.take)
@@ -51,7 +51,7 @@ export class AnimeService {
       .orderBy('anime.createdAt', 'DESC')
       .getRawMany()
 
-    return { results: animes, total: total, pageTotal: animes.length }
+    return { data: animes, total: total, pageTotal: animes.length }
   }
 
   async top() {
@@ -66,7 +66,7 @@ export class AnimeService {
         'rating'
       )
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
-      .leftJoin('review', 'review', 'anime.uuid = review.animeUuid')
+      .leftJoin('review', 'review', 'anime.uuid = review.animeUUID')
       .where('anime.deletedAt IS NULL')
       .limit(10)
       .groupBy('anime.uuid')
@@ -87,7 +87,7 @@ export class AnimeService {
   }
 
   async upload(uuid: string, path: string) {
-    await this.coverQueue.add({ animeUuid: uuid, path: path })
+    await this.coverQueue.add({ animeUUID: uuid, path: path })
     return 'the image will be available soon'
   }
 }

@@ -12,6 +12,9 @@ export class EmailActivationResponse {
   private status: number;
 
   build() {
-    return { statusCode: this.status, message: this.message }
+    return {
+      statusCode: this.status,
+      message: this.message
+    }
   }
 }

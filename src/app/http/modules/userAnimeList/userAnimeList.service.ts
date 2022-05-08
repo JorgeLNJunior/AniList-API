@@ -18,7 +18,7 @@ export class UserAnimeListService {
   async addToList(userUUID: string, dto: AddToUserAnimeListDto) {
     const review = this.userAnimeListRepository.create({
       user: { uuid: userUUID },
-      anime: { uuid: dto.animeUuid },
+      anime: { uuid: dto.animeUUID },
       status: dto.status
     });
 
@@ -40,7 +40,7 @@ export class UserAnimeListService {
     })
 
     return {
-      results: list,
+      data: list,
       pageTotal: list.length,
       total: total
     }

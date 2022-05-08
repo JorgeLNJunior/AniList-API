@@ -7,5 +7,5 @@ export class CreateVoteDto {
   })
   @IsNotEmpty()
   @IsUUID()
-  reviewUuid: string;
+  reviewUUID: string;
 }

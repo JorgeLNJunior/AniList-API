@@ -11,23 +11,23 @@ import { Review } from '../entities/review.entity'
 
 @Injectable()
 export class ReviewModifyPermissionGuard implements CanActivate {
-  constructor (
+  constructor(
     @InjectRepository(Review) private reviewRepository: Repository<Review>
-  ) {}
+  ) { }
 
-  async canActivate (context: ExecutionContext): Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest()
     if (request.user.isAdmin) return true
 
-    const reviewUuid = request.params.uuid
-    const userUuid = request.user.uuid
+    const reviewUUID = request.params.uuid
+    const userUUID = request.user.uuid
 
-    const review = await this.reviewRepository.findOne(reviewUuid, {
+    const review = await this.reviewRepository.findOne(reviewUUID, {
       relations: ['user']
     })
     if (!review) throw new BadRequestException(['review not found'])
 
-    const isReviewAuthor = review.user.uuid === userUuid
+    const isReviewAuthor = review.user.uuid === userUUID
     if (!isReviewAuthor) return false
 
     return true

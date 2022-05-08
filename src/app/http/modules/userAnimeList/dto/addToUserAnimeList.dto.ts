@@ -26,5 +26,5 @@ export class AddToUserAnimeListDto {
   @IsString()
   @IsUUID()
   @IsValidAnimeUUID()
-  animeUuid: string;
+  animeUUID: string;
 }

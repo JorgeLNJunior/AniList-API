@@ -11,7 +11,7 @@ export class IsAlreadyInUserAnimeListGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const userUUID = context.switchToHttp().getRequest().user.uuid
-    const animeUUID = context.switchToHttp().getRequest().body.animeUuid
+    const animeUUID = context.switchToHttp().getRequest().body.animeUUID
 
     const isAlreadyInUserList = await this.userAnimeListRepository.findOne({
       where: {

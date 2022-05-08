@@ -19,12 +19,12 @@ export class createUserListTable1649598264109 implements MigrationInterface {
           isNullable: false
         },
         {
-          name: 'userUuid',
+          name: 'userUUID',
           type: 'varchar',
           length: '36',
         },
         {
-          name: 'animeUuid',
+          name: 'animeUUID',
           type: 'varchar',
           length: '36',
         },
@@ -50,14 +50,14 @@ export class createUserListTable1649598264109 implements MigrationInterface {
 
     await queryRunner.createForeignKeys('user_list', [
       new TableForeignKey({
-        columnNames: ['userUuid'],
+        columnNames: ['userUUID'],
         referencedTableName: 'user',
         referencedColumnNames: ['uuid'],
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       }),
       new TableForeignKey({
-        columnNames: ['animeUuid'],
+        columnNames: ['animeUUID'],
         referencedTableName: 'anime',
         referencedColumnNames: ['uuid'],
         onUpdate: 'CASCADE',

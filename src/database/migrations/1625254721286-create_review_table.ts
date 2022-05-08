@@ -6,7 +6,7 @@ import {
 } from 'typeorm'
 
 export class createReviewTable1625254721286 implements MigrationInterface {
-  public async up (queryRunner: QueryRunner): Promise<void> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'review',
@@ -32,12 +32,12 @@ export class createReviewTable1625254721286 implements MigrationInterface {
             type: 'integer'
           },
           {
-            name: 'animeUuid',
+            name: 'animeUUID',
             type: 'varchar',
             length: '36'
           },
           {
-            name: 'userUuid',
+            name: 'userUUID',
             type: 'varchar',
             length: '36'
           },
@@ -64,14 +64,14 @@ export class createReviewTable1625254721286 implements MigrationInterface {
     )
     await queryRunner.createForeignKeys('review', [
       new TableForeignKey({
-        columnNames: ['animeUuid'],
+        columnNames: ['animeUUID'],
         referencedTableName: 'anime',
         referencedColumnNames: ['uuid'],
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       }),
       new TableForeignKey({
-        columnNames: ['userUuid'],
+        columnNames: ['userUUID'],
         referencedTableName: 'user',
         referencedColumnNames: ['uuid'],
         onUpdate: 'CASCADE',
@@ -80,7 +80,7 @@ export class createReviewTable1625254721286 implements MigrationInterface {
     ])
   }
 
-  public async down (queryRunner: QueryRunner): Promise<void> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('review', true)
   }
 }

@@ -13,7 +13,7 @@ export class FindUserAnimeListByUserResponse {
   @ApiProperty({
     example: findUserAnimeListByUserResponseExample
   })
-  private userAnimeList: UserAnimeList[];
+  private data: UserAnimeList[];
 
   @ApiProperty({
     example: 20
@@ -26,7 +26,7 @@ export class FindUserAnimeListByUserResponse {
   private readonly total: number;
 
   constructor(results: PaginationInterface<UserAnimeList>, status?: number) {
-    this.userAnimeList = results.results
+    this.data = results.data
     this.total = results.total
     this.pageTotal = results.pageTotal
     this.statusCode = status || 200
@@ -35,7 +35,7 @@ export class FindUserAnimeListByUserResponse {
   build() {
     return {
       statusCode: this.statusCode,
-      list: this.userAnimeList,
+      data: this.data,
       pageTotal: this.pageTotal,
       total: this.total
     }
