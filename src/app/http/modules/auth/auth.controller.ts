@@ -43,7 +43,7 @@ export class AuthController {
     description: 'Validation error',
     type: BadRequestResponse
   })
-  @ApiOperation({ summary: 'User register' })
+  @ApiOperation({ summary: 'User account register' })
   @Post('register')
   async create(@Body() dto: RegisterDto) {
     const user = await this.authService.register(dto)

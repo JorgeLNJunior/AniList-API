@@ -85,7 +85,7 @@ export class AnimeController {
   }
 
   @ApiOkResponse({ description: 'OK', type: FindAnimeResponse })
-  @ApiOperation({ summary: 'Top 10 most overrated animes' })
+  @ApiOperation({ summary: 'Top 10 most rated animes' })
   @Get('top')
   async top() {
     const animes = await this.animeService.top()
