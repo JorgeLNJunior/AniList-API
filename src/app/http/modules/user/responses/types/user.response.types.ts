@@ -1,3 +1,4 @@
+import { Review } from "@http/modules/review/entities/review.entity";
 import { UserAnimeList } from "@http/modules/userAnimeList/entities/userAnimeList.entity";
 import { AnimeStatus } from "@http/modules/userAnimeList/types/animeStatus.enum";
 import { DeepPartial } from "typeorm";
@@ -14,6 +15,21 @@ export const findUserAnimeListByUserResponseExample: DeepPartial<UserAnimeList[]
     anime: {
       uuid: "6a0a41c9-2eb2-43f9-a837-ffe48ee6c0e9"
     }
+  }
+]
+
+export const findUserReviewsResponseExample: DeepPartial<Review[]> = [
+  {
+    uuid: 'b852dcea-f442-4141-97f5-0567d9f25b1d',
+    title: 'naruto',
+    description: 'Proin at pulvinar enim, eget vulputate sem...',
+    rating: 4,
+    anime: {
+      uuid: '5fe7e1fb-1341-4625-bbaf-72688a697624',
+    },
+    createdAt: '2021-09-16 14:38:09',
+    updatedAt: null,
+    deletedAt: null
   }
 ]
 

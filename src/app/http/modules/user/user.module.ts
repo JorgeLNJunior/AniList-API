@@ -3,6 +3,7 @@ import { QueueModule } from '@modules/queue/queue.module'
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
+import { Review } from '../review/entities/review.entity'
 import { UserAnimeList } from '../userAnimeList/entities/userAnimeList.entity'
 import { IsUserAlreadyExistConstraint } from './decorators/isUserAlreadyExist.decorator'
 import { User } from './entities/user.entity'
@@ -13,7 +14,8 @@ import { UserService } from './user.service'
   imports: [
     TypeOrmModule.forFeature([
       User,
-      UserAnimeList
+      UserAnimeList,
+      Review
     ]),
     QueueModule
   ],

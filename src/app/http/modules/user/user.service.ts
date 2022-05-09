@@ -12,9 +12,12 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Queue } from 'bull'
 import { Repository } from 'typeorm'
 
+import { Review } from '../review/entities/review.entity'
 import { UserAnimeList } from '../userAnimeList/entities/userAnimeList.entity'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
+import { ReviewsByUserQueryBuilder } from './query/review/reviewsByUser.query.builder'
+import { ReviewsByUserQuery } from './query/review/reviewsByUser.query.interface'
 import { UserQueryBuilder } from './query/user.query.builder'
 import { UserQuery } from './query/user.query.interface'
 import { UserAnimeListByUserQueryBuilder } from './query/userAnimeListByUser.query.builder'
@@ -25,6 +28,7 @@ export class UserService implements OnApplicationBootstrap {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(UserAnimeList) private userAnimeListRepository: Repository<UserAnimeList>,
+    @InjectRepository(Review) private reviewRepository: Repository<Review>,
     @InjectQueue(Jobs.AVATAR_COMPRESSION) private avatarQueue: Queue,
     private bcrypt: BcryptService,
     private configService: ConfigService
@@ -103,6 +107,32 @@ export class UserService implements OnApplicationBootstrap {
     return {
       data: results,
       pageTotal: results.length,
+      total: total
+    }
+  }
+
+  async getUserReviews(
+    userUUID: string,
+    query: ReviewsByUserQuery
+  ): Promise<PaginationInterface<Review>> {
+    const findOptions = new ReviewsByUserQueryBuilder(query).build()
+
+    const total = await this.reviewRepository.count({
+      where: { user: { uuid: userUUID } },
+      ...findOptions
+    })
+    const reviews = await this.reviewRepository.find({
+      where: { user: { uuid: userUUID } },
+      ...findOptions,
+      loadRelationIds: {
+        relations: ['anime'],
+        disableMixedMap: true
+      }
+    })
+
+    return {
+      data: reviews,
+      pageTotal: reviews.length,
       total: total
     }
   }

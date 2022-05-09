@@ -35,10 +35,12 @@ import {
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UploadUserDto } from './dto/upload-user.dto'
 import { UserModifyPermissionGuard } from './guards/userModifyPermission.guard'
+import { ReviewsByUserQuery } from './query/review/reviewsByUser.query.interface'
 import { UserQuery } from './query/user.query.interface'
 import { UserAnimeListByUserQuery } from './query/userAnimeListByUser.query.interface'
 import { DeleteUserResponse } from './responses/deleteUser.response'
 import { FindUserAnimeListByUserResponse } from './responses/findUserAnimeListByUser.response'
+import { FindUserReviewsByUserResponse } from './responses/findUserReviews.response'
 import { FindUsersResponse } from './responses/findUsers.response'
 import { UpdateUserResponse } from './responses/updateUser.response'
 import { UserService } from './user.service'
@@ -64,6 +66,28 @@ export class UserController {
   async find(@Query() query: UserQuery) {
     const users = await this.userService.find(query)
     return new FindUsersResponse(users).build()
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindUserAnimeListByUserResponse })
+  @ApiOperation({ summary: 'Get user anime list' })
+  @Get(':uuid/list')
+  async getUserAnimeList(
+    @Param('uuid') userUUID: string,
+    @Query() query: UserAnimeListByUserQuery
+  ) {
+    const results = await this.userService.getUserAnimeList(userUUID, query)
+    return new FindUserAnimeListByUserResponse(results).build()
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindUserReviewsByUserResponse })
+  @ApiOperation({ summary: 'Get user reviews' })
+  @Get(':uuid/reviews')
+  async getUserReviews(
+    @Param('uuid') userUUID: string,
+    @Query() query: ReviewsByUserQuery
+  ) {
+    const results = await this.userService.getUserReviews(userUUID, query)
+    return new FindUserReviewsByUserResponse(results).build()
   }
 
   @ApiOkResponse({ description: 'OK', type: UpdateUserResponse })
@@ -117,16 +141,5 @@ export class UserController {
     const { uuid } = req.user
     const message = await this.userService.upload(uuid, file.path)
     return { statusCode: 200, message: message }
-  }
-
-  @ApiOkResponse({ description: 'OK', type: FindUserAnimeListByUserResponse })
-  @ApiOperation({ summary: 'Get user anime list' })
-  @Get(':uuid/list')
-  async getUserAnimeList(
-    @Param('uuid') userUUID: string,
-    @Query() query: UserAnimeListByUserQuery
-  ) {
-    const results = await this.userService.getUserAnimeList(userUUID, query)
-    return new FindUserAnimeListByUserResponse(results).build()
   }
 }
