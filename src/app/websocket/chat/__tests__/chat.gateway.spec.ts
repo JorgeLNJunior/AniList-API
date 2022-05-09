@@ -17,7 +17,7 @@ describe('ChatGateway', () => {
 
   test('should emit a message', async () => {
     const data = {
-      userUuid: 'uuid',
+      userUUID: 'uuid',
       avatar: 'avatar',
       message: 'message',
       username: 'user'

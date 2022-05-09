@@ -32,7 +32,7 @@ describe('VoteController', () => {
     test('should create a vote', async () => {
       const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: vote.review.uuid,
+        reviewUUID: vote.review.uuid,
       }
       const req = { user: vote.user }
 
@@ -42,14 +42,14 @@ describe('VoteController', () => {
 
       expect(response).toEqual({
         statusCode: 201,
-        vote: vote
+        data: vote
       })
     })
 
     test('should call the service with correct params', async () => {
       const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: vote.review.uuid,
+        reviewUUID: vote.review.uuid,
       }
       const req = { user: vote.user }
 
@@ -59,7 +59,7 @@ describe('VoteController', () => {
 
       expect(response).toEqual({
         statusCode: 201,
-        vote: vote
+        data: vote
       })
       expect(voteServiceMock.create).toBeCalledTimes(1)
       expect(voteServiceMock.create).toBeCalledWith(req.user.uuid, dto)
@@ -75,7 +75,7 @@ describe('VoteController', () => {
       ]
 
       voteServiceMock.find.mockResolvedValue({
-        results: votes,
+        data: votes,
         total: 10,
         pageTotal: votes.length
       } as PaginationInterface<Vote>)
@@ -84,7 +84,7 @@ describe('VoteController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        votes: votes,
+        data: votes,
         total: 10,
         pageTotal: votes.length
       })
@@ -96,7 +96,7 @@ describe('VoteController', () => {
       ]
 
       voteServiceMock.find.mockResolvedValue({
-        results: votes,
+        data: votes,
         total: 10,
         pageTotal: votes.length
       } as PaginationInterface<Vote>)
@@ -105,7 +105,7 @@ describe('VoteController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        votes: votes,
+        data: votes,
         total: 10,
         pageTotal: votes.length
       })

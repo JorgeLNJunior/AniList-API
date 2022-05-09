@@ -41,7 +41,7 @@ describe('UserListController', () => {
     test('should return a valid response', async () => {
       const list = new UserAnimeListBuilder().build()
       const dto: AddToUserAnimeListDto = {
-        animeUuid: list.uuid,
+        animeUUID: list.uuid,
         status: list.status
       }
       const req = { user: 'uuid' }
@@ -52,14 +52,14 @@ describe('UserListController', () => {
 
       expect(response).toEqual({
         statusCode: 201,
-        list: list
+        data: list
       })
     });
 
     test('should call the service with correct params', async () => {
       const list = new UserAnimeListBuilder().build()
       const dto: AddToUserAnimeListDto = {
-        animeUuid: list.uuid,
+        animeUUID: list.uuid,
         status: list.status
       }
       const req = { user: { uuid: 'uuid' } }
@@ -72,7 +72,7 @@ describe('UserListController', () => {
       expect(spy).toBeCalledWith(req.user.uuid, dto)
       expect(response).toEqual({
         statusCode: 201,
-        list: list
+        data: list
       })
     });
   });
@@ -86,7 +86,7 @@ describe('UserListController', () => {
       ]
       const query: UserAnimeListQuery = {}
       const serviceResponse: PaginationInterface<UserAnimeList> = {
-        results: list,
+        data: list,
         total: 10,
         pageTotal: list.length
       }
@@ -97,7 +97,7 @@ describe('UserListController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        list: serviceResponse.results,
+        data: serviceResponse.data,
         pageTotal: serviceResponse.pageTotal,
         total: serviceResponse.total
       })
@@ -113,7 +113,7 @@ describe('UserListController', () => {
         skip: 1
       }
       const serviceResponse: PaginationInterface<UserAnimeList> = {
-        results: list,
+        data: list,
         total: 10,
         pageTotal: list.length
       }
@@ -124,7 +124,7 @@ describe('UserListController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        list: serviceResponse.results,
+        data: serviceResponse.data,
         pageTotal: serviceResponse.pageTotal,
         total: serviceResponse.total
       })
@@ -140,7 +140,7 @@ describe('UserListController', () => {
         skip: 0
       }
       const serviceResponse: PaginationInterface<UserAnimeList> = {
-        results: list,
+        data: list,
         total: 10,
         pageTotal: list.length
       }
@@ -153,7 +153,7 @@ describe('UserListController', () => {
       expect(spy).toBeCalledWith(query)
       expect(response).toEqual({
         statusCode: 200,
-        list: serviceResponse.results,
+        data: serviceResponse.data,
         pageTotal: serviceResponse.pageTotal,
         total: serviceResponse.total
       })
@@ -178,7 +178,7 @@ describe('UserListController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        list: {
+        data: {
           ...dto,
           ...list
         }
@@ -201,7 +201,7 @@ describe('UserListController', () => {
       expect(spy).toBeCalledWith(list.uuid, dto)
       expect(response).toEqual({
         statusCode: 200,
-        list: {
+        data: {
           ...dto,
           ...list
         }

@@ -37,7 +37,7 @@ describe('UserListService', () => {
       const userList = new UserAnimeListBuilder().build()
 
       const dto: AddToUserAnimeListDto = {
-        animeUuid: userList.anime.uuid,
+        animeUUID: userList.anime.uuid,
         status: userList.status
       }
 
@@ -53,7 +53,7 @@ describe('UserListService', () => {
       const userList = new UserAnimeListBuilder().build()
 
       const dto: AddToUserAnimeListDto = {
-        animeUuid: userList.anime.uuid,
+        animeUUID: userList.anime.uuid,
         status: userList.status
       }
 
@@ -67,7 +67,7 @@ describe('UserListService', () => {
 
       expect(createSpy).toBeCalledWith({
         user: { uuid: userList.user.uuid },
-        anime: { uuid: dto.animeUuid },
+        anime: { uuid: dto.animeUUID },
         status: dto.status
       })
       expect(saveSpy).toBeCalledWith(userList)
@@ -91,7 +91,7 @@ describe('UserListService', () => {
       expect(result).toEqual({
         pageTotal: list.length,
         total: 10,
-        results: list
+        data: list
       })
     });
 
@@ -113,7 +113,7 @@ describe('UserListService', () => {
       expect(result).toEqual({
         pageTotal: list.length,
         total: 10,
-        results: list
+        data: list
       })
     });
 
@@ -149,7 +149,7 @@ describe('UserListService', () => {
       expect(result).toEqual({
         pageTotal: list.length,
         total: 10,
-        results: list
+        data: list
       })
     });
   });

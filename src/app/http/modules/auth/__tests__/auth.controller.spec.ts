@@ -44,7 +44,7 @@ describe('AuthController', () => {
 
       expect(response).toEqual({
         statusCode: 201,
-        user: user,
+        data: user,
         message: 'please confirm your email address'
       })
     })

@@ -69,10 +69,10 @@ describe('UserService', () => {
       const results = await service.find({})
 
       expect(results).toEqual({
-        results: users,
+        data: users,
         pageTotal: users.length,
         total: 10
-      })
+      } as PaginationInterface<User>)
     })
 
     test('should return a list of users when a query is sent', async () => {
@@ -92,10 +92,10 @@ describe('UserService', () => {
       const results = await service.find(query)
 
       expect(results).toEqual({
-        results: users,
+        data: users,
         pageTotal: users.length,
         total: 10
-      })
+      } as PaginationInterface<User>)
       expect(userRepositoryMock.find).toBeCalledTimes(1)
     })
 
@@ -124,10 +124,10 @@ describe('UserService', () => {
       expect(findSpy).toBeCalledWith(findOptions)
       expect(findSpy).toBeCalledTimes(1)
       expect(results).toEqual({
-        results: users,
+        data: users,
         pageTotal: users.length,
         total: 10
-      })
+      } as PaginationInterface<User>)
     })
   })
 
@@ -205,7 +205,7 @@ describe('UserService', () => {
 
       expect(avatarQueueMock.add).toBeCalledTimes(1)
       expect(avatarQueueMock.add).toBeCalledWith({
-        userUuid: user.uuid,
+        userUUID: user.uuid,
         path: 'path'
       })
     })
@@ -256,7 +256,7 @@ describe('UserService', () => {
       const results = await service.getUserAnimeList(user.uuid, {})
 
       expect(results).toEqual({
-        results: userAnimeList,
+        data: userAnimeList,
         pageTotal: userAnimeList.length,
         total: 10
       } as PaginationInterface<UserAnimeList>)
@@ -281,7 +281,7 @@ describe('UserService', () => {
       const results = await service.getUserAnimeList(user.uuid, query)
 
       expect(results).toEqual({
-        results: userAnimeList,
+        data: userAnimeList,
         pageTotal: userAnimeList.length,
         total: 10
       } as PaginationInterface<UserAnimeList>)
@@ -307,7 +307,7 @@ describe('UserService', () => {
       const results = await service.getUserAnimeList(user.uuid, query)
 
       expect(results).toEqual({
-        results: userAnimeList,
+        data: userAnimeList,
         pageTotal: userAnimeList.length,
         total: 10
       } as PaginationInterface<UserAnimeList>)

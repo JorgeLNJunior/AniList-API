@@ -53,7 +53,7 @@ describe('CoverCompressionConsumer', () => {
       const anime = new AnimeBuilder().build()
       const job = createMock<Bull.Job<CoverCompressJob>>({
         id: 'id',
-        data: { animeUuid: anime.uuid, path: 'path' }
+        data: { animeUUID: anime.uuid, path: 'path' }
       })
 
       const consumerSpy = jest.spyOn(consumer, 'compress')

@@ -53,7 +53,7 @@ describe('AvatarCompressionConsumer', () => {
       const user = new UserBuilder().build()
       const job = createMock<Bull.Job<AvatarCompressJob>>({
         id: 'id',
-        data: { userUuid: user.uuid, path: 'path' }
+        data: { userUUID: user.uuid, path: 'path' }
       })
 
       const consumerSpy = jest.spyOn(consumer, 'compress')

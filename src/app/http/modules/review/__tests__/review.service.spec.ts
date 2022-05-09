@@ -1,5 +1,6 @@
 import { Anime } from '@http/modules/anime/entities/anime.entity'
 import { User } from '@http/modules/user/entities/user.entity'
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { animeRepositoryMock } from '@mocks/repositories/anime.respository.mock'
 import { reviewRepositoryMock } from '@mocks/repositories/reviewRepository.mock'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
@@ -38,7 +39,7 @@ describe('ReviewService', () => {
     test('should create a review', async () => {
       const review = new ReviewBuilder().build()
       const dto: CreateReviewDto = {
-        anime: review.anime.uuid,
+        animeUUID: review.anime.uuid,
         title: review.title,
         description: review.description,
         rating: review.rating
@@ -57,7 +58,7 @@ describe('ReviewService', () => {
     test('should call all repositories with correct params', async () => {
       const review = new ReviewBuilder().build()
       const dto: CreateReviewDto = {
-        anime: review.anime.uuid,
+        animeUUID: review.anime.uuid,
         title: review.title,
         description: review.description,
         rating: review.rating
@@ -82,7 +83,7 @@ describe('ReviewService', () => {
     test('should throw a BadRequestException if already reviewed', async () => {
       const review = new ReviewBuilder().build()
       const dto: CreateReviewDto = {
-        anime: review.anime.uuid,
+        animeUUID: review.anime.uuid,
         title: review.title,
         description: review.description,
         rating: review.rating
@@ -103,7 +104,7 @@ describe('ReviewService', () => {
     test('should throw a BadRequestException if the anime was not found', async () => {
       const review = new ReviewBuilder().build()
       const dto: CreateReviewDto = {
-        anime: review.anime.uuid,
+        animeUUID: review.anime.uuid,
         title: review.title,
         description: review.description,
         rating: review.rating
@@ -132,10 +133,10 @@ describe('ReviewService', () => {
       const results = await service.find({})
 
       expect(results).toEqual({
-        results: reviews,
+        data: reviews,
         pageTotal: reviews.length,
         total: 10
-      })
+      } as PaginationInterface<Review>)
     })
 
     test('should return a list of review when it receives query params', async () => {
@@ -143,8 +144,8 @@ describe('ReviewService', () => {
         new ReviewBuilder().build()
       ]
       const query: ReviewQuery = {
-        animeUuid: 'uuid',
-        userUuid: 'uuid',
+        animeUUID: 'uuid',
+        userUUID: 'uuid',
         uuid: 'uuid',
         take: 5,
         skip: 2
@@ -155,10 +156,10 @@ describe('ReviewService', () => {
 
       const results = await service.find(query)
       expect(results).toEqual({
-        results: reviews,
+        data: reviews,
         pageTotal: reviews.length,
         total: 10
-      })
+      } as PaginationInterface<Review>)
     })
   })
 

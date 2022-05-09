@@ -37,7 +37,7 @@ describe('VoteService', () => {
     test('should create a vote', async () => {
       const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: vote.review.uuid
+        reviewUUID: vote.review.uuid
       }
 
       voteRepositoryMock.findOne.mockResolvedValue(undefined)
@@ -57,7 +57,7 @@ describe('VoteService', () => {
     test('should throw a BadRequestException if user has already voted', async () => {
       const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: vote.review.uuid
+        reviewUUID: vote.review.uuid
       }
 
       voteRepositoryMock.findOne.mockResolvedValue(vote)
@@ -72,7 +72,7 @@ describe('VoteService', () => {
     test('should throw a BadRequestException if the user was not found', async () => {
       const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: vote.review.uuid
+        reviewUUID: vote.review.uuid
       }
 
       userRepositoryMock.findOne.mockResolvedValue(undefined)
@@ -86,7 +86,7 @@ describe('VoteService', () => {
     test('should throw a BadRequestException if review was not found', async () => {
       const vote = new VoteBuilder().build()
       const dto: CreateVoteDto = {
-        reviewUuid: vote.review.uuid
+        reviewUUID: vote.review.uuid
       }
 
       reviewRepositoryMock.findOne.mockResolvedValue(undefined)
@@ -111,7 +111,7 @@ describe('VoteService', () => {
       const results = await service.find({})
 
       expect(results).toEqual({
-        results: votes,
+        data: votes,
         total: 10,
         pageTotal: votes.length
       } as PaginationInterface<Vote>)
@@ -125,8 +125,8 @@ describe('VoteService', () => {
       ]
       const query: VoteQuery = {
         uuid: votes[0].uuid,
-        userUuid: votes[0].user.uuid,
-        reviewUuid: votes[0].review.uuid,
+        userUUID: votes[0].user.uuid,
+        reviewUUID: votes[0].review.uuid,
         take: 10,
         skip: 5,
       }
@@ -137,7 +137,7 @@ describe('VoteService', () => {
       const results = await service.find(query)
 
       expect(results).toEqual({
-        results: votes,
+        data: votes,
         total: 10,
         pageTotal: votes.length
       } as PaginationInterface<Vote>)

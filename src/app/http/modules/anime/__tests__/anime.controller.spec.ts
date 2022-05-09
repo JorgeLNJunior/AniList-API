@@ -38,7 +38,7 @@ describe('AnimeController', () => {
       const query = {}
 
       animeServiceMock.find.mockResolvedValue({
-        results: animes,
+        data: animes,
         total: 10,
         pageTotal: animes.length
       })
@@ -47,7 +47,7 @@ describe('AnimeController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        animes: animes,
+        data: animes,
         total: 10,
         pageTotal: 1
       })
@@ -60,7 +60,7 @@ describe('AnimeController', () => {
       const query = {}
 
       const spy = jest.spyOn(animeServiceMock, 'find').mockResolvedValue({
-        results: animes,
+        data: animes,
         total: 10,
         pageTotal: animes.length
       })
@@ -70,7 +70,7 @@ describe('AnimeController', () => {
       expect(spy).toBeCalledWith(query)
       expect(response).toEqual({
         statusCode: 200,
-        animes: animes,
+        data: animes,
         total: 10,
         pageTotal: 1
       })
@@ -91,7 +91,7 @@ describe('AnimeController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        animes: animes
+        data: animes
       })
     })
   });
@@ -118,7 +118,7 @@ describe('AnimeController', () => {
 
       expect(response).toEqual({
         statusCode: 201,
-        anime: {
+        data: {
           ...dto,
           ...anime
         }
@@ -145,7 +145,7 @@ describe('AnimeController', () => {
       expect(service.create).toHaveBeenCalledTimes(1)
       expect(response).toEqual({
         statusCode: 201,
-        anime: {
+        data: {
           ...dto,
           ...anime
         }
@@ -174,7 +174,7 @@ describe('AnimeController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        anime: {
+        data: {
           ...dto,
           ...anime
         }
@@ -203,7 +203,7 @@ describe('AnimeController', () => {
       expect(service.update).toHaveBeenCalledTimes(1)
       expect(response).toEqual({
         statusCode: 200,
-        anime: {
+        data: {
           ...dto,
           ...anime
         }

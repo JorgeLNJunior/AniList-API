@@ -36,7 +36,7 @@ describe('IsAlreadyInUserAnimeListGuard', () => {
         switchToHttp: () => ({
           getRequest: () => ({
             user: { isAdmin: false, uuid: 'uuid' },
-            body: { animeUuid: list.uuid }
+            body: { animeUUID: list.uuid }
           })
         })
       })
@@ -54,7 +54,7 @@ describe('IsAlreadyInUserAnimeListGuard', () => {
         switchToHttp: () => ({
           getRequest: () => ({
             user: { isAdmin: false, uuid: 'uuid' },
-            body: { animeUuid: list.uuid }
+            body: { animeUUID: list.uuid }
           })
         })
       })

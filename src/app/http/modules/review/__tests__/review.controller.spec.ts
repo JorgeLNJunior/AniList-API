@@ -34,7 +34,7 @@ describe('ReviewController', () => {
     test('should create a review', async () => {
       const review = new ReviewBuilder().build()
       const dto: CreateReviewDto = {
-        anime: review.anime.uuid,
+        animeUUID: review.anime.uuid,
         title: review.title,
         description: review.description,
         rating: review.rating
@@ -46,14 +46,14 @@ describe('ReviewController', () => {
 
       expect(result).toEqual({
         statusCode: 201,
-        review: review
+        data: review
       })
     })
 
     test('should call the service with correct params', async () => {
       const review = new ReviewBuilder().build()
       const dto: CreateReviewDto = {
-        anime: review.anime.uuid,
+        animeUUID: review.anime.uuid,
         title: review.title,
         description: review.description,
         rating: review.rating
@@ -67,7 +67,7 @@ describe('ReviewController', () => {
       expect(reviewServiceMock.create).toBeCalledTimes(1)
       expect(result).toEqual({
         statusCode: 201,
-        review: review
+        data: review
       })
     })
   })
@@ -81,7 +81,7 @@ describe('ReviewController', () => {
       ]
 
       reviewServiceMock.find.mockResolvedValue({
-        results: reviews,
+        data: reviews,
         total: 10,
         pageTotal: reviews.length
       } as PaginationInterface<Review>)
@@ -90,7 +90,7 @@ describe('ReviewController', () => {
 
       expect(results).toEqual({
         statusCode: 200,
-        reviews: reviews,
+        data: reviews,
         pageTotal: reviews.length,
         total: 10
       })
@@ -104,14 +104,14 @@ describe('ReviewController', () => {
       ]
       const query: ReviewQuery = {
         uuid: reviews[0].uuid,
-        animeUuid: reviews[0].anime.uuid,
-        userUuid: reviews[0].user.uuid,
+        animeUUID: reviews[0].anime.uuid,
+        userUUID: reviews[0].user.uuid,
         take: 5,
         skip: 2
       }
 
       reviewServiceMock.find.mockResolvedValue({
-        results: reviews,
+        data: reviews,
         total: 10,
         pageTotal: reviews.length
       } as PaginationInterface<Review>)
@@ -120,7 +120,7 @@ describe('ReviewController', () => {
 
       expect(results).toEqual({
         statusCode: 200,
-        reviews: reviews,
+        data: reviews,
         pageTotal: reviews.length,
         total: 10
       })
@@ -132,14 +132,14 @@ describe('ReviewController', () => {
       ]
       const query: ReviewQuery = {
         uuid: reviews[0].uuid,
-        animeUuid: reviews[0].anime.uuid,
-        userUuid: reviews[0].user.uuid,
+        animeUUID: reviews[0].anime.uuid,
+        userUUID: reviews[0].user.uuid,
         take: 5,
         skip: 2
       }
 
       reviewServiceMock.find.mockResolvedValue({
-        results: reviews,
+        data: reviews,
         total: 10,
         pageTotal: reviews.length
       } as PaginationInterface<Review>)
@@ -150,7 +150,7 @@ describe('ReviewController', () => {
       expect(reviewServiceMock.find).toBeCalledTimes(1)
       expect(results).toEqual({
         statusCode: 200,
-        reviews: reviews,
+        data: reviews,
         pageTotal: reviews.length,
         total: 10
       })
@@ -174,7 +174,7 @@ describe('ReviewController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        review: review
+        data: review
       })
       expect(reviewServiceMock.update).toBeCalledTimes(1)
       expect(reviewServiceMock.update).toBeCalledWith(review.uuid, dto)
@@ -196,7 +196,7 @@ describe('ReviewController', () => {
       expect(reviewServiceMock.update).toBeCalledTimes(1)
       expect(response).toEqual({
         statusCode: 200,
-        review: review
+        data: review
       })
     })
   })

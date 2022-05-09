@@ -1,6 +1,7 @@
 import { createMock } from '@golevelup/ts-jest'
 import { UserAnimeListBuilder } from '@http/modules/userAnimeList/__tests__/builders/userAnimeList.builder'
 import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity'
+import { AnimeStatus } from '@http/modules/userAnimeList/types/animeStatus.enum'
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { userServiceMock } from '@mocks/services/user.service.mock'
 import { Test, TestingModule } from '@nestjs/testing'
@@ -39,7 +40,7 @@ describe('UserController', () => {
       ]
 
       userServiceMock.find.mockResolvedValue({
-        results: users,
+        data: users,
         total: 10,
         pageTotal: users.length
       } as PaginationInterface<User>)
@@ -48,7 +49,7 @@ describe('UserController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        users: users,
+        data: users,
         pageTotal: users.length,
         total: 10
       })
@@ -67,7 +68,7 @@ describe('UserController', () => {
       }
 
       userServiceMock.find.mockResolvedValue({
-        results: users,
+        data: users,
         total: 10,
         pageTotal: users.length
       } as PaginationInterface<User>)
@@ -76,7 +77,7 @@ describe('UserController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        users: users,
+        data: users,
         pageTotal: users.length,
         total: 10
       })
@@ -95,7 +96,7 @@ describe('UserController', () => {
       }
 
       userServiceMock.find.mockResolvedValue({
-        results: users,
+        data: users,
         total: 10,
         pageTotal: users.length
       } as PaginationInterface<User>)
@@ -105,7 +106,7 @@ describe('UserController', () => {
       expect(userServiceMock.find).toBeCalledWith(query)
       expect(response).toEqual({
         statusCode: 200,
-        users: users,
+        data: users,
         pageTotal: users.length,
         total: 10
       })
@@ -127,7 +128,7 @@ describe('UserController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        user: user
+        data: user
       })
       expect(userServiceMock.update).toBeCalledTimes(1)
       expect(userServiceMock.update).toBeCalledWith(user.uuid, dto)
@@ -146,7 +147,7 @@ describe('UserController', () => {
       expect(userServiceMock.update).toBeCalledWith(user.uuid, dto)
       expect(response).toEqual({
         statusCode: 200,
-        user: user
+        data: user
       })
     })
   })
@@ -219,7 +220,7 @@ describe('UserController', () => {
       ]
 
       userServiceMock.getUserAnimeList.mockResolvedValue({
-        results: userAnimeList,
+        data: userAnimeList,
         total: 10,
         pageTotal: userAnimeList.length
       } as PaginationInterface<UserAnimeList>)
@@ -228,7 +229,36 @@ describe('UserController', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        list: userAnimeList,
+        data: userAnimeList,
+        pageTotal: userAnimeList.length,
+        total: 10
+      })
+    })
+
+    test('should return an user anime list when it receives query params', async () => {
+      const user = new UserBuilder().build()
+      const userAnimeList = [
+        new UserAnimeListBuilder().build()
+      ]
+      const query: UserAnimeListByUserQuery = {
+        animeUUID: userAnimeList[0].anime.uuid,
+        uuid: userAnimeList[0].uuid,
+        status: AnimeStatus.DROPPED,
+        take: 10,
+        skip: 5
+      }
+
+      userServiceMock.getUserAnimeList.mockResolvedValue({
+        data: userAnimeList,
+        total: 10,
+        pageTotal: userAnimeList.length
+      } as PaginationInterface<UserAnimeList>)
+
+      const response = await controller.getUserAnimeList(user.uuid, query)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        data: userAnimeList,
         pageTotal: userAnimeList.length,
         total: 10
       })

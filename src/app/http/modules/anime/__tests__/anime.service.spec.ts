@@ -1,3 +1,4 @@
+import { PaginationInterface } from "@http/shared/pagination/pagination.interface";
 import { animeRepositoryMock } from "@mocks/repositories/anime.respository.mock";
 import { Jobs } from "@modules/queue/types/jobs.enum";
 import { getQueueToken } from "@nestjs/bull";
@@ -67,10 +68,10 @@ describe("AnimeService", () => {
       const results = await service.find({})
 
       expect(results).toEqual({
-        results: animes,
+        data: animes,
         pageTotal: animes.length,
         total: 10,
-      });
+      } as PaginationInterface<Anime>);
     });
 
     test("should return a list of anime when receives query params", async () => {
@@ -105,10 +106,10 @@ describe("AnimeService", () => {
       const results = await service.find(query);
 
       expect(results).toEqual({
-        results: animes,
+        data: animes,
         pageTotal: animes.length,
         total: 10
-      });
+      } as PaginationInterface<Anime>);
     });
 
     test("should return a list of top anime", async () => {
@@ -273,7 +274,7 @@ describe("AnimeService", () => {
       expect(result).toBe("the image will be available soon");
       expect(queue.add).toHaveBeenCalledTimes(1);
       expect(queue.add).toHaveBeenLastCalledWith({
-        animeUuid: anime.uuid,
+        animeUUID: anime.uuid,
         path: "path",
       });
     });
