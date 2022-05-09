@@ -1,8 +1,11 @@
+import { ReviewBuilder } from '@http/modules/review/__tests__/builder/review.builder'
+import { Review } from '@http/modules/review/entities/review.entity'
 import { UserAnimeListBuilder } from '@http/modules/userAnimeList/__tests__/builders/userAnimeList.builder'
 import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity'
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { BcryptService } from '@http/shared/services/bcrypt.service'
 import { avatarQueueMock } from '@mocks/avatar.queue.mock'
+import { reviewRepositoryMock } from '@mocks/repositories/reviewRepository.mock'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
 import { userAnimeListRepositoryMock } from '@mocks/repositories/userList.repository.mock'
 import { Jobs } from '@modules/queue/types/jobs.enum'
@@ -15,6 +18,8 @@ import { fakeUser } from '@src/__tests__/fakes'
 
 import { UpdateUserDto } from '../dto/update-user.dto'
 import { User } from '../entities/user.entity'
+import { ReviewsByUserQueryBuilder } from '../query/review/reviewsByUser.query.builder'
+import { ReviewsByUserQuery } from '../query/review/reviewsByUser.query.interface'
 import { UserQueryBuilder } from '../query/user.query.builder'
 import { UserQuery } from '../query/user.query.interface'
 import { UserAnimeListByUserQueryBuilder } from '../query/userAnimeListByUser.query.builder'
@@ -47,7 +52,11 @@ describe('UserService', () => {
         {
           provide: getRepositoryToken(UserAnimeList),
           useValue: userAnimeListRepositoryMock
-        }
+        },
+        {
+          provide: getRepositoryToken(Review),
+          useValue: reviewRepositoryMock
+        },
       ]
     }).compile()
 
@@ -324,6 +333,97 @@ describe('UserService', () => {
       })
       expect(userAnimeListRepositoryMock.count).toBeCalledTimes(1)
       expect(userAnimeListRepositoryMock.count).toBeCalledWith({
+        where: {
+          user: { uuid: user.uuid }
+        },
+        ...findOptions,
+      })
+    })
+  })
+
+  describe('getUserReviews', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return an list of reviews', async () => {
+      const user = new UserBuilder().build()
+      const reviews = [
+        new ReviewBuilder().build()
+      ]
+
+      reviewRepositoryMock.find.mockResolvedValue(reviews)
+      reviewRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getUserReviews(user.uuid, {})
+
+      expect(results).toEqual({
+        data: reviews,
+        pageTotal: reviews.length,
+        total: 10
+      } as PaginationInterface<Review>)
+    })
+
+    test('should return an user anime list when it receives query params', async () => {
+      const user = new UserBuilder().build()
+      const reviews = [
+        new ReviewBuilder().build()
+      ]
+      const query: ReviewsByUserQuery = {
+        animeUUID: reviews[0].anime.uuid,
+        title: reviews[0].title,
+        rating: reviews[0].rating,
+        take: 10,
+        skip: 5
+      }
+
+      reviewRepositoryMock.find.mockResolvedValue(reviews)
+      reviewRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getUserReviews(user.uuid, query)
+
+      expect(results).toEqual({
+        data: reviews,
+        pageTotal: reviews.length,
+        total: 10
+      } as PaginationInterface<Review>)
+    })
+
+    test('should call the repository with correct params', async () => {
+      const user = new UserBuilder().build()
+      const reviews = [
+        new ReviewBuilder().build()
+      ]
+      const query: ReviewsByUserQuery = {
+        animeUUID: reviews[0].anime.uuid,
+        title: reviews[0].title,
+        rating: reviews[0].rating,
+        take: 10,
+        skip: 5
+      }
+      const findOptions = new ReviewsByUserQueryBuilder(query).build()
+
+      reviewRepositoryMock.find.mockResolvedValue(reviews)
+      reviewRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getUserReviews(user.uuid, query)
+
+      expect(results).toEqual({
+        data: reviews,
+        pageTotal: reviews.length,
+        total: 10
+      } as PaginationInterface<Review>)
+      expect(reviewRepositoryMock.find).toBeCalledTimes(1)
+      expect(reviewRepositoryMock.find).toBeCalledWith({
+        where: {
+          user: { uuid: user.uuid }
+        },
+        ...findOptions,
+        loadRelationIds: {
+          disableMixedMap: true,
+          relations: ['anime']
+        }
+      })
+      expect(reviewRepositoryMock.count).toBeCalledTimes(1)
+      expect(reviewRepositoryMock.count).toBeCalledWith({
         where: {
           user: { uuid: user.uuid }
         },

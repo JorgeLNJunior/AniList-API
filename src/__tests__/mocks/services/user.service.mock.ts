@@ -4,5 +4,6 @@ export const userServiceMock = {
   update: jest.fn().mockResolvedValue(Promise.resolve()),
   delete: jest.fn().mockResolvedValue(Promise.resolve()),
   upload: jest.fn().mockResolvedValue('the image will be available soon'),
-  getUserAnimeList: jest.fn().mockResolvedValue(Promise.resolve())
+  getUserAnimeList: jest.fn().mockResolvedValue(Promise.resolve()),
+  getUserReviews: jest.fn().mockResolvedValue(Promise.resolve()),
 }
