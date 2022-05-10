@@ -4,6 +4,8 @@ import { Review } from '@http/modules/review/entities/review.entity'
 import { UserAnimeListBuilder } from '@http/modules/userAnimeList/__tests__/builders/userAnimeList.builder'
 import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity'
 import { AnimeStatus } from '@http/modules/userAnimeList/types/animeStatus.enum'
+import { VoteBuilder } from '@http/modules/vote/__tests__/builder/vote.builder'
+import { Vote } from '@http/modules/vote/entities/vote.entity'
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { userServiceMock } from '@mocks/services/user.service.mock'
 import { Test, TestingModule } from '@nestjs/testing'
@@ -270,7 +272,7 @@ describe('UserController', () => {
   describe('getUserReviews', () => {
     afterEach(() => jest.clearAllMocks())
 
-    test('should return an user anime list', async () => {
+    test('should return aa list of reviews', async () => {
       const user = new UserBuilder().build()
       const reviews = [
         new ReviewBuilder().build()
@@ -311,6 +313,55 @@ describe('UserController', () => {
         statusCode: 200,
         data: reviews,
         pageTotal: reviews.length,
+        total: 10
+      })
+    })
+  })
+
+  describe('getUserVotes', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a list of votes', async () => {
+      const user = new UserBuilder().build()
+      const votes = [
+        new VoteBuilder().build()
+      ]
+
+      userServiceMock.getUserVotes.mockResolvedValue({
+        data: votes,
+        total: 10,
+        pageTotal: votes.length
+      } as PaginationInterface<Vote>)
+
+      const response = await controller.getUserVotes(user.uuid, {})
+
+      expect(response).toEqual({
+        statusCode: 200,
+        data: votes,
+        pageTotal: votes.length,
+        total: 10
+      })
+    })
+
+    test('should call the service with correct params', async () => {
+      const user = new UserBuilder().build()
+      const votes = [
+        new VoteBuilder().build()
+      ]
+
+      userServiceMock.getUserVotes.mockResolvedValue({
+        data: votes,
+        total: 10,
+        pageTotal: votes.length
+      } as PaginationInterface<Vote>)
+
+      const response = await controller.getUserVotes(user.uuid, {})
+
+      expect(userServiceMock.getUserVotes).toBeCalledWith(user.uuid, {})
+      expect(response).toEqual({
+        statusCode: 200,
+        data: votes,
+        pageTotal: votes.length,
         total: 10
       })
     })

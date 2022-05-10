@@ -2,12 +2,15 @@ import { ReviewBuilder } from '@http/modules/review/__tests__/builder/review.bui
 import { Review } from '@http/modules/review/entities/review.entity'
 import { UserAnimeListBuilder } from '@http/modules/userAnimeList/__tests__/builders/userAnimeList.builder'
 import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity'
+import { VoteBuilder } from '@http/modules/vote/__tests__/builder/vote.builder'
+import { Vote } from '@http/modules/vote/entities/vote.entity'
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { BcryptService } from '@http/shared/services/bcrypt.service'
 import { avatarQueueMock } from '@mocks/avatar.queue.mock'
 import { reviewRepositoryMock } from '@mocks/repositories/reviewRepository.mock'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
 import { userAnimeListRepositoryMock } from '@mocks/repositories/userList.repository.mock'
+import { voteRepositoryMock } from '@mocks/repositories/vote.repository.mock'
 import { Jobs } from '@modules/queue/types/jobs.enum'
 import { getQueueToken } from '@nestjs/bull'
 import { BadRequestException } from '@nestjs/common'
@@ -24,6 +27,8 @@ import { UserQueryBuilder } from '../query/user.query.builder'
 import { UserQuery } from '../query/user.query.interface'
 import { UserAnimeListByUserQueryBuilder } from '../query/userAnimeListByUser.query.builder'
 import { UserAnimeListByUserQuery } from '../query/userAnimeListByUser.query.interface'
+import { VotesByUserQueryBuilder } from '../query/votes/votesByUser.query.builder'
+import { VotesByUserQuery } from '../query/votes/votesByUser.query.interface'
 import { UserService } from '../user.service'
 import { UserBuilder } from './builders/user.builder'
 
@@ -56,6 +61,10 @@ describe('UserService', () => {
         {
           provide: getRepositoryToken(Review),
           useValue: reviewRepositoryMock
+        },
+        {
+          provide: getRepositoryToken(Vote),
+          useValue: voteRepositoryMock
         },
       ]
     }).compile()
@@ -362,7 +371,7 @@ describe('UserService', () => {
       } as PaginationInterface<Review>)
     })
 
-    test('should return an user anime list when it receives query params', async () => {
+    test('should return a list of reviews when it receives query params', async () => {
       const user = new UserBuilder().build()
       const reviews = [
         new ReviewBuilder().build()
@@ -424,6 +433,93 @@ describe('UserService', () => {
       })
       expect(reviewRepositoryMock.count).toBeCalledTimes(1)
       expect(reviewRepositoryMock.count).toBeCalledWith({
+        where: {
+          user: { uuid: user.uuid }
+        },
+        ...findOptions,
+      })
+    })
+  })
+
+  describe('getUserVotes', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return an list of votes', async () => {
+      const user = new UserBuilder().build()
+      const votes = [
+        new VoteBuilder().build()
+      ]
+
+      voteRepositoryMock.find.mockResolvedValue(votes)
+      voteRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getUserVotes(user.uuid, {})
+
+      expect(results).toEqual({
+        data: votes,
+        pageTotal: votes.length,
+        total: 10
+      } as PaginationInterface<Vote>)
+    })
+
+    test('should return an list of votes when it receives query params', async () => {
+      const user = new UserBuilder().build()
+      const votes = [
+        new VoteBuilder().build()
+      ]
+      const query: VotesByUserQuery = {
+        reviewUUID: votes[0].review.uuid,
+        take: 10,
+        skip: 5
+      }
+
+      voteRepositoryMock.find.mockResolvedValue(votes)
+      voteRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getUserVotes(user.uuid, query)
+
+      expect(results).toEqual({
+        data: votes,
+        pageTotal: votes.length,
+        total: 10
+      } as PaginationInterface<Vote>)
+    })
+
+    test('should call the repository with correct params', async () => {
+      const user = new UserBuilder().build()
+      const votes = [
+        new VoteBuilder().build()
+      ]
+      const query: VotesByUserQuery = {
+        reviewUUID: votes[0].review.uuid,
+        take: 10,
+        skip: 5
+      }
+      const findOptions = new VotesByUserQueryBuilder(query).build()
+
+      voteRepositoryMock.find.mockResolvedValue(votes)
+      voteRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getUserVotes(user.uuid, query)
+
+      expect(results).toEqual({
+        data: votes,
+        pageTotal: votes.length,
+        total: 10
+      } as PaginationInterface<Vote>)
+      expect(voteRepositoryMock.find).toBeCalledTimes(1)
+      expect(voteRepositoryMock.find).toBeCalledWith({
+        where: {
+          user: { uuid: user.uuid }
+        },
+        ...findOptions,
+        loadRelationIds: {
+          disableMixedMap: true,
+          relations: ['review']
+        }
+      })
+      expect(voteRepositoryMock.count).toBeCalledTimes(1)
+      expect(voteRepositoryMock.count).toBeCalledWith({
         where: {
           user: { uuid: user.uuid }
         },
