@@ -38,10 +38,12 @@ import { UserModifyPermissionGuard } from './guards/userModifyPermission.guard'
 import { ReviewsByUserQuery } from './query/review/reviewsByUser.query.interface'
 import { UserQuery } from './query/user.query.interface'
 import { UserAnimeListByUserQuery } from './query/userAnimeListByUser.query.interface'
+import { VotesByUserQuery } from './query/votes/votesByUser.query.interface'
 import { DeleteUserResponse } from './responses/deleteUser.response'
 import { FindUserAnimeListByUserResponse } from './responses/findUserAnimeListByUser.response'
 import { FindUserReviewsByUserResponse } from './responses/findUserReviews.response'
 import { FindUsersResponse } from './responses/findUsers.response'
+import { FindUserVotesByUserResponse } from './responses/findUserVotes.response'
 import { UpdateUserResponse } from './responses/updateUser.response'
 import { UserService } from './user.service'
 
@@ -88,6 +90,17 @@ export class UserController {
   ) {
     const results = await this.userService.getUserReviews(userUUID, query)
     return new FindUserReviewsByUserResponse(results).build()
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindUserVotesByUserResponse })
+  @ApiOperation({ summary: 'Get user votes' })
+  @Get(':uuid/votes')
+  async getUserVotes(
+    @Param('uuid') userUUID: string,
+    @Query() query: VotesByUserQuery
+  ) {
+    const results = await this.userService.getUserVotes(userUUID, query)
+    return new FindUserVotesByUserResponse(results).build()
   }
 
   @ApiOkResponse({ description: 'OK', type: UpdateUserResponse })

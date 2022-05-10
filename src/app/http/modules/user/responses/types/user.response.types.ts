@@ -1,6 +1,7 @@
 import { Review } from "@http/modules/review/entities/review.entity";
 import { UserAnimeList } from "@http/modules/userAnimeList/entities/userAnimeList.entity";
 import { AnimeStatus } from "@http/modules/userAnimeList/types/animeStatus.enum";
+import { Vote } from "@http/modules/vote/entities/vote.entity";
 import { DeepPartial } from "typeorm";
 
 import { User } from "../../entities/user.entity";
@@ -30,6 +31,18 @@ export const findUserReviewsResponseExample: DeepPartial<Review[]> = [
     createdAt: '2021-09-16 14:38:09',
     updatedAt: null,
     deletedAt: null
+  }
+]
+
+export const findUserVotesResponseExample: DeepPartial<Vote[]> = [
+  {
+    uuid: '4b493deb-3923-4fe8-bf76-8e62a5d3aa18',
+    createdAt: '2021-09-25T23:21:39.000Z',
+    updatedAt: null,
+    deletedAt: null,
+    review: {
+      uuid: '0f620699-3acc-4f83-a5fb-2f446151d0e0',
+    }
   }
 ]
 
