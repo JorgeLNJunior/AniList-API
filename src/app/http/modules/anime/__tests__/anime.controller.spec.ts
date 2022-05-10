@@ -1,4 +1,7 @@
 import { createMock } from '@golevelup/ts-jest'
+import { ReviewBuilder } from '@http/modules/review/__tests__/builder/review.builder'
+import { Review } from '@http/modules/review/entities/review.entity'
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { animeServiceMock } from '@mocks/services/anime.service.mock'
 import { Test, TestingModule } from '@nestjs/testing'
 
@@ -6,6 +9,7 @@ import { AnimeController } from '../anime.controller'
 import { AnimeService } from '../anime.service'
 import { CreateAnimeDto } from '../dto/create-anime.dto'
 import { UpdateAnimeDto } from '../dto/update-anime.dto'
+import { Anime } from '../entities/anime.entity'
 import { AnimeBuilder } from './builder/anime.builder'
 
 describe('AnimeController', () => {
@@ -41,7 +45,7 @@ describe('AnimeController', () => {
         data: animes,
         total: 10,
         pageTotal: animes.length
-      })
+      } as PaginationInterface<Anime>)
 
       const response = await controller.find(query)
 
@@ -50,7 +54,7 @@ describe('AnimeController', () => {
         data: animes,
         total: 10,
         pageTotal: 1
-      })
+      } as PaginationInterface<Anime>)
     })
 
     test('should call the service with correct params', async () => {
@@ -63,7 +67,7 @@ describe('AnimeController', () => {
         data: animes,
         total: 10,
         pageTotal: animes.length
-      })
+      } as PaginationInterface<Anime>)
 
       const response = await controller.find(query)
 
@@ -73,7 +77,7 @@ describe('AnimeController', () => {
         data: animes,
         total: 10,
         pageTotal: 1
-      })
+      } as PaginationInterface<Anime>)
     })
   })
 
@@ -252,6 +256,55 @@ describe('AnimeController', () => {
       })
       expect(service.upload).toHaveBeenCalledWith('uuid', file)
       expect(service.upload).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('getUserReviews', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return aa list of reviews', async () => {
+      const anime = new AnimeBuilder().build()
+      const reviews = [
+        new ReviewBuilder().build()
+      ]
+
+      animeServiceMock.getAnimeReviews.mockResolvedValue({
+        data: reviews,
+        total: 10,
+        pageTotal: reviews.length
+      } as PaginationInterface<Review>)
+
+      const response = await controller.getAnimeReviews(anime.uuid, {})
+
+      expect(response).toEqual({
+        statusCode: 200,
+        data: reviews,
+        pageTotal: reviews.length,
+        total: 10
+      })
+    })
+
+    test('should call the service with correct params', async () => {
+      const anime = new AnimeBuilder().build()
+      const reviews = [
+        new ReviewBuilder().build()
+      ]
+
+      animeServiceMock.getAnimeReviews.mockResolvedValue({
+        data: reviews,
+        total: 10,
+        pageTotal: reviews.length
+      } as PaginationInterface<Review>)
+
+      const response = await controller.getAnimeReviews(anime.uuid, {})
+
+      expect(animeServiceMock.getAnimeReviews).toBeCalledWith(anime.uuid, {})
+      expect(response).toEqual({
+        statusCode: 200,
+        data: reviews,
+        pageTotal: reviews.length,
+        total: 10
+      })
     })
   })
 })

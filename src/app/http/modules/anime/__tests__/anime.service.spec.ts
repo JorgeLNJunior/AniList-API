@@ -1,5 +1,8 @@
+import { ReviewBuilder } from "@http/modules/review/__tests__/builder/review.builder";
+import { Review } from "@http/modules/review/entities/review.entity";
 import { PaginationInterface } from "@http/shared/pagination/pagination.interface";
 import { animeRepositoryMock } from "@mocks/repositories/anime.respository.mock";
+import { reviewRepositoryMock } from "@mocks/repositories/reviewRepository.mock";
 import { Jobs } from "@modules/queue/types/jobs.enum";
 import { getQueueToken } from "@nestjs/bull";
 import { BadRequestException } from "@nestjs/common";
@@ -12,6 +15,8 @@ import { CreateAnimeDto } from "../dto/create-anime.dto";
 import { UpdateAnimeDto } from "../dto/update-anime.dto";
 import { Anime } from "../entities/anime.entity";
 import { AnimeQuery } from "../query/anime.query.interface";
+import { ReviewsByAnimeQueryBuilder } from "../query/reviews/reviewsByAnime.query.builder";
+import { ReviewsByAnimeQuery } from "../query/reviews/reviewsByAnime.query.interface";
 import { AnimeBuilder } from "./builder/anime.builder";
 
 describe("AnimeService", () => {
@@ -25,6 +30,10 @@ describe("AnimeService", () => {
         {
           provide: getRepositoryToken(Anime),
           useValue: animeRepositoryMock,
+        },
+        {
+          provide: getRepositoryToken(Review),
+          useValue: reviewRepositoryMock,
         },
         {
           provide: getQueueToken(Jobs.COVER_COMPRESSION),
@@ -279,4 +288,93 @@ describe("AnimeService", () => {
       });
     });
   });
+
+  describe('getAnimeReviews', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return an list of reviews', async () => {
+      const anime = new AnimeBuilder().build()
+      const reviews = [
+        new ReviewBuilder().build()
+      ]
+
+      reviewRepositoryMock.find.mockResolvedValue(reviews)
+      reviewRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getAnimeReviews(anime.uuid, {})
+
+      expect(results).toEqual({
+        data: reviews,
+        pageTotal: reviews.length,
+        total: 10
+      } as PaginationInterface<Review>)
+    })
+
+    test('should return a list of reviews when it receives query params', async () => {
+      const anime = new AnimeBuilder().build()
+      const reviews = [
+        new ReviewBuilder().build()
+      ]
+      const query: ReviewsByAnimeQuery = {
+        title: reviews[0].title,
+        rating: reviews[0].rating,
+        take: 10,
+        skip: 5
+      }
+
+      reviewRepositoryMock.find.mockResolvedValue(reviews)
+      reviewRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getAnimeReviews(anime.uuid, query)
+
+      expect(results).toEqual({
+        data: reviews,
+        pageTotal: reviews.length,
+        total: 10
+      } as PaginationInterface<Review>)
+    })
+
+    test('should call the repository with correct params', async () => {
+      const anime = new AnimeBuilder().build()
+      const reviews = [
+        new ReviewBuilder().build()
+      ]
+      const query: ReviewsByAnimeQuery = {
+        title: reviews[0].title,
+        rating: reviews[0].rating,
+        take: 10,
+        skip: 5
+      }
+      const findOptions = new ReviewsByAnimeQueryBuilder(query).build()
+
+      reviewRepositoryMock.find.mockResolvedValue(reviews)
+      reviewRepositoryMock.count.mockResolvedValue(10)
+
+      const results = await service.getAnimeReviews(anime.uuid, query)
+
+      expect(results).toEqual({
+        data: reviews,
+        pageTotal: reviews.length,
+        total: 10
+      } as PaginationInterface<Review>)
+      expect(reviewRepositoryMock.find).toBeCalledTimes(1)
+      expect(reviewRepositoryMock.find).toBeCalledWith({
+        where: {
+          anme: { uuid: anime.uuid }
+        },
+        ...findOptions,
+        loadRelationIds: {
+          disableMixedMap: true,
+          relations: ['user']
+        }
+      })
+      expect(reviewRepositoryMock.count).toBeCalledTimes(1)
+      expect(reviewRepositoryMock.count).toBeCalledWith({
+        where: {
+          anime: { uuid: anime.uuid }
+        },
+        ...findOptions,
+      })
+    })
+  })
 });
