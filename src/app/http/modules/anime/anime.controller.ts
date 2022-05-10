@@ -38,8 +38,10 @@ import { CreateAnimeDto } from './dto/create-anime.dto'
 import { UpdateAnimeDto } from './dto/update-anime.dto'
 import { UploadAnimeDto } from './dto/upload-anime.dto'
 import { AnimeQuery } from './query/anime.query.interface'
+import { ReviewsByAnimeQuery } from './query/reviews/reviewsByAnime.query.interface'
 import { CreateAnimeResponse } from './responses/createAnime.response'
 import { DeleteAnimeResponse } from './responses/deleteAnime.response'
+import { FindReviewByAnimeResponse } from './responses/findAnimeReviews.response'
 import { FindAnimeResponse } from './responses/findAnimes.response'
 import { FindTopAnimesResponse } from './responses/findTopAnimes.response'
 import { UpdateAnimeResponse } from './responses/updateAnime.response'
@@ -90,6 +92,14 @@ export class AnimeController {
   async top() {
     const animes = await this.animeService.top()
     return new FindTopAnimesResponse(animes).build()
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindReviewByAnimeResponse })
+  @ApiOperation({ summary: 'Find anime reviews' })
+  @Get(':uuid/reviews')
+  async getAnimeReviews(@Param('uuid') uuid: string, query: ReviewsByAnimeQuery) {
+    const reviews = await this.animeService.getAnimeReviews(uuid, query)
+    return new FindReviewByAnimeResponse(reviews).build()
   }
 
   @ApiOkResponse({ description: 'OK', type: UpdateAnimeResponse })

@@ -6,16 +6,20 @@ import { Queue } from 'bull'
 import { Repository } from 'typeorm'
 
 import { PaginationInterface } from '../../shared/pagination/pagination.interface'
+import { Review } from '../review/entities/review.entity'
 import { CreateAnimeDto } from './dto/create-anime.dto'
 import { UpdateAnimeDto } from './dto/update-anime.dto'
 import { Anime } from './entities/anime.entity'
 import { AnimeQueryBuilder } from './query/anime.query.builder'
 import { AnimeQuery } from './query/anime.query.interface'
+import { ReviewsByAnimeQueryBuilder } from './query/reviews/reviewsByAnime.query.builder'
+import { ReviewsByAnimeQuery } from './query/reviews/reviewsByAnime.query.interface'
 
 @Injectable()
 export class AnimeService {
   constructor(
     @InjectRepository(Anime) private animeRepository: Repository<Anime>,
+    @InjectRepository(Review) private reviewRepository: Repository<Review>,
     @InjectQueue(Jobs.COVER_COMPRESSION) private coverQueue: Queue
   ) { }
 
@@ -89,5 +93,28 @@ export class AnimeService {
   async upload(uuid: string, path: string) {
     await this.coverQueue.add({ animeUUID: uuid, path: path })
     return 'the image will be available soon'
+  }
+
+  async getAnimeReviews(animeUUID: string, query: ReviewsByAnimeQuery): Promise<PaginationInterface<Review>> {
+    const findOptions = new ReviewsByAnimeQueryBuilder(query).build()
+
+    const total = await this.reviewRepository.count({
+      where: { anime: { uuid: animeUUID } },
+      ...findOptions
+    })
+    const reviews = await this.reviewRepository.find({
+      where: { anime: { uuid: animeUUID } },
+      ...findOptions,
+      loadRelationIds: {
+        relations: ['user'],
+        disableMixedMap: true
+      }
+    })
+
+    return {
+      data: reviews,
+      pageTotal: reviews.length,
+      total: total
+    }
   }
 }
