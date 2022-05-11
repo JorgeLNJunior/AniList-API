@@ -1,3 +1,5 @@
+import { VoteBuilder } from '@http/modules/vote/__tests__/builder/vote.builder'
+import { Vote } from '@http/modules/vote/entities/vote.entity'
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { reviewRepositoryMock } from '@mocks/repositories/reviewRepository.mock'
 import { reviewServiceMock } from '@mocks/services/review.service.mock'
@@ -215,6 +217,56 @@ describe('ReviewController', () => {
       })
       expect(reviewServiceMock.delete).toBeCalledTimes(1)
       expect(reviewServiceMock.delete).toBeCalledWith(review.uuid)
+    })
+  })
+
+  describe('getReviewVotes', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a list of votes', async () => {
+      const review = new ReviewBuilder().build()
+      const votes = [
+        new VoteBuilder().build()
+      ]
+
+      reviewServiceMock.getReviewVotes.mockResolvedValue({
+        data: votes,
+        total: 10,
+        pageTotal: votes.length
+      } as PaginationInterface<Vote>)
+
+      const response = await controller.getReviewVotes(review.uuid, {})
+
+      expect(response).toEqual({
+        statusCode: 200,
+        data: votes,
+        total: 10,
+        pageTotal: votes.length
+      })
+    })
+
+    test('should call the service with correct params', async () => {
+      const review = new ReviewBuilder().build()
+      const votes = [
+        new VoteBuilder().build()
+      ]
+
+      reviewServiceMock.getReviewVotes.mockResolvedValue({
+        data: votes,
+        total: 10,
+        pageTotal: votes.length
+      } as PaginationInterface<Vote>)
+
+      const response = await controller.getReviewVotes(review.uuid, {})
+
+      expect(response).toEqual({
+        statusCode: 200,
+        data: votes,
+        total: 10,
+        pageTotal: votes.length
+      })
+      expect(reviewServiceMock.getReviewVotes).toBeCalledTimes(1)
+      expect(reviewServiceMock.getReviewVotes).toBeCalledWith(review.uuid, {})
     })
   })
 })

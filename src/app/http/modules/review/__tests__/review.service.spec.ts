@@ -1,9 +1,12 @@
 import { Anime } from '@http/modules/anime/entities/anime.entity'
 import { User } from '@http/modules/user/entities/user.entity'
+import { VoteBuilder } from '@http/modules/vote/__tests__/builder/vote.builder'
+import { Vote } from '@http/modules/vote/entities/vote.entity'
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
 import { animeRepositoryMock } from '@mocks/repositories/anime.respository.mock'
 import { reviewRepositoryMock } from '@mocks/repositories/reviewRepository.mock'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
+import { voteRepositoryMock } from '@mocks/repositories/vote.repository.mock'
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
@@ -12,6 +15,7 @@ import { CreateReviewDto } from '../dto/create-review.dto'
 import { UpdateReviewDto } from '../dto/update-review.dto'
 import { Review } from '../entities/review.entity'
 import { ReviewQuery } from '../query/review.query.interface'
+import { FindVotesByReviewQuery } from '../query/votes/findVotesByReview.query.interface'
 import { ReviewService } from '../review.service'
 import { ReviewBuilder } from './builder/review.builder'
 
@@ -24,7 +28,8 @@ describe('ReviewService', () => {
         ReviewService,
         { provide: getRepositoryToken(Review), useValue: reviewRepositoryMock },
         { provide: getRepositoryToken(Anime), useValue: animeRepositoryMock },
-        { provide: getRepositoryToken(User), useValue: userRepositoryMock }
+        { provide: getRepositoryToken(User), useValue: userRepositoryMock },
+        { provide: getRepositoryToken(Vote), useValue: voteRepositoryMock }
       ]
     }).compile()
 
@@ -243,4 +248,48 @@ describe('ReviewService', () => {
       expect(reviewRepositoryMock.softDelete).toBeCalledTimes(0)
     })
   })
+
+  describe('getReviewVotes', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a list of votes', async () => {
+      const review = new ReviewBuilder().build()
+      const votes = [
+        new VoteBuilder().build()
+      ]
+
+      voteRepositoryMock.count.mockResolvedValue(10)
+      voteRepositoryMock.find.mockResolvedValue(votes)
+
+      const results = await service.getReviewVotes(review.uuid, {})
+
+      expect(results).toEqual({
+        data: votes,
+        total: 10,
+        pageTotal: votes.length
+      } as PaginationInterface<Vote>)
+    });
+
+    test('should return a list of votes when it receives query params', async () => {
+      const review = new ReviewBuilder().build()
+      const votes = [
+        new VoteBuilder().build()
+      ]
+      const query: FindVotesByReviewQuery = {
+        take: 10,
+        skip: 5,
+      }
+
+      voteRepositoryMock.count.mockResolvedValue(10)
+      voteRepositoryMock.find.mockResolvedValue(votes)
+
+      const results = await service.getReviewVotes(review.uuid, query)
+
+      expect(results).toEqual({
+        data: votes,
+        total: 10,
+        pageTotal: votes.length
+      } as PaginationInterface<Vote>)
+    })
+  });
 })
