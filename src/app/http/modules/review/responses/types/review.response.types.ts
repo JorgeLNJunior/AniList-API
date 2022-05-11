@@ -1,3 +1,4 @@
+import { Vote } from "@http/modules/vote/entities/vote.entity";
 import { DeepPartial } from "typeorm";
 
 import { Review } from "../../entities/review.entity";
@@ -48,5 +49,17 @@ export const findReviewResponseExample: DeepPartial<Review[]> = [
     createdAt: '2021-09-16 14:38:09',
     updatedAt: null,
     deletedAt: null
+  }
+]
+
+export const findReviewVotesResponseExample: DeepPartial<Vote[]> = [
+  {
+    uuid: '4b493deb-3923-4fe8-bf76-8e62a5d3aa18',
+    createdAt: '2021-09-25T23:21:39.000Z',
+    updatedAt: null,
+    deletedAt: null,
+    user: {
+      uuid: '2183467f-42ba-44cd-913d-e4f53de5ca61',
+    },
   }
 ]

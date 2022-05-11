@@ -29,9 +29,11 @@ import { CreateReviewDto } from './dto/create-review.dto'
 import { UpdateReviewDto } from './dto/update-review.dto'
 import { ReviewModifyPermissionGuard } from './guards/reviewModifyPermission.guard'
 import { ReviewQuery } from './query/review.query.interface'
+import { FindVotesByReviewQuery } from './query/votes/findVotesByReview.query.interface'
 import { CreateReviewResponse } from './responses/createReview.response'
 import { DeleteReviewResponse } from './responses/deleteReview.response'
 import { FindReviewResponse } from './responses/findReview.response'
+import { FindReviewVotesResponse } from './responses/findReviewVotes.response'
 import { UpdateReviewResponse } from './responses/updateReview.response'
 import { ReviewService } from './review.service'
 
@@ -71,6 +73,14 @@ export class ReviewController {
   async find(@Query() query: ReviewQuery) {
     const reviews = await this.reviewService.find(query)
     return new FindReviewResponse(reviews).build()
+  }
+
+  @ApiOkResponse({ description: 'ok', type: FindReviewVotesResponse })
+  @ApiOperation({ summary: 'Find review votes' })
+  @Get()
+  async getReviewVotes(@Param('uuid') reviewUUID: string, @Query() query: FindVotesByReviewQuery) {
+    const votes = await this.reviewService.getReviewVotes(reviewUUID, query)
+    return new FindReviewVotesResponse(votes).build()
   }
 
   @ApiOkResponse({ description: 'ok', type: FindReviewResponse })
