@@ -58,6 +58,27 @@ export class AnimeService {
     return { data: animes, total: total, pageTotal: animes.length }
   }
 
+  async findOne(uuid: string): Promise<Anime> {
+    return this.animeRepository
+      .createQueryBuilder('anime')
+      .select(
+        'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover,' +
+        'anime.episodes, anime.releaseDate, anime.season, anime.genre,' +
+        'anime.createdAt, anime.updatedAt'
+      )
+      .addSelect(
+        'IFNULL(ROUND(AVG(Cast(review.rating as Float)) ,2), 0)',
+        'rating'
+      )
+      .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
+      .leftJoin('review', 'review', 'anime.uuid = review.animeUUID')
+      .where("anime.uuid = :uuid", { uuid: uuid })
+      .andWhere('anime.deletedAt IS NULL')
+      .groupBy('anime.uuid')
+      .orderBy('anime.createdAt', 'DESC')
+      .getRawOne()
+  }
+
   async top() {
     return this.animeRepository
       .createQueryBuilder('anime')

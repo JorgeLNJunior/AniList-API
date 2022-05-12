@@ -43,6 +43,7 @@ import { CreateAnimeResponse } from './responses/createAnime.response'
 import { DeleteAnimeResponse } from './responses/deleteAnime.response'
 import { FindReviewByAnimeResponse } from './responses/findAnimeReviews.response'
 import { FindAnimeResponse } from './responses/findAnimes.response'
+import { FindOneAnimeResponse } from './responses/findOneAnime.response'
 import { FindTopAnimesResponse } from './responses/findTopAnimes.response'
 import { UpdateAnimeResponse } from './responses/updateAnime.response'
 
@@ -92,6 +93,14 @@ export class AnimeController {
   async top() {
     const animes = await this.animeService.top()
     return new FindTopAnimesResponse(animes).build()
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindOneAnimeResponse })
+  @ApiOperation({ summary: 'Find an anime' })
+  @Get(':uuid')
+  async findOne(@Param('uuid') uuid: string) {
+    const anime = await this.animeService.findOne(uuid)
+    return new FindOneAnimeResponse(anime).build()
   }
 
   @ApiOkResponse({ description: 'OK', type: FindReviewByAnimeResponse })
