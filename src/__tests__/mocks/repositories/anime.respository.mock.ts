@@ -14,6 +14,7 @@ export const animeRepositoryMock = {
     offset: jest.fn().mockReturnThis(),
     groupBy: jest.fn().mockReturnThis(),
     orderBy: jest.fn().mockReturnThis(),
+    getRawOne: jest.fn().mockResolvedValue(Promise.resolve()),
     getRawMany: jest.fn().mockResolvedValue(Promise.resolve())
   })),
   count: jest.fn().mockResolvedValue(10),

@@ -70,6 +70,7 @@ describe("AnimeService", () => {
         offset: jest.fn().mockReturnThis(),
         groupBy: jest.fn().mockReturnThis(),
         orderBy: jest.fn().mockReturnThis(),
+        getRawOne: jest.fn().mockResolvedValue(undefined),
         getRawMany: jest.fn().mockResolvedValue(animes)
       }))
       animeRepositoryMock.count.mockResolvedValue(10)
@@ -108,6 +109,7 @@ describe("AnimeService", () => {
         offset: jest.fn().mockReturnThis(),
         groupBy: jest.fn().mockReturnThis(),
         orderBy: jest.fn().mockReturnThis(),
+        getRawOne: jest.fn().mockResolvedValue(undefined),
         getRawMany: jest.fn().mockResolvedValue(animes)
       }))
       animeRepositoryMock.count.mockResolvedValue(10)
@@ -138,12 +140,40 @@ describe("AnimeService", () => {
         offset: jest.fn().mockReturnThis(),
         groupBy: jest.fn().mockReturnThis(),
         orderBy: jest.fn().mockReturnThis(),
+        getRawOne: jest.fn().mockResolvedValue(undefined),
         getRawMany: jest.fn().mockResolvedValue(animes)
       }))
 
       const results = await service.top()
 
       expect(results).toEqual(animes);
+    });
+  });
+  describe("findOne", () => {
+    afterEach(() => jest.clearAllMocks());
+
+    test("should return an anime", async () => {
+      const anime = new AnimeBuilder().build()
+
+      animeRepositoryMock.createQueryBuilder = jest.fn(() => ({
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        leftJoin: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        take: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        limit: jest.fn().mockReturnThis(),
+        offset: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        orderBy: jest.fn().mockReturnThis(),
+        getRawMany: jest.fn().mockResolvedValue(undefined),
+        getRawOne: jest.fn().mockResolvedValue(anime)
+      }))
+
+      const result = await service.findOne(anime.uuid)
+
+      expect(result).toEqual(anime);
     });
   });
 

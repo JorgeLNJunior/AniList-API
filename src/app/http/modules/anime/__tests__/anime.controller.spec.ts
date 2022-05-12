@@ -81,6 +81,37 @@ describe('AnimeController', () => {
     })
   })
 
+  describe('findOne', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a list of anime', async () => {
+      const anime = new AnimeBuilder().build()
+
+      animeServiceMock.findOne.mockResolvedValue(anime)
+
+      const response = await controller.findOne(anime.uuid)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        data: anime,
+      })
+    })
+
+    test('should call the service with correct params', async () => {
+      const anime = new AnimeBuilder().build()
+
+      const spy = jest.spyOn(animeServiceMock, 'findOne').mockResolvedValue(anime)
+
+      const response = await controller.findOne(anime.uuid)
+
+      expect(spy).toBeCalledWith(anime.uuid)
+      expect(response).toEqual({
+        statusCode: 200,
+        data: anime
+      })
+    })
+  })
+
   describe('top', () => {
     afterEach(() => jest.clearAllMocks())
 
