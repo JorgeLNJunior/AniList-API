@@ -18,7 +18,7 @@ import { UpdateUserAnimeListResponse } from './responses/updateUserAnimeList.res
 import { UserAnimeListService } from './userAnimeList.service';
 
 @ApiBearerAuth()
-@ApiTags('User List')
+@ApiTags('User Anime List')
 @ApiUnauthorizedResponse({
   description: 'Invalid credentials',
   type: UnauthorizedResponse

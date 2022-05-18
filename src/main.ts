@@ -32,7 +32,7 @@ async function bootstrap() {
     .setVersion(version)
     .addTag('Auth')
     .addTag('Users')
-    .addTag('User List')
+    .addTag('User Anime List')
     .addTag('Animes')
     .addTag('Reviews')
     .addTag('Votes')
