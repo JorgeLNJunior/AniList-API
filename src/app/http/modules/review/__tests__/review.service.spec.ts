@@ -7,7 +7,7 @@ import { animeRepositoryMock } from '@mocks/repositories/anime.respository.mock'
 import { reviewRepositoryMock } from '@mocks/repositories/reviewRepository.mock'
 import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
 import { voteRepositoryMock } from '@mocks/repositories/vote.repository.mock'
-import { BadRequestException } from '@nestjs/common'
+import { BadRequestException, NotFoundException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 
@@ -165,6 +165,43 @@ describe('ReviewService', () => {
         pageTotal: reviews.length,
         total: 10
       } as PaginationInterface<Review>)
+    })
+  })
+
+  describe('findOne', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a review', async () => {
+      const review = new ReviewBuilder().build()
+
+      reviewRepositoryMock.findOne.mockResolvedValue(review)
+
+      const result = await service.findOne(review.uuid)
+
+      expect(result).toEqual(review)
+    })
+
+    test('should call the repository with correct params', async () => {
+      const review = new ReviewBuilder().build()
+
+      reviewRepositoryMock.findOne.mockResolvedValue(review)
+
+      const result = await service.findOne(review.uuid)
+
+      expect(reviewRepositoryMock.findOne).toBeCalledWith(review.uuid)
+      expect(reviewRepositoryMock.findOne).toBeCalledTimes(1)
+      expect(result).toEqual(review)
+    })
+
+    test('should throw a NotFoundException if the review was not found', async () => {
+      const review = new ReviewBuilder().build()
+
+      reviewRepositoryMock.findOne.mockResolvedValue(undefined)
+
+      // eslint-disable-next-line jest/valid-expect
+      expect(service.findOne(review.uuid)).rejects.toThrow(
+        new NotFoundException(`Resource /reviews/${review.uuid} not found`)
+      )
     })
   })
 

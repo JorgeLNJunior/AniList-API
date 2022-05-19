@@ -159,6 +159,38 @@ describe('ReviewController', () => {
     })
   })
 
+  describe('findOne', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a review', async () => {
+      const review = new ReviewBuilder().build()
+
+      reviewServiceMock.findOne.mockResolvedValue(review)
+
+      const results = await controller.findOne(review.uuid)
+
+      expect(results).toEqual({
+        statusCode: 200,
+        data: review
+      })
+    })
+
+    test('should call the service with correct params', async () => {
+      const review = new ReviewBuilder().build()
+
+      reviewServiceMock.findOne.mockResolvedValue(review)
+
+      const results = await controller.findOne(review.uuid)
+
+      expect(reviewServiceMock.findOne).toBeCalledTimes(1)
+      expect(reviewServiceMock.findOne).toBeCalledWith(review.uuid)
+      expect(results).toEqual({
+        statusCode: 200,
+        data: review
+      })
+    })
+  })
+
   describe('update', () => {
     afterEach(() => jest.clearAllMocks())
 
