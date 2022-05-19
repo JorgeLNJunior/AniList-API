@@ -2,6 +2,7 @@ import { IsAdminGuard } from '@http/shared/guards/isAdmin.guard'
 import { BadRequestResponse } from '@http/shared/responses/badRequest.response'
 import { ForbiddenResponse } from '@http/shared/responses/forbidden.response'
 import { MessageResponse } from '@http/shared/responses/message.response'
+import { NotFoundResponse } from '@http/shared/responses/notFound.response'
 import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.response'
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response'
 import {
@@ -26,6 +27,7 @@ import {
   ApiConsumes,
   ApiCreatedResponse,
   ApiForbiddenResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -96,6 +98,7 @@ export class AnimeController {
   }
 
   @ApiOkResponse({ description: 'OK', type: FindOneAnimeResponse })
+  @ApiNotFoundResponse({ description: 'Not Found', type: NotFoundResponse })
   @ApiOperation({ summary: 'Find an anime' })
   @Get(':uuid')
   async findOne(@Param('uuid') uuid: string) {

@@ -1,6 +1,6 @@
 import { Jobs } from '@modules/queue/types/jobs.enum'
 import { InjectQueue } from '@nestjs/bull'
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Queue } from 'bull'
 import { Repository } from 'typeorm'
@@ -59,7 +59,7 @@ export class AnimeService {
   }
 
   async findOne(uuid: string): Promise<Anime> {
-    return this.animeRepository
+    const anime = await this.animeRepository
       .createQueryBuilder('anime')
       .select(
         'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover,' +
@@ -77,6 +77,9 @@ export class AnimeService {
       .groupBy('anime.uuid')
       .orderBy('anime.createdAt', 'DESC')
       .getRawOne()
+
+    if (!anime) throw new NotFoundException(`Resource /animes/${uuid} not found`)
+    return anime
   }
 
   async top() {
