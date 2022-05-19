@@ -143,6 +143,37 @@ describe('VoteService', () => {
     })
   });
 
+  describe('findOne', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a vote', async () => {
+      const vote = new VoteBuilder().build()
+
+      voteRepositoryMock.findOne.mockResolvedValue(vote)
+
+      const results = await service.findOne(vote.uuid)
+
+      expect(results).toEqual(vote)
+    });
+
+    test('should call the repository with correct params', async () => {
+      const vote = new VoteBuilder().build()
+
+      voteRepositoryMock.findOne.mockResolvedValue(vote)
+
+      const results = await service.findOne(vote.uuid)
+
+      expect(results).toEqual(vote)
+      expect(voteRepositoryMock.findOne).toBeCalledWith(vote.uuid, {
+        loadRelationIds: {
+          disableMixedMap: true,
+          relations: ['user', 'review']
+        }
+      })
+      expect(voteRepositoryMock.findOne).toBeCalledTimes(1)
+    });
+  });
+
   describe('delete', () => {
     afterEach(() => jest.clearAllMocks())
 

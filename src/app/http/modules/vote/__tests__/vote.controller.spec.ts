@@ -114,6 +114,38 @@ describe('VoteController', () => {
     })
   })
 
+  describe('findOne', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a vote', async () => {
+      const vote = new VoteBuilder().build()
+
+      voteServiceMock.findOne.mockResolvedValue(vote)
+
+      const response = await controller.findOne(vote.uuid)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        data: vote
+      })
+    })
+
+    test('should call the repository with correct params', async () => {
+      const vote = new VoteBuilder().build()
+
+      voteServiceMock.findOne.mockResolvedValue(vote)
+
+      const response = await controller.findOne(vote.uuid)
+
+      expect(voteServiceMock.findOne).toBeCalledWith(vote.uuid)
+      expect(voteServiceMock.findOne).toBeCalledTimes(1)
+      expect(response).toEqual({
+        statusCode: 200,
+        data: vote
+      })
+    })
+  })
+
   describe('delete', () => {
     afterEach(() => jest.clearAllMocks())
 
