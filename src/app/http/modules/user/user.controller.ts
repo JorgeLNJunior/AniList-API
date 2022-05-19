@@ -1,6 +1,7 @@
 import { BadRequestResponse } from '@http/shared/responses/badRequest.response'
 import { ForbiddenResponse } from '@http/shared/responses/forbidden.response'
 import { MessageResponse } from '@http/shared/responses/message.response'
+import { NotFoundResponse } from '@http/shared/responses/notFound.response'
 import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.response'
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response'
 import {
@@ -25,6 +26,7 @@ import {
   ApiBody,
   ApiConsumes,
   ApiForbiddenResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -40,6 +42,7 @@ import { UserQuery } from './query/user.query.interface'
 import { UserAnimeListByUserQuery } from './query/userAnimeListByUser.query.interface'
 import { VotesByUserQuery } from './query/votes/votesByUser.query.interface'
 import { DeleteUserResponse } from './responses/deleteUser.response'
+import { FindOneUserResponse } from './responses/findOneUser.response'
 import { FindUserAnimeListByUserResponse } from './responses/findUserAnimeListByUser.response'
 import { FindUserReviewsByUserResponse } from './responses/findUserReviews.response'
 import { FindUsersResponse } from './responses/findUsers.response'
@@ -68,6 +71,15 @@ export class UserController {
   async find(@Query() query: UserQuery) {
     const users = await this.userService.find(query)
     return new FindUsersResponse(users).build()
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindOneUserResponse })
+  @ApiNotFoundResponse({ description: 'Not Found', type: NotFoundResponse })
+  @ApiOperation({ summary: 'Find an user' })
+  @Get(':uuid')
+  async findOne(@Param('uuid') uuid: string) {
+    const user = await this.userService.findOne(uuid)
+    return new FindOneUserResponse(user).build()
   }
 
   @ApiOkResponse({ description: 'OK', type: FindUserAnimeListByUserResponse })

@@ -60,6 +60,18 @@ export const findUsersResponseExample: DeepPartial<User[]> = [
   }
 ]
 
+export const findOneUserResponseExample: DeepPartial<User> = {
+  uuid: '1c12dd97-839e-4058-91f0-e75934b02d52',
+  name: 'Easton',
+  email: 'easton.hamill@gmail.com',
+  avatar: 'https://cdn.fakercloud.com/avatars/waghner_128.jpg',
+  isActive: true,
+  isAdmin: false,
+  createdAt: '2021-09-16 14:38:09',
+  updatedAt: null,
+  deletedAt: null
+}
+
 export const updateUserResponseExample: DeepPartial<User> = {
   uuid: '1c12dd97-839e-4058-91f0-e75934b02d52',
   name: 'Easton',

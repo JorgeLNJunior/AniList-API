@@ -5,6 +5,7 @@ import { InjectQueue } from '@nestjs/bull'
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
   OnApplicationBootstrap
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -66,6 +67,12 @@ export class UserService implements OnApplicationBootstrap {
     const users = await this.userRepository.find(findOptions)
 
     return { data: users, pageTotal: users.length, total: total }
+  }
+
+  async findOne(uuid: string) {
+    const user = await this.userRepository.findOne(uuid)
+    if (!user) throw new NotFoundException(`Resource /users/${uuid} not found`)
+    return user
   }
 
   async update(uuid: string, updateUserDto: UpdateUserDto) {
