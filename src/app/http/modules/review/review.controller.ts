@@ -1,4 +1,5 @@
 import { BadRequestResponse } from '@http/shared/responses/badRequest.response'
+import { NotFoundResponse } from '@http/shared/responses/notFound.response'
 import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.response'
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response'
 import {
@@ -18,6 +19,7 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -32,6 +34,7 @@ import { ReviewQuery } from './query/review.query.interface'
 import { FindVotesByReviewQuery } from './query/votes/findVotesByReview.query.interface'
 import { CreateReviewResponse } from './responses/createReview.response'
 import { DeleteReviewResponse } from './responses/deleteReview.response'
+import { FindOneReviewResponse } from './responses/findOneReview.response'
 import { FindReviewResponse } from './responses/findReview.response'
 import { FindReviewVotesResponse } from './responses/findReviewVotes.response'
 import { UpdateReviewResponse } from './responses/updateReview.response'
@@ -67,7 +70,7 @@ export class ReviewController {
     return new CreateReviewResponse(review).build()
   }
 
-  @ApiOkResponse({ description: 'ok', type: FindReviewResponse })
+  @ApiOkResponse({ description: 'OK', type: FindReviewResponse })
   @ApiOperation({ summary: 'Find reviews' })
   @Get()
   async find(@Query() query: ReviewQuery) {
@@ -75,15 +78,24 @@ export class ReviewController {
     return new FindReviewResponse(reviews).build()
   }
 
-  @ApiOkResponse({ description: 'ok', type: FindReviewVotesResponse })
+  @ApiOkResponse({ description: 'OK', type: FindOneReviewResponse })
+  @ApiNotFoundResponse({ description: 'Resource not found', type: NotFoundResponse })
+  @ApiOperation({ summary: 'Find a review' })
+  @Get(':uuid')
+  async findOne(@Param('uuid') uuid: string) {
+    const review = await this.reviewService.findOne(uuid)
+    return new FindOneReviewResponse(review).build()
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindReviewVotesResponse })
   @ApiOperation({ summary: 'Find review votes' })
-  @Get()
+  @Get(':uuid/votes')
   async getReviewVotes(@Param('uuid') reviewUUID: string, @Query() query: FindVotesByReviewQuery) {
     const votes = await this.reviewService.getReviewVotes(reviewUUID, query)
     return new FindReviewVotesResponse(votes).build()
   }
 
-  @ApiOkResponse({ description: 'ok', type: FindReviewResponse })
+  @ApiOkResponse({ description: 'OK', type: FindReviewResponse })
   @ApiBadRequestResponse({
     description: 'Validation Error',
     type: BadRequestResponse
@@ -99,7 +111,7 @@ export class ReviewController {
     return new UpdateReviewResponse(review).build()
   }
 
-  @ApiOkResponse({ description: 'ok', type: DeleteReviewResponse })
+  @ApiOkResponse({ description: 'OK', type: DeleteReviewResponse })
   @ApiBadRequestResponse({
     description: 'Validation Error',
     type: BadRequestResponse

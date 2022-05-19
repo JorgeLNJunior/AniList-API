@@ -1,5 +1,5 @@
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
@@ -74,6 +74,12 @@ export class ReviewService {
       pageTotal: reviews.length,
       total: total
     }
+  }
+
+  async findOne(uuid: string) {
+    const review = await this.reviewRepository.findOne(uuid)
+    if (!review) throw new NotFoundException(`Resource /reviews/${uuid} not found`)
+    return review
   }
 
   async update(uuid: string, updateReviewDto: UpdateReviewDto) {
