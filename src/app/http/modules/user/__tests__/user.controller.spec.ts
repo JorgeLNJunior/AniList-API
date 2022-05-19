@@ -117,6 +117,38 @@ describe('UserController', () => {
     })
   })
 
+  describe('findOne', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a list of users', async () => {
+      const user = new UserBuilder().build()
+
+      userServiceMock.findOne.mockResolvedValue(user)
+
+      const response = await controller.findOne(user.uuid)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        data: user
+      })
+    })
+
+    test('should call the service with correct params', async () => {
+      const user = new UserBuilder().build()
+
+      userServiceMock.findOne.mockResolvedValue(user)
+
+      const response = await controller.findOne(user.uuid)
+
+      expect(userServiceMock.findOne).toBeCalledWith(user.uuid)
+      expect(userServiceMock.findOne).toBeCalledTimes(1)
+      expect(response).toEqual({
+        statusCode: 200,
+        data: user
+      })
+    })
+  })
+
   describe('update', () => {
     afterEach(() => jest.clearAllMocks())
 

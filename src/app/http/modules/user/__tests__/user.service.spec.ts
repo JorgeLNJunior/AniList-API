@@ -13,7 +13,7 @@ import { userAnimeListRepositoryMock } from '@mocks/repositories/userList.reposi
 import { voteRepositoryMock } from '@mocks/repositories/vote.repository.mock'
 import { Jobs } from '@modules/queue/types/jobs.enum'
 import { getQueueToken } from '@nestjs/bull'
-import { BadRequestException } from '@nestjs/common'
+import { BadRequestException, NotFoundException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
@@ -146,6 +146,43 @@ describe('UserService', () => {
         pageTotal: users.length,
         total: 10
       } as PaginationInterface<User>)
+    })
+  })
+
+  describe('findOne', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return an user', async () => {
+      const user = new UserBuilder().build()
+
+      userRepositoryMock.findOne.mockResolvedValue(user)
+
+      const results = await service.findOne(user.uuid)
+
+      expect(results).toEqual(user)
+    })
+
+    test('should call the repository with correct params', async () => {
+      const user = new UserBuilder().build()
+
+      userRepositoryMock.findOne.mockResolvedValue(user)
+
+      const result = await service.findOne(user.uuid)
+
+      expect(userRepositoryMock.findOne).toBeCalledWith(user.uuid)
+      expect(userRepositoryMock.findOne).toBeCalledTimes(1)
+      expect(result).toEqual(user)
+    })
+
+    test('should throw an NotFoundException if the user was not found', async () => {
+      const user = new UserBuilder().build()
+
+      userRepositoryMock.findOne.mockResolvedValue(undefined)
+
+      // eslint-disable-next-line jest/valid-expect
+      expect(service.findOne(user.uuid)).rejects.toThrow(
+        new NotFoundException(`Resource /users/${user.uuid} not found`)
+      )
     })
   })
 
