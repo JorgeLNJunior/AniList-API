@@ -1,5 +1,5 @@
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -44,6 +44,12 @@ export class UserAnimeListService {
       pageTotal: list.length,
       total: total
     }
+  }
+
+  async findOne(uuid: string) {
+    const list = await this.userAnimeListRepository.findOne(uuid)
+    if (!list) throw new NotFoundException(`Resource /list/${uuid} not found`)
+    return list
   }
 
   async update(uuid: string, dto: UpdateUserAnimeListDto) {

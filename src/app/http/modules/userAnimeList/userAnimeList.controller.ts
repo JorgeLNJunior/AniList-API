@@ -1,10 +1,11 @@
 import { BadRequestResponse } from '@http/shared/responses/badRequest.response';
 import { ForbiddenResponse } from '@http/shared/responses/forbidden.response';
+import { NotFoundResponse } from '@http/shared/responses/notFound.response';
 import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.response';
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiOkResponse, ApiOperation, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 import { AddToUserAnimeListDto } from './dto/addToUserAnimeList.dto';
 import { UpdateUserAnimeListDto } from './dto/updateUserAnimeList.dto';
@@ -12,6 +13,7 @@ import { IsAlreadyInUserAnimeListGuard } from './guards/isAlreadyInUserAnimeList
 import { UserAnimeListModifyPermissionGuard } from './guards/userAnimeListModifyPermission.guard';
 import { UserAnimeListQuery } from './query/userAnimeList.query.interface';
 import { AddToUserAnimeListResponse } from './responses/addToUserAnimeList.response';
+import { FindOneUserAnimeListResponse } from './responses/findOneUserAnimeList.response';
 import { FindUserAnimeListResponse } from './responses/findUserAnimeList.response';
 import { RemoveFromUserAnimeListResponse } from './responses/removeFromUserAnimeList.response';
 import { UpdateUserAnimeListResponse } from './responses/updateUserAnimeList.response';
@@ -55,6 +57,15 @@ export class UserAnimeListController {
   async find(@Query() query: UserAnimeListQuery) {
     const list = await this.userAnimeListService.find(query);
     return new FindUserAnimeListResponse(list).build()
+  }
+
+  @ApiCreatedResponse({ description: 'OK', type: FindOneUserAnimeListResponse })
+  @ApiNotFoundResponse({ description: 'Not Found', type: NotFoundResponse })
+  @ApiOperation({ summary: 'Find user anime list' })
+  @Get(':uuid')
+  async findOne(@Param('uuid') uuid: string) {
+    const list = await this.userAnimeListService.findOne(uuid);
+    return new FindOneUserAnimeListResponse(list).build()
   }
 
   @ApiOkResponse({ description: 'OK', type: UpdateUserAnimeListResponse })
