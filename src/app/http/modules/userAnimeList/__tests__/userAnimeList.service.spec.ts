@@ -175,7 +175,12 @@ describe('UserAnimeListService', () => {
 
       const result = await service.findOne(list.uuid)
 
-      expect(userAnimeListRepositoryMock.findOne).toBeCalledWith(list.uuid)
+      expect(userAnimeListRepositoryMock.findOne).toBeCalledWith(list.uuid, {
+        loadRelationIds: {
+          disableMixedMap: true,
+          relations: ['user', 'anime']
+        }
+      })
       expect(userAnimeListRepositoryMock.findOne).toBeCalledTimes(1)
       expect(result).toEqual(list)
     });

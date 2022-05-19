@@ -186,7 +186,12 @@ describe('ReviewService', () => {
 
       const result = await service.findOne(review.uuid)
 
-      expect(reviewRepositoryMock.findOne).toBeCalledWith(review.uuid)
+      expect(reviewRepositoryMock.findOne).toBeCalledWith(review.uuid, {
+        loadRelationIds: {
+          disableMixedMap: true,
+          relations: ['user', 'anime']
+        }
+      })
       expect(reviewRepositoryMock.findOne).toBeCalledTimes(1)
       expect(result).toEqual(review)
     })
