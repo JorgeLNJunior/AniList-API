@@ -118,8 +118,7 @@ describe('AuthService', () => {
 
       jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.activateEmail(token)).rejects.toThrow(
+      await expect(service.activateEmail(token)).rejects.toThrow(
         new BadRequestException('user not found')
       )
       expect(userRepositoryMock.findOne).toBeCalledWith({
@@ -136,8 +135,7 @@ describe('AuthService', () => {
 
       jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(user)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.activateEmail(token)).rejects.toThrow(
+      await expect(service.activateEmail(token)).rejects.toThrow(
         new BadRequestException('this email is already active')
       )
       expect(userRepositoryMock.findOne).toBeCalledWith({
@@ -155,8 +153,7 @@ describe('AuthService', () => {
         email: user.email
       })
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.activateEmail(token)).rejects.toThrow(
+      await expect(service.activateEmail(token)).rejects.toThrow(
         new BadRequestException('token expired')
       )
     })
@@ -164,8 +161,7 @@ describe('AuthService', () => {
     test('should throw a BadRequestException if it receives an invalid token', async () => {
       const token = 'invalid-token'
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.activateEmail(token)).rejects.toThrow(
+      await expect(service.activateEmail(token)).rejects.toThrow(
         new BadRequestException('invalid token')
       )
     })
@@ -195,8 +191,7 @@ describe('AuthService', () => {
       const user = new UserBuilder().build()
       jest.spyOn(BcryptService.prototype, 'compare').mockResolvedValue(false)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(
+      await expect(
         service.validateUser(user.email, user.password)
       ).rejects.toThrow(UnauthorizedException)
     })
@@ -205,8 +200,7 @@ describe('AuthService', () => {
       const user = new UserBuilder().build()
       jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(
+      await expect(
         service.validateUser(user.email, user.password)
       ).rejects.toThrow(UnauthorizedException)
       expect(userRepositoryMock.findOne).toBeCalledTimes(1)

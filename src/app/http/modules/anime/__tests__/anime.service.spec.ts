@@ -195,8 +195,7 @@ describe("AnimeService", () => {
         getRawOne: jest.fn().mockResolvedValue(undefined)
       }))
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.findOne(anime.uuid)).rejects.toThrow(
+      await expect(service.findOne(anime.uuid)).rejects.toThrow(
         new NotFoundException(`Resource /animes/${anime.uuid} not found`)
       );
     });
@@ -307,8 +306,7 @@ describe("AnimeService", () => {
       const repoSpy = jest.spyOn(animeRepositoryMock, "findOne")
         .mockResolvedValue(undefined);
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(
+      await expect(
         service.update(anime.uuid, dto)
       ).rejects.toThrow(new BadRequestException(['anime not found']));
       expect(repoSpy).toHaveBeenCalledTimes(1);

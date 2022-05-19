@@ -179,8 +179,7 @@ describe('UserService', () => {
 
       userRepositoryMock.findOne.mockResolvedValue(undefined)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.findOne(user.uuid)).rejects.toThrow(
+      await expect(service.findOne(user.uuid)).rejects.toThrow(
         new NotFoundException(`Resource /users/${user.uuid} not found`)
       )
     })
@@ -227,8 +226,7 @@ describe('UserService', () => {
 
       jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.update(user.uuid, dto)).rejects.toThrow(
+      await expect(service.update(user.uuid, dto)).rejects.toThrow(
         new BadRequestException(['user not found'])
       )
       expect(userRepositoryMock.update).toBeCalledTimes(0)

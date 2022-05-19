@@ -61,8 +61,7 @@ describe('IsAlreadyInUserAnimeListGuard', () => {
 
       userAnimeListRepositoryMock.findOne = jest.fn().mockResolvedValue(list)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(guard.canActivate(ctx)).rejects.toThrow(
+      await expect(guard.canActivate(ctx)).rejects.toThrow(
         new BadRequestException(['this anime is already in your list'])
       )
     });

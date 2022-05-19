@@ -84,7 +84,6 @@ describe('VoteModifyPermissionGuard', () => {
 
     voteRepositoryMock.findOne.mockResolvedValue(undefined)
 
-    // eslint-disable-next-line jest/valid-expect
-    expect(guard.canActivate(ctx)).rejects.toThrow(BadRequestException)
+    await expect(guard.canActivate(ctx)).rejects.toThrow(BadRequestException)
   })
 })

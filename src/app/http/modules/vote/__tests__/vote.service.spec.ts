@@ -64,8 +64,7 @@ describe('VoteService', () => {
       userRepositoryMock.findOne.mockResolvedValue(vote.user)
       reviewRepositoryMock.findOne.mockResolvedValue(vote.review)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.create(vote.user.uuid, dto))
+      await expect(service.create(vote.user.uuid, dto))
         .rejects.toThrow(new BadRequestException(['you have already voted']))
     })
 
@@ -78,8 +77,7 @@ describe('VoteService', () => {
       userRepositoryMock.findOne.mockResolvedValue(undefined)
       reviewRepositoryMock.findOne.mockResolvedValue(vote.review)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.create(vote.user.uuid, dto))
+      await expect(service.create(vote.user.uuid, dto))
         .rejects.toThrow(new BadRequestException(['user not found']))
     })
 
@@ -91,8 +89,7 @@ describe('VoteService', () => {
 
       reviewRepositoryMock.findOne.mockResolvedValue(undefined)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.create(vote.user.uuid, dto))
+      await expect(service.create(vote.user.uuid, dto))
         .rejects.toThrow(new BadRequestException(['review not found']))
     })
   })

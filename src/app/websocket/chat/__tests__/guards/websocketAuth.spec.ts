@@ -54,7 +54,6 @@ describe('WebSocketAuthGuard', () => {
 
     jest.spyOn(jwtService, 'verifyAsync').mockRejectedValue(new Error())
 
-    // eslint-disable-next-line jest/valid-expect
-    expect(guard.canActivate(ctx)).rejects.toThrow(WsException)
+    await expect(guard.canActivate(ctx)).rejects.toThrow(WsException)
   })
 })

@@ -96,8 +96,7 @@ describe('ReviewService', () => {
 
       reviewRepositoryMock.find.mockResolvedValue([review])
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.create(review.user.uuid, dto)).rejects.toThrow(
+      await expect(service.create(review.user.uuid, dto)).rejects.toThrow(
         new BadRequestException(['you already reviewed this anime'])
       )
       expect(userRepositoryMock.findOne).toBeCalledTimes(0)
@@ -117,8 +116,7 @@ describe('ReviewService', () => {
 
       animeRepositoryMock.findOne.mockResolvedValue(undefined)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.create(review.user.uuid, dto)).rejects.toThrow(
+      await expect(service.create(review.user.uuid, dto)).rejects.toThrow(
         new BadRequestException(['anime not found'])
       )
     })
@@ -198,8 +196,7 @@ describe('ReviewService', () => {
 
       reviewRepositoryMock.findOne.mockResolvedValue(undefined)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.findOne(review.uuid)).rejects.toThrow(
+      await expect(service.findOne(review.uuid)).rejects.toThrow(
         new NotFoundException(`Resource /reviews/${review.uuid} not found`)
       )
     })
@@ -251,8 +248,7 @@ describe('ReviewService', () => {
 
       reviewRepositoryMock.findOne.mockResolvedValue(undefined)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.update(review.uuid, dto)).rejects.toThrow(
+      await expect(service.update(review.uuid, dto)).rejects.toThrow(
         new BadRequestException(['review not found'])
       )
     })
@@ -277,8 +273,7 @@ describe('ReviewService', () => {
 
       reviewRepositoryMock.findOne.mockResolvedValue(undefined)
 
-      // eslint-disable-next-line jest/valid-expect
-      expect(service.delete(review.uuid)).rejects.toThrow(
+      await expect(service.delete(review.uuid)).rejects.toThrow(
         new BadRequestException(['review not found'])
       )
       expect(reviewRepositoryMock.findOne).toBeCalledTimes(1)
