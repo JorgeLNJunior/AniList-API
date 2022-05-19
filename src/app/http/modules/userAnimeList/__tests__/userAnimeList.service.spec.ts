@@ -1,4 +1,5 @@
 import { userAnimeListRepositoryMock } from "@mocks/repositories/userList.repository.mock";
+import { NotFoundException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
@@ -11,7 +12,7 @@ import { AnimeStatus } from "../types/animeStatus.enum";
 import { UserAnimeListService } from "../userAnimeList.service";
 import { UserAnimeListBuilder } from "./builders/userAnimeList.builder";
 
-describe('UserListService', () => {
+describe('UserAnimeListService', () => {
   let service: UserAnimeListService
 
   beforeEach(async () => {
@@ -151,6 +152,42 @@ describe('UserListService', () => {
         total: 10,
         data: list
       })
+    });
+  });
+
+  describe('findOne', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return an user anime list', async () => {
+      const list = new UserAnimeListBuilder().build()
+
+      userAnimeListRepositoryMock.findOne.mockResolvedValue(list)
+
+      const result = await service.findOne(list.uuid)
+
+      expect(result).toEqual(list)
+    });
+
+    test('should call the repository with correct params', async () => {
+      const list = new UserAnimeListBuilder().build()
+
+      userAnimeListRepositoryMock.findOne.mockResolvedValue(list)
+
+      const result = await service.findOne(list.uuid)
+
+      expect(userAnimeListRepositoryMock.findOne).toBeCalledWith(list.uuid)
+      expect(userAnimeListRepositoryMock.findOne).toBeCalledTimes(1)
+      expect(result).toEqual(list)
+    });
+
+    test('should throw a NotFoundException if the list was not found', async () => {
+      const list = new UserAnimeListBuilder().build()
+
+      userAnimeListRepositoryMock.findOne.mockResolvedValue(undefined)
+
+      await expect(service.findOne(list.uuid)).rejects.toThrow(
+        new NotFoundException(`Resource /list/${list.uuid} not found`)
+      )
     });
   });
 

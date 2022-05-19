@@ -13,7 +13,7 @@ import { UserAnimeListController } from "../userAnimeList.controller";
 import { UserAnimeListService } from "../userAnimeList.service";
 import { UserAnimeListBuilder } from "./builders/userAnimeList.builder";
 
-describe('UserListController', () => {
+describe('UserAnimeListController', () => {
   let controller: UserAnimeListController
 
   beforeEach(async () => {
@@ -156,6 +156,38 @@ describe('UserListController', () => {
         data: serviceResponse.data,
         pageTotal: serviceResponse.pageTotal,
         total: serviceResponse.total
+      })
+    });
+  });
+
+  describe('findOne', () => {
+    afterEach(() => jest.clearAllMocks())
+
+    test('should return a valid response', async () => {
+      const list = new UserAnimeListBuilder().build()
+
+      userAnimeListServiceMock.findOne.mockResolvedValue(list)
+
+      const response = await controller.findOne(list.uuid)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        data: list
+      })
+    });
+
+    test('should call the service with correct params', async () => {
+      const list = new UserAnimeListBuilder().build()
+
+      userAnimeListServiceMock.findOne.mockResolvedValue(list)
+
+      const response = await controller.findOne(list.uuid)
+
+      expect(userAnimeListServiceMock.findOne).toBeCalledWith(list.uuid)
+      expect(userAnimeListServiceMock.findOne).toBeCalledTimes(1)
+      expect(response).toEqual({
+        statusCode: 200,
+        data: list
       })
     });
   });
