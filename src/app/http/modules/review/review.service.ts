@@ -77,7 +77,12 @@ export class ReviewService {
   }
 
   async findOne(uuid: string) {
-    const review = await this.reviewRepository.findOne(uuid)
+    const review = await this.reviewRepository.findOne(uuid, {
+      loadRelationIds: {
+        disableMixedMap: true,
+        relations: ['user', 'anime']
+      }
+    })
     if (!review) throw new NotFoundException(`Resource /reviews/${uuid} not found`)
     return review
   }

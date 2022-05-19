@@ -47,7 +47,12 @@ export class UserAnimeListService {
   }
 
   async findOne(uuid: string) {
-    const list = await this.userAnimeListRepository.findOne(uuid)
+    const list = await this.userAnimeListRepository.findOne(uuid, {
+      loadRelationIds: {
+        disableMixedMap: true,
+        relations: ['user', 'anime']
+      }
+    })
     if (!list) throw new NotFoundException(`Resource /list/${uuid} not found`)
     return list
   }
