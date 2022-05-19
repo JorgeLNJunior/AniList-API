@@ -1,5 +1,5 @@
 import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
@@ -51,6 +51,17 @@ export class VoteService {
     })
 
     return { data: votes, pageTotal: votes.length, total: total }
+  }
+
+  async findOne(uuid: string) {
+    const vote = await this.voteRepository.findOne(uuid, {
+      loadRelationIds: {
+        disableMixedMap: true,
+        relations: ['user', 'review']
+      }
+    })
+    if (!vote) throw new NotFoundException(`Reource /votes/${uuid} not found`)
+    return vote
   }
 
   async delete(uuid: string) {

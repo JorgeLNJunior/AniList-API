@@ -17,6 +17,7 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -29,6 +30,7 @@ import { VoteModifyPermissionGuard } from './guards/voteModifyPermission.guard'
 import { VoteQuery } from './query/vote.query.interface'
 import { CreateVoteResponse } from './responses/createVote.response'
 import { DeleteVoteResponse } from './responses/deleteVote.response'
+import { FindOneVoteResponse } from './responses/findOneVote.response'
 import { FindVoteResponse } from './responses/findVote.response'
 import { VoteService } from './vote.service'
 
@@ -65,6 +67,15 @@ export class VoteController {
   async find(@Query() query: VoteQuery) {
     const results = await this.voteService.find(query)
     return new FindVoteResponse(results).build()
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindVoteResponse })
+  @ApiNotFoundResponse({ description: 'Not Found', type: FindOneVoteResponse })
+  @ApiOperation({ summary: 'Find review votes' })
+  @Get(':uuid')
+  async findOne(@Param('uuid') uuid: string) {
+    const result = await this.voteService.findOne(uuid)
+    return new FindOneVoteResponse(result).build()
   }
 
   @ApiOkResponse({ description: 'OK', type: DeleteVoteResponse })
