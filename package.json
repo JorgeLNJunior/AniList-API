@@ -142,23 +142,5 @@
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --fix --cache"
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: atualizar para v${version}",
-      "changelog": "npx auto-changelog --stdout --commit-limit false -u --template https://raw.githubusercontent.com/release-it/release-it/master/templates/changelog-compact.hbs"
-    },
-    "hooks": {
-      "after:bump": "npx auto-changelog -p"
-    },
-    "github": {
-      "release": true
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "conventionalcommits",
-        "infile": "CHANGELOG.md"
-      }
-    }
   }
 }

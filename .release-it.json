@@ -1,0 +1,20 @@
+{
+  "git": {
+    "commitMessage": "chore: atualizar para v${version}",
+    "changelog": "npx auto-changelog --stdout --commit-limit false -u --template ./templates/changelog.hbs"
+  },
+  "hooks": {
+    "after:bump": "npx auto-changelog -p --template ./templates/changelog.hbs"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "Release v${version}",
+    "releaseNotes": "npx auto-changelog --stdout --commit-limit false -u --template ./templates/release.hbs"
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "conventionalcommits",
+      "infile": "CHANGELOG.md"
+    }
+  }
+}
