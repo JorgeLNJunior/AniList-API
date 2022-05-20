@@ -1,8 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsOptional } from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 export class VotesByUserQuery {
-  @ApiProperty({ example: 'bfeb54eb-8785-4eca-a5fd-5ac742cfdaf4', required: false })
+  @ApiProperty({
+    example: 'bfeb54eb-8785-4eca-a5fd-5ac742cfdaf4',
+    required: false,
+  })
   @IsOptional()
   reviewUUID?: string;
 

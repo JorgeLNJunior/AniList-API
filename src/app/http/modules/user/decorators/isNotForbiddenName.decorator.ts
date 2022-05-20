@@ -2,23 +2,24 @@ import {
   registerDecorator,
   ValidationOptions,
   ValidatorConstraint,
-  ValidatorConstraintInterface
-} from 'class-validator'
+  ValidatorConstraintInterface,
+} from 'class-validator';
 
 @ValidatorConstraint()
 export class IsNotForbiddenNameConstraint
-implements ValidatorConstraintInterface {
-  validate (value: any): boolean {
-    if (String(value).toLowerCase() === 'admin') return false
-    return true
+  implements ValidatorConstraintInterface
+{
+  validate(value: any): boolean {
+    if (String(value).toLowerCase() === 'admin') return false;
+    return true;
   }
 
-  defaultMessage? (): string {
-    return 'forbidden "name"'
+  defaultMessage?(): string {
+    return 'forbidden "name"';
   }
 }
 
-export function IsNotForbiddenName (validationOption?: ValidationOptions) {
+export function IsNotForbiddenName(validationOption?: ValidationOptions) {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return function (object: Object, propertyName: string) {
     registerDecorator({
@@ -26,7 +27,7 @@ export function IsNotForbiddenName (validationOption?: ValidationOptions) {
       propertyName: propertyName,
       options: validationOption,
       constraints: [],
-      validator: IsNotForbiddenNameConstraint
-    })
-  }
+      validator: IsNotForbiddenNameConstraint,
+    });
+  };
 }

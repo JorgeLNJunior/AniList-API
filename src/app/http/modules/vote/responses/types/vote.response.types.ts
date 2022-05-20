@@ -1,6 +1,6 @@
-import { DeepPartial } from "typeorm";
+import { DeepPartial } from 'typeorm';
 
-import { Vote } from "../../entities/vote.entity";
+import { Vote } from '../../entities/vote.entity';
 
 export const createVoteResponseExample: DeepPartial<Vote> = {
   uuid: '7397f870-20d8-424c-b9f2-c49d3129c650',
@@ -13,7 +13,7 @@ export const createVoteResponseExample: DeepPartial<Vote> = {
   },
   updatedAt: null,
   deletedAt: null,
-}
+};
 
 export const findVoteResponseExample: DeepPartial<Vote[]> = [
   {
@@ -26,9 +26,9 @@ export const findVoteResponseExample: DeepPartial<Vote[]> = [
     },
     review: {
       uuid: '0f620699-3acc-4f83-a5fb-2f446151d0e0',
-    }
-  }
-]
+    },
+  },
+];
 
 export const findOneVoteResponseExample: DeepPartial<Vote> = {
   uuid: '4b493deb-3923-4fe8-bf76-8e62a5d3aa18',
@@ -40,5 +40,5 @@ export const findOneVoteResponseExample: DeepPartial<Vote> = {
   },
   review: {
     uuid: '0f620699-3acc-4f83-a5fb-2f446151d0e0',
-  }
-}
+  },
+};

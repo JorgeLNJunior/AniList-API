@@ -1,35 +1,35 @@
 import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity';
-import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
-import { ApiProperty } from '@nestjs/swagger'
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface';
+import { ApiProperty } from '@nestjs/swagger';
 
 import { findUserAnimeListByUserResponseExample } from './types/user.response.types';
 
 export class FindUserAnimeListByUserResponse {
   @ApiProperty({
-    default: 200
+    default: 200,
   })
   private statusCode: number;
 
   @ApiProperty({
-    example: findUserAnimeListByUserResponseExample
+    example: findUserAnimeListByUserResponseExample,
   })
   private data: UserAnimeList[];
 
   @ApiProperty({
-    example: 20
+    example: 20,
   })
   private readonly pageTotal: number;
 
   @ApiProperty({
-    example: 80
+    example: 80,
   })
   private readonly total: number;
 
   constructor(results: PaginationInterface<UserAnimeList>, status?: number) {
-    this.data = results.data
-    this.total = results.total
-    this.pageTotal = results.pageTotal
-    this.statusCode = status || 200
+    this.data = results.data;
+    this.total = results.total;
+    this.pageTotal = results.pageTotal;
+    this.statusCode = status || 200;
   }
 
   build() {
@@ -37,7 +37,7 @@ export class FindUserAnimeListByUserResponse {
       statusCode: this.statusCode,
       data: this.data,
       pageTotal: this.pageTotal,
-      total: this.total
-    }
+      total: this.total,
+    };
   }
 }

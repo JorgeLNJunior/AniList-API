@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 
 import { Vote } from '../entities/vote.entity';
 import { findOneVoteResponseExample } from './types/vote.response.types';
@@ -8,19 +8,19 @@ export class FindOneVoteResponse {
   private statusCode: number;
 
   @ApiProperty({
-    example: findOneVoteResponseExample
+    example: findOneVoteResponseExample,
   })
   private data: Vote;
 
   constructor(result: Vote, status?: number) {
-    this.statusCode = status || 200
-    this.data = result
+    this.statusCode = status || 200;
+    this.data = result;
   }
 
   build() {
     return {
       statusCode: this.statusCode,
-      data: this.data
-    }
+      data: this.data,
+    };
   }
 }

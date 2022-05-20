@@ -1,4 +1,4 @@
 export enum StorageService {
   LOCAL = 'local',
-  CLOUDINARY = 'cloudinary'
+  CLOUDINARY = 'cloudinary',
 }

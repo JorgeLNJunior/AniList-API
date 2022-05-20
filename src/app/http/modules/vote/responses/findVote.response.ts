@@ -1,5 +1,5 @@
-import { PaginationInterface } from '@http/shared/pagination/pagination.interface'
-import { ApiProperty } from '@nestjs/swagger'
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface';
+import { ApiProperty } from '@nestjs/swagger';
 
 import { Vote } from '../entities/vote.entity';
 import { findVoteResponseExample } from './types/vote.response.types';
@@ -9,25 +9,25 @@ export class FindVoteResponse {
   private statusCode: number;
 
   @ApiProperty({
-    example: findVoteResponseExample
+    example: findVoteResponseExample,
   })
   private data: Vote[];
 
   @ApiProperty({
-    example: 20
+    example: 20,
   })
   private readonly pageTotal: number;
 
   @ApiProperty({
-    example: 80
+    example: 80,
   })
   private readonly total: number;
 
   constructor(results: PaginationInterface<Vote>, status?: number) {
-    this.statusCode = status || 200
-    this.data = results.data
-    this.pageTotal = results.pageTotal
-    this.total = results.total
+    this.statusCode = status || 200;
+    this.data = results.data;
+    this.pageTotal = results.pageTotal;
+    this.total = results.total;
   }
 
   build() {
@@ -35,7 +35,7 @@ export class FindVoteResponse {
       statusCode: this.statusCode,
       data: this.data,
       pageTotal: this.pageTotal,
-      total: this.total
-    }
+      total: this.total,
+    };
   }
 }

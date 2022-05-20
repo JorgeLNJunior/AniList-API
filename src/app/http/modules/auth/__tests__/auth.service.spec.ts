@@ -1,20 +1,20 @@
-import { UserBuilder } from '@http/modules/user/__tests__/builders/user.builder'
-import { BcryptService } from '@http/shared/services/bcrypt.service'
-import { userRepositoryMock } from '@mocks/repositories/user.repository.mock'
-import { Jobs } from '@modules/queue/types/jobs.enum'
-import { getQueueToken } from '@nestjs/bull'
-import { BadRequestException, UnauthorizedException } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { JwtModule, JwtService } from '@nestjs/jwt'
-import { Test, TestingModule } from '@nestjs/testing'
-import { getRepositoryToken } from '@nestjs/typeorm'
+import { UserBuilder } from '@http/modules/user/__tests__/builders/user.builder';
+import { BcryptService } from '@http/shared/services/bcrypt.service';
+import { userRepositoryMock } from '@mocks/repositories/user.repository.mock';
+import { Jobs } from '@modules/queue/types/jobs.enum';
+import { getQueueToken } from '@nestjs/bull';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { User } from '../../user/entities/user.entity'
-import { AuthService } from '../auth.service'
-import { RegisterDto } from '../dto/register.dto'
+import { User } from '../../user/entities/user.entity';
+import { AuthService } from '../auth.service';
+import { RegisterDto } from '../dto/register.dto';
 
 describe('AuthService', () => {
-  let service: AuthService
+  let service: AuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -26,185 +26,182 @@ describe('AuthService', () => {
         {
           provide: getQueueToken(Jobs.EMAIL_ACTIVATION),
           useValue: {
-            add: jest.fn().mockResolvedValue(Promise.resolve())
-          }
+            add: jest.fn().mockResolvedValue(Promise.resolve()),
+          },
         },
         {
           provide: getRepositoryToken(User),
-          useValue: userRepositoryMock
-        }
-      ]
-    }).compile()
+          useValue: userRepositoryMock,
+        },
+      ],
+    }).compile();
 
-    service = module.get<AuthService>(AuthService)
-  })
-  afterEach(() => jest.clearAllMocks())
+    service = module.get<AuthService>(AuthService);
+  });
+  afterEach(() => jest.clearAllMocks());
 
   describe('register', () => {
-    afterEach(() => jest.clearAllMocks())
+    afterEach(() => jest.clearAllMocks());
 
     test('should register an user', async () => {
-      const user = new UserBuilder().build()
+      const user = new UserBuilder().build();
       const dto: RegisterDto = {
         email: user.email,
         name: user.name,
-        password: user.password
-      }
+        password: user.password,
+      };
 
-      userRepositoryMock.save.mockResolvedValue(user)
+      userRepositoryMock.save.mockResolvedValue(user);
 
-      const result = await service.register(dto)
+      const result = await service.register(dto);
 
-      expect(result).toEqual(user)
-    })
+      expect(result).toEqual(user);
+    });
 
     test('should call the repository with correct params', async () => {
-      const user = new UserBuilder().build()
+      const user = new UserBuilder().build();
       const dto: RegisterDto = {
         email: user.email,
         name: user.name,
-        password: user.password
-      }
+        password: user.password,
+      };
 
-      userRepositoryMock.save.mockResolvedValue(user)
+      userRepositoryMock.save.mockResolvedValue(user);
 
-      const result = await service.register(dto)
+      const result = await service.register(dto);
 
-      expect(userRepositoryMock.create).toBeCalledWith(dto)
-      expect(result).toEqual(user)
-    })
-  })
+      expect(userRepositoryMock.create).toBeCalledWith(dto);
+      expect(result).toEqual(user);
+    });
+  });
 
   describe('login', () => {
-    afterEach(() => jest.clearAllMocks())
+    afterEach(() => jest.clearAllMocks());
 
     test('should return a jwt token', async () => {
-      const user = new UserBuilder().build()
+      const user = new UserBuilder().build();
 
-      const token = await service.login(user)
+      const token = await service.login(user);
 
-      expect(typeof token).toBe('string')
-    })
-  })
+      expect(typeof token).toBe('string');
+    });
+  });
 
   describe('activateEmail', () => {
-    afterEach(() => jest.clearAllMocks())
+    afterEach(() => jest.clearAllMocks());
 
     test('should activate an user account', async () => {
-      const user = new UserBuilder().withIsActive(false).build()
+      const user = new UserBuilder().withIsActive(false).build();
       const token = new JwtService({ secret: 'secret' }).sign({
-        email: user.email
-      })
+        email: user.email,
+      });
 
-      userRepositoryMock.findOne.mockResolvedValue(user)
+      userRepositoryMock.findOne.mockResolvedValue(user);
 
-      await service.activateEmail(token)
+      await service.activateEmail(token);
 
       expect(userRepositoryMock.findOne).toBeCalledWith({
-        email: user.email
-      })
+        email: user.email,
+      });
       expect(userRepositoryMock.update).toBeCalledWith(user.uuid, {
-        isActive: true
-      })
-      expect(userRepositoryMock.findOne).toBeCalledTimes(1)
-      expect(userRepositoryMock.update).toBeCalledTimes(1)
-    })
+        isActive: true,
+      });
+      expect(userRepositoryMock.findOne).toBeCalledTimes(1);
+      expect(userRepositoryMock.update).toBeCalledTimes(1);
+    });
 
     test('should throw a BadRequestException if the user was not found', async () => {
-      const user = new UserBuilder().withIsActive(false).build()
+      const user = new UserBuilder().withIsActive(false).build();
       const token = new JwtService({ secret: 'secret' }).sign({
-        email: user.email
-      })
+        email: user.email,
+      });
 
-      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
+      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined);
 
       await expect(service.activateEmail(token)).rejects.toThrow(
-        new BadRequestException('user not found')
-      )
+        new BadRequestException('user not found'),
+      );
       expect(userRepositoryMock.findOne).toBeCalledWith({
-        email: user.email
-      })
-      expect(userRepositoryMock.findOne).toBeCalledTimes(1)
-    })
+        email: user.email,
+      });
+      expect(userRepositoryMock.findOne).toBeCalledTimes(1);
+    });
 
     test('should throw a BadRequestException if the email is already active', async () => {
-      const user = new UserBuilder().withIsActive(true).build()
+      const user = new UserBuilder().withIsActive(true).build();
       const token = new JwtService({ secret: 'secret' }).sign({
-        email: user.email
-      })
+        email: user.email,
+      });
 
-      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(user)
+      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(user);
 
       await expect(service.activateEmail(token)).rejects.toThrow(
-        new BadRequestException('this email is already active')
-      )
+        new BadRequestException('this email is already active'),
+      );
       expect(userRepositoryMock.findOne).toBeCalledWith({
-        email: user.email
-      })
-      expect(userRepositoryMock.findOne).toBeCalledTimes(1)
-    })
+        email: user.email,
+      });
+      expect(userRepositoryMock.findOne).toBeCalledTimes(1);
+    });
 
     test('should throw a BadRequestException if it receives an expired token', async () => {
-      const user = new UserBuilder().withIsActive(false).build()
+      const user = new UserBuilder().withIsActive(false).build();
       const token = new JwtService({
         secret: 'secret',
-        signOptions: { expiresIn: '-1h' }
+        signOptions: { expiresIn: '-1h' },
       }).sign({
-        email: user.email
-      })
+        email: user.email,
+      });
 
       await expect(service.activateEmail(token)).rejects.toThrow(
-        new BadRequestException('token expired')
-      )
-    })
+        new BadRequestException('token expired'),
+      );
+    });
 
     test('should throw a BadRequestException if it receives an invalid token', async () => {
-      const token = 'invalid-token'
+      const token = 'invalid-token';
 
       await expect(service.activateEmail(token)).rejects.toThrow(
-        new BadRequestException('invalid token')
-      )
-    })
-  })
+        new BadRequestException('invalid token'),
+      );
+    });
+  });
 
   describe('validateUser', () => {
-    afterEach(() => jest.clearAllMocks())
+    afterEach(() => jest.clearAllMocks());
 
     test('should return an user', async () => {
-      const user = new UserBuilder().withIsActive(true).build()
+      const user = new UserBuilder().withIsActive(true).build();
 
       const bcryptMock = jest
         .spyOn(BcryptService.prototype, 'compare')
-        .mockResolvedValue(true)
-      userRepositoryMock.findOne.mockResolvedValue(user)
+        .mockResolvedValue(true);
+      userRepositoryMock.findOne.mockResolvedValue(user);
 
-      const result = await service.validateUser(
-        user.email,
-        user.password
-      )
+      const result = await service.validateUser(user.email, user.password);
 
-      expect(result).toEqual(user)
-      expect(bcryptMock).toBeCalledTimes(1)
-    })
+      expect(result).toEqual(user);
+      expect(bcryptMock).toBeCalledTimes(1);
+    });
 
     test('should throw a UnauthorizedException if the password does not match', async () => {
-      const user = new UserBuilder().build()
-      jest.spyOn(BcryptService.prototype, 'compare').mockResolvedValue(false)
+      const user = new UserBuilder().build();
+      jest.spyOn(BcryptService.prototype, 'compare').mockResolvedValue(false);
 
       await expect(
-        service.validateUser(user.email, user.password)
-      ).rejects.toThrow(UnauthorizedException)
-    })
+        service.validateUser(user.email, user.password),
+      ).rejects.toThrow(UnauthorizedException);
+    });
 
     test('should throw a UnauthorizedException if the user was not found', async () => {
-      const user = new UserBuilder().build()
-      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined)
+      const user = new UserBuilder().build();
+      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValue(undefined);
 
       await expect(
-        service.validateUser(user.email, user.password)
-      ).rejects.toThrow(UnauthorizedException)
-      expect(userRepositoryMock.findOne).toBeCalledTimes(1)
-      expect(userRepositoryMock.findOne).toBeCalledWith({ email: user.email })
-    })
-  })
-})
+        service.validateUser(user.email, user.password),
+      ).rejects.toThrow(UnauthorizedException);
+      expect(userRepositoryMock.findOne).toBeCalledTimes(1);
+      expect(userRepositoryMock.findOne).toBeCalledWith({ email: user.email });
+    });
+  });
+});

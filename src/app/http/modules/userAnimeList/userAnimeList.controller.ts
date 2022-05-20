@@ -3,9 +3,31 @@ import { ForbiddenResponse } from '@http/shared/responses/forbidden.response';
 import { NotFoundResponse } from '@http/shared/responses/notFound.response';
 import { TooManyRequestsResponse } from '@http/shared/responses/tooManyRequests.response';
 import { UnauthorizedResponse } from '@http/shared/responses/unauthorized.response';
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiTooManyRequestsResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
 import { AddToUserAnimeListDto } from './dto/addToUserAnimeList.dto';
 import { UpdateUserAnimeListDto } from './dto/updateUserAnimeList.dto';
@@ -23,32 +45,32 @@ import { UserAnimeListService } from './userAnimeList.service';
 @ApiTags('User Anime List')
 @ApiUnauthorizedResponse({
   description: 'Invalid credentials',
-  type: UnauthorizedResponse
+  type: UnauthorizedResponse,
 })
 @ApiForbiddenResponse({
   description: 'Forbidden',
-  type: ForbiddenResponse
+  type: ForbiddenResponse,
 })
 @ApiTooManyRequestsResponse({
   description: 'Too Many Requests',
-  type: TooManyRequestsResponse
+  type: TooManyRequestsResponse,
 })
 @UseGuards(AuthGuard('jwt'))
 @Controller('lists')
 export class UserAnimeListController {
-  constructor(private readonly userAnimeListService: UserAnimeListService) { }
+  constructor(private readonly userAnimeListService: UserAnimeListService) {}
 
   @ApiCreatedResponse({ description: 'OK', type: AddToUserAnimeListResponse })
   @ApiOperation({ summary: 'Add animes to user anime list' })
   @ApiBadRequestResponse({
     description: 'Validation error',
-    type: BadRequestResponse
+    type: BadRequestResponse,
   })
   @UseGuards(IsAlreadyInUserAnimeListGuard) // this validation can't be done at DTO layer
   @Post()
   async addToUserList(@Req() req, @Body() dto: AddToUserAnimeListDto) {
     const list = await this.userAnimeListService.addToList(req.user.uuid, dto);
-    return new AddToUserAnimeListResponse(list).build()
+    return new AddToUserAnimeListResponse(list).build();
   }
 
   @ApiCreatedResponse({ description: 'OK', type: FindUserAnimeListResponse })
@@ -56,7 +78,7 @@ export class UserAnimeListController {
   @Get()
   async find(@Query() query: UserAnimeListQuery) {
     const list = await this.userAnimeListService.find(query);
-    return new FindUserAnimeListResponse(list).build()
+    return new FindUserAnimeListResponse(list).build();
   }
 
   @ApiCreatedResponse({ description: 'OK', type: FindOneUserAnimeListResponse })
@@ -65,20 +87,23 @@ export class UserAnimeListController {
   @Get(':uuid')
   async findOne(@Param('uuid') uuid: string) {
     const list = await this.userAnimeListService.findOne(uuid);
-    return new FindOneUserAnimeListResponse(list).build()
+    return new FindOneUserAnimeListResponse(list).build();
   }
 
   @ApiOkResponse({ description: 'OK', type: UpdateUserAnimeListResponse })
   @ApiBadRequestResponse({
     description: 'Validation error',
-    type: BadRequestResponse
+    type: BadRequestResponse,
   })
   @ApiOperation({ summary: 'Update user anime list' })
   @UseGuards(UserAnimeListModifyPermissionGuard)
   @Patch(':uuid')
-  async update(@Param('uuid') uuid: string, @Body() dto: UpdateUserAnimeListDto) {
+  async update(
+    @Param('uuid') uuid: string,
+    @Body() dto: UpdateUserAnimeListDto,
+  ) {
     const list = await this.userAnimeListService.update(uuid, dto);
-    return new UpdateUserAnimeListResponse(list).build()
+    return new UpdateUserAnimeListResponse(list).build();
   }
 
   @ApiOkResponse({ description: 'OK', type: RemoveFromUserAnimeListResponse })
@@ -87,6 +112,6 @@ export class UserAnimeListController {
   @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     await this.userAnimeListService.remove(uuid);
-    return new RemoveFromUserAnimeListResponse().build()
+    return new RemoveFromUserAnimeListResponse().build();
   }
 }

@@ -1,17 +1,17 @@
-import { HttpService } from "../http.service";
+import { HttpService } from '../http.service';
 
 describe('HttpService', () => {
-  let httpService: HttpService
+  let httpService: HttpService;
 
   beforeEach(() => {
-    httpService = new HttpService()
-  })
+    httpService = new HttpService();
+  });
 
-  afterEach(() => jest.clearAllMocks())
+  afterEach(() => jest.clearAllMocks());
 
   test('should return a valid response', async () => {
-    const response = await httpService.get('https://catfact.ninja/fact')
+    const response = await httpService.get('https://catfact.ninja/fact');
 
-    expect(response.data).toBeDefined()
+    expect(response.data).toBeDefined();
   });
 });

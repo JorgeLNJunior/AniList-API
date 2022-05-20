@@ -1,25 +1,25 @@
-import { ReviewBuilder } from "@http/modules/review/__tests__/builder/review.builder";
-import { Review } from "@http/modules/review/entities/review.entity";
-import { PaginationInterface } from "@http/shared/pagination/pagination.interface";
-import { animeRepositoryMock } from "@mocks/repositories/anime.respository.mock";
-import { reviewRepositoryMock } from "@mocks/repositories/reviewRepository.mock";
-import { Jobs } from "@modules/queue/types/jobs.enum";
-import { getQueueToken } from "@nestjs/bull";
-import { BadRequestException, NotFoundException } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { getRepositoryToken } from "@nestjs/typeorm";
-import { Queue } from "bull";
+import { ReviewBuilder } from '@http/modules/review/__tests__/builder/review.builder';
+import { Review } from '@http/modules/review/entities/review.entity';
+import { PaginationInterface } from '@http/shared/pagination/pagination.interface';
+import { animeRepositoryMock } from '@mocks/repositories/anime.respository.mock';
+import { reviewRepositoryMock } from '@mocks/repositories/reviewRepository.mock';
+import { Jobs } from '@modules/queue/types/jobs.enum';
+import { getQueueToken } from '@nestjs/bull';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Queue } from 'bull';
 
-import { AnimeService } from "../anime.service";
-import { CreateAnimeDto } from "../dto/create-anime.dto";
-import { UpdateAnimeDto } from "../dto/update-anime.dto";
-import { Anime } from "../entities/anime.entity";
-import { AnimeQuery } from "../query/anime.query.interface";
-import { ReviewsByAnimeQueryBuilder } from "../query/reviews/reviewsByAnime.query.builder";
-import { ReviewsByAnimeQuery } from "../query/reviews/reviewsByAnime.query.interface";
-import { AnimeBuilder } from "./builder/anime.builder";
+import { AnimeService } from '../anime.service';
+import { CreateAnimeDto } from '../dto/create-anime.dto';
+import { UpdateAnimeDto } from '../dto/update-anime.dto';
+import { Anime } from '../entities/anime.entity';
+import { AnimeQuery } from '../query/anime.query.interface';
+import { ReviewsByAnimeQueryBuilder } from '../query/reviews/reviewsByAnime.query.builder';
+import { ReviewsByAnimeQuery } from '../query/reviews/reviewsByAnime.query.interface';
+import { AnimeBuilder } from './builder/anime.builder';
 
-describe("AnimeService", () => {
+describe('AnimeService', () => {
   let service: AnimeService;
   let queue: Queue;
 
@@ -50,13 +50,11 @@ describe("AnimeService", () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  describe("find", () => {
+  describe('find', () => {
     afterEach(() => jest.clearAllMocks());
 
-    test("should return a list of animes", async () => {
-      const animes = [
-        new AnimeBuilder().build()
-      ]
+    test('should return a list of animes', async () => {
+      const animes = [new AnimeBuilder().build()];
 
       animeRepositoryMock.createQueryBuilder = jest.fn(() => ({
         select: jest.fn().mockReturnThis(),
@@ -71,11 +69,11 @@ describe("AnimeService", () => {
         groupBy: jest.fn().mockReturnThis(),
         orderBy: jest.fn().mockReturnThis(),
         getRawOne: jest.fn().mockResolvedValue(undefined),
-        getRawMany: jest.fn().mockResolvedValue(animes)
-      }))
-      animeRepositoryMock.count.mockResolvedValue(10)
+        getRawMany: jest.fn().mockResolvedValue(animes),
+      }));
+      animeRepositoryMock.count.mockResolvedValue(10);
 
-      const results = await service.find({})
+      const results = await service.find({});
 
       expect(results).toEqual({
         data: animes,
@@ -84,10 +82,8 @@ describe("AnimeService", () => {
       } as PaginationInterface<Anime>);
     });
 
-    test("should return a list of anime when receives query params", async () => {
-      const animes = [
-        new AnimeBuilder().build()
-      ]
+    test('should return a list of anime when receives query params', async () => {
+      const animes = [new AnimeBuilder().build()];
       const query: AnimeQuery = {
         genre: animes[0].genre,
         episodes: animes[0].episodes,
@@ -110,23 +106,21 @@ describe("AnimeService", () => {
         groupBy: jest.fn().mockReturnThis(),
         orderBy: jest.fn().mockReturnThis(),
         getRawOne: jest.fn().mockResolvedValue(undefined),
-        getRawMany: jest.fn().mockResolvedValue(animes)
-      }))
-      animeRepositoryMock.count.mockResolvedValue(10)
+        getRawMany: jest.fn().mockResolvedValue(animes),
+      }));
+      animeRepositoryMock.count.mockResolvedValue(10);
 
       const results = await service.find(query);
 
       expect(results).toEqual({
         data: animes,
         pageTotal: animes.length,
-        total: 10
+        total: 10,
       } as PaginationInterface<Anime>);
     });
 
-    test("should return a list of top anime", async () => {
-      const animes = [
-        new AnimeBuilder().build()
-      ]
+    test('should return a list of top anime', async () => {
+      const animes = [new AnimeBuilder().build()];
 
       animeRepositoryMock.createQueryBuilder = jest.fn(() => ({
         select: jest.fn().mockReturnThis(),
@@ -141,19 +135,19 @@ describe("AnimeService", () => {
         groupBy: jest.fn().mockReturnThis(),
         orderBy: jest.fn().mockReturnThis(),
         getRawOne: jest.fn().mockResolvedValue(undefined),
-        getRawMany: jest.fn().mockResolvedValue(animes)
-      }))
+        getRawMany: jest.fn().mockResolvedValue(animes),
+      }));
 
-      const results = await service.top()
+      const results = await service.top();
 
       expect(results).toEqual(animes);
     });
   });
-  describe("findOne", () => {
+  describe('findOne', () => {
     afterEach(() => jest.clearAllMocks());
 
-    test("should return an anime", async () => {
-      const anime = new AnimeBuilder().build()
+    test('should return an anime', async () => {
+      const anime = new AnimeBuilder().build();
 
       animeRepositoryMock.createQueryBuilder = jest.fn(() => ({
         select: jest.fn().mockReturnThis(),
@@ -168,16 +162,16 @@ describe("AnimeService", () => {
         groupBy: jest.fn().mockReturnThis(),
         orderBy: jest.fn().mockReturnThis(),
         getRawMany: jest.fn().mockResolvedValue(undefined),
-        getRawOne: jest.fn().mockResolvedValue(anime)
-      }))
+        getRawOne: jest.fn().mockResolvedValue(anime),
+      }));
 
-      const result = await service.findOne(anime.uuid)
+      const result = await service.findOne(anime.uuid);
 
       expect(result).toEqual(anime);
     });
 
-    test("should throw a NotFoundException if the anime was not found", async () => {
-      const anime = new AnimeBuilder().build()
+    test('should throw a NotFoundException if the anime was not found', async () => {
+      const anime = new AnimeBuilder().build();
 
       animeRepositoryMock.createQueryBuilder = jest.fn(() => ({
         select: jest.fn().mockReturnThis(),
@@ -192,20 +186,20 @@ describe("AnimeService", () => {
         groupBy: jest.fn().mockReturnThis(),
         orderBy: jest.fn().mockReturnThis(),
         getRawMany: jest.fn().mockResolvedValue(undefined),
-        getRawOne: jest.fn().mockResolvedValue(undefined)
-      }))
+        getRawOne: jest.fn().mockResolvedValue(undefined),
+      }));
 
       await expect(service.findOne(anime.uuid)).rejects.toThrow(
-        new NotFoundException(`Resource /animes/${anime.uuid} not found`)
+        new NotFoundException(`Resource /animes/${anime.uuid} not found`),
       );
     });
   });
 
-  describe("create", () => {
+  describe('create', () => {
     afterEach(() => jest.clearAllMocks());
 
-    test("should create a new anime", async () => {
-      const anime = new AnimeBuilder().build()
+    test('should create a new anime', async () => {
+      const anime = new AnimeBuilder().build();
 
       const dto: CreateAnimeDto = {
         title: anime.title,
@@ -217,9 +211,9 @@ describe("AnimeService", () => {
         genre: anime.genre,
       };
 
-      animeRepositoryMock.save.mockResolvedValue(anime)
+      animeRepositoryMock.save.mockResolvedValue(anime);
 
-      const results = await service.create(dto)
+      const results = await service.create(dto);
 
       expect(results).toEqual({
         ...anime,
@@ -227,8 +221,8 @@ describe("AnimeService", () => {
       });
     });
 
-    test("should call the repository with correct params", async () => {
-      const anime = new AnimeBuilder().build()
+    test('should call the repository with correct params', async () => {
+      const anime = new AnimeBuilder().build();
 
       const dto: CreateAnimeDto = {
         title: anime.title,
@@ -240,11 +234,13 @@ describe("AnimeService", () => {
         genre: anime.genre,
       };
 
-      const spy = jest.spyOn(animeRepositoryMock, 'save').mockResolvedValue(anime)
+      const spy = jest
+        .spyOn(animeRepositoryMock, 'save')
+        .mockResolvedValue(anime);
 
-      const results = await service.create(dto)
+      const results = await service.create(dto);
 
-      expect(spy).toBeCalledWith(dto)
+      expect(spy).toBeCalledWith(dto);
       expect(results).toEqual({
         ...anime,
         ...dto,
@@ -252,11 +248,11 @@ describe("AnimeService", () => {
     });
   });
 
-  describe("update", () => {
+  describe('update', () => {
     afterEach(() => jest.clearAllMocks());
 
-    test("should update an anime", async () => {
-      const anime = new AnimeBuilder().build()
+    test('should update an anime', async () => {
+      const anime = new AnimeBuilder().build();
       const dto: UpdateAnimeDto = {
         title: anime.title,
         synopsis: anime.synopsis,
@@ -266,16 +262,16 @@ describe("AnimeService", () => {
         season: anime.season,
       };
 
-      animeRepositoryMock.findOne.mockResolvedValue(anime)
-      animeRepositoryMock.update.mockResolvedValue(anime)
+      animeRepositoryMock.findOne.mockResolvedValue(anime);
+      animeRepositoryMock.update.mockResolvedValue(anime);
 
       const result = await service.update(anime.uuid, dto);
 
       expect(result).toEqual(anime);
     });
 
-    test("should call the repository with correct params", async () => {
-      const anime = new AnimeBuilder().build()
+    test('should call the repository with correct params', async () => {
+      const anime = new AnimeBuilder().build();
       const dto: UpdateAnimeDto = {
         title: anime.title,
         synopsis: anime.synopsis,
@@ -285,8 +281,12 @@ describe("AnimeService", () => {
         season: anime.season,
       };
 
-      const findSpy = jest.spyOn(animeRepositoryMock, 'findOne').mockResolvedValue(anime)
-      const updateSpy = jest.spyOn(animeRepositoryMock, 'update').mockResolvedValue(anime)
+      const findSpy = jest
+        .spyOn(animeRepositoryMock, 'findOne')
+        .mockResolvedValue(anime);
+      const updateSpy = jest
+        .spyOn(animeRepositoryMock, 'update')
+        .mockResolvedValue(anime);
 
       const result = await service.update(anime.uuid, dto);
 
@@ -297,29 +297,30 @@ describe("AnimeService", () => {
       expect(result).toEqual(anime);
     });
 
-    test("should throw a BadRequestException if the anime was not found", async () => {
-      const anime = new AnimeBuilder().build()
+    test('should throw a BadRequestException if the anime was not found', async () => {
+      const anime = new AnimeBuilder().build();
       const dto: UpdateAnimeDto = {
         title: anime.title,
       };
 
-      const repoSpy = jest.spyOn(animeRepositoryMock, "findOne")
+      const repoSpy = jest
+        .spyOn(animeRepositoryMock, 'findOne')
         .mockResolvedValue(undefined);
 
-      await expect(
-        service.update(anime.uuid, dto)
-      ).rejects.toThrow(new BadRequestException(['anime not found']));
+      await expect(service.update(anime.uuid, dto)).rejects.toThrow(
+        new BadRequestException(['anime not found']),
+      );
       expect(repoSpy).toHaveBeenCalledTimes(1);
       expect(repoSpy).toBeCalledWith(anime.uuid);
       expect(animeRepositoryMock.update).toHaveBeenCalledTimes(0);
     });
   });
 
-  describe("delete", () => {
+  describe('delete', () => {
     afterEach(() => jest.clearAllMocks());
 
-    test("should delete an anime", async () => {
-      const anime = new AnimeBuilder().build()
+    test('should delete an anime', async () => {
+      const anime = new AnimeBuilder().build();
       await service.delete(anime.uuid);
 
       expect(animeRepositoryMock.softDelete).toHaveBeenCalledTimes(1);
@@ -327,107 +328,101 @@ describe("AnimeService", () => {
     });
   });
 
-  describe("upload", () => {
-    test("should add an image to the queue", async () => {
-      const anime = new AnimeBuilder().build()
+  describe('upload', () => {
+    test('should add an image to the queue', async () => {
+      const anime = new AnimeBuilder().build();
 
-      const result = await service.upload(anime.uuid, "path");
+      const result = await service.upload(anime.uuid, 'path');
 
-      expect(result).toBe("the image will be available soon");
+      expect(result).toBe('the image will be available soon');
       expect(queue.add).toHaveBeenCalledTimes(1);
       expect(queue.add).toHaveBeenLastCalledWith({
         animeUUID: anime.uuid,
-        path: "path",
+        path: 'path',
       });
     });
   });
 
   describe('getAnimeReviews', () => {
-    afterEach(() => jest.clearAllMocks())
+    afterEach(() => jest.clearAllMocks());
 
     test('should return an list of reviews', async () => {
-      const anime = new AnimeBuilder().build()
-      const reviews = [
-        new ReviewBuilder().build()
-      ]
+      const anime = new AnimeBuilder().build();
+      const reviews = [new ReviewBuilder().build()];
 
-      reviewRepositoryMock.find.mockResolvedValue(reviews)
-      reviewRepositoryMock.count.mockResolvedValue(10)
+      reviewRepositoryMock.find.mockResolvedValue(reviews);
+      reviewRepositoryMock.count.mockResolvedValue(10);
 
-      const results = await service.getAnimeReviews(anime.uuid, {})
+      const results = await service.getAnimeReviews(anime.uuid, {});
 
       expect(results).toEqual({
         data: reviews,
         pageTotal: reviews.length,
-        total: 10
-      } as PaginationInterface<Review>)
-    })
+        total: 10,
+      } as PaginationInterface<Review>);
+    });
 
     test('should return a list of reviews when it receives query params', async () => {
-      const anime = new AnimeBuilder().build()
-      const reviews = [
-        new ReviewBuilder().build()
-      ]
+      const anime = new AnimeBuilder().build();
+      const reviews = [new ReviewBuilder().build()];
       const query: ReviewsByAnimeQuery = {
         title: reviews[0].title,
         rating: reviews[0].rating,
         take: 10,
-        skip: 5
-      }
+        skip: 5,
+      };
 
-      reviewRepositoryMock.find.mockResolvedValue(reviews)
-      reviewRepositoryMock.count.mockResolvedValue(10)
+      reviewRepositoryMock.find.mockResolvedValue(reviews);
+      reviewRepositoryMock.count.mockResolvedValue(10);
 
-      const results = await service.getAnimeReviews(anime.uuid, query)
+      const results = await service.getAnimeReviews(anime.uuid, query);
 
       expect(results).toEqual({
         data: reviews,
         pageTotal: reviews.length,
-        total: 10
-      } as PaginationInterface<Review>)
-    })
+        total: 10,
+      } as PaginationInterface<Review>);
+    });
 
     test('should call the repository with correct params', async () => {
-      const anime = new AnimeBuilder().build()
-      const reviews = [
-        new ReviewBuilder().build()
-      ]
+      const anime = new AnimeBuilder().build();
+      const reviews = [new ReviewBuilder().build()];
       const query: ReviewsByAnimeQuery = {
         title: reviews[0].title,
         rating: reviews[0].rating,
         take: 10,
-        skip: 5
-      }
-      const findOptions = new ReviewsByAnimeQueryBuilder(query).build()
+        skip: 5,
+      };
+      const findOptions = new ReviewsByAnimeQueryBuilder(query).build();
 
-      reviewRepositoryMock.find.mockResolvedValue(reviews)
-      reviewRepositoryMock.count.mockResolvedValue(10)
+      reviewRepositoryMock.find.mockResolvedValue(reviews);
+      reviewRepositoryMock.count.mockResolvedValue(10);
 
-      const results = await service.getAnimeReviews(anime.uuid, query)
+      const results = await service.getAnimeReviews(anime.uuid, query);
 
       expect(results).toEqual({
         data: reviews,
         pageTotal: reviews.length,
-        total: 10
-      } as PaginationInterface<Review>)
-      expect(reviewRepositoryMock.find).toBeCalledTimes(1)
+        total: 10,
+      } as PaginationInterface<Review>);
+      expect(reviewRepositoryMock.find).toBeCalledTimes(1);
       expect(reviewRepositoryMock.find).toBeCalledWith({
         where: {
-          anme: { uuid: anime.uuid }
+          anme: { uuid: anime.uuid },
         },
         ...findOptions,
         loadRelationIds: {
           disableMixedMap: true,
-          relations: ['user']
-        }
-      })
-      expect(reviewRepositoryMock.count).toBeCalledTimes(1)
+          relations: ['user'],
+        },
+      });
+      expect(reviewRepositoryMock.count).toBeCalledTimes(1);
       expect(reviewRepositoryMock.count).toBeCalledWith({
         where: {
-          anime: { uuid: anime.uuid }
+          anime: { uuid: anime.uuid },
         },
         ...findOptions,
-      })
-    })
-  })
+      });
+    });
+  });
 });

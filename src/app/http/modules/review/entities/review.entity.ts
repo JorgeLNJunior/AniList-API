@@ -1,5 +1,5 @@
-import { Anime } from '@http/modules/anime/entities/anime.entity'
-import { User } from '@http/modules/user/entities/user.entity'
+import { Anime } from '@http/modules/anime/entities/anime.entity';
+import { User } from '@http/modules/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,8 +8,8 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm'
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Review {

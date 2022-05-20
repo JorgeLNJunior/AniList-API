@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsNumber,
@@ -6,8 +6,8 @@ import {
   IsString,
   Max,
   MaxLength,
-  Min
-} from 'class-validator'
+  Min,
+} from 'class-validator';
 
 export class UpdateReviewDto {
   @ApiProperty({ example: 'naruto' })

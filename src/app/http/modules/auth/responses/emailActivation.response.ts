@@ -1,9 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 
 export class EmailActivationResponse {
   constructor(status?: number, message?: string) {
-    this.status = status || 200
-    this.message = message || 'email activated'
+    this.status = status || 200;
+    this.message = message || 'email activated';
   }
 
   @ApiProperty({ default: 'email activated' })
@@ -14,7 +14,7 @@ export class EmailActivationResponse {
   build() {
     return {
       statusCode: this.status,
-      message: this.message
-    }
+      message: this.message,
+    };
   }
 }

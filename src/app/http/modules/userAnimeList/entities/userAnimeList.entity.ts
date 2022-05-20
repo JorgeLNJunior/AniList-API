@@ -1,8 +1,17 @@
-import { Anime } from "@http/modules/anime/entities/anime.entity";
-import { User } from "@http/modules/user/entities/user.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Anime } from '@http/modules/anime/entities/anime.entity';
+import { User } from '@http/modules/user/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-import { AnimeStatus } from "../types/animeStatus.enum";
+import { AnimeStatus } from '../types/animeStatus.enum';
 
 @Entity()
 export class UserAnimeList {

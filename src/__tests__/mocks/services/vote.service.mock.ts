@@ -3,4 +3,4 @@ export const voteServiceMock = {
   find: jest.fn().mockResolvedValue(Promise.resolve()),
   findOne: jest.fn().mockResolvedValue(Promise.resolve()),
   delete: jest.fn().mockResolvedValue(Promise.resolve()),
-}
+};

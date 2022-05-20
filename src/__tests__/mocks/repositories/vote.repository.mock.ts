@@ -4,4 +4,4 @@ export const voteRepositoryMock = {
   find: jest.fn().mockResolvedValue(Promise.resolve()),
   save: jest.fn().mockResolvedValue(Promise.resolve()),
   softDelete: jest.fn().mockResolvedValue(Promise.resolve()),
-}
+};

@@ -4,8 +4,8 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm'
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Anime {

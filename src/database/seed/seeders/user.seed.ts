@@ -1,24 +1,24 @@
-import { faker } from '@faker-js/faker'
-import { User } from '@http/modules/user/entities/user.entity'
-import { Injectable, Logger } from '@nestjs/common'
-import { InjectConnection } from '@nestjs/typeorm'
-import { hashSync } from 'bcrypt'
-import { Connection } from 'typeorm'
+import { faker } from '@faker-js/faker';
+import { User } from '@http/modules/user/entities/user.entity';
+import { Injectable, Logger } from '@nestjs/common';
+import { InjectConnection } from '@nestjs/typeorm';
+import { hashSync } from 'bcrypt';
+import { Connection } from 'typeorm';
 
 @Injectable()
 export class UserSeeder {
   private readonly logger = new Logger(UserSeeder.name);
 
-  constructor(@InjectConnection() private connection: Connection) { }
+  constructor(@InjectConnection() private connection: Connection) {}
 
   async run(times = 5) {
     try {
       for (let index = 0; index < times; index++) {
-        await this.insert()
+        await this.insert();
       }
-      this.logger.log('User seed finished')
+      this.logger.log('User seed finished');
     } catch (error) {
-      this.logger.error('User seed error', error.message)
+      this.logger.error('User seed error', error.message);
     }
   }
 
@@ -32,8 +32,8 @@ export class UserSeeder {
         email: faker.internet.email().toLowerCase(),
         password: hashSync('123456', 10),
         avatar: faker.internet.avatar(),
-        isActive: true
+        isActive: true,
       })
-      .execute()
+      .execute();
   }
 }

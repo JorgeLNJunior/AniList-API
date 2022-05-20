@@ -10,14 +10,12 @@ import { UserAnimeListController } from './userAnimeList.controller';
 import { UserAnimeListService } from './userAnimeList.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UserAnimeList, Anime, User])
-  ],
+  imports: [TypeOrmModule.forFeature([UserAnimeList, Anime, User])],
   controllers: [UserAnimeListController],
   providers: [
     UserAnimeListService,
     IsValidAnimeUUIDConstraint,
-    IsAlreadyInUserAnimeListGuard
-  ]
+    IsAlreadyInUserAnimeListGuard,
+  ],
 })
-export class UserAnimeListModule { }
+export class UserAnimeListModule {}

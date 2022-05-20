@@ -1,15 +1,15 @@
-import { createMock } from '@golevelup/ts-jest'
-import { userAnimeListRepositoryMock } from "@mocks/repositories/userList.repository.mock";
-import { BadRequestException, ExecutionContext } from "@nestjs/common";
-import { Test } from "@nestjs/testing";
-import { getRepositoryToken } from "@nestjs/typeorm";
+import { createMock } from '@golevelup/ts-jest';
+import { userAnimeListRepositoryMock } from '@mocks/repositories/userList.repository.mock';
+import { BadRequestException, ExecutionContext } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { UserAnimeList } from "../../entities/userAnimeList.entity";
-import { IsAlreadyInUserAnimeListGuard } from "../../guards/isAlreadyInUserAnimeList.guard";
-import { UserAnimeListBuilder } from "../builders/userAnimeList.builder";
+import { UserAnimeList } from '../../entities/userAnimeList.entity';
+import { IsAlreadyInUserAnimeListGuard } from '../../guards/isAlreadyInUserAnimeList.guard';
+import { UserAnimeListBuilder } from '../builders/userAnimeList.builder';
 
 describe('IsAlreadyInUserAnimeListGuard', () => {
-  let guard: IsAlreadyInUserAnimeListGuard
+  let guard: IsAlreadyInUserAnimeListGuard;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -17,54 +17,55 @@ describe('IsAlreadyInUserAnimeListGuard', () => {
         IsAlreadyInUserAnimeListGuard,
         {
           provide: getRepositoryToken(UserAnimeList),
-          useValue: userAnimeListRepositoryMock
-        }
-      ]
-    }).compile()
+          useValue: userAnimeListRepositoryMock,
+        },
+      ],
+    }).compile();
 
-    guard = module.get(IsAlreadyInUserAnimeListGuard)
-  })
+    guard = module.get(IsAlreadyInUserAnimeListGuard);
+  });
 
-  afterEach(() => jest.clearAllMocks())
+  afterEach(() => jest.clearAllMocks());
 
   describe('canActivate', () => {
-    afterEach(() => jest.clearAllMocks())
+    afterEach(() => jest.clearAllMocks());
 
     test('should return true if the anime is not in user list', async () => {
-      const list = new UserAnimeListBuilder().build()
+      const list = new UserAnimeListBuilder().build();
       const ctx = createMock<ExecutionContext>({
         switchToHttp: () => ({
           getRequest: () => ({
             user: { isAdmin: false, uuid: 'uuid' },
-            body: { animeUUID: list.uuid }
-          })
-        })
-      })
+            body: { animeUUID: list.uuid },
+          }),
+        }),
+      });
 
-      userAnimeListRepositoryMock.findOne = jest.fn().mockResolvedValue(undefined)
+      userAnimeListRepositoryMock.findOne = jest
+        .fn()
+        .mockResolvedValue(undefined);
 
-      const result = await guard.canActivate(ctx)
+      const result = await guard.canActivate(ctx);
 
-      expect(result).toBe(true)
+      expect(result).toBe(true);
     });
 
     test('should throw a BadRequestException if the anime is already in user list', async () => {
-      const list = new UserAnimeListBuilder().build()
+      const list = new UserAnimeListBuilder().build();
       const ctx = createMock<ExecutionContext>({
         switchToHttp: () => ({
           getRequest: () => ({
             user: { isAdmin: false, uuid: 'uuid' },
-            body: { animeUUID: list.uuid }
-          })
-        })
-      })
+            body: { animeUUID: list.uuid },
+          }),
+        }),
+      });
 
-      userAnimeListRepositoryMock.findOne = jest.fn().mockResolvedValue(list)
+      userAnimeListRepositoryMock.findOne = jest.fn().mockResolvedValue(list);
 
       await expect(guard.canActivate(ctx)).rejects.toThrow(
-        new BadRequestException(['this anime is already in your list'])
-      )
+        new BadRequestException(['this anime is already in your list']),
+      );
     });
   });
-
 });
