@@ -5,11 +5,13 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class createUserListTable1649598264109 implements MigrationInterface {
+export class createUserAnimeListTable1649598264109
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'user_list',
+        name: 'user_anime_list',
         columns: [
           {
             name: 'uuid',
@@ -55,7 +57,7 @@ export class createUserListTable1649598264109 implements MigrationInterface {
       true,
     );
 
-    await queryRunner.createForeignKeys('user_list', [
+    await queryRunner.createForeignKeys('user_anime_list', [
       new TableForeignKey({
         columnNames: ['userUUID'],
         referencedTableName: 'user',
@@ -74,6 +76,6 @@ export class createUserListTable1649598264109 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    return queryRunner.dropTable('user_list', true);
+    return queryRunner.dropTable('user_anime_list', true);
   }
 }
