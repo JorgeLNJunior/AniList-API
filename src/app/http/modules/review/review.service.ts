@@ -92,6 +92,19 @@ export class ReviewService {
     return review;
   }
 
+  async latest() {
+    return this.reviewRepository.find({
+      order: {
+        createdAt: 'DESC',
+      },
+      take: 10,
+      loadRelationIds: {
+        disableMixedMap: true,
+        relations: ['anime', 'user'],
+      },
+    });
+  }
+
   async update(uuid: string, updateReviewDto: UpdateReviewDto) {
     const review = await this.reviewRepository.findOne(uuid);
     if (!review) throw new BadRequestException(['review not found']);

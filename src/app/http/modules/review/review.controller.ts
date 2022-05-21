@@ -34,6 +34,7 @@ import { ReviewQuery } from './query/review.query.interface';
 import { FindVotesByReviewQuery } from './query/votes/findVotesByReview.query.interface';
 import { CreateReviewResponse } from './responses/createReview.response';
 import { DeleteReviewResponse } from './responses/deleteReview.response';
+import { FindLatestReviewsResponse } from './responses/findLatestReviews.response';
 import { FindOneReviewResponse } from './responses/findOneReview.response';
 import { FindReviewResponse } from './responses/findReview.response';
 import { FindReviewVotesResponse } from './responses/findReviewVotes.response';
@@ -88,6 +89,14 @@ export class ReviewController {
   async findOne(@Param('uuid') uuid: string) {
     const review = await this.reviewService.findOne(uuid);
     return new FindOneReviewResponse(review).build();
+  }
+
+  @ApiOkResponse({ description: 'OK', type: FindLatestReviewsResponse })
+  @ApiOperation({ summary: 'Find the latest 10 reviews' })
+  @Get()
+  async latest() {
+    const reviews = await this.reviewService.latest();
+    return new FindLatestReviewsResponse(reviews).build();
   }
 
   @ApiOkResponse({ description: 'OK', type: FindReviewVotesResponse })
