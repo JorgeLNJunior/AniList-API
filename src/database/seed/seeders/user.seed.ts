@@ -18,7 +18,7 @@ export class UserSeeder {
       }
       this.logger.log('User seed finished');
     } catch (error) {
-      this.logger.error('User seed error', error.message);
+      this.logger.error('User seed error', error);
     }
   }
 

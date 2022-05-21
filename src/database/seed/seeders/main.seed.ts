@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { AnimeSeeder } from './anime.seed';
 import { ReviewSeeder } from './review.seed';
 import { UserSeeder } from './user.seed';
+import { UserAnimeListSeeder } from './userAnimeList.seed';
 
 @Injectable()
 export class MainSeeder {
@@ -13,6 +14,7 @@ export class MainSeeder {
     private userSeeder: UserSeeder,
     private animeSeeder: AnimeSeeder,
     private reviewSeeder: ReviewSeeder,
+    private userAnimeListSeeder: UserAnimeListSeeder,
     private configService: ConfigService,
   ) {}
 
@@ -24,10 +26,11 @@ export class MainSeeder {
       await this.userSeeder.run();
       await this.animeSeeder.run();
       await this.reviewSeeder.run();
+      await this.userAnimeListSeeder.run();
 
       this.logger.log('All seeds finished');
     } catch (error) {
-      this.logger.error('Main seeder error', error.message);
+      this.logger.error('Main seeder error', error);
     }
   }
 }

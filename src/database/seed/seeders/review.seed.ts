@@ -30,7 +30,7 @@ export class ReviewSeeder {
       }
       this.logger.log('Review seed finished');
     } catch (error) {
-      this.logger.error('Review seed error', error.message);
+      this.logger.error('Review seed error', error);
     }
   }
 

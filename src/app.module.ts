@@ -45,7 +45,7 @@ export class AppModule implements OnApplicationBootstrap {
         mkdirSync('public/user/avatar', { recursive: true });
       }
     } catch (error) {
-      this.logger.error('Error when creating files directories', error.message);
+      this.logger.error('Error when creating files directories', error);
     }
   }
 }

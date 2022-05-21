@@ -39,7 +39,7 @@ export class CoverCompressionConsumer {
 
   @OnQueueError()
   onError(error: Error) {
-    this.logger.error('Error when process a queue', error.message);
+    this.logger.error('Error when process a queue', error);
   }
 
   private async storeCover(buffer: Buffer) {

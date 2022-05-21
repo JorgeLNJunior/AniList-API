@@ -31,9 +31,9 @@ export class AnimeSeeder {
         });
       }
 
-      this.logger.log('Anime seed finished', AnimeSeeder.name);
+      this.logger.log('Anime seed finished');
     } catch (error) {
-      this.logger.error('Anime seed error', error.message, AnimeSeeder.name);
+      this.logger.error('Anime seed error', error);
     }
   }
 
