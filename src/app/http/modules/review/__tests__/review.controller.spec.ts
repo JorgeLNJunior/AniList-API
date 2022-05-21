@@ -189,6 +189,21 @@ describe('ReviewController', () => {
     });
   });
 
+  describe('latest', () => {
+    test('should return a list of review', async () => {
+      const reviews = [new ReviewBuilder().build()];
+
+      reviewServiceMock.latest.mockResolvedValue(reviews);
+
+      const results = await controller.latest();
+
+      expect(results).toEqual({
+        statusCode: 200,
+        data: reviews,
+      });
+    });
+  });
+
   describe('update', () => {
     afterEach(() => jest.clearAllMocks());
 

@@ -203,6 +203,41 @@ describe('ReviewService', () => {
     });
   });
 
+  describe('latest', () => {
+    afterEach(() => jest.clearAllMocks());
+
+    test('should return a list of review', async () => {
+      const reviews = [new ReviewBuilder().build()];
+
+      reviewRepositoryMock.find.mockResolvedValue(reviews);
+
+      const results = await service.latest();
+
+      expect(results).toEqual(reviews);
+    });
+
+    test('should call the repository with correct params', async () => {
+      const reviews = [new ReviewBuilder().build()];
+
+      reviewRepositoryMock.find.mockResolvedValue(reviews);
+
+      const results = await service.latest();
+
+      expect(reviewRepositoryMock.find).toBeCalledWith({
+        order: {
+          createdAt: 'DESC',
+        },
+        take: 10,
+        loadRelationIds: {
+          disableMixedMap: true,
+          relations: ['anime', 'user'],
+        },
+      });
+      expect(reviewRepositoryMock.find).toBeCalledTimes(1);
+      expect(results).toEqual(reviews);
+    });
+  });
+
   describe('update', () => {
     afterEach(() => jest.clearAllMocks());
 
