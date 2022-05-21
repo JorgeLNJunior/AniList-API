@@ -48,14 +48,14 @@ describe('EmailConsumer', () => {
 
   describe('onError', () => {
     test('should log an error', async () => {
+      const error = new Error('error message');
+
       const loggerSpy = jest.spyOn(Logger.prototype, 'error');
-      consumer.onError(new Error('error message'));
+
+      consumer.onError(error);
 
       expect(loggerSpy).toBeCalledTimes(1);
-      expect(loggerSpy).toBeCalledWith(
-        'Error when process a queue',
-        'error message',
-      );
+      expect(loggerSpy).toBeCalledWith('Error when process a queue', error);
     });
   });
 });
