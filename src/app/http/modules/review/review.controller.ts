@@ -93,7 +93,7 @@ export class ReviewController {
 
   @ApiOkResponse({ description: 'OK', type: FindLatestReviewsResponse })
   @ApiOperation({ summary: 'Find the latest 10 reviews' })
-  @Get()
+  @Get('latest')
   async latest() {
     const reviews = await this.reviewService.latest();
     return new FindLatestReviewsResponse(reviews).build();
