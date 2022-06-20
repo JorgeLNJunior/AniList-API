@@ -18,22 +18,19 @@ export class UserAnimeListSeeder {
   constructor(@InjectConnection() private connection: Connection) {}
 
   async run() {
-    try {
-      const users = await this.getUsers();
-      const animes = await this.getAnimes();
+    const users = await this.getUsers();
+    const animes = await this.getAnimes();
 
-      for (const user of users) {
-        for (const anime of animes) {
-          await this.insert({
-            animeUUID: anime.uuid,
-            userUUID: user.uuid,
-          });
-        }
+    for (const user of users) {
+      for (const anime of animes) {
+        await this.insert({
+          animeUUID: anime.uuid,
+          userUUID: user.uuid,
+        });
       }
-      this.logger.log('User anime list seed finished');
-    } catch (error) {
-      this.logger.error('User anime list seed error', error);
     }
+
+    this.logger.log('User anime list seed finished');
   }
 
   private async getUsers() {
@@ -41,7 +38,6 @@ export class UserAnimeListSeeder {
       .createQueryBuilder()
       .select()
       .from(User, 'user')
-      .limit(5)
       .getRawMany();
   }
 
@@ -50,7 +46,6 @@ export class UserAnimeListSeeder {
       .createQueryBuilder()
       .select()
       .from(Anime, 'anime')
-      .limit(10)
       .getRawMany();
   }
 
@@ -62,8 +57,15 @@ export class UserAnimeListSeeder {
       .values({
         anime: { uuid: dto.animeUUID },
         user: { uuid: dto.userUUID },
-        status: AnimeStatus.WATCHING,
+        status: this.randEnumValue(AnimeStatus),
       })
       .execute();
+  }
+
+  private randEnumValue<T>(enumObj: T): T[keyof T] {
+    const enumValues = Object.values(enumObj);
+    const index = Math.floor(Math.random() * enumValues.length);
+
+    return enumValues[index];
   }
 }

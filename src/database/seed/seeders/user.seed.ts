@@ -11,15 +11,12 @@ export class UserSeeder {
 
   constructor(@InjectConnection() private connection: Connection) {}
 
-  async run(times = 5) {
-    try {
-      for (let index = 0; index < times; index++) {
-        await this.insert();
-      }
-      this.logger.log('User seed finished');
-    } catch (error) {
-      this.logger.error('User seed error', error);
+  async run(times = 20) {
+    for (let index = 0; index < times; index++) {
+      await this.insert();
     }
+
+    this.logger.log('User seed finished');
   }
 
   private async insert() {

@@ -13,25 +13,22 @@ export class ReviewSeeder {
   constructor(@InjectConnection() private connection: Connection) {}
 
   async run() {
-    try {
-      const users = await this.getUsers();
-      const animes = await this.getAnimes();
+    const users = await this.getUsers();
+    const animes = await this.getAnimes();
 
-      for (const user of users) {
-        for (const anime of animes) {
-          await this.insert({
-            title: faker.lorem.words(3),
-            description: faker.lorem.paragraph().slice(0, 999),
-            rating: faker.datatype.number({ min: 1, max: 5 }),
-            anime: anime.uuid,
-            user: user.uuid,
-          });
-        }
+    for (const user of users) {
+      for (const anime of animes) {
+        await this.insert({
+          title: faker.lorem.words(3),
+          description: faker.lorem.paragraph().slice(0, 999),
+          rating: faker.datatype.number({ min: 1, max: 5 }),
+          anime: anime.uuid,
+          user: user.uuid,
+        });
       }
-      this.logger.log('Review seed finished');
-    } catch (error) {
-      this.logger.error('Review seed error', error);
     }
+
+    this.logger.log('Review seed finished');
   }
 
   private async getUsers() {
@@ -39,7 +36,6 @@ export class ReviewSeeder {
       .createQueryBuilder()
       .select()
       .from(User, 'user')
-      .limit(5)
       .getRawMany();
   }
 
@@ -48,7 +44,6 @@ export class ReviewSeeder {
       .createQueryBuilder()
       .select()
       .from(Anime, 'anime')
-      .limit(10)
       .getRawMany();
   }
 

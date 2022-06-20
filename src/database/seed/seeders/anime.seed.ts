@@ -14,31 +14,27 @@ export class AnimeSeeder {
   ) {}
 
   async run() {
-    try {
-      const animes = (await this.findAnimes()).data.data;
+    const animes = (await this.findAnimes()).data.data;
 
-      for (let index = 0; index < animes.length; index++) {
-        await this.insert({
-          title: animes[index].attributes.titles.en_jp,
-          synopsis: animes[index].attributes.synopsis.slice(0, 999),
-          releaseDate: animes[index].attributes.startDate,
-          episodes: animes[index].attributes.episodeCount || 999,
-          trailer: `https://youtube.com/watch?v=${animes[index].attributes.youtubeVideoId}`,
-          cover: animes[index].attributes.coverImage.original,
-          season: 'winter 2015',
-          genre: 'unknow',
-          createdAt: new Date(),
-        });
-      }
-
-      this.logger.log('Anime seed finished');
-    } catch (error) {
-      this.logger.error('Anime seed error', error);
+    for (let index = 0; index < animes.length; index++) {
+      await this.insert({
+        title: animes[index].title,
+        synopsis: animes[index].synopsis,
+        releaseDate: animes[index].aired.from,
+        episodes: animes[index].episodes || 999,
+        trailer: animes[index].trailer.url || 'unknown',
+        cover: animes[index].images.jpg.image_url,
+        season: animes[index].season || 'unknown',
+        genre: animes[index].genres[0].name,
+        createdAt: new Date(),
+      });
     }
+
+    this.logger.log('Anime seed finished');
   }
 
   findAnimes() {
-    return this.httpService.get('https://kitsu.io/api/edge/trending/anime');
+    return this.httpService.get('https://api.jikan.moe/v4/anime');
   }
 
   async insert(dto: any) {
