@@ -21,7 +21,7 @@ export class createAnimeTable1624810395846 implements MigrationInterface {
           {
             name: 'synopsis',
             type: 'varchar',
-            length: '1000',
+            length: '2000',
             isNullable: false,
           },
           {
