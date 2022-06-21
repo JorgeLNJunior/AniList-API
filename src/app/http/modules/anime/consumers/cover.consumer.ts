@@ -21,8 +21,11 @@ export class CoverCompressionConsumer {
 
   @Process()
   async compress(job: Job<CoverCompressJob>) {
-    const oldCover = (await this.animeRepository.findOne(job.data.animeUUID))
-      .cover;
+    const oldCover = (
+      await this.animeRepository.findOne({
+        where: { uuid: job.data.animeUUID },
+      })
+    ).cover;
 
     const buffer = await sharp(job.data.path)
       .jpeg({ mozjpeg: true })

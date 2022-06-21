@@ -24,7 +24,8 @@ export class VoteModifyPermissionGuard implements CanActivate {
     const voteUUID = request.params.uuid;
     const userUUID = request.user.uuid;
 
-    const vote = await this.voteRepository.findOne(voteUUID, {
+    const vote = await this.voteRepository.findOne({
+      where: { uuid: voteUUID },
       relations: ['user'],
     });
     if (!vote) throw new BadRequestException(['vote not found']);

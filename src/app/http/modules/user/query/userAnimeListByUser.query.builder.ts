@@ -1,5 +1,5 @@
 import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity';
-import { FindConditions, FindManyOptions } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere } from 'typeorm';
 
 import { UserAnimeListByUserQuery } from './userAnimeListByUser.query.interface';
 
@@ -12,7 +12,7 @@ export class UserAnimeListByUserQueryBuilder {
 
   build(): FindManyOptions<UserAnimeList> {
     const findOptions: FindManyOptions<UserAnimeList> = {};
-    const conditions: FindConditions<UserAnimeList> = {};
+    const conditions: FindOptionsWhere<UserAnimeList> = {};
 
     if (this.query.uuid) conditions.uuid = this.query.uuid;
     if (this.query.status) conditions.status = this.query.status;

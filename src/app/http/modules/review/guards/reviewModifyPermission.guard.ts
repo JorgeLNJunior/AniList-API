@@ -22,7 +22,8 @@ export class ReviewModifyPermissionGuard implements CanActivate {
     const reviewUUID = request.params.uuid;
     const userUUID = request.user.uuid;
 
-    const review = await this.reviewRepository.findOne(reviewUUID, {
+    const review = await this.reviewRepository.findOne({
+      where: { uuid: reviewUUID },
       relations: ['user'],
     });
     if (!review) throw new BadRequestException(['review not found']);

@@ -1,5 +1,5 @@
 import { Review } from '@http/modules/review/entities/review.entity';
-import { FindConditions, FindManyOptions, Like } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere, Like } from 'typeorm';
 
 import { ReviewsByUserQuery } from './reviewsByUser.query.interface';
 
@@ -12,7 +12,7 @@ export class ReviewsByUserQueryBuilder {
 
   build(): FindManyOptions<Review> {
     const findOptions: FindManyOptions<Review> = {};
-    const conditions: FindConditions<Review> = {};
+    const conditions: FindOptionsWhere<Review> = {};
 
     if (this.query.title) conditions.title = Like(`%${this.query.title}%`);
     if (this.query.rating) conditions.rating = this.query.rating;

@@ -1,4 +1,4 @@
-import { FindConditions, FindManyOptions } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere } from 'typeorm';
 
 import { Vote } from '../entities/vote.entity';
 import { VoteQuery } from './vote.query.interface';
@@ -12,7 +12,7 @@ export class VoteQueryBuilder {
 
   build(): FindManyOptions<Vote> {
     const findOptions: FindManyOptions<Vote> = {};
-    const conditions: FindConditions<Vote> = {};
+    const conditions: FindOptionsWhere<Vote> = {};
 
     if (this.query.uuid) conditions.uuid = this.query.uuid;
     if (this.query.userUUID) conditions.user = { uuid: this.query.userUUID };

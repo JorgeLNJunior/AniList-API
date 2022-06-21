@@ -43,7 +43,7 @@ export class AuthService {
 
   async activateEmail(token: string) {
     const email = this.decodeToken(token);
-    const user = await this.userRepository.findOne({ email: email });
+    const user = await this.userRepository.findOne({ where: { email: email } });
     if (!user) {
       throw new BadRequestException('user not found');
     }
@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   async validateUser(email: string, password: string) {
-    const user = await this.userRepository.findOne({ email: email });
+    const user = await this.userRepository.findOne({ where: { email: email } });
 
     if (!user) {
       throw new UnauthorizedException('this email is not registered');

@@ -20,10 +20,12 @@ export class IsValidAnimeUUIDConstraint
   ) {}
 
   validate(uuid: string): boolean | Promise<boolean> {
-    return this.animeRepository.findOne(uuid).then((isValidAnimeUUID) => {
-      if (isValidAnimeUUID) return true;
-      return false;
-    });
+    return this.animeRepository
+      .findOne({ where: { uuid: uuid } })
+      .then((isValidAnimeUUID) => {
+        if (isValidAnimeUUID) return true;
+        return false;
+      });
   }
 
   defaultMessage?(): string {

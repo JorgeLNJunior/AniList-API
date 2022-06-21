@@ -1,5 +1,5 @@
 import { Vote } from '@http/modules/vote/entities/vote.entity';
-import { FindConditions, FindManyOptions } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere } from 'typeorm';
 
 import { VotesByUserQuery } from './votesByUser.query.interface';
 
@@ -12,7 +12,7 @@ export class VotesByUserQueryBuilder {
 
   build(): FindManyOptions<Vote> {
     const findOptions: FindManyOptions<Vote> = {};
-    const conditions: FindConditions<Vote> = {};
+    const conditions: FindOptionsWhere<Vote> = {};
 
     if (this.query.reviewUUID)
       conditions.review = { uuid: this.query.reviewUUID };

@@ -108,11 +108,11 @@ export class AnimeService {
   }
 
   async update(uuid: string, updateAnimeDto: UpdateAnimeDto) {
-    const anime = await this.animeRepository.findOne(uuid);
+    const anime = await this.animeRepository.findOne({ where: { uuid: uuid } });
     if (!anime) throw new BadRequestException(['anime not found']);
 
     await this.animeRepository.update(uuid, updateAnimeDto);
-    return this.animeRepository.findOne(uuid);
+    return this.animeRepository.findOne({ where: { uuid: uuid } });
   }
 
   async delete(uuid: string) {

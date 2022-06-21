@@ -18,7 +18,8 @@ export class UserAnimeListModifyPermissionGuard implements CanActivate {
 
     const tokenUUID = request.user.uuid;
     const listUUID = request.params.uuid;
-    const list = await this.userAnimeListRepository.findOne(listUUID, {
+    const list = await this.userAnimeListRepository.findOne({
+      where: { uuid: listUUID },
       relations: ['user'],
     });
 

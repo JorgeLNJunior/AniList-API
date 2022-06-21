@@ -1,4 +1,4 @@
-import { FindConditions, FindManyOptions, Like } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere, Like } from 'typeorm';
 
 import { User } from '../entities/user.entity';
 import { UserQuery } from './user.query.interface';
@@ -12,7 +12,7 @@ export class UserQueryBuilder {
 
   build(): FindManyOptions<User> {
     const findOptions: FindManyOptions<User> = {};
-    const conditions: FindConditions<User> = {};
+    const conditions: FindOptionsWhere<User> = {};
 
     if (this.query.uuid) conditions.uuid = this.query.uuid;
     if (this.query.name) conditions.name = Like(`%${this.query.name}%`);

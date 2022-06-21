@@ -23,21 +23,23 @@ export class VoteService {
   ) {}
 
   async create(userUUID: string, createVoteDto: CreateVoteDto): Promise<Vote> {
-    const review = await this.reviewRepository.findOne(
-      createVoteDto.reviewUUID,
-    );
+    const review = await this.reviewRepository.findOne({
+      where: { uuid: createVoteDto.reviewUUID },
+    });
     if (!review) throw new BadRequestException(['review not found']);
 
-    const user = await this.userRepository.findOne(userUUID);
+    const user = await this.userRepository.findOne({
+      where: { uuid: userUUID },
+    });
     if (!user) throw new BadRequestException(['user not found']);
 
-    const isAlreadyVoted = await this.voteRepository.findOne(
-      {
+    const isAlreadyVoted = await this.voteRepository.findOne({
+      where: {
         user: { uuid: userUUID },
         review: { uuid: createVoteDto.reviewUUID },
       },
-      { relations: ['user', 'review'] },
-    );
+      relations: ['user', 'review'],
+    });
     if (isAlreadyVoted)
       throw new BadRequestException(['you have already voted']);
 
@@ -63,7 +65,8 @@ export class VoteService {
   }
 
   async findOne(uuid: string) {
-    const vote = await this.voteRepository.findOne(uuid, {
+    const vote = await this.voteRepository.findOne({
+      where: { uuid: uuid },
       loadRelationIds: {
         disableMixedMap: true,
         relations: ['user', 'review'],

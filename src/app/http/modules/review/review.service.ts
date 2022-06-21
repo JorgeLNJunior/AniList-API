@@ -43,9 +43,13 @@ export class ReviewService {
       }
     });
 
-    const user = await this.userRepository.findOne(userUUID);
+    const user = await this.userRepository.findOne({
+      where: { uuid: userUUID },
+    });
 
-    const anime = await this.animeRepository.findOne(animeUUID);
+    const anime = await this.animeRepository.findOne({
+      where: { uuid: animeUUID },
+    });
     if (!anime) throw new BadRequestException(['anime not found']);
 
     const review = this.reviewRepository.create({
@@ -81,7 +85,8 @@ export class ReviewService {
   }
 
   async findOne(uuid: string) {
-    const review = await this.reviewRepository.findOne(uuid, {
+    const review = await this.reviewRepository.findOne({
+      where: { uuid: uuid },
       loadRelationIds: {
         disableMixedMap: true,
         relations: ['user', 'anime'],
@@ -106,11 +111,14 @@ export class ReviewService {
   }
 
   async update(uuid: string, updateReviewDto: UpdateReviewDto) {
-    const review = await this.reviewRepository.findOne(uuid);
+    const review = await this.reviewRepository.findOne({
+      where: { uuid: uuid },
+    });
     if (!review) throw new BadRequestException(['review not found']);
 
     await this.reviewRepository.update(uuid, updateReviewDto);
-    return this.reviewRepository.findOne(uuid, {
+    return this.reviewRepository.findOne({
+      where: { uuid: uuid },
       loadRelationIds: {
         relations: ['user', 'anime'],
         disableMixedMap: true,
@@ -119,7 +127,9 @@ export class ReviewService {
   }
 
   async delete(uuid: string) {
-    const review = await this.reviewRepository.findOne(uuid);
+    const review = await this.reviewRepository.findOne({
+      where: { uuid: uuid },
+    });
     if (!review) throw new BadRequestException(['review not found']);
 
     await this.reviewRepository.softDelete(uuid);

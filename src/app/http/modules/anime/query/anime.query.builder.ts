@@ -1,4 +1,4 @@
-import { FindConditions, FindManyOptions, Like } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere, Like } from 'typeorm';
 
 import { Anime } from '../entities/anime.entity';
 import { AnimeQuery } from './anime.query.interface';
@@ -12,7 +12,7 @@ export class AnimeQueryBuilder {
 
   build(): FindManyOptions<Anime> {
     const findOptions: FindManyOptions<Anime> = {};
-    const conditions: FindConditions<Anime> = {};
+    const conditions: FindOptionsWhere<Anime> = {};
 
     if (this.query.uuid) conditions.uuid = this.query.uuid;
     if (this.query.genre) conditions.genre = this.query.genre;

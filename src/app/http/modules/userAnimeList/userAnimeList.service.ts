@@ -50,7 +50,8 @@ export class UserAnimeListService {
   }
 
   async findOne(uuid: string) {
-    const list = await this.userAnimeListRepository.findOne(uuid, {
+    const list = await this.userAnimeListRepository.findOne({
+      where: { uuid: uuid },
       loadRelationIds: {
         disableMixedMap: true,
         relations: ['user', 'anime'],
@@ -62,7 +63,8 @@ export class UserAnimeListService {
 
   async update(uuid: string, dto: UpdateUserAnimeListDto) {
     await this.userAnimeListRepository.update(uuid, dto);
-    return this.userAnimeListRepository.findOne(uuid, {
+    return this.userAnimeListRepository.findOne({
+      where: { uuid: uuid },
       loadRelationIds: {
         disableMixedMap: true,
         relations: ['anime', 'user'],

@@ -1,4 +1,4 @@
-import { FindConditions, FindManyOptions } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere } from 'typeorm';
 
 import { Review } from '../entities/review.entity';
 import { ReviewQuery } from './review.query.interface';
@@ -12,7 +12,7 @@ export class ReviewQueryBuilder {
 
   build(): FindManyOptions<Review> {
     const findOptions: FindManyOptions<Review> = {};
-    const conditions: FindConditions<Review> = {};
+    const conditions: FindOptionsWhere<Review> = {};
 
     if (this.query.uuid) conditions.uuid = this.query.uuid;
     if (this.query.animeUUID) conditions.anime = { uuid: this.query.animeUUID };

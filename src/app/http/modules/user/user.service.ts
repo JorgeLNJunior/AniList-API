@@ -42,7 +42,7 @@ export class UserService implements OnApplicationBootstrap {
 
   async onApplicationBootstrap() {
     const isAdminUserAlreadyCreated = await this.userRepository.findOne({
-      name: 'admin',
+      where: { name: 'admin' },
     });
     if (isAdminUserAlreadyCreated) return;
 
@@ -71,17 +71,17 @@ export class UserService implements OnApplicationBootstrap {
   }
 
   async findOne(uuid: string) {
-    const user = await this.userRepository.findOne(uuid);
+    const user = await this.userRepository.findOne({ where: { uuid: uuid } });
     if (!user) throw new NotFoundException(`Resource /users/${uuid} not found`);
     return user;
   }
 
   async update(uuid: string, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.findOne(uuid);
+    const user = await this.userRepository.findOne({ where: { uuid: uuid } });
     if (!user) throw new BadRequestException(['user not found']);
 
     await this.userRepository.update(uuid, updateUserDto);
-    return await this.userRepository.findOne(uuid);
+    return await this.userRepository.findOne({ where: { uuid: uuid } });
   }
 
   async delete(uuid: string) {

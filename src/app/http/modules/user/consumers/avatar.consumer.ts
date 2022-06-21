@@ -21,8 +21,11 @@ export class AvatarCompressionConsumer {
 
   @Process()
   async compress(job: Job<AvatarCompressJob>) {
-    const oldAvatar = (await this.userRepository.findOne(job.data.userUUID))
-      .avatar;
+    const oldAvatar = (
+      await this.userRepository.findOne({
+        where: { uuid: job.data.userUUID },
+      })
+    ).avatar;
 
     const buffer = await sharp(job.data.path)
       .jpeg({ mozjpeg: true })
