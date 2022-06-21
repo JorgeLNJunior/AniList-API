@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { ReviewBuilder } from '@http/modules/review/__tests__/builder/review.builder';
 import { Review } from '@http/modules/review/entities/review.entity';
 import { UserBuilder } from '@http/modules/user/__tests__/builders/user.builder';

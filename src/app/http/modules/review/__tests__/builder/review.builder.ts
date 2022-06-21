@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { AnimeBuilder } from '@http/modules/anime/__tests__/builder/anime.builder';
 import { Anime } from '@http/modules/anime/entities/anime.entity';
 import { UserBuilder } from '@http/modules/user/__tests__/builders/user.builder';

@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { User } from '@http/modules/user/entities/user.entity';
 
 export class UserBuilder {
