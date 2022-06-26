@@ -163,7 +163,8 @@ describe('VoteService', () => {
       const results = await service.findOne(vote.uuid);
 
       expect(results).toEqual(vote);
-      expect(voteRepositoryMock.findOne).toBeCalledWith(vote.uuid, {
+      expect(voteRepositoryMock.findOne).toBeCalledWith({
+        where: { uuid: vote.uuid },
         loadRelationIds: {
           disableMixedMap: true,
           relations: ['user', 'review'],

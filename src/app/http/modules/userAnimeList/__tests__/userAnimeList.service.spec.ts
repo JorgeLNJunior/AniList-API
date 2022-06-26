@@ -173,7 +173,8 @@ describe('UserAnimeListService', () => {
 
       const result = await service.findOne(list.uuid);
 
-      expect(userAnimeListRepositoryMock.findOne).toBeCalledWith(list.uuid, {
+      expect(userAnimeListRepositoryMock.findOne).toBeCalledWith({
+        where: { uuid: list.uuid },
         loadRelationIds: {
           disableMixedMap: true,
           relations: ['user', 'anime'],
@@ -239,7 +240,8 @@ describe('UserAnimeListService', () => {
       const result = await service.update(list.uuid, dto);
 
       expect(updateSpy).toBeCalledWith(list.uuid, dto);
-      expect(findSpy).toBeCalledWith(list.uuid, {
+      expect(findSpy).toBeCalledWith({
+        where: { uuid: list.uuid },
         loadRelationIds: {
           disableMixedMap: true,
           relations: ['anime', 'user'],

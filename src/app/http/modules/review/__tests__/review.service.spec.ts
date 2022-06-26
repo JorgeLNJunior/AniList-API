@@ -78,9 +78,13 @@ describe('ReviewService', () => {
 
       expect(result).toEqual(review);
       expect(userRepositoryMock.findOne).toBeCalledTimes(1);
-      expect(userRepositoryMock.findOne).toBeCalledWith(review.user.uuid);
+      expect(userRepositoryMock.findOne).toBeCalledWith({
+        where: { uuid: review.user.uuid },
+      });
       expect(animeRepositoryMock.findOne).toBeCalledTimes(1);
-      expect(animeRepositoryMock.findOne).toBeCalledWith(review.anime.uuid);
+      expect(animeRepositoryMock.findOne).toBeCalledWith({
+        where: { uuid: review.anime.uuid },
+      });
       expect(reviewRepositoryMock.create).toBeCalledTimes(1);
       expect(reviewRepositoryMock.save).toBeCalledTimes(1);
     });
@@ -182,7 +186,8 @@ describe('ReviewService', () => {
 
       const result = await service.findOne(review.uuid);
 
-      expect(reviewRepositoryMock.findOne).toBeCalledWith(review.uuid, {
+      expect(reviewRepositoryMock.findOne).toBeCalledWith({
+        where: { uuid: review.uuid },
         loadRelationIds: {
           disableMixedMap: true,
           relations: ['user', 'anime'],

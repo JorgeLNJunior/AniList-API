@@ -101,7 +101,7 @@ describe('AuthService', () => {
       await service.activateEmail(token);
 
       expect(userRepositoryMock.findOne).toBeCalledWith({
-        email: user.email,
+        where: { email: user.email },
       });
       expect(userRepositoryMock.update).toBeCalledWith(user.uuid, {
         isActive: true,
@@ -122,7 +122,7 @@ describe('AuthService', () => {
         new BadRequestException('user not found'),
       );
       expect(userRepositoryMock.findOne).toBeCalledWith({
-        email: user.email,
+        where: { email: user.email },
       });
       expect(userRepositoryMock.findOne).toBeCalledTimes(1);
     });
@@ -139,7 +139,7 @@ describe('AuthService', () => {
         new BadRequestException('this email is already active'),
       );
       expect(userRepositoryMock.findOne).toBeCalledWith({
-        email: user.email,
+        where: { email: user.email },
       });
       expect(userRepositoryMock.findOne).toBeCalledTimes(1);
     });
@@ -201,7 +201,9 @@ describe('AuthService', () => {
         service.validateUser(user.email, user.password),
       ).rejects.toThrow(UnauthorizedException);
       expect(userRepositoryMock.findOne).toBeCalledTimes(1);
-      expect(userRepositoryMock.findOne).toBeCalledWith({ email: user.email });
+      expect(userRepositoryMock.findOne).toBeCalledWith({
+        where: { email: user.email },
+      });
     });
   });
 });

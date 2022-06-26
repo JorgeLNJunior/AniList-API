@@ -291,7 +291,9 @@ describe('AnimeService', () => {
       const result = await service.update(anime.uuid, dto);
 
       expect(findSpy).toHaveBeenCalledTimes(2);
-      expect(findSpy).toHaveBeenCalledWith(anime.uuid);
+      expect(findSpy).toHaveBeenCalledWith({
+        where: { uuid: anime.uuid },
+      });
       expect(updateSpy).toHaveBeenCalledTimes(1);
       expect(updateSpy).toHaveBeenCalledWith(anime.uuid, dto);
       expect(result).toEqual(anime);
@@ -311,7 +313,9 @@ describe('AnimeService', () => {
         new BadRequestException(['anime not found']),
       );
       expect(repoSpy).toHaveBeenCalledTimes(1);
-      expect(repoSpy).toBeCalledWith(anime.uuid);
+      expect(repoSpy).toBeCalledWith({
+        where: { uuid: anime.uuid },
+      });
       expect(animeRepositoryMock.update).toHaveBeenCalledTimes(0);
     });
   });

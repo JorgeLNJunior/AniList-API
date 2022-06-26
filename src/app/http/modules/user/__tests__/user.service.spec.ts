@@ -167,7 +167,9 @@ describe('UserService', () => {
 
       const result = await service.findOne(user.uuid);
 
-      expect(userRepositoryMock.findOne).toBeCalledWith(user.uuid);
+      expect(userRepositoryMock.findOne).toBeCalledWith({
+        where: { uuid: user.uuid },
+      });
       expect(userRepositoryMock.findOne).toBeCalledTimes(1);
       expect(result).toEqual(user);
     });
@@ -213,7 +215,9 @@ describe('UserService', () => {
       expect(userRepositoryMock.update).toBeCalledTimes(1);
       expect(userRepositoryMock.update).toBeCalledWith(user.uuid, dto);
       expect(userRepositoryMock.findOne).toBeCalledTimes(2);
-      expect(userRepositoryMock.findOne).toBeCalledWith(user.uuid);
+      expect(userRepositoryMock.findOne).toBeCalledWith({
+        where: { uuid: user.uuid },
+      });
     });
 
     test('should throw a BadRequestException if the user was not found', async () => {
@@ -229,7 +233,9 @@ describe('UserService', () => {
       );
       expect(userRepositoryMock.update).toBeCalledTimes(0);
       expect(userRepositoryMock.findOne).toBeCalledTimes(1);
-      expect(userRepositoryMock.findOne).toBeCalledWith(user.uuid);
+      expect(userRepositoryMock.findOne).toBeCalledWith({
+        where: { uuid: user.uuid },
+      });
     });
   });
 
@@ -278,7 +284,9 @@ describe('UserService', () => {
       await service.onApplicationBootstrap();
 
       expect(userRepositoryMock.findOne).toBeCalledTimes(1);
-      expect(userRepositoryMock.findOne).toBeCalledWith({ name: 'admin' });
+      expect(userRepositoryMock.findOne).toBeCalledWith({
+        where: { name: 'admin' },
+      });
       expect(userRepositoryMock.save).toBeCalledTimes(1);
     });
 
@@ -287,7 +295,9 @@ describe('UserService', () => {
       await service.onApplicationBootstrap();
 
       expect(userRepositoryMock.findOne).toBeCalledTimes(1);
-      expect(userRepositoryMock.findOne).toBeCalledWith({ name: 'admin' });
+      expect(userRepositoryMock.findOne).toBeCalledWith({
+        where: { name: 'admin' },
+      });
       expect(userRepositoryMock.save).toBeCalledTimes(0);
     });
   });
