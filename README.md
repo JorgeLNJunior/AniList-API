@@ -1,8 +1,8 @@
 <div align="center" id="short-description-and-logo">
 
-<img src="https://i.ibb.co/q045V4Z/AR-Logo.png" width="300px">
+<!-- <img src="https://i.ibb.co/q045V4Z/AR-Logo.png" width="300px"> -->
 
-<h1>Animes Review</h1>
+<h1>AniList API</h1>
 
 Avalie e veja a opnião de outras pessoas sobre seus animes favoritos
 
@@ -10,29 +10,29 @@ Avalie e veja a opnião de outras pessoas sobre seus animes favoritos
 
 <div align="center" id="badges">
 
-[![Actions Build And Test](https://img.shields.io/github/workflow/status/JorgeLNJunior/animes-review-api/Build%20and%20Test/master)](https://github.com/JorgeLNJunior/animes-review-api/actions/workflows/build.yml)
-[![Coverage Status](https://coveralls.io/repos/github/JorgeLNJunior/animes-review-api/badge.svg?branch=master)](https://coveralls.io/github/JorgeLNJunior/animes-review-api?branch=master)
-[![License](https://img.shields.io/github/license/JorgeLNJunior/animes-review-api)](https://github.com/JorgeLNJunior/animes-review-api/blob/master/LICENSE.md)
-[![Release](https://img.shields.io/github/v/release/JorgeLNJunior/animes-review-api?color=lgreen)](https://github.com/JorgeLNJunior/animes-review-api/releases)
+[![Actions Build And Test](https://img.shields.io/github/workflow/status/JorgeLNJunior/AniList-API/Build%20and%20Test/master)](https://github.com/JorgeLNJunior/AniList-API/actions/workflows/build.yml)
+[![Coverage Status](https://coveralls.io/repos/github/JorgeLNJunior/AniList-API/badge.svg?branch=master)](https://coveralls.io/github/JorgeLNJunior/AniList-API?branch=master)
+[![License](https://img.shields.io/github/license/JorgeLNJunior/AniList-API)](https://github.com/JorgeLNJunior/AniList-API/blob/master/LICENSE.md)
+[![Release](https://img.shields.io/github/v/release/JorgeLNJunior/AniList-API?color=lgreen)](https://github.com/JorgeLNJunior/AniList-API/releases)
 
 </div>
 
 <div align="center">
 
-[Trello](https://trello.com/b/o7iD52J4/animes-review) |
-[Docs](api-animes-review.herokuapp.com/docs)
+[Trello](https://trello.com/b/o7iD52J4/anilist) |
+[Docs](https://api-anilist.herokuapp.com/docs)
 
 </div>
 
-Animes Review é uma plataforma inspirada no [My Anime List](https://myanimelist.net/) a qual foi contruída para aprimorar minhas habilidade em NodeJs, NestJs, APIs e código limpo, além de aprender como processar dados em filas (processamento de imagens e envio de e-mails), testes unitários e diferentes níveis de permissão e autenticação.
+AniList é uma plataforma inspirada no [My Anime List](https://myanimelist.net/) a qual foi contruída para aprimorar minhas habilidade em NodeJs, NestJs, APIs e código limpo, além de aprender como processar dados em filas (processamento de imagens e envio de e-mails), testes unitários e diferentes níveis de permissão e autenticação.
 
 ## Tabela de Conteúdos
 
-- [Tecnologias](https://github.com/JorgeLNJunior/animes-review-api#tecnologias)
-- [Instalação e configuração](https://github.com/JorgeLNJunior/animes-review-api#instala%C3%A7%C3%A3o-e-configura%C3%A7%C3%A3o)
-  - [Requisitos](https://github.com/JorgeLNJunior/animes-review-api#requisitos)
-  - [Instalação](https://github.com/JorgeLNJunior/animes-review-api#instala%C3%A7%C3%A3o)
-- [Licença](https://github.com/JorgeLNJunior/animes-review-api#licen%C3%A7a)
+- [Tecnologias](https://github.com/JorgeLNJunior/AniList-API#tecnologias)
+- [Instalação e configuração](https://github.com/JorgeLNJunior/AniList-API#instala%C3%A7%C3%A3o-e-configura%C3%A7%C3%A3o)
+  - [Requisitos](https://github.com/JorgeLNJunior/AniList-API#requisitos)
+  - [Instalação](https://github.com/JorgeLNJunior/AniList-API#instala%C3%A7%C3%A3o)
+- [Licença](https://github.com/JorgeLNJunior/AniList-API#licen%C3%A7a)
 
 ## Tecnologias
 
@@ -57,7 +57,7 @@ Este projeto foi construído com as seguintes tecnologias:
 
 ### Instalação e inicialização
 
-1. Clone o projeto: `git clone https://github.com/JorgeLNJunior/animes-review-api.git`
+1. Clone o projeto: `git clone https://github.com/JorgeLNJunior/AniList-API.git`
 2. Instale as dependências: `npm i`
 3. Renomeie o arquivo `.env.example` para `.env`
 4. Para iniciar a aplicação execute `npm run build` e `npm run start:prod`
@@ -66,4 +66,4 @@ Este projeto foi construído com as seguintes tecnologias:
 
 ## Licença
 
-Projeto sob a licença [MIT »](https://github.com/JorgeLNJunior/animes-review-api/blob/master/LICENSE.md)
+Projeto sob a licença [MIT »](https://github.com/JorgeLNJunior/AniList-API/blob/master/LICENSE.md)

@@ -1,12 +1,14 @@
 module.exports = {
-  apps : [{
-    name: 'animes-review-api',
-    script: 'dist/src/main.js',
-    env: {
-      NODE_ENV: "development",
+  apps: [
+    {
+      name: 'anilist-api',
+      script: 'dist/src/main.js',
+      env: {
+        NODE_ENV: 'development',
+      },
+      env_production: {
+        NODE_ENV: 'production',
+      },
     },
-    env_production: {
-      NODE_ENV: "production",
-    }
-  }],
+  ],
 };

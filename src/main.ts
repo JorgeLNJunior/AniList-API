@@ -26,14 +26,13 @@ async function bootstrap() {
   app.useLogger(new ConsoleLogger());
 
   const config = new DocumentBuilder()
-    // capitalize (animes-review-api to Animes Review API)
+    // capitalize (anilist-api to AniList API)
     .setTitle(
       name
-        .replaceAll('-', ' ')
-        .split(' ')
-        .map((word) => word[0].toUpperCase() + word.substring(1))
-        .join(' ')
-        .replace('Api', 'API'),
+        .replaceAll('a', 'A')
+        .replaceAll('l', 'L')
+        .replaceAll('api', 'API')
+        .replaceAll('-', ' '),
     )
     .setDescription(description)
     .setVersion(version)
@@ -47,7 +46,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document, {
-    customSiteTitle: 'Animes Review API Docs',
+    customSiteTitle: 'AniList API Docs',
   });
 
   app.enableShutdownHooks();
