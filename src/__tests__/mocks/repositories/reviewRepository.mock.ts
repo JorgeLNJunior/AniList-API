@@ -5,5 +5,5 @@ export const reviewRepositoryMock = {
   create: jest.fn().mockImplementation((dto) => dto),
   save: jest.fn().mockResolvedValue(Promise.resolve()),
   update: jest.fn().mockResolvedValue(Promise.resolve()),
-  softDelete: jest.fn().mockResolvedValue(Promise.resolve()),
-};
+  softDelete: jest.fn().mockResolvedValue(Promise.resolve())
+}

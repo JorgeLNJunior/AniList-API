@@ -1,13 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
 export class MessageResponse {
   @ApiProperty({
-    default: 200,
+    default: 200
   })
-  statusCode: number;
+  statusCode: number
 
   @ApiProperty({
-    example: 'Some message',
+    example: 'Some message'
   })
-  message: string;
+  message: string
 }

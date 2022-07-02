@@ -1,4 +1,4 @@
-import { CreateAnimeDto } from '@http/modules/anime/dto/create-anime.dto';
+import { CreateAnimeDto } from '@http/modules/anime/dto/create-anime.dto'
 
 export const animeServiceMock = {
   find: jest.fn().mockResolvedValue(Promise.resolve()),
@@ -8,5 +8,5 @@ export const animeServiceMock = {
   create: jest.fn().mockImplementation((dto: CreateAnimeDto) => dto),
   update: jest.fn().mockResolvedValue(Promise.resolve()),
   delete: jest.fn().mockResolvedValue(Promise.resolve()),
-  upload: jest.fn().mockResolvedValue('the image will be available soon'),
-};
+  upload: jest.fn().mockResolvedValue('the image will be available soon')
+}

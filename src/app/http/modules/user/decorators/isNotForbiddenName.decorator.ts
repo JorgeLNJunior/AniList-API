@@ -2,20 +2,20 @@ import {
   registerDecorator,
   ValidationOptions,
   ValidatorConstraint,
-  ValidatorConstraintInterface,
-} from 'class-validator';
+  ValidatorConstraintInterface
+} from 'class-validator'
 
 @ValidatorConstraint()
 export class IsNotForbiddenNameConstraint
   implements ValidatorConstraintInterface
 {
   validate(value: any): boolean {
-    if (String(value).toLowerCase() === 'admin') return false;
-    return true;
+    if (String(value).toLowerCase() === 'admin') return false
+    return true
   }
 
   defaultMessage?(): string {
-    return 'forbidden "name"';
+    return 'forbidden "name"'
   }
 }
 
@@ -27,7 +27,7 @@ export function IsNotForbiddenName(validationOption?: ValidationOptions) {
       propertyName: propertyName,
       options: validationOption,
       constraints: [],
-      validator: IsNotForbiddenNameConstraint,
-    });
-  };
+      validator: IsNotForbiddenNameConstraint
+    })
+  }
 }

@@ -1,5 +1,5 @@
 export interface PaginationInterface<Entity> {
-  data: Entity[];
-  pageTotal: number;
-  total: number;
+  data: Entity[]
+  pageTotal: number
+  total: number
 }

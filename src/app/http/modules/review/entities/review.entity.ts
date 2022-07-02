@@ -1,5 +1,5 @@
-import { Anime } from '@http/modules/anime/entities/anime.entity';
-import { User } from '@http/modules/user/entities/user.entity';
+import { Anime } from '@http/modules/anime/entities/anime.entity'
+import { User } from '@http/modules/user/entities/user.entity'
 import {
   Column,
   CreateDateColumn,
@@ -8,37 +8,37 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  UpdateDateColumn
+} from 'typeorm'
 
 @Entity()
 export class Review {
   @PrimaryGeneratedColumn('uuid')
-  uuid: string;
+  uuid: string
 
   @Column()
-  title: string;
+  title: string
 
   @Column({ length: 1000 })
-  description: string;
+  description: string
 
   @Column()
-  rating: number;
+  rating: number
 
   @ManyToOne(() => Anime, { cascade: ['update', 'remove'] })
   @JoinColumn()
-  anime: Anime;
+  anime: Anime
 
   @ManyToOne(() => User, { cascade: ['update', 'remove'] })
   @JoinColumn()
-  user: User;
+  user: User
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt: Date
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Date
 
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt: Date
 }

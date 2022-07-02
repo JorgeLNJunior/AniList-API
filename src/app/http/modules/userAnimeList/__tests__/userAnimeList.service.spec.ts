@@ -1,19 +1,19 @@
-import { userAnimeListRepositoryMock } from '@mocks/repositories/userList.repository.mock';
-import { NotFoundException } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { userAnimeListRepositoryMock } from '@mocks/repositories/userList.repository.mock'
+import { NotFoundException } from '@nestjs/common'
+import { Test } from '@nestjs/testing'
+import { getRepositoryToken } from '@nestjs/typeorm'
 
-import { AddToUserAnimeListDto } from '../dto/addToUserAnimeList.dto';
-import { UpdateUserAnimeListDto } from '../dto/updateUserAnimeList.dto';
-import { UserAnimeList } from '../entities/userAnimeList.entity';
-import { UserAnimeListQueryBuilder } from '../query/userAnimeList.query.builder';
-import { UserAnimeListQuery } from '../query/userAnimeList.query.interface';
-import { AnimeStatus } from '../types/animeStatus.enum';
-import { UserAnimeListService } from '../userAnimeList.service';
-import { UserAnimeListBuilder } from './builders/userAnimeList.builder';
+import { AddToUserAnimeListDto } from '../dto/addToUserAnimeList.dto'
+import { UpdateUserAnimeListDto } from '../dto/updateUserAnimeList.dto'
+import { UserAnimeList } from '../entities/userAnimeList.entity'
+import { UserAnimeListQueryBuilder } from '../query/userAnimeList.query.builder'
+import { UserAnimeListQuery } from '../query/userAnimeList.query.interface'
+import { AnimeStatus } from '../types/animeStatus.enum'
+import { UserAnimeListService } from '../userAnimeList.service'
+import { UserAnimeListBuilder } from './builders/userAnimeList.builder'
 
 describe('UserAnimeListService', () => {
-  let service: UserAnimeListService;
+  let service: UserAnimeListService
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -21,252 +21,252 @@ describe('UserAnimeListService', () => {
         UserAnimeListService,
         {
           provide: getRepositoryToken(UserAnimeList),
-          useValue: userAnimeListRepositoryMock,
-        },
-      ],
-    }).compile();
+          useValue: userAnimeListRepositoryMock
+        }
+      ]
+    }).compile()
 
-    service = module.get(UserAnimeListService);
-  });
+    service = module.get(UserAnimeListService)
+  })
 
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => jest.clearAllMocks())
 
   describe('addToList', () => {
-    afterEach(() => jest.clearAllMocks());
+    afterEach(() => jest.clearAllMocks())
 
     test('should add an anime to user anime list', async () => {
-      const userList = new UserAnimeListBuilder().build();
+      const userList = new UserAnimeListBuilder().build()
 
       const dto: AddToUserAnimeListDto = {
         animeUUID: userList.anime.uuid,
-        status: userList.status,
-      };
+        status: userList.status
+      }
 
       // mocks
-      userAnimeListRepositoryMock.save = jest.fn().mockResolvedValue(userList);
+      userAnimeListRepositoryMock.save = jest.fn().mockResolvedValue(userList)
 
-      const result = await service.addToList(userList.user.uuid, dto);
+      const result = await service.addToList(userList.user.uuid, dto)
 
-      expect(result).toEqual(userList);
-    });
+      expect(result).toEqual(userList)
+    })
 
     test('should call the repository with correct params', async () => {
-      const userList = new UserAnimeListBuilder().build();
+      const userList = new UserAnimeListBuilder().build()
 
       const dto: AddToUserAnimeListDto = {
         animeUUID: userList.anime.uuid,
-        status: userList.status,
-      };
+        status: userList.status
+      }
 
       // mocks
       const createSpy = jest
         .spyOn(userAnimeListRepositoryMock, 'create')
-        .mockReturnValue(userList);
+        .mockReturnValue(userList)
       const saveSpy = jest
         .spyOn(userAnimeListRepositoryMock, 'save')
-        .mockResolvedValue(userList);
+        .mockResolvedValue(userList)
 
-      const result = await service.addToList(userList.user.uuid, dto);
+      const result = await service.addToList(userList.user.uuid, dto)
 
       expect(createSpy).toBeCalledWith({
         user: { uuid: userList.user.uuid },
         anime: { uuid: dto.animeUUID },
-        status: dto.status,
-      });
-      expect(saveSpy).toBeCalledWith(userList);
-      expect(result).toEqual(userList);
-    });
-  });
+        status: dto.status
+      })
+      expect(saveSpy).toBeCalledWith(userList)
+      expect(result).toEqual(userList)
+    })
+  })
 
   describe('find', () => {
-    afterEach(() => jest.clearAllMocks());
+    afterEach(() => jest.clearAllMocks())
 
     test('should return a list of UserList', async () => {
-      const list = [new UserAnimeListBuilder().build()];
+      const list = [new UserAnimeListBuilder().build()]
 
       // mocks
-      userAnimeListRepositoryMock.find = jest.fn().mockResolvedValue(list);
+      userAnimeListRepositoryMock.find = jest.fn().mockResolvedValue(list)
 
-      const result = await service.find({});
+      const result = await service.find({})
 
       expect(result).toEqual({
         pageTotal: list.length,
         total: 10,
-        data: list,
-      });
-    });
+        data: list
+      })
+    })
 
     test('should return a list of UserList when called with query params', async () => {
-      const list = [new UserAnimeListBuilder().build()];
+      const list = [new UserAnimeListBuilder().build()]
       const query: UserAnimeListQuery = {
         uuid: list[0].uuid,
         skip: 0,
-        take: 1,
-      };
+        take: 1
+      }
 
       // mocks
-      userAnimeListRepositoryMock.find = jest.fn().mockResolvedValue(list);
+      userAnimeListRepositoryMock.find = jest.fn().mockResolvedValue(list)
 
-      const result = await service.find(query);
+      const result = await service.find(query)
 
       expect(result).toEqual({
         pageTotal: list.length,
         total: 10,
-        data: list,
-      });
-    });
+        data: list
+      })
+    })
 
     test('should call the repository with correct params', async () => {
-      const list = [new UserAnimeListBuilder().build()];
+      const list = [new UserAnimeListBuilder().build()]
       const query: UserAnimeListQuery = {
         uuid: list[0].uuid,
         skip: 0,
-        take: 1,
-      };
-      const findOptions = new UserAnimeListQueryBuilder(query).build();
+        take: 1
+      }
+      const findOptions = new UserAnimeListQueryBuilder(query).build()
 
       // mocks
       const countSpy = jest
         .spyOn(userAnimeListRepositoryMock, 'count')
-        .mockResolvedValue(10);
+        .mockResolvedValue(10)
       const findSpy = jest
         .spyOn(userAnimeListRepositoryMock, 'find')
-        .mockResolvedValue(list);
+        .mockResolvedValue(list)
 
-      const result = await service.find(query);
+      const result = await service.find(query)
 
       expect(countSpy).toBeCalledWith({
-        where: findOptions.where,
-      });
+        where: findOptions.where
+      })
       expect(findSpy).toBeCalledWith({
         loadRelationIds: {
           disableMixedMap: true,
-          relations: ['anime', 'user'],
+          relations: ['anime', 'user']
         },
-        ...findOptions,
-      });
+        ...findOptions
+      })
       expect(result).toEqual({
         pageTotal: list.length,
         total: 10,
-        data: list,
-      });
-    });
-  });
+        data: list
+      })
+    })
+  })
 
   describe('findOne', () => {
-    afterEach(() => jest.clearAllMocks());
+    afterEach(() => jest.clearAllMocks())
 
     test('should return an user anime list', async () => {
-      const list = new UserAnimeListBuilder().build();
+      const list = new UserAnimeListBuilder().build()
 
-      userAnimeListRepositoryMock.findOne.mockResolvedValue(list);
+      userAnimeListRepositoryMock.findOne.mockResolvedValue(list)
 
-      const result = await service.findOne(list.uuid);
+      const result = await service.findOne(list.uuid)
 
-      expect(result).toEqual(list);
-    });
+      expect(result).toEqual(list)
+    })
 
     test('should call the repository with correct params', async () => {
-      const list = new UserAnimeListBuilder().build();
+      const list = new UserAnimeListBuilder().build()
 
-      userAnimeListRepositoryMock.findOne.mockResolvedValue(list);
+      userAnimeListRepositoryMock.findOne.mockResolvedValue(list)
 
-      const result = await service.findOne(list.uuid);
+      const result = await service.findOne(list.uuid)
 
       expect(userAnimeListRepositoryMock.findOne).toBeCalledWith({
         where: { uuid: list.uuid },
         loadRelationIds: {
           disableMixedMap: true,
-          relations: ['user', 'anime'],
-        },
-      });
-      expect(userAnimeListRepositoryMock.findOne).toBeCalledTimes(1);
-      expect(result).toEqual(list);
-    });
+          relations: ['user', 'anime']
+        }
+      })
+      expect(userAnimeListRepositoryMock.findOne).toBeCalledTimes(1)
+      expect(result).toEqual(list)
+    })
 
     test('should throw a NotFoundException if the list was not found', async () => {
-      const list = new UserAnimeListBuilder().build();
+      const list = new UserAnimeListBuilder().build()
 
-      userAnimeListRepositoryMock.findOne.mockResolvedValue(undefined);
+      userAnimeListRepositoryMock.findOne.mockResolvedValue(undefined)
 
       await expect(service.findOne(list.uuid)).rejects.toThrow(
-        new NotFoundException(`Resource /list/${list.uuid} not found`),
-      );
-    });
-  });
+        new NotFoundException(`Resource /list/${list.uuid} not found`)
+      )
+    })
+  })
 
   describe('update', () => {
-    afterEach(() => jest.clearAllMocks());
+    afterEach(() => jest.clearAllMocks())
 
     test('should update an user anime list', async () => {
       const list = new UserAnimeListBuilder()
         .withStatus(AnimeStatus.WATCHING)
-        .build();
+        .build()
       const dto: UpdateUserAnimeListDto = {
-        status: AnimeStatus.COMPLETED,
-      };
+        status: AnimeStatus.COMPLETED
+      }
 
       // mocks
       userAnimeListRepositoryMock.findOne = jest.fn().mockResolvedValue({
         status: dto.status,
-        ...list,
-      });
+        ...list
+      })
 
-      const result = await service.update(list.uuid, dto);
+      const result = await service.update(list.uuid, dto)
 
       expect(result).toEqual({
         status: dto.status,
-        ...list,
-      });
-    });
+        ...list
+      })
+    })
 
     test('should call the repository with correct params', async () => {
       const list = new UserAnimeListBuilder()
         .withStatus(AnimeStatus.WATCHING)
-        .build();
+        .build()
       const dto: UpdateUserAnimeListDto = {
-        status: AnimeStatus.COMPLETED,
-      };
+        status: AnimeStatus.COMPLETED
+      }
 
       // mocks
-      const updateSpy = jest.spyOn(userAnimeListRepositoryMock, 'update');
+      const updateSpy = jest.spyOn(userAnimeListRepositoryMock, 'update')
       const findSpy = jest
         .spyOn(userAnimeListRepositoryMock, 'findOne')
         .mockResolvedValue({
           status: dto.status,
-          ...list,
-        });
+          ...list
+        })
 
-      const result = await service.update(list.uuid, dto);
+      const result = await service.update(list.uuid, dto)
 
-      expect(updateSpy).toBeCalledWith(list.uuid, dto);
+      expect(updateSpy).toBeCalledWith(list.uuid, dto)
       expect(findSpy).toBeCalledWith({
         where: { uuid: list.uuid },
         loadRelationIds: {
           disableMixedMap: true,
-          relations: ['anime', 'user'],
-        },
-      });
+          relations: ['anime', 'user']
+        }
+      })
       expect(result).toEqual({
         status: dto.status,
-        ...list,
-      });
-    });
-  });
+        ...list
+      })
+    })
+  })
 
   describe('remove', () => {
     test('should remove an anime from user anime list', async () => {
-      const list = new UserAnimeListBuilder().build();
+      const list = new UserAnimeListBuilder().build()
 
       //mocks
       const softDeleteSpy = jest.spyOn(
         userAnimeListRepositoryMock,
-        'softDelete',
-      );
+        'softDelete'
+      )
 
-      await service.remove(list.uuid);
+      await service.remove(list.uuid)
 
-      expect(softDeleteSpy).toBeCalledWith(list.uuid);
-    });
-  });
-});
+      expect(softDeleteSpy).toBeCalledWith(list.uuid)
+    })
+  })
+})

@@ -1,26 +1,26 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
-import { Review } from '../entities/review.entity';
-import { findReviewResponseExample } from './types/review.response.types';
+import { Review } from '../entities/review.entity'
+import { findReviewResponseExample } from './types/review.response.types'
 
 export class FindLatestReviewsResponse {
   @ApiProperty({ default: 200 })
-  private statusCode: number;
+  private statusCode: number
 
   @ApiProperty({
-    example: findReviewResponseExample,
+    example: findReviewResponseExample
   })
-  private data: Review[];
+  private data: Review[]
 
   constructor(results: Review[], status?: number) {
-    this.statusCode = status || 200;
-    this.data = results;
+    this.statusCode = status || 200
+    this.data = results
   }
 
   build() {
     return {
       statusCode: this.statusCode,
-      data: this.data,
-    };
+      data: this.data
+    }
   }
 }

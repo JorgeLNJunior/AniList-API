@@ -1,28 +1,28 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
-import { User } from '../entities/user.entity';
-import { updateUserResponseExample } from './types/user.response.types';
+import { User } from '../entities/user.entity'
+import { updateUserResponseExample } from './types/user.response.types'
 
 export class UpdateUserResponse {
   @ApiProperty({
-    default: 200,
+    default: 200
   })
-  private statusCode: number;
+  private statusCode: number
 
   @ApiProperty({
-    example: updateUserResponseExample,
+    example: updateUserResponseExample
   })
-  private data: User;
+  private data: User
 
   constructor(user: User, status?: number) {
-    this.data = user;
-    this.statusCode = status || 200;
+    this.data = user
+    this.statusCode = status || 200
   }
 
   build() {
     return {
       statusCode: this.statusCode,
-      data: this.data,
-    };
+      data: this.data
+    }
   }
 }

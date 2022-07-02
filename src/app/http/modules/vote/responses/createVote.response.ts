@@ -1,28 +1,28 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
-import { Vote } from '../entities/vote.entity';
-import { createVoteResponseExample } from './types/vote.response.types';
+import { Vote } from '../entities/vote.entity'
+import { createVoteResponseExample } from './types/vote.response.types'
 
 export class CreateVoteResponse {
   @ApiProperty({
-    default: 201,
+    default: 201
   })
-  private statusCode: number;
+  private statusCode: number
 
   @ApiProperty({
-    example: createVoteResponseExample,
+    example: createVoteResponseExample
   })
-  private data: Vote;
+  private data: Vote
 
   constructor(vote: Vote, status?: number) {
-    this.data = vote;
-    this.statusCode = status || 201;
+    this.data = vote
+    this.statusCode = status || 201
   }
 
   build() {
     return {
       statusCode: this.statusCode,
-      data: this.data,
-    };
+      data: this.data
+    }
   }
 }

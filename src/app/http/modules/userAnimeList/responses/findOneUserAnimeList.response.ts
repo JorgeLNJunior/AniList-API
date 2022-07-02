@@ -1,28 +1,28 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
-import { UserAnimeList } from '../entities/userAnimeList.entity';
-import { findOneUserAnimeListResponseExample } from './types/UserList.response.types';
+import { UserAnimeList } from '../entities/userAnimeList.entity'
+import { findOneUserAnimeListResponseExample } from './types/UserList.response.types'
 
 export class FindOneUserAnimeListResponse {
   @ApiProperty({
-    default: 200,
+    default: 200
   })
-  private statusCode: number;
+  private statusCode: number
 
   @ApiProperty({
-    example: findOneUserAnimeListResponseExample,
+    example: findOneUserAnimeListResponseExample
   })
-  private data: UserAnimeList;
+  private data: UserAnimeList
 
   constructor(result: UserAnimeList, status?: number) {
-    this.statusCode = status || 200;
-    this.data = result;
+    this.statusCode = status || 200
+    this.data = result
   }
 
   build() {
     return {
       statusCode: this.statusCode,
-      data: this.data,
-    };
+      data: this.data
+    }
   }
 }

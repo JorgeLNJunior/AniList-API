@@ -5,5 +5,5 @@ export const userAnimeListRepositoryMock = {
   findOne: jest.fn().mockResolvedValue(Promise.resolve()),
   save: jest.fn().mockResolvedValue(Promise.resolve()),
   update: jest.fn().mockResolvedValue(Promise.resolve()),
-  softDelete: jest.fn().mockResolvedValue(Promise.resolve()),
-};
+  softDelete: jest.fn().mockResolvedValue(Promise.resolve())
+}

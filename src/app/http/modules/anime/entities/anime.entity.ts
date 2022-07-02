@@ -4,44 +4,44 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  UpdateDateColumn
+} from 'typeorm'
 
 @Entity()
 export class Anime {
   @PrimaryGeneratedColumn('uuid')
-  uuid: string;
+  uuid: string
 
   @Column()
-  title: string;
+  title: string
 
   @Column({ length: '1000' })
-  synopsis: string;
+  synopsis: string
 
   @Column({ nullable: true })
-  cover: string;
+  cover: string
 
   @Column()
-  trailer: string;
+  trailer: string
 
   @Column()
-  episodes: number;
+  episodes: number
 
   @Column()
-  releaseDate: string;
+  releaseDate: string
 
   @Column()
-  season: string;
+  season: string
 
   @Column()
-  genre: string;
+  genre: string
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt: Date
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Date
 
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt: Date
 }

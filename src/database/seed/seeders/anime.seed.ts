@@ -1,20 +1,20 @@
-import { Anime } from '@http/modules/anime/entities/anime.entity';
-import { HttpService } from '@http/shared/services/http.service';
-import { Injectable, Logger } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/typeorm';
-import { Connection } from 'typeorm';
+import { Anime } from '@http/modules/anime/entities/anime.entity'
+import { HttpService } from '@http/shared/services/http.service'
+import { Injectable, Logger } from '@nestjs/common'
+import { InjectConnection } from '@nestjs/typeorm'
+import { Connection } from 'typeorm'
 
 @Injectable()
 export class AnimeSeeder {
-  private readonly logger = new Logger(AnimeSeeder.name);
+  private readonly logger = new Logger(AnimeSeeder.name)
 
   constructor(
     @InjectConnection() private connection: Connection,
-    private httpService: HttpService,
+    private httpService: HttpService
   ) {}
 
   async run() {
-    const animes = (await this.findAnimes()).data.data;
+    const animes = (await this.findAnimes()).data.data
 
     for (let index = 0; index < animes.length; index++) {
       await this.insert({
@@ -26,15 +26,15 @@ export class AnimeSeeder {
         cover: animes[index].images.jpg.image_url,
         season: animes[index].season || 'unknown',
         genre: animes[index].genres[0].name,
-        createdAt: new Date(),
-      });
+        createdAt: new Date()
+      })
     }
 
-    this.logger.log('Anime seed finished');
+    this.logger.log('Anime seed finished')
   }
 
   findAnimes() {
-    return this.httpService.get('https://api.jikan.moe/v4/anime');
+    return this.httpService.get('https://api.jikan.moe/v4/anime')
   }
 
   async insert(dto: any) {
@@ -43,6 +43,6 @@ export class AnimeSeeder {
       .insert()
       .into(Anime)
       .values(dto)
-      .execute();
+      .execute()
   }
 }

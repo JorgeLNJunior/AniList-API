@@ -2,8 +2,8 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableForeignKey,
-} from 'typeorm';
+  TableForeignKey
+} from 'typeorm'
 
 export class createReviewTable1625254721286 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -16,71 +16,71 @@ export class createReviewTable1625254721286 implements MigrationInterface {
             type: 'varchar',
             length: '36',
             isPrimary: true,
-            generationStrategy: 'uuid',
+            generationStrategy: 'uuid'
           },
           {
             name: 'title',
-            type: 'varchar',
+            type: 'varchar'
           },
           {
             name: 'description',
             type: 'varchar',
-            length: '1000',
+            length: '1000'
           },
           {
             name: 'rating',
-            type: 'integer',
+            type: 'integer'
           },
           {
             name: 'animeUUID',
             type: 'varchar',
-            length: '36',
+            length: '36'
           },
           {
             name: 'userUUID',
             type: 'varchar',
-            length: '36',
+            length: '36'
           },
           {
             name: 'createdAt',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP',
+            default: 'CURRENT_TIMESTAMP'
           },
           {
             name: 'updatedAt',
             type: 'timestamp',
             isNullable: true,
             default: null,
-            onUpdate: 'CURRENT_TIMESTAMP',
+            onUpdate: 'CURRENT_TIMESTAMP'
           },
           {
             name: 'deletedAt',
             type: 'timestamp',
-            isNullable: true,
-          },
-        ],
+            isNullable: true
+          }
+        ]
       }),
-      true,
-    );
+      true
+    )
     await queryRunner.createForeignKeys('review', [
       new TableForeignKey({
         columnNames: ['animeUUID'],
         referencedTableName: 'anime',
         referencedColumnNames: ['uuid'],
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onDelete: 'CASCADE'
       }),
       new TableForeignKey({
         columnNames: ['userUUID'],
         referencedTableName: 'user',
         referencedColumnNames: ['uuid'],
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      }),
-    ]);
+        onDelete: 'CASCADE'
+      })
+    ])
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('review', true);
+    await queryRunner.dropTable('review', true)
   }
 }

@@ -1,25 +1,25 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
 export class DeleteVoteResponse {
   @ApiProperty({
-    default: 200,
+    default: 200
   })
-  private statusCode: number;
+  private statusCode: number
 
   @ApiProperty({
-    default: 'the vote has been deleted',
+    default: 'the vote has been deleted'
   })
-  private message: string;
+  private message: string
 
   constructor(message?: string, status?: number) {
-    this.message = message || 'the vote has been deleted';
-    this.statusCode = status || 200;
+    this.message = message || 'the vote has been deleted'
+    this.statusCode = status || 200
   }
 
   build() {
     return {
       statusCode: this.statusCode,
-      message: this.message,
-    };
+      message: this.message
+    }
   }
 }

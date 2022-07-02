@@ -1,18 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
 export class NotFoundResponse {
   @ApiProperty({
-    default: 400,
+    default: 400
   })
-  statusCode: number;
+  statusCode: number
 
   @ApiProperty({
-    example: 'resource x not found',
+    example: 'resource x not found'
   })
-  message: string;
+  message: string
 
   @ApiProperty({
-    default: 'Not Found',
+    default: 'Not Found'
   })
-  error: string;
+  error: string
 }

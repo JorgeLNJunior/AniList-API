@@ -4,40 +4,40 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  UpdateDateColumn
+} from 'typeorm'
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  uuid: string;
+  uuid: string
 
   @Column()
-  name: string;
+  name: string
 
   @Column()
-  email: string;
+  email: string
 
   @Column()
-  password: string;
+  password: string
 
   @Column({
-    nullable: true,
+    nullable: true
   })
-  avatar: string;
+  avatar: string
 
   @Column({ nullable: true, default: false })
-  isAdmin: boolean;
+  isAdmin: boolean
 
   @Column({ default: false })
-  isActive: boolean;
+  isActive: boolean
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt: Date
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Date
 
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt: Date
 }

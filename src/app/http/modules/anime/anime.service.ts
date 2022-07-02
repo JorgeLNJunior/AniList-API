@@ -1,53 +1,53 @@
-import { Jobs } from '@modules/queue/types/jobs.enum';
-import { InjectQueue } from '@nestjs/bull';
+import { Jobs } from '@modules/queue/types/jobs.enum'
+import { InjectQueue } from '@nestjs/bull'
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Queue } from 'bull';
-import { Repository } from 'typeorm';
+  NotFoundException
+} from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Queue } from 'bull'
+import { Repository } from 'typeorm'
 
-import { PaginationInterface } from '../../shared/pagination/pagination.interface';
-import { Review } from '../review/entities/review.entity';
-import { CreateAnimeDto } from './dto/create-anime.dto';
-import { UpdateAnimeDto } from './dto/update-anime.dto';
-import { Anime } from './entities/anime.entity';
-import { AnimeQueryBuilder } from './query/anime.query.builder';
-import { AnimeQuery } from './query/anime.query.interface';
-import { ReviewsByAnimeQueryBuilder } from './query/reviews/reviewsByAnime.query.builder';
-import { ReviewsByAnimeQuery } from './query/reviews/reviewsByAnime.query.interface';
+import { PaginationInterface } from '../../shared/pagination/pagination.interface'
+import { Review } from '../review/entities/review.entity'
+import { CreateAnimeDto } from './dto/create-anime.dto'
+import { UpdateAnimeDto } from './dto/update-anime.dto'
+import { Anime } from './entities/anime.entity'
+import { AnimeQueryBuilder } from './query/anime.query.builder'
+import { AnimeQuery } from './query/anime.query.interface'
+import { ReviewsByAnimeQueryBuilder } from './query/reviews/reviewsByAnime.query.builder'
+import { ReviewsByAnimeQuery } from './query/reviews/reviewsByAnime.query.interface'
 
 @Injectable()
 export class AnimeService {
   constructor(
     @InjectRepository(Anime) private animeRepository: Repository<Anime>,
     @InjectRepository(Review) private reviewRepository: Repository<Review>,
-    @InjectQueue(Jobs.COVER_COMPRESSION) private coverQueue: Queue,
+    @InjectQueue(Jobs.COVER_COMPRESSION) private coverQueue: Queue
   ) {}
 
   create(createAnimeDto: CreateAnimeDto) {
-    const anime = this.animeRepository.create(createAnimeDto);
-    return this.animeRepository.save(anime);
+    const anime = this.animeRepository.create(createAnimeDto)
+    return this.animeRepository.save(anime)
   }
 
   async find(query: AnimeQuery): Promise<PaginationInterface<Anime>> {
-    const findOptions = new AnimeQueryBuilder(query).build();
+    const findOptions = new AnimeQueryBuilder(query).build()
 
     const total = await this.animeRepository.count({
-      where: findOptions.where,
-    });
+      where: findOptions.where
+    })
     const animes = await this.animeRepository
       .createQueryBuilder('anime')
       .select(
         'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover,' +
           'anime.episodes, anime.releaseDate, anime.season, anime.genre,' +
-          'anime.createdAt, anime.updatedAt',
+          'anime.createdAt, anime.updatedAt'
       )
       .addSelect(
         'IFNULL(ROUND(AVG(Cast(review.rating as Float)) ,2), 0)',
-        'rating',
+        'rating'
       )
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
       .leftJoin('review', 'review', 'anime.uuid = review.animeUUID')
@@ -57,9 +57,9 @@ export class AnimeService {
       .offset(findOptions.skip)
       .groupBy('anime.uuid')
       .orderBy('anime.createdAt', 'DESC')
-      .getRawMany();
+      .getRawMany()
 
-    return { data: animes, total: total, pageTotal: animes.length };
+    return { data: animes, total: total, pageTotal: animes.length }
   }
 
   async findOne(uuid: string): Promise<Anime> {
@@ -68,11 +68,11 @@ export class AnimeService {
       .select(
         'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover,' +
           'anime.episodes, anime.releaseDate, anime.season, anime.genre,' +
-          'anime.createdAt, anime.updatedAt',
+          'anime.createdAt, anime.updatedAt'
       )
       .addSelect(
         'IFNULL(ROUND(AVG(Cast(review.rating as Float)) ,2), 0)',
-        'rating',
+        'rating'
       )
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
       .leftJoin('review', 'review', 'anime.uuid = review.animeUUID')
@@ -80,11 +80,11 @@ export class AnimeService {
       .andWhere('anime.deletedAt IS NULL')
       .groupBy('anime.uuid')
       .orderBy('anime.createdAt', 'DESC')
-      .getRawOne();
+      .getRawOne()
 
     if (!anime)
-      throw new NotFoundException(`Resource /animes/${uuid} not found`);
-    return anime;
+      throw new NotFoundException(`Resource /animes/${uuid} not found`)
+    return anime
   }
 
   async top() {
@@ -92,11 +92,11 @@ export class AnimeService {
       .createQueryBuilder('anime')
       .select(
         'anime.uuid, anime.title, anime.synopsis, anime.trailer, anime.cover,' +
-          'anime.episodes, anime.releaseDate, anime.season, anime.genre',
+          'anime.episodes, anime.releaseDate, anime.season, anime.genre'
       )
       .addSelect(
         'IFNULL(ROUND(AVG(Cast(review.rating as Float)), 2), 0)',
-        'rating',
+        'rating'
       )
       .addSelect('IFNULL(Cast(COUNT(review.uuid) as Float), 0)', 'reviews')
       .leftJoin('review', 'review', 'anime.uuid = review.animeUUID')
@@ -104,49 +104,49 @@ export class AnimeService {
       .limit(10)
       .groupBy('anime.uuid')
       .orderBy('rating', 'DESC')
-      .getRawMany();
+      .getRawMany()
   }
 
   async update(uuid: string, updateAnimeDto: UpdateAnimeDto) {
-    const anime = await this.animeRepository.findOne({ where: { uuid: uuid } });
-    if (!anime) throw new BadRequestException(['anime not found']);
+    const anime = await this.animeRepository.findOne({ where: { uuid: uuid } })
+    if (!anime) throw new BadRequestException(['anime not found'])
 
-    await this.animeRepository.update(uuid, updateAnimeDto);
-    return this.animeRepository.findOne({ where: { uuid: uuid } });
+    await this.animeRepository.update(uuid, updateAnimeDto)
+    return this.animeRepository.findOne({ where: { uuid: uuid } })
   }
 
   async delete(uuid: string) {
-    await this.animeRepository.softDelete(uuid);
+    await this.animeRepository.softDelete(uuid)
   }
 
   async upload(uuid: string, path: string) {
-    await this.coverQueue.add({ animeUUID: uuid, path: path });
-    return 'the image will be available soon';
+    await this.coverQueue.add({ animeUUID: uuid, path: path })
+    return 'the image will be available soon'
   }
 
   async getAnimeReviews(
     animeUUID: string,
-    query: ReviewsByAnimeQuery,
+    query: ReviewsByAnimeQuery
   ): Promise<PaginationInterface<Review>> {
-    const findOptions = new ReviewsByAnimeQueryBuilder(query).build();
+    const findOptions = new ReviewsByAnimeQueryBuilder(query).build()
 
     const total = await this.reviewRepository.count({
       where: { anime: { uuid: animeUUID } },
-      ...findOptions,
-    });
+      ...findOptions
+    })
     const reviews = await this.reviewRepository.find({
       where: { anime: { uuid: animeUUID } },
       ...findOptions,
       loadRelationIds: {
         relations: ['user'],
-        disableMixedMap: true,
-      },
-    });
+        disableMixedMap: true
+      }
+    })
 
     return {
       data: reviews,
       pageTotal: reviews.length,
-      total: total,
-    };
+      total: total
+    }
   }
 }

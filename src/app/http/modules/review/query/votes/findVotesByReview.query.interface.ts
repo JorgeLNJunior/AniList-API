@@ -1,18 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger'
+import { IsOptional } from 'class-validator'
 
 export class FindVotesByReviewQuery {
   @ApiProperty({
     example: 20,
-    required: false,
+    required: false
   })
   @IsOptional()
-  take?: number;
+  take?: number
 
   @ApiProperty({
     example: 5,
-    required: false,
+    required: false
   })
   @IsOptional()
-  skip?: number;
+  skip?: number
 }

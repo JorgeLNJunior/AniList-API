@@ -1,10 +1,10 @@
-import { Review } from '@http/modules/review/entities/review.entity';
-import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity';
-import { AnimeStatus } from '@http/modules/userAnimeList/types/animeStatus.enum';
-import { Vote } from '@http/modules/vote/entities/vote.entity';
-import { DeepPartial } from 'typeorm';
+import { Review } from '@http/modules/review/entities/review.entity'
+import { UserAnimeList } from '@http/modules/userAnimeList/entities/userAnimeList.entity'
+import { AnimeStatus } from '@http/modules/userAnimeList/types/animeStatus.enum'
+import { Vote } from '@http/modules/vote/entities/vote.entity'
+import { DeepPartial } from 'typeorm'
 
-import { User } from '../../entities/user.entity';
+import { User } from '../../entities/user.entity'
 
 export const findUserAnimeListByUserResponseExample: DeepPartial<
   UserAnimeList[]
@@ -16,10 +16,10 @@ export const findUserAnimeListByUserResponseExample: DeepPartial<
     updatedAt: null,
     deletedAt: null,
     anime: {
-      uuid: '6a0a41c9-2eb2-43f9-a837-ffe48ee6c0e9',
-    },
-  },
-];
+      uuid: '6a0a41c9-2eb2-43f9-a837-ffe48ee6c0e9'
+    }
+  }
+]
 
 export const findUserReviewsResponseExample: DeepPartial<Review[]> = [
   {
@@ -28,13 +28,13 @@ export const findUserReviewsResponseExample: DeepPartial<Review[]> = [
     description: 'Proin at pulvinar enim, eget vulputate sem...',
     rating: 4,
     anime: {
-      uuid: '5fe7e1fb-1341-4625-bbaf-72688a697624',
+      uuid: '5fe7e1fb-1341-4625-bbaf-72688a697624'
     },
     createdAt: '2021-09-16 14:38:09',
     updatedAt: null,
-    deletedAt: null,
-  },
-];
+    deletedAt: null
+  }
+]
 
 export const findUserVotesResponseExample: DeepPartial<Vote[]> = [
   {
@@ -43,10 +43,10 @@ export const findUserVotesResponseExample: DeepPartial<Vote[]> = [
     updatedAt: null,
     deletedAt: null,
     review: {
-      uuid: '0f620699-3acc-4f83-a5fb-2f446151d0e0',
-    },
-  },
-];
+      uuid: '0f620699-3acc-4f83-a5fb-2f446151d0e0'
+    }
+  }
+]
 
 export const findUsersResponseExample: DeepPartial<User[]> = [
   {
@@ -58,9 +58,9 @@ export const findUsersResponseExample: DeepPartial<User[]> = [
     isAdmin: false,
     createdAt: '2021-09-16 14:38:09',
     updatedAt: null,
-    deletedAt: null,
-  },
-];
+    deletedAt: null
+  }
+]
 
 export const findOneUserResponseExample: DeepPartial<User> = {
   uuid: '1c12dd97-839e-4058-91f0-e75934b02d52',
@@ -71,8 +71,8 @@ export const findOneUserResponseExample: DeepPartial<User> = {
   isAdmin: false,
   createdAt: '2021-09-16 14:38:09',
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}
 
 export const updateUserResponseExample: DeepPartial<User> = {
   uuid: '1c12dd97-839e-4058-91f0-e75934b02d52',
@@ -83,5 +83,5 @@ export const updateUserResponseExample: DeepPartial<User> = {
   isAdmin: false,
   createdAt: '2021-09-16 14:38:09',
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}

@@ -1,32 +1,32 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger'
+import { IsOptional } from 'class-validator'
 
 export class ReviewsByAnimeQuery {
   @ApiProperty({
     example: 'awesome',
-    required: false,
+    required: false
   })
   @IsOptional()
-  title?: string;
+  title?: string
 
   @ApiProperty({
     example: 200,
-    required: false,
+    required: false
   })
   @IsOptional()
-  rating?: number;
+  rating?: number
 
   @ApiProperty({
     example: 2,
-    required: false,
+    required: false
   })
   @IsOptional()
-  take?: number;
+  take?: number
 
   @ApiProperty({
     example: 0,
-    required: false,
+    required: false
   })
   @IsOptional()
-  skip?: number;
+  skip?: number
 }

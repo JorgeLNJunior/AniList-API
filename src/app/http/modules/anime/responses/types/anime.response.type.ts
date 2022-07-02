@@ -1,5 +1,5 @@
-import { Review } from '@http/modules/review/entities/review.entity';
-import { DeepPartial } from 'typeorm';
+import { Review } from '@http/modules/review/entities/review.entity'
+import { DeepPartial } from 'typeorm'
 
 export const createAnimeResponseExample = {
   uuid: '4f3ab4ae-7854-4720-9122-db5cad01f610',
@@ -13,8 +13,8 @@ export const createAnimeResponseExample = {
   genre: 'action',
   createdAt: '2021-09-16 14:38:09',
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}
 
 export const findAnimeResponseExample = [
   {
@@ -32,9 +32,9 @@ export const findAnimeResponseExample = [
     genre: 'action',
     createdAt: '2021-09-16 14:38:09',
     updatedAt: null,
-    deletedAt: null,
-  },
-];
+    deletedAt: null
+  }
+]
 
 export const findOneAnimeResponseExample = {
   uuid: '4f3ab4ae-7854-4720-9122-db5cad01f610',
@@ -51,8 +51,8 @@ export const findOneAnimeResponseExample = {
   genre: 'action',
   createdAt: '2021-09-16 14:38:09',
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}
 
 export const updateAnimeResponseExample = {
   uuid: '4f3ab4ae-7854-4720-9122-db5cad01f610',
@@ -68,8 +68,8 @@ export const updateAnimeResponseExample = {
   genre: 'action',
   createdAt: '2021-09-16 14:38:09',
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}
 
 export const findReviewByAnimeResponseExample: DeepPartial<Review[]> = [
   {
@@ -78,13 +78,13 @@ export const findReviewByAnimeResponseExample: DeepPartial<Review[]> = [
     description: 'Proin at pulvinar enim, eget vulputate sem...',
     rating: 4,
     anime: {
-      uuid: '5fe7e1fb-1341-4625-bbaf-72688a697624',
+      uuid: '5fe7e1fb-1341-4625-bbaf-72688a697624'
     },
     user: {
-      uuid: 'd83c3162-923a-4cb2-8ec5-d3bc5f3c38a6',
+      uuid: 'd83c3162-923a-4cb2-8ec5-d3bc5f3c38a6'
     },
     createdAt: '2021-09-16 14:38:09',
     updatedAt: null,
-    deletedAt: null,
-  },
-];
+    deletedAt: null
+  }
+]

@@ -1,4 +1,4 @@
-import { User } from '@http/modules/user/entities/user.entity';
+import { User } from '@http/modules/user/entities/user.entity'
 
 export const registerResponseExample: Partial<User> = {
   uuid: '1c12dd97-839e-4058-91f0-e75934b02d52',
@@ -9,5 +9,5 @@ export const registerResponseExample: Partial<User> = {
   isActive: false,
   createdAt: new Date('2021-09-16 14:38:09'),
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}

@@ -1,13 +1,13 @@
-import { User } from '@http/modules/user/entities/user.entity';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '@http/modules/user/entities/user.entity'
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
 import {
   registerDecorator,
   ValidationOptions,
   ValidatorConstraint,
-  ValidatorConstraintInterface,
-} from 'class-validator';
-import { Repository } from 'typeorm';
+  ValidatorConstraintInterface
+} from 'class-validator'
+import { Repository } from 'typeorm'
 
 @Injectable()
 @ValidatorConstraint({ async: true })
@@ -15,22 +15,22 @@ export class IsUserAlreadyExistConstraint
   implements ValidatorConstraintInterface
 {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>
   ) {}
 
   validate(value: any): boolean | Promise<boolean> {
     return this.userRepository
       .findOne({
-        where: { email: value },
+        where: { email: value }
       })
       .then((isUserAlreadyExist) => {
-        if (isUserAlreadyExist) return false;
-        return true;
-      });
+        if (isUserAlreadyExist) return false
+        return true
+      })
   }
 
   defaultMessage?(): string {
-    return 'this email is already registered';
+    return 'this email is already registered'
   }
 }
 
@@ -42,7 +42,7 @@ export function IsUserAlreadyExist(validationOption?: ValidationOptions) {
       propertyName: propertyName,
       options: validationOption,
       constraints: [],
-      validator: IsUserAlreadyExistConstraint,
-    });
-  };
+      validator: IsUserAlreadyExistConstraint
+    })
+  }
 }

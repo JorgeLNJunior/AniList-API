@@ -1,7 +1,7 @@
-import { Anime } from '@http/modules/anime/entities/anime.entity';
-import { Review } from '@http/modules/review/entities/review.entity';
-import { User } from '@http/modules/user/entities/user.entity';
-import { Vote } from '@http/modules/vote/entities/vote.entity';
+import { Anime } from '@http/modules/anime/entities/anime.entity'
+import { Review } from '@http/modules/review/entities/review.entity'
+import { User } from '@http/modules/user/entities/user.entity'
+import { Vote } from '@http/modules/vote/entities/vote.entity'
 
 export const fakeUser: User = {
   uuid: 'uuid',
@@ -13,8 +13,8 @@ export const fakeUser: User = {
   isActive: true,
   createdAt: new Date('2020-01-01'),
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}
 
 export const fakeAnime: Anime = {
   uuid: 'uuid',
@@ -28,8 +28,8 @@ export const fakeAnime: Anime = {
   genre: 'genre',
   createdAt: new Date('2020-01-01'),
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}
 
 export const fakeReview: Review = {
   uuid: 'uuid',
@@ -40,8 +40,8 @@ export const fakeReview: Review = {
   user: fakeUser,
   createdAt: new Date('2020-01-01'),
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}
 
 export const fakeVote: Vote = {
   uuid: 'uuid',
@@ -49,5 +49,5 @@ export const fakeVote: Vote = {
   review: fakeReview,
   createdAt: new Date(),
   updatedAt: null,
-  deletedAt: null,
-};
+  deletedAt: null
+}

@@ -1,5 +1,5 @@
-import { Anime } from '@http/modules/anime/entities/anime.entity';
-import { User } from '@http/modules/user/entities/user.entity';
+import { Anime } from '@http/modules/anime/entities/anime.entity'
+import { User } from '@http/modules/user/entities/user.entity'
 import {
   Column,
   CreateDateColumn,
@@ -8,36 +8,36 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  UpdateDateColumn
+} from 'typeorm'
 
-import { AnimeStatus } from '../types/animeStatus.enum';
+import { AnimeStatus } from '../types/animeStatus.enum'
 
 @Entity()
 export class UserAnimeList {
   @PrimaryGeneratedColumn('uuid')
-  uuid: string;
+  uuid: string
 
   @Column({
     type: 'enum',
-    enum: AnimeStatus,
+    enum: AnimeStatus
   })
-  status: AnimeStatus;
+  status: AnimeStatus
 
   @ManyToOne(() => User, { cascade: ['update', 'remove'] })
   @JoinColumn()
-  user: User;
+  user: User
 
   @ManyToOne(() => Anime, { cascade: ['update', 'remove'] })
   @JoinColumn()
-  anime: Anime;
+  anime: Anime
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt: Date
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Date
 
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt: Date
 }
