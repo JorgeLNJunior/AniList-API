@@ -38,6 +38,8 @@ export class UserAnimeListSeeder {
       .createQueryBuilder()
       .select()
       .from(User, 'user')
+      .orderBy('RAND()')
+      .limit(5)
       .getRawMany()
   }
 
@@ -46,6 +48,8 @@ export class UserAnimeListSeeder {
       .createQueryBuilder()
       .select()
       .from(Anime, 'anime')
+      .orderBy('RAND()')
+      .limit(10)
       .getRawMany()
   }
 

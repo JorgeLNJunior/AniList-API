@@ -34,7 +34,7 @@ export class AnimeSeeder {
   }
 
   findAnimes() {
-    return this.httpService.get('https://api.jikan.moe/v4/anime')
+    return this.httpService.get('https://api.jikan.moe/v4/anime?limit=15')
   }
 
   async insert(dto: any) {

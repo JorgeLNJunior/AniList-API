@@ -11,7 +11,7 @@ export class UserSeeder {
 
   constructor(@InjectConnection() private connection: Connection) {}
 
-  async run(times = 20) {
+  async run(times = 15) {
     for (let index = 0; index < times; index++) {
       await this.insert()
     }

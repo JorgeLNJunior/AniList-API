@@ -36,6 +36,8 @@ export class ReviewSeeder {
       .createQueryBuilder()
       .select()
       .from(User, 'user')
+      .orderBy('RAND()')
+      .limit(5)
       .getRawMany()
   }
 
@@ -44,6 +46,8 @@ export class ReviewSeeder {
       .createQueryBuilder()
       .select()
       .from(Anime, 'anime')
+      .orderBy('RAND()')
+      .limit(10)
       .getRawMany()
   }
 
