@@ -10,7 +10,7 @@ Avalie e veja a opnião de outras pessoas sobre seus animes favoritos
 
 <div align="center" id="badges">
 
-[![Actions Build And Test](https://img.shields.io/github/workflow/status/JorgeLNJunior/AniList-API/Build%20and%20Test/master)](https://github.com/JorgeLNJunior/AniList-API/actions/workflows/build.yml)
+[![Actions Build And Test](https://img.shields.io/github/actions/workflow/status/JorgeLNJunior/AniList-API/ci.yml?branch=master)](https://github.com/JorgeLNJunior/AniList-API/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/JorgeLNJunior/AniList-API/badge.svg?branch=master)](https://coveralls.io/github/JorgeLNJunior/AniList-API?branch=master)
 [![License](https://img.shields.io/github/license/JorgeLNJunior/AniList-API)](https://github.com/JorgeLNJunior/AniList-API/blob/master/LICENSE.md)
 [![Release](https://img.shields.io/github/v/release/JorgeLNJunior/AniList-API?color=lgreen)](https://github.com/JorgeLNJunior/AniList-API/releases)
