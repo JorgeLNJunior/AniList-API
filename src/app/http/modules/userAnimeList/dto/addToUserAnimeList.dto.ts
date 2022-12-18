@@ -1,6 +1,6 @@
 import { IsValidAnimeUUID } from '@http/modules/anime/decorators/isValidAnimeUUID.decorator'
+import { IsIn, IsNotEmpty, IsString, IsUUID } from '@nestjs/class-validator'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsIn, IsNotEmpty, IsString, IsUUID } from 'class-validator'
 
 import { AnimeStatus } from '../types/animeStatus.enum'
 

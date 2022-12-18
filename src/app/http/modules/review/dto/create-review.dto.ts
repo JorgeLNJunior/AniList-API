@@ -1,5 +1,4 @@
 import { IsValidAnimeUUID } from '@http/modules/anime/decorators/isValidAnimeUUID.decorator'
-import { ApiProperty } from '@nestjs/swagger'
 import {
   IsNotEmpty,
   IsNumber,
@@ -8,7 +7,8 @@ import {
   Max,
   MaxLength,
   Min
-} from 'class-validator'
+} from '@nestjs/class-validator'
+import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateReviewDto {
   @ApiProperty({ example: 'naruto' })

@@ -1,11 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger'
 import {
   IsNotEmpty,
   IsNumber,
   IsString,
   Matches,
   MaxLength
-} from 'class-validator'
+} from '@nestjs/class-validator'
+import { ApiProperty } from '@nestjs/swagger'
 
 import { IsYoutubeUrl } from '../decorators/isYoutubeUrl.decorator'
 

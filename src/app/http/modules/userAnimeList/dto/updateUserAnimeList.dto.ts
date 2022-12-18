@@ -1,5 +1,5 @@
+import { IsIn, IsNotEmpty, IsString } from '@nestjs/class-validator'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsIn, IsNotEmpty, IsString } from 'class-validator'
 
 import { AnimeStatus } from '../types/animeStatus.enum'
 

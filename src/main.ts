@@ -1,7 +1,7 @@
+import { useContainer } from '@nestjs/class-validator'
 import { ConsoleLogger, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { useContainer } from 'class-validator'
 import * as express from 'express'
 import helmet from 'helmet'
 import { resolve } from 'path'

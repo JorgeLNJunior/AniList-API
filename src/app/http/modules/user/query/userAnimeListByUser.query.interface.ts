@@ -1,6 +1,6 @@
 import { AnimeStatus } from '@http/modules/userAnimeList/types/animeStatus.enum'
+import { IsOptional } from '@nestjs/class-validator'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsOptional } from 'class-validator'
 
 export class UserAnimeListByUserQuery {
   @ApiProperty({

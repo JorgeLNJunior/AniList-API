@@ -3,7 +3,7 @@ import {
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface
-} from 'class-validator'
+} from '@nestjs/class-validator'
 
 @ValidatorConstraint()
 export class IsYoutubeUrlConstraint implements ValidatorConstraintInterface {
