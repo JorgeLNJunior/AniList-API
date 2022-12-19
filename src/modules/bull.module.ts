@@ -5,7 +5,6 @@ import { ConfigService } from '@nestjs/config'
 @Module({
   imports: [
     Bull.forRootAsync({
-      imports: [ConfigService],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         redis: {

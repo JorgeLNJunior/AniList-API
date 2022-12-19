@@ -10,7 +10,6 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [ConfigService],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: configService.get<any>('DB_TYPE'),

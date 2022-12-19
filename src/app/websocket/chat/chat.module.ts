@@ -8,7 +8,6 @@ import { WebSocketAuthGuard } from './guards/websocketAuth.guard'
 @Module({
   imports: [
     JwtModule.registerAsync({
-      imports: [ConfigService],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('AUTH_TOKEN_SECRET'),

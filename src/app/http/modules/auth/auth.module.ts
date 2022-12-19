@@ -18,7 +18,6 @@ import { LocalStrategy } from './strategy/local.strategy'
     QueueModule,
     TypeOrmModule.forFeature([User]),
     JwtModule.registerAsync({
-      imports: [ConfigService],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('AUTH_TOKEN_SECRET'),
